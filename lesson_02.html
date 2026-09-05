@@ -1,0 +1,1488 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Math Tutoring by Deni - Operasi Hitung Bilangan Bulat</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- KaTeX -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { font-family: 'Segoe UI', Arial, Helvetica, sans-serif; }
+        
+        .prompt-box { max-width: 650px; margin-left: auto; margin-right: auto; display: flex; flex-direction: column; align-items: center; text-align: left; }
+        .prompt-box p { width: 100%; }
+        .prompt-box img { width: 100%; height: auto; max-width: 300px; display: block; margin-top: 0.5rem; }
+        
+        .translation { font-style: italic; font-size: 0.85rem; color: #6b7280; margin-top: 0.25rem; display: block; }
+        .content-section { display: none; }
+        .content-section.active { display: block; }
+        .page { display: none; }
+        .page.active { display: block; }
+        .option-btn { transition: all 0.2s; }
+        .option-btn:hover { transform: translateX(5px); }
+        .collapse-content { 
+            max-height: 0; overflow: hidden; 
+            transition: max-height 0.4s ease-in-out, padding 0.4s, border 0.4s, background 0.4s; 
+            padding: 0; border: 0; background: transparent;
+        }
+        .collapse-content.open { 
+            max-height: 2000px; padding: 1.5rem; 
+            border: 1px solid #bfdbfe; background: #eff6ff; 
+            border-radius: 0.5rem; margin-top: 1rem; 
+        }
+        @media print {
+            body * { visibility: hidden; }
+            #printArea, #printArea * { visibility: visible; }
+            #printArea { display: block !important; position: absolute; left: 0; top: 0; width: 100%; padding: 10px; box-sizing: border-box; }
+            .no-print { display: none !important; }
+            #printArea table { table-layout: fixed; width: 100%; font-size: 9px; }
+            #printArea td, #printArea th { word-wrap: break-word; padding: 2px !important; }
+            @page { size: A4; margin: 5mm; }
+        }
+    </style>
+</head>
+<body class="bg-gray-100 flex flex-col h-screen overflow-hidden">
+    <!-- SVG Defs for Arrows -->
+    <svg width="0" height="0" style="position: absolute;">
+        <defs>
+            <marker id="arr1" markerWidth="10" markerHeight="10" refX="0" refY="3" orient="auto" markerUnits="strokeWidth">
+                <path d="M0,0 L0,6 L9,3 z" fill="#333" />
+            </marker>
+            <marker id="arr2" markerWidth="10" markerHeight="10" refX="0" refY="3" orient="auto" markerUnits="strokeWidth">
+                <path d="M0,0 L0,6 L9,3 z" fill="#333" />
+            </marker>
+        </defs>
+    </svg>
+
+    <!-- Header -->
+    <header class="bg-indigo-600 text-white p-4 flex justify-between items-center shadow-md no-print shrink-0 z-50">
+        <div>
+            <h1 class="text-xl font-bold">Math Tutoring by Deni</h1>
+            <p class="text-sm">Topic: Operasi Hitung Bilangan Bulat</p>
+            <p class="translation text-indigo-200">Topik: Integer Arithmetic Operations</p>
+        </div>
+        <div>
+            <button onclick="openModal()" class="bg-yellow-400 hover:bg-yellow-500 text-indigo-900 font-bold py-2 px-4 rounded flex items-center gap-2">
+                <i class="fas fa-gavel"></i> Class Rules
+            </button>
+        </div>
+    </header>
+
+    <!-- Modal Class Rules -->
+    <div id="classRulesModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50 no-print">
+        <div class="bg-white rounded-lg p-6 w-80 max-w-sm">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-xl font-bold text-indigo-600">Class Rules <br><span class="translation text-gray-500">Aturan Kelas</span></h2>
+                <button onclick="closeModal()" class="text-gray-500 hover:text-red-500"><i class="fas fa-times text-xl"></i></button>
+            </div>
+            <ul class="space-y-3 text-gray-700">
+                <li class="flex items-start gap-2">
+                    <i class="fas fa-comments text-indigo-500 mt-1"></i>
+                    <div>Berbicara secara bergantian. <span class="translation">Take turns speaking.</span></div>
+                </li>
+                <li class="flex items-start gap-2">
+                    <i class="fas fa-door-open text-indigo-500 mt-1"></i>
+                    <div>Meminta izin jika ingin meninggalkan kelas. <span class="translation">Ask permission if you want to leave the class.</span></div>
+                </li>
+                <li class="flex items-start gap-2">
+                    <i class="fas fa-video text-indigo-500 mt-1"></i>
+                    <div>Menyalakan kamera dan microphone jika diperlukan. <span class="translation">Turn on camera and microphone if needed.</span></div>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Main Layout -->
+    <div class="flex flex-1 overflow-hidden">
+        <!-- Sidebar -->
+        <aside class="w-64 bg-white shadow-lg no-print border-r border-gray-200 flex flex-col">
+            <div class="p-4 bg-indigo-600 text-white">
+                <h3 class="font-bold text-lg flex items-center gap-2"><i class="fas fa-book-open"></i> Class Agenda</h3>
+                <p class="text-xs text-indigo-200 mt-1">Select topic to navigate <span class="translation text-indigo-300 block">Pilih topik untuk navigasi</span></p>
+            </div>
+            
+            <nav class="flex-1 overflow-y-auto p-2">
+                <ul class="space-y-1">
+                    <li>
+                        <a href="javascript:void(0)" onclick="showSection('warmup')" class="sidebar-item block px-4 py-2 rounded-lg hover:bg-indigo-50 hover:text-indigo-800 transition-colors cursor-pointer" data-section="warmup">
+                            <div class="font-semibold text-sm text-gray-800">Spiral Review Warm-up</div>
+                            <div class="text-xs text-gray-500 flex items-center gap-1 mt-1"><i class="far fa-clock"></i> 00:00 - 00:10</div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="javascript:void(0)" onclick="showSection('intro')" class="sidebar-item block px-4 py-2 rounded-lg hover:bg-indigo-50 hover:text-indigo-800 transition-colors cursor-pointer" data-section="intro">
+                            <div class="font-semibold text-sm text-gray-800">Introduction & Real-World</div>
+                            <div class="text-xs text-gray-500 flex items-center gap-1 mt-1"><i class="far fa-clock"></i> 00:10 - 00:15</div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="javascript:void(0)" onclick="showSection('review')" class="sidebar-item block px-4 py-2 rounded-lg hover:bg-indigo-50 hover:text-indigo-800 transition-colors cursor-pointer" data-section="review">
+                            <div class="font-semibold text-sm text-gray-800">Review of Prior Knowledge</div>
+                            <div class="text-xs text-gray-500 flex items-center gap-1 mt-1"><i class="far fa-clock"></i> 00:15 - 00:20</div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="javascript:void(0)" onclick="showSection('problem')" class="sidebar-item block px-4 py-2 rounded-lg hover:bg-indigo-50 hover:text-indigo-800 transition-colors cursor-pointer" data-section="problem">
+                            <div class="font-semibold text-sm text-gray-800">Problem Introduction</div>
+                            <div class="text-xs text-gray-500 flex items-center gap-1 mt-1"><i class="far fa-clock"></i> 00:20 - 00:30</div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="javascript:void(0)" onclick="showSection('guided')" class="sidebar-item block px-4 py-2 rounded-lg hover:bg-indigo-50 hover:text-indigo-800 transition-colors cursor-pointer" data-section="guided">
+                            <div class="font-semibold text-sm text-gray-800">Guided Practice</div>
+                            <div class="text-xs text-gray-500 flex items-center gap-1 mt-1"><i class="far fa-clock"></i> 00:30 - 00:45</div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="javascript:void(0)" onclick="showSection('independent')" class="sidebar-item block px-4 py-2 rounded-lg hover:bg-indigo-50 hover:text-indigo-800 transition-colors cursor-pointer" data-section="independent">
+                            <div class="font-semibold text-sm text-gray-800">Independent Practice</div>
+                            <div class="text-xs text-gray-500 flex items-center gap-1 mt-1"><i class="far fa-clock"></i> 00:45 - 00:55</div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="javascript:void(0)" onclick="showSection('consolidation')" class="sidebar-item block px-4 py-2 rounded-lg hover:bg-indigo-50 hover:text-indigo-800 transition-colors cursor-pointer" data-section="consolidation">
+                            <div class="font-semibold text-sm text-gray-800">Consolidation & Reflection</div>
+                            <div class="text-xs text-gray-500 flex items-center gap-1 mt-1"><i class="far fa-clock"></i> 00:55 - 01:00</div>
+                        </a>
+                    </li>
+                    
+                    <hr class="my-3 border-gray-200">
+                    
+                    <li>
+                        <a href="javascript:void(0)" onclick="showSection('task1')" class="sidebar-item block px-4 py-2 rounded-lg hover:bg-orange-50 hover:text-orange-800 transition-colors cursor-pointer" data-section="task1">
+                            <div class="font-bold text-sm text-indigo-800 flex items-center gap-2"><i class="fas fa-clipboard-list text-xs"></i> Task 1</div>
+                            <div class="text-xs text-gray-500 mt-1">10 Multiple Choice</div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="javascript:void(0)" onclick="showSection('task2')" class="sidebar-item block px-4 py-2 rounded-lg hover:bg-orange-50 hover:text-orange-800 transition-colors cursor-pointer" data-section="task2">
+                            <div class="font-bold text-sm text-indigo-800 flex items-center gap-2"><i class="fas fa-clipboard-list text-xs"></i> Task 2</div>
+                            <div class="text-xs text-gray-500 mt-1">10 Multiple Choice</div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="javascript:void(0)" onclick="showSection('task3')" class="sidebar-item block px-4 py-2 rounded-lg hover:bg-orange-50 hover:text-orange-800 transition-colors cursor-pointer" data-section="task3">
+                            <div class="font-bold text-sm text-indigo-800 flex items-center gap-2"><i class="fas fa-clipboard-list text-xs"></i> Task 3</div>
+                            <div class="text-xs text-gray-500 mt-1">10 Multiple Choice</div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="javascript:void(0)" onclick="showSection('task4')" class="sidebar-item block px-4 py-2 rounded-lg hover:bg-orange-50 hover:text-orange-800 transition-colors cursor-pointer" data-section="task4">
+                            <div class="font-bold text-sm text-indigo-800 flex items-center gap-2"><i class="fas fa-clipboard-list text-xs"></i> Task 4</div>
+                            <div class="text-xs text-gray-500 mt-1">10 Multiple Choice</div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="javascript:void(0)" onclick="showSection('task5')" class="sidebar-item block px-4 py-2 rounded-lg hover:bg-orange-50 hover:text-orange-800 transition-colors cursor-pointer" data-section="task5">
+                            <div class="font-bold text-sm text-indigo-800 flex items-center gap-2"><i class="fas fa-clipboard-list text-xs"></i> Task 5</div>
+                            <div class="text-xs text-gray-500 mt-1">10 Multiple Choice</div>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            
+            <div class="p-4 bg-gray-50 border-t border-gray-200 text-center">
+                <p class="text-xs text-gray-500 font-medium">Math Tutoring System</p>
+                <p class="text-xs text-gray-400">by Deni</p>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 flex flex-col overflow-hidden">
+            <div id="contentScrollArea" class="flex-1 overflow-y-auto p-6">
+            
+            <!-- ========================================== -->
+            <!-- SECTION: SPIRAL REVIEW WARM-UP             -->
+            <!-- ========================================== -->
+            <div id="warmup" class="content-section active">
+                <!-- PAGE 1: THEORY 1 -->
+                <div class="page active" data-page="1">
+                    <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-indigo-500">
+                        <h2 class="text-2xl font-bold text-indigo-600 mb-2">Garis Bilangan & Posisi Bilangan</h2>
+                        <p class="translation">Number Line & Position of Numbers</p>
+                        
+                        <div class="flex gap-4 my-4 items-center">
+                            <div class="bg-indigo-50 p-4 rounded flex justify-center">
+                                <svg width="200" height="100" viewBox="0 0 200 100">
+                                    <line x1="10" y1="50" x2="190" y2="50" stroke="#333" stroke-width="2"/>
+                                    <polygon points="190,50 180,45 180,55" fill="#333"/>
+                                    <line x1="40" y1="45" x2="40" y2="55" stroke="#333" stroke-width="2"/>
+                                    <line x1="100" y1="45" x2="100" y2="55" stroke="#333" stroke-width="2"/>
+                                    <line x1="160" y1="45" x2="160" y2="55" stroke="#333" stroke-width="2"/>
+                                    <text x="35" y="70" font-size="12" fill="#ef4444">-2</text>
+                                    <text x="95" y="70" font-size="12" fill="#333">0</text>
+                                    <text x="155" y="70" font-size="12" fill="#3b82f6">+2</text>
+                                    <circle cx="40" cy="50" r="4" fill="#ef4444"/>
+                                    <circle cx="160" cy="50" r="4" fill="#3b82f6"/>
+                                    <path d="M 160 40 Q 100 10 40 40" stroke="#10b981" stroke-width="2" fill="none" marker-end="url(#arr1)"/>
+                                    <text x="100" y="20" font-size="10" text-anchor="middle" fill="#10b981"> Mundur 4 langkah </text>
+                                </svg>
+                            </div>
+                            <div>
+                                <p>Garis bilangan adalah garis lurus yang digunakan untuk memvisualisasikan angka. Angka di sebelah kanan 0 adalah positif, dan di sebelah kiri 0 adalah negatif. <span class="translation">A number line is a straight line used to visualize numbers. Numbers to the right of 0 are positive, and to the left are negative.</span></p>
+                                <p class="mt-2">Jika kita bergerak ke kanan, nilai bertambah. Jika ke kiri, nilai berkurang. <span class="translation">If we move to the right, the value increases. If to the left, it decreases.</span></p>
+                            </div>
+                        </div>
+                        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mt-4">
+                            <p class="font-bold text-yellow-800">Tips & Tricks: Bayangkan Berjalan</p>
+                            <p class="mt-1">Positif artinya kamu menghadap/melangkah ke depan (kanan). Negatif artinya melangkah mundur (kiri). <span class="translation">Positive means facing/stepping forward (right). Negative means stepping backward (left).</span></p>
+                            <p class="mt-1 font-bold">Rumus To The Point: Kanan = Tambah (+), Kiri = Kurang (-)</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="page" data-page="2" data-task-id="w-task1"></div>
+                <div class="page" data-page="3" data-task-id="w-task2"></div>
+                <div class="page" data-page="4" data-task-id="w-task3"></div>
+
+                <!-- PAGE 5: THEORY 2 -->
+                <div class="page" data-page="5">
+                    <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-green-500">
+                        <h2 class="text-2xl font-bold text-green-600 mb-2">Nilai Mutlak (Absolute Value)</h2>
+                        <p class="translation">Nilai Mutlak (Absolute Value)</p>
+                        <div class="flex gap-4 my-4 items-center">
+                            <div class="bg-green-50 p-4 rounded flex justify-center">
+                                <svg width="120" height="120" viewBox="0 0 120 120">
+                                    <circle cx="60" cy="60" r="40" fill="none" stroke="#10b981" stroke-width="2" stroke-dasharray="5 5"/>
+                                    <text x="60" y="50" font-size="20" text-anchor="middle" fill="#ef4444" font-weight="bold">-5</text>
+                                    <text x="60" y="75" font-size="12" text-anchor="middle" fill="#333">Jarak dari 0 = 5</text>
+                                </svg>
+                            </div>
+                            <div>
+                                <p>Nilai mutlak adalah jarak suatu bilangan dari angka 0. Karena ini adalah jarak, maka nilainya SELALU positif. <span class="translation">Absolute value is the distance of a number from 0. Since it is a distance, it is ALWAYS positive.</span></p>
+                                <p class="mt-2">Simbolnya adalah tanda garis tegak: \( |x| \). <span class="translation">The symbol is straight vertical lines: \( |x| \).</span></p>
+                            </div>
+                        </div>
+                        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mt-4">
+                            <p class="font-bold text-yellow-800">Tips & Tricks: Bayangkan Meteran</p>
+                            <p class="mt-1">Berapa pun jauhnya kamu mundur atau maju dari titik 0, jaraknya nggak mungkin minus kan? <span class="translation">No matter how far you step back or forward from point 0, the distance can't be negative, right?</span></p>
+                            <p class="mt-1 font-bold">Rumus To The Point: \( |-5| = 5 \) dan \( |5| = 5 \)</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="page" data-page="6" data-task-id="w-task4"></div>
+                <div class="page" data-page="7" data-task-id="w-task5"></div>
+                <div class="page" data-page="8" data-task-id="w-task6"></div>
+
+                <!-- PAGE 9: THEORY 3 -->
+                <div class="page" data-page="9">
+                    <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-purple-500">
+                        <h2 class="text-2xl font-bold text-purple-600 mb-2">Membandingkan Bilangan Bulat</h2>
+                        <p class="translation">Comparing Integers</p>
+                        <div class="flex gap-4 my-4 items-center">
+                            <div class="bg-purple-50 p-4 rounded flex justify-center">
+                                <svg width="180" height="120" viewBox="0 0 180 120">
+                                    <!-- Buaya memakan angka -->
+                                    <text x="30" y="60" font-size="24" fill="#ef4444" font-weight="bold">-3</text>
+                                    <text x="80" y="60" font-size="24" fill="#333">&lt;</text>
+                                    <text x="120" y="60" font-size="24" fill="#3b82f6" font-weight="bold">2</text>
+                                    <path d="M 95 45 L 110 50 L 95 55 L 100 50 Z" fill="#10b981"/>
+                                    <text x="90" y="85" font-size="10" fill="#10b981">Buka ke kanan (lebih besar)</text>
+                                </svg>
+                            </div>
+                            <div>
+                                <p>Pada garis bilangan, bilangan yang berada di sebelah kanan SELALU LEBIH BESAR dari bilangan yang di sebelah kirinya. <span class="translation">On the number line, a number to the right is ALWAYS GREATER than a number to its left.</span></p>
+                                <p class="mt-2">Ingat simbol buaya: Mulut buaya selalu membuka ke arah bilangan yang lebih besar (makan yang banyak). <span class="translation">Remember the crocodile symbol: The crocodile's mouth always opens towards the bigger number (eating the bigger one).</span></p>
+                            </div>
+                        </div>
+                        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mt-4">
+                            <p class="font-bold text-yellow-800">Rumus To The Point: Negatif Selalu Kalah dari Positif</p>
+                            <p class="mt-1">Semakin negatif (semakin ke kiri), semakin kecil nilainya. Contoh: \( -10 < -2 \). <span class="translation">The more negative (further left), the smaller the value. Example: \( -10 < -2 \).</span></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="page" data-page="10" data-task-id="w-task7"></div>
+                <div class="page" data-page="11" data-task-id="w-task8"></div>
+                <div class="page" data-page="12" data-task-id="w-task9"></div>
+                <div class="page" data-page="13" data-task-id="w-task10"></div>
+            </div>
+
+            <!-- ========================================== -->
+            <!-- SECTION: INTRODUCTION & REAL-WORLD         -->
+            <!-- ========================================== -->
+            <div id="intro" class="content-section">
+                <div class="page active" data-page="1">
+                    <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-indigo-500">
+                        <h2 class="text-2xl font-bold text-indigo-600 mb-2">Bilangan Bulat di Kehidupan Sehari-hari</h2>
+                        <p class="translation">Integers in Everyday Life</p>
+                        <div class="flex gap-4 my-4 items-center">
+                            <div class="bg-indigo-50 p-4 rounded flex justify-center">
+                                <svg width="140" height="140" viewBox="0 0 140 140">
+                                    <rect x="40" y="20" width="60" height="100" rx="5" fill="#a78bfa" stroke="#333"/>
+                                    <circle cx="70" cy="40" r="15" fill="#ef4444"/>
+                                    <circle cx="70" cy="80" r="15" fill="#3b82f6"/>
+                                    <text x="70" y="45" font-size="12" text-anchor="middle" fill="#fff">+</text>
+                                    <text x="70" y="85" font-size="12" text-anchor="middle" fill="#fff">-</text>
+                                    <line x1="40" y1="60" x2="100" y2="60" stroke="#333"/>
+                                </svg>
+                            </div>
+                            <p>Kamu sering bertemu bilangan bulat! Suhu dingin (negatif), hutang (negatif), dan tabungan (positif). <span class="translation">You often meet integers! Cold temperatures (negative), debts (negative), and savings (positive).</span></p>
+                        </div>
+                        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mt-4">
+                            <p class="font-bold text-yellow-800">Tips & Tricks: Terjemahkan Soal Cerita</p>
+                            <p class="mt-1">Kata "hutang", "berkurang", "mundur", "bawah", "dingin" = NEGATIF. Kata "tabungan", "bertambah", "maju", "atas", "panas" = POSITIF. <span class="translation">Words like "debt", "decrease", "backward", "down", "cold" = NEGATIVE. Words like "savings", "increase", "forward", "up", "hot" = POSITIVE.</span></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="page" data-page="2" data-task-id="i-task1"></div>
+                <div class="page" data-page="3" data-task-id="i-task2"></div>
+                <div class="page" data-page="4" data-task-id="i-task3"></div>
+
+                <div class="page" data-page="5">
+                    <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-green-500">
+                        <h2 class="text-2xl font-bold text-green-600 mb-2">Konsep Hutang & Piutang</h2>
+                        <p class="translation">Debt & Credit Concepts</p>
+                        <div class="flex gap-4 my-4 items-center">
+                            <div class="bg-green-50 p-4 rounded flex justify-center">
+                                <svg width="140" height="120" viewBox="0 0 140 120">
+                                    <circle cx="40" cy="60" r="20" fill="#ef4444" stroke="#333"/>
+                                    <text x="40" y="65" font-size="12" text-anchor="middle" fill="#fff">Hutang</text>
+                                    <path d="M 60 60 L 80 60" stroke="#10b981" stroke-width="2" marker-end="url(#arr1)"/>
+                                    <circle cx="100" cy="60" r="20" fill="#3b82f6" stroke="#333"/>
+                                    <text x="100" y="65" font-size="10" text-anchor="middle" fill="#fff">Bayar</text>
+                                    <text x="70" y="100" font-size="12" text-anchor="middle" fill="#333">Sisa = 0</text>
+                                </svg>
+                            </div>
+                            <p>Membayar hutang membuat uangmu berkurang. Jika kamu punya Rp 10.000 dan membayar hutang Rp 4.000, uangmu tinggal Rp 6.000. Operasinya: \( 10000 + (-4000) = 6000 \). <span class="translation">Paying a debt reduces your money. If you have Rp 10,000 and pay a Rp 4,000 debt, you have Rp 6,000 left. Operation: \( 10000 + (-4000) = 6000 \).</span></p>
+                        </div>
+                        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mt-4">
+                            <p class="font-bold text-yellow-800">Rumus To The Point: Pembayaran = Pengurangan</p>
+                            <p class="mt-1">Setiap pengeluaran bisa ditulis sebagai penjumlahan dengan bilangan negatif. <span class="translation">Every expense can be written as addition with a negative number.</span></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="page" data-page="6" data-task-id="i-task4"></div>
+                <div class="page" data-page="7" data-task-id="i-task5"></div>
+                <div class="page" data-page="8" data-task-id="i-task6"></div>
+
+                <div class="page" data-page="9">
+                    <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-purple-500">
+                        <h2 class="text-2xl font-bold text-purple-600 mb-2">Suhu & Perubahan Cuaca</h2>
+                        <p class="translation">Temperature & Weather Changes</p>
+                        <div class="flex gap-4 my-4 items-center">
+                            <div class="bg-purple-50 p-4 rounded flex justify-center">
+                                <svg width="120" height="140" viewBox="0 0 120 140">
+                                    <rect x="50" y="20" width="20" height="80" rx="10" fill="#ef4444" stroke="#333"/>
+                                    <circle cx="60" cy="100" r="20" fill="#ef4444" stroke="#333"/>
+                                    <rect x="52" y="60" width="16" height="40" fill="#3b82f6"/>
+                                    <text x="100" y="45" font-size="14" text-anchor="middle" fill="#333">0°C</text>
+                                    <line x1="70" y1="50" x2="90" y2="50" stroke="#333" stroke-dasharray="2 2"/>
+                                </svg>
+                            </div>
+                            <p>Suhu di bawah nol (beku) ditulis negatif. Jika suhu ruangan \( 5^\circ C \), lalu turun \( 8^\circ C \), suhu akhirnya adalah \( 5 - 8 = -3^\circ C \). <span class="translation">Temperature below zero (freezing) is written as negative. If room temp is \( 5^\circ C \), then drops \( 8^\circ C \), final temp is \( 5 - 8 = -3^\circ C \).</span></p>
+                        </div>
+                        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mt-4">
+                            <p class="font-bold text-yellow-800">Tips & Tricks</p>
+                            <p class="mt-1">"Turun" di soal suhu sama artinya dengan "dikurangi". <span class="translation">"Drops" in temperature problems means "subtracted".</span></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="page" data-page="10" data-task-id="i-task7"></div>
+                <div class="page" data-page="11" data-task-id="i-task8"></div>
+                <div class="page" data-page="12" data-task-id="i-task9"></div>
+                <div class="page" data-page="13" data-task-id="i-task10"></div>
+            </div>
+            
+            <!-- ========================================== -->
+            <!-- SECTION: REVIEW OF PRIOR KNOWLEDGE         -->
+            <!-- ========================================== -->
+            <div id="review" class="content-section">
+                <div class="page active" data-page="1">
+                    <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-indigo-500">
+                        <h2 class="text-2xl font-bold text-indigo-600 mb-2">Penjumlahan Bilangan Bulat</h2>
+                        <p class="translation">Addition of Integers</p>
+                        <div class="flex gap-4 my-4 items-center">
+                            <div class="bg-indigo-50 p-4 rounded flex justify-center">
+                                <svg width="160" height="100" viewBox="0 0 160 100">
+                                    <circle cx="30" cy="50" r="15" fill="#ef4444"/>
+                                    <text x="30" y="55" font-size="14" text-anchor="middle" fill="#fff">-2</text>
+                                    <text x="60" y="55" font-size="20" text-anchor="middle" fill="#333">+</text>
+                                    <circle cx="90" cy="50" r="15" fill="#ef4444"/>
+                                    <text x="90" y="55" font-size="14" text-anchor="middle" fill="#fff">-3</text>
+                                    <text x="120" y="55" font-size="20" text-anchor="middle" fill="#333">=</text>
+                                    <circle cx="150" cy="50" r="15" fill="#ef4444"/>
+                                    <text x="150" y="55" font-size="12" text-anchor="middle" fill="#fff">-5</text>
+                                </svg>
+                            </div>
+                            <div>
+                                <p>Jika tanda sama (positif + positif / negatif + negatif), tambahkan angkanya dan ikuti tanda tersebut. <span class="translation">If signs are the same, add the numbers and keep the sign.</span></p>
+                                <p class="mt-2">Jika tandanya beda, kurangkan angka terkecil dari angka terbesar, lalu ikuti tanda angka terbesar. <span class="translation">If signs are different, subtract the smaller number from the larger one, then follow the sign of the larger number.</span></p>
+                            </div>
+                        </div>
+                        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mt-4">
+                            <p class="font-bold text-yellow-800">Rumus To The Point</p>
+                            <p class="mt-1">\( (+) + (+) = (+) \) <br> \( (-) + (-) = (-) \) <br> \( (+) + (-) \) = Selisih angka, ikut tanda yang besar. <span class="translation">Difference of numbers, follow the bigger sign.</span></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="page" data-page="2" data-task-id="r-task1"></div>
+                <div class="page" data-page="3" data-task-id="r-task2"></div>
+                <div class="page" data-page="4" data-task-id="r-task3"></div>
+
+                <div class="page" data-page="5">
+                    <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-green-500">
+                        <h2 class="text-2xl font-bold text-green-600 mb-2">Pengurangan Bilangan Bulat</h2>
+                        <p class="translation">Subtraction of Integers</p>
+                        <div class="flex gap-4 my-4 items-center">
+                            <div class="bg-green-50 p-4 rounded flex justify-center">
+                                <svg width="160" height="100" viewBox="0 0 160 100">
+                                    <text x="40" y="50" font-size="20" text-anchor="middle" fill="#333">5 - (-3)</text>
+                                    <path d="M 70 40 L 100 50 L 70 60" fill="none" stroke="#10b981" stroke-width="2"/>
+                                    <text x="120" y="50" font-size="20" text-anchor="middle" fill="#10b981">= 8</text>
+                                </svg>
+                            </div>
+                            <div>
+                                <p>Pengurangan adalah penjumlahan dengan lawannya. Ubah tanda kurang menjadi tambah, lalu ubah tanda bilangan kedua menjadi lawannya. <span class="translation">Subtraction is addition with its opposite. Change the minus sign to plus, then change the sign of the second number to its opposite.</span></p>
+                                <p class="mt-2">Contoh: \( 5 - (-3) \) menjadi \( 5 + 3 = 8 \). <span class="translation">Example: \( 5 - (-3) \) becomes \( 5 + 3 = 8 \).</span></p>
+                            </div>
+                        </div>
+                        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mt-4">
+                            <p class="font-bold text-yellow-800">Tips & Tricks: Minus dikali Minus jadi Plus</p>
+                            <p class="mt-1">Ingat: \( - (-a) = +a \). Menghapus tanda kurung dikali minus akan membalikkan tanda di dalamnya. <span class="translation">Remember: \( - (-a) = +a \). Multiplying by minus to remove brackets flips the signs inside.</span></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="page" data-page="6" data-task-id="r-task4"></div>
+                <div class="page" data-page="7" data-task-id="r-task5"></div>
+                <div class="page" data-page="8" data-task-id="r-task6"></div>
+
+                <div class="page" data-page="9">
+                    <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-purple-500">
+                        <h2 class="text-2xl font-bold text-purple-600 mb-2">Menghitung Pola Bilangan Sederhana</h2>
+                        <p class="translation">Calculating Simple Number Patterns</p>
+                        <div class="flex gap-4 my-4 items-center">
+                            <div class="bg-purple-50 p-4 rounded flex justify-center">
+                                <svg width="160" height="100" viewBox="0 0 160 100">
+                                    <text x="20" y="50" font-size="16" text-anchor="middle" fill="#8b5cf6">-4</text>
+                                    <path d="M 30 45 L 50 45" stroke="#333" stroke-width="2" marker-end="url(#arr1)"/>
+                                    <text x="70" y="50" font-size="16" text-anchor="middle" fill="#8b5cf6">-2</text>
+                                    <path d="M 80 45 L 100 45" stroke="#333" stroke-width="2" marker-end="url(#arr1)"/>
+                                    <text x="120" y="50" font-size="16" text-anchor="middle" fill="#8b5cf6">0</text>
+                                    <path d="M 130 45 L 150 45" stroke="#333" stroke-width="2" marker-end="url(#arr1)"/>
+                                    <text x="150" y="30" font-size="12" text-anchor="middle" fill="#10b981">+2</text>
+                                </svg>
+                            </div>
+                            <div>
+                                <p>Pola bilangan bisa naik (bertambah) atau turun (berkurang) secara konsisten. <span class="translation">Number patterns can increase or decrease consistently.</span></p>
+                                <p class="mt-2">Selisih antar bilangan disebut beda (\( b \)). Jika beda positif, pola naik. Jika beda negatif, pola turun. <span class="translation">The difference between numbers is called the common difference (\( b \)). If positive, pattern goes up. If negative, goes down.</span></p>
+                            </div>
+                        </div>
+                        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mt-4">
+                            <p class="font-bold text-yellow-800">Tips & Tricks</p>
+                            <p class="mt-1">Kurangkan suku kedua dengan suku pertama untuk menemukan beda pola. <span class="translation">Subtract the second term with the first term to find the common difference.</span></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="page" data-page="10" data-task-id="r-task7"></div>
+                <div class="page" data-page="11" data-task-id="r-task8"></div>
+                <div class="page" data-page="12" data-task-id="r-task9"></div>
+                <div class="page" data-page="13" data-task-id="r-task10"></div>
+            </div>
+
+            <!-- ========================================== -->
+            <!-- SECTION: PROBLEM INTRODUCTION              -->
+            <!-- ========================================== -->
+            <div id="problem" class="content-section">
+                <div class="page active" data-page="1">
+                    <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-indigo-500">
+                        <h2 class="text-2xl font-bold text-indigo-600 mb-2">Strategi Penyelesaian Soal Cerita</h2>
+                        <p class="translation">Word Problem Solving Strategy</p>
+                        <div class="flex gap-4 my-4 items-center">
+                            <div class="bg-indigo-50 p-4 rounded flex justify-center">
+                                <svg width="140" height="120" viewBox="0 0 140 120">
+                                    <rect x="20" y="20" width="100" height="80" rx="5" fill="none" stroke="#333" stroke-width="2"/>
+                                    <line x1="70" y1="20" x2="70" y2="100" stroke="#333" stroke-width="2" stroke-dasharray="4 4"/>
+                                    <circle cx="40" cy="40" r="10" fill="#ef4444"/>
+                                    <circle cx="40" cy="80" r="10" fill="#3b82f6"/>
+                                    <text x="100" y="45" font-size="12" text-anchor="middle" fill="#ef4444">Positif</text>
+                                    <text x="100" y="85" font-size="12" text-anchor="middle" fill="#3b82f6">Negatif</text>
+                                </svg>
+                            </div>
+                            <div>
+                                <p>Dalam soal cerita, kelompokkan informasi menjadi "Nilai Positif" (mendapat, naik, panas) dan "Nilai Negatif" (hutang, turun, dingin). <span class="translation">In word problems, group info into "Positive Values" (gain, rise, hot) and "Negative Values" (debt, fall, cold).</span></p>
+                                <p class="mt-2">Setelah dikelompokkan, tinggal jumlahkan semuanya. <span class="translation">After grouping, just add them all up.</span></p>
+                            </div>
+                        </div>
+                        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mt-4">
+                            <p class="font-bold text-yellow-800">Tips & Tricks</p>
+                            <p class="mt-1">Coret kata-kata yang tidak penting. Fokus pada ANGKA dan KATA KUNCI (naik/turun, untung/rugi). <span class="translation">Cross out unimportant words. Focus on NUMBERS and KEYWORDS (rise/fall, profit/loss).</span></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="page" data-page="2" data-task-id="p-task1"></div>
+                <div class="page" data-page="3" data-task-id="p-task2"></div>
+                <div class="page" data-page="4" data-task-id="p-task3"></div>
+
+                <div class="page" data-page="5">
+                    <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-green-500">
+                        <h2 class="text-2xl font-bold text-green-600 mb-2">Soal Cerita: Keuangan Harian</h2>
+                        <p class="translation">Word Problem: Daily Finance</p>
+                        <div class="flex gap-4 my-4 items-center">
+                            <div class="bg-green-50 p-4 rounded flex justify-center">
+                                <svg width="160" height="120" viewBox="0 0 160 120">
+                                    <circle cx="40" cy="60" r="20" fill="#fbbf24" stroke="#333"/>
+                                    <text x="40" y="65" font-size="14" text-anchor="middle" fill="#333">$</text>
+                                    <path d="M 60 60 L 80 60" stroke="#ef4444" stroke-width="2" marker-end="url(#arr1)"/>
+                                    <rect x="80" y="40" width="40" height="40" fill="#dcfce7" stroke="#333"/>
+                                    <text x="100" y="65" font-size="12" text-anchor="middle">Sisa?</text>
+                                </svg>
+                            </div>
+                            <div>
+                                <p>Uang saku berkurang karena jajan. Jika dapat uang saku Rp 20.000, lalu jajan Rp 5.000 dan membeli pulsa Rp 10.000, sisa uangmu: \( 20000 - 5000 - 10000 = 5000 \). <span class="translation">Allowance decreases due to spending. If you get Rp 20k, then spend Rp 5k and buy credit Rp 10k, remaining money: \( 20000 - 5000 - 10000 = 5000 \).</span></p>
+                            </div>
+                        </div>
+                        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mt-4">
+                            <p class="font-bold text-yellow-800">Rumus To The Point</p>
+                            <p class="mt-1">Sisa = Pemasukan + (- Pengeluaran). <span class="translation">Remaining = Income + (- Expenses).</span></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="page" data-page="6" data-task-id="p-task4"></div>
+                <div class="page" data-page="7" data-task-id="p-task5"></div>
+                <div class="page" data-page="8" data-task-id="p-task6"></div>
+                
+                <div class="page" data-page="9">
+                    <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-purple-500">
+                        <h2 class="text-2xl font-bold text-purple-600 mb-2">Soal Cerita: Posisi & Ketinggian</h2>
+                        <p class="translation">Word Problem: Position & Elevation</p>
+                        <div class="flex gap-4 my-4 items-center">
+                            <div class="bg-purple-50 p-4 rounded flex justify-center">
+                                <svg width="160" height="120" viewBox="0 0 160 120">
+                                    <line x1="10" y1="60" x2="150" y2="60" stroke="#333" stroke-width="2"/>
+                                    <text x="70" y="55" font-size="12" text-anchor="middle" fill="#333">Permukaan (0)</text>
+                                    <rect x="40" y="10" width="20" height="50" fill="#3b82f6"/>
+                                    <text x="50" y="5" font-size="10" text-anchor="middle">+50m</text>
+                                    <rect x="100" y="60" width="20" height="50" fill="#8b5cf6"/>
+                                    <text x="110" y="115" font-size="10" text-anchor="middle">-30m</text>
+                                </svg>
+                            </div>
+                            <div>
+                                <p>Posisi di atas permukaan tanah/air adalah positif. Posisi di bawah permukaan adalah negatif. <span class="translation">Position above ground/water surface is positive. Below surface is negative.</span></p>
+                                <p class="mt-2">Jika kapal selam di kedalaman -30m naik 10m, posisi barunya: \( -30 + 10 = -20m \). <span class="translation">If a submarine at -30m depth rises 10m, new position: \( -30 + 10 = -20m \).</span></p>
+                            </div>
+                        </div>
+                        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mt-4">
+                            <p class="font-bold text-yellow-800">Tips & Tricks</p>
+                            <p class="mt-1">"Naik" = tambah, "Turun" = kurang. Selalu tetapkan titik 0 (permukaan) sebagai acuan awal. <span class="translation">"Rise" = add, "Fall" = subtract. Always set point 0 (surface) as the baseline.</span></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="page" data-page="10" data-task-id="p-task7"></div>
+                <div class="page" data-page="11" data-task-id="p-task8"></div>
+                <div class="page" data-page="12" data-task-id="p-task9"></div>
+                <div class="page" data-page="13" data-task-id="p-task10"></div>
+            </div>
+
+            <!-- ========================================== -->
+            <!-- SECTION: GUIDED PRACTICE                   -->
+            <!-- ========================================== -->
+            <div id="guided" class="content-section">
+                <div class="page active" data-page="1">
+                    <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-indigo-500">
+                        <h2 class="text-2xl font-bold text-indigo-600 mb-2">Perkalian Bilangan Bulat</h2>
+                        <p class="translation">Multiplication of Integers</p>
+                        <div class="flex gap-4 my-4 items-center">
+                            <div class="bg-indigo-50 p-4 rounded flex justify-center">
+                                <svg width="160" height="100" viewBox="0 0 160 100">
+                                    <text x="40" y="50" font-size="24" text-anchor="middle" fill="#3b82f6">(-)</text>
+                                    <text x="60" y="50" font-size="24" text-anchor="middle" fill="#333">×</text>
+                                    <text x="80" y="50" font-size="24" text-anchor="middle" fill="#ef4444">(-)</text>
+                                    <text x="100" y="50" font-size="24" text-anchor="middle" fill="#333">=</text>
+                                    <text x="120" y="50" font-size="24" text-anchor="middle" fill="#10b981">(+)</text>
+                                </svg>
+                            </div>
+                            <div>
+                                <p>Aturan tanda perkalian sangat berbeda dengan penjumlahan! Tanda yang sama akan menghasilkan positif. Tanda berbeda menghasilkan negatif. <span class="translation">Multiplication sign rules are very different from addition! Same signs yield positive. Different signs yield negative.</span></p>
+                                <p class="mt-2">Kalikan angkanya seperti biasa, lalu tentukan tandanya. <span class="translation">Multiply the numbers as usual, then determine the sign.</span></p>
+                            </div>
+                        </div>
+                        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mt-4">
+                            <p class="font-bold text-yellow-800">Tips & Tricks: Teman atau Musuh</p>
+                            <p class="mt-1">Bayangkan: Teman (+) bertemu Teman (+) = Suka (+). Musuh (-) bertemu Musuh (-) = Suka (+). Tawan bertemu Musuh = Benci (-). <span class="translation">Imagine: Friend meets Friend = Like. Enemy meets Enemy = Like. Friend meets Enemy = Dislike.</span></p>
+                            <p class="mt-1 font-bold">Rumus: \( (+) \times (+) = (+) \) <br> \( (-) \times (-) = (+) \) <br> \( (+) \times (-) = (-) \)</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="page" data-page="2" data-task-id="g-task1"></div>
+                <div class="page" data-page="3" data-task-id="g-task2"></div>
+                <div class="page" data-page="4" data-task-id="g-task3"></div>
+
+                <div class="page" data-page="5">
+                    <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-green-500">
+                        <h2 class="text-2xl font-bold text-green-600 mb-2">Pembagian Bilangan Bulat</h2>
+                        <p class="translation">Division of Integers</p>
+                        <div class="flex gap-4 my-4 items-center">
+                            <div class="bg-green-50 p-4 rounded flex justify-center">
+                                <svg width="160" height="120" viewBox="0 0 160 120">
+                                    <rect x="10" y="40" width="40" height="40" fill="#10b981"/>
+                                    <text x="30" y="65" font-size="14" text-anchor="middle" fill="#fff">-12</text>
+                                    <text x="60" y="65" font-size="20" text-anchor="middle" fill="#333">:</text>
+                                    <rect x="70" y="40" width="20" height="40" fill="#ef4444"/>
+                                    <text x="80" y="65" font-size="12" text-anchor="middle" fill="#fff">3</text>
+                                    <text x="100" y="65" font-size="20" text-anchor="middle" fill="#333">=</text>
+                                    <rect x="110" y="40" width="40" height="40" fill="#ef4444"/>
+                                    <text x="130" y="65" font-size="14" text-anchor="middle" fill="#fff">-4</text>
+                                </svg>
+                            </div>
+                            <div>
+                                <p>Aturan tanda pada pembagian SAMA PERSIS dengan perkalian. <span class="translation">The sign rule in division is EXACTLY THE SAME as multiplication.</span></p>
+                                <p class="mt-2">Jika tandanya sama, hasilnya positif. Jika berbeda, hasilnya negatif. <span class="translation">If signs are the same, result is positive. If different, result is negative.</span></p>
+                            </div>
+                        </div>
+                        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mt-4">
+                            <p class="font-bold text-yellow-800">Tips & Tricks</p>
+                            <p class="mt-1">Cek hasil bagi dengan mengalikannya kembali. Jika \( (-12) : 3 = -4 \), maka \( -4 \times 3 = -12 \). <span class="translation">Check the quotient by multiplying it back. If \( (-12) : 3 = -4 \), then \( -4 \times 3 = -12 \).</span></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="page" data-page="6" data-task-id="g-task4"></div>
+                <div class="page" data-page="7" data-task-id="g-task5"></div>
+                <div class="page" data-page="8" data-task-id="g-task6"></div>
+
+                <div class="page" data-page="9">
+                    <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-purple-500">
+                        <h2 class="text-2xl font-bold text-purple-600 mb-2">Perkalian & Pembagian Bertanda Campuran</h2>
+                        <p class="translation">Mixed Sign Multiplication & Division</p>
+                        <div class="flex gap-4 my-4 items-center">
+                            <div class="bg-purple-50 p-4 rounded flex justify-center">
+                                <svg width="160" height="120" viewBox="0 0 160 120">
+                                    <text x="40" y="50" font-size="18" text-anchor="middle" fill="#333">(-)</text>
+                                    <text x="60" y="50" font-size="18" text-anchor="middle" fill="#333">×</text>
+                                    <text x="80" y="50" font-size="18" text-anchor="middle" fill="#333">(-)</text>
+                                    <text x="100" y="50" font-size="18" text-anchor="middle" fill="#333">×</text>
+                                    <text x="120" y="50" font-size="18" text-anchor="middle" fill="#333">(+)</text>
+                                    <path d="M 130 55 L 150 55" stroke="#10b981" stroke-width="2" marker-end="url(#arr1)"/>
+                                    <text x="140" y="40" font-size="14" text-anchor="middle" fill="#10b981">(+)</text>
+                                </svg>
+                            </div>
+                            <div>
+                                <p>Tanda minus bisa saling menihilkan jika berpasangan. Dua minus bertemu menjadi plus. <span class="translation">Minus signs can cancel each other out if in pairs. Two minuses meet to become a plus.</span></p>
+                                <p class="mt-2">Hitung jumlah tanda minus. Jika genap, hasilnya positif. Jika ganjil, hasilnya negatif. <span class="translation">Count the minus signs. If even, result is positive. If odd, result is negative.</span></p>
+                            </div>
+                        </div>
+                        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mt-4">
+                            <p class="font-bold text-yellow-800">Tips & Tricks</p>
+                            <p class="mt-1">Untuk \( (-2) \times (-3) \times (-4) \), ada 3 tanda negatif (ganjil). Maka hasilnya pasti negatif. <span class="translation">For \( (-2) \times (-3) \times (-4) \), there are 3 negative signs (odd). So the result is definitely negative.</span></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="page" data-page="10" data-task-id="g-task7"></div>
+                <div class="page" data-page="11" data-task-id="g-task8"></div>
+                <div class="page" data-page="12" data-task-id="g-task9"></div>
+                <div class="page" data-page="13" data-task-id="g-task10"></div>
+            </div>
+            
+            <!-- ========================================== -->
+            <!-- SECTION: INDEPENDENT PRACTICE               -->
+            <!-- ========================================== -->
+            <div id="independent" class="content-section">
+                <div class="page active" data-page="1">
+                    <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-indigo-500">
+                        <h2 class="text-2xl font-bold text-indigo-600 mb-2">Operasi Campuran (Kuadran Suhu)</h2>
+                        <p class="translation">Mixed Operations (Temperature Quadrants)</p>
+                        <div class="flex gap-4 my-4 items-center">
+                            <div class="bg-indigo-50 p-4 rounded flex justify-center">
+                                <svg width="160" height="100" viewBox="0 0 160 100">
+                                    <rect x="20" y="20" width="120" height="60" rx="5" fill="none" stroke="#3b82f6" stroke-width="2"/>
+                                    <text x="80" y="50" font-size="16" text-anchor="middle" fill="#333">5 - 2 + (-3)</text>
+                                    <path d="M 80 60 L 80 80" stroke="#ef4444" stroke-width="2" marker-end="url(#arr1)"/>
+                                    <text x="80" y="95" font-size="16" text-anchor="middle" fill="#ef4444">0</text>
+                                </svg>
+                            </div>
+                            <div>
+                                <p>Dalam operasi campuran penjumlahan dan pengurangan, kerjakan dari kiri ke kanan tanpa didahulukan. <span class="translation">In mixed addition and subtraction operations, work from left to right without priority.</span></p>
+                            </div>
+                        </div>
+                        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mt-4">
+                            <p class="font-bold text-yellow-800">Rumus To The Point</p>
+                            <p class="mt-1">Ubah semua pengurangan menjadi penjumlahan dengan lawan tandanya, lalu jumlahkan semua dari kiri ke kanan. <span class="translation">Change all subtractions to additions with their opposite signs, then sum all from left to right.</span></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="page" data-page="2" data-task-id="ind-task1"></div>
+                <div class="page" data-page="3" data-task-id="ind-task2"></div>
+                <div class="page" data-page="4" data-task-id="ind-task3"></div>
+
+                <div class="page" data-page="5">
+                    <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-green-500">
+                        <h2 class="text-2xl font-bold text-green-600 mb-2">Pemangkatan Bilangan Bulat</h2>
+                        <p class="translation">Exponentiation of Integers</p>
+                        <div class="flex gap-4 my-4 items-center">
+                            <div class="bg-green-50 p-4 rounded flex justify-center">
+                                <svg width="140" height="120" viewBox="0 0 140 120">
+                                    <text x="50" y="60" font-size="24" text-anchor="middle" fill="#333">(-2)</text>
+                                    <text x="80" y="40" font-size="16" text-anchor="middle" fill="#ef4444">3</text>
+                                    <path d="M 90 55 L 110 55" stroke="#10b981" stroke-width="2" marker-end="url(#arr1)"/>
+                                    <text x="125" y="60" font-size="24" text-anchor="middle" fill="#ef4444">-8</text>
+                                </svg>
+                            </div>
+                            <div>
+                                <p>Pangkat menunjukkan berapa kali sebuah bilangan dikalikan dengan dirinya sendiri. <span class="translation">Exponent shows how many times a number is multiplied by itself.</span></p>
+                                <p class="mt-2">Hati-hati dengan tanda! \( (-2)^3 = (-2) \times (-2) \times (-2) = -8 \). <span class="translation">Careful with the signs! \( (-2)^3 = (-2) \times (-2) \times (-2) = -8 \).</span></p>
+                            </div>
+                        </div>
+                        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mt-4">
+                            <p class="font-bold text-yellow-800">Tips & Tricks: Hitung Tanda Minus</p>
+                            <p class="mt-1">Pangkat genap dari bilangan negatif selalu POSITIF. Pangkat ganjil dari bilangan negatif selalu NEGATIF. <span class="translation">Even power of a negative number is always POSITIVE. Odd power of a negative number is always NEGATIVE.</span></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="page" data-page="6" data-task-id="ind-task4"></div>
+                <div class="page" data-page="7" data-task-id="ind-task5"></div>
+                <div class="page" data-page="8" data-task-id="ind-task6"></div>
+
+                <div class="page" data-page="9">
+                    <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-purple-500">
+                        <h2 class="text-2xl font-bold text-purple-600 mb-2">Operasi Campuran Lengkap (PEMDAS/BODMAS)</h2>
+                        <p class="translation">Complete Mixed Operations (PEMDAS/BODMAS)</p>
+                        <div class="flex gap-4 my-4 items-center">
+                            <div class="bg-purple-50 p-4 rounded flex justify-center">
+                                <svg width="160" height="120" viewBox="0 0 160 120">
+                                    <rect x="10" y="10" width="40" height="30" fill="#3b82f6"/>
+                                    <text x="30" y="30" font-size="12" text-anchor="middle" fill="#fff">Kurung</text>
+                                    <rect x="60" y="10" width="40" height="30" fill="#10b981"/>
+                                    <text x="80" y="30" font-size="12" text-anchor="middle" fill="#fff">Pangkat</text>
+                                    <rect x="10" y="50" width="40" height="30" fill="#fbbf24"/>
+                                    <text x="30" y="70" font-size="12" text-anchor="middle" fill="#333">Kali/Bagi</text>
+                                    <rect x="60" y="50" width="40" height="30" fill="#ef4444"/>
+                                    <text x="80" y="70" font-size="12" text-anchor="middle" fill="#fff">Tambah/Kurang</text>
+                                    <path d="M 100 25 L 120 65" stroke="#333" stroke-width="2" marker-end="url(#arr1)"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <p>Urutan operasi harus diperhatikan! Mulai dari Kurung, lalu Pangkat, kemudian Kali/Bagi (dari kiri ke kanan), dan terakhir Tambah/Kurang. <span class="translation">Order of operations must be followed! Start with Brackets, then Exponents, then Multiply/Divide (left to right), and finally Add/Subtract.</span></p>
+                            </div>
+                        </div>
+                        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mt-4">
+                            <p class="font-bold text-yellow-800">Tips & Tricks: KPK & FPB</p>
+                            <p class="mt-1">Jangan tergoda untuk mengerjakan dari kiri ke kanan secara membabi buta. Selesaikan bagian dalam kurung dulu sampai habis! <span class="translation">Don't be tempted to just go left to right blindly. Solve inside the brackets completely first!</span></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="page" data-page="10" data-task-id="ind-task7"></div>
+                <div class="page" data-page="11" data-task-id="ind-task8"></div>
+                <div class="page" data-page="12" data-task-id="ind-task9"></div>
+                <div class="page" data-page="13" data-task-id="ind-task10"></div>
+            </div>
+
+            <!-- ========================================== -->
+            <!-- SECTION: CONSOLIDATION & REFLECTION         -->
+            <!-- ========================================== -->
+            <div id="consolidation" class="content-section">
+                 <div class="bg-white p-6 rounded-lg shadow-md text-center">
+                    <h2 class="text-2xl font-bold text-gray-800">Consolidation & Reflection</h2>
+                    <p class="translation">Konsolidasi & Refleksi</p>
+                    <p>Anda telah menyelesaikan perjalanan belajar tentang Operasi Hitung Bilangan Bulat. <span class="translation">You have finished the learning journey about Integer Arithmetic Operations.</span></p>
+                    <p class="mt-2">Ingat, kuasai garis bilangan, aturan tanda (Teman/Musuh), dan urutan operasi (Kurung-Pangkat-Kali/Bagi-Tambah/Kurang). <span class="translation">Remember, master the number line, sign rules (Friend/Enemy), and order of operations.</span></p>
+                    <a href="https://learn.algonova.id" target="_blank" class="mt-4 inline-block bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-6 rounded">
+                        Go to learn.algonova.id <span class="translation text-sm italic">Pergi ke learn.algonova.id</span>
+                    </a>
+                </div>
+            </div>
+            
+            <!-- TASK SECTIONS -->
+            <div id="task1" class="content-section">
+                <div class="page active" data-page="1"><div data-task-id="t1-task1"></div></div>
+                <div class="page" data-page="2"><div data-task-id="t1-task2"></div></div>
+                <div class="page" data-page="3"><div data-task-id="t1-task3"></div></div>
+                <div class="page" data-page="4"><div data-task-id="t1-task4"></div></div>
+                <div class="page" data-page="5"><div data-task-id="t1-task5"></div></div>
+                <div class="page" data-page="6"><div data-task-id="t1-task6"></div></div>
+                <div class="page" data-page="7"><div data-task-id="t1-task7"></div></div>
+                <div class="page" data-page="8"><div data-task-id="t1-task8"></div></div>
+                <div class="page" data-page="9"><div data-task-id="t1-task9"></div></div>
+                <div class="page" data-page="10"><div data-task-id="t1-task10"></div></div>
+            </div>
+            <div id="task2" class="content-section">
+                <div class="page active" data-page="1"><div data-task-id="t2-task1"></div></div>
+                <div class="page" data-page="2"><div data-task-id="t2-task2"></div></div>
+                <div class="page" data-page="3"><div data-task-id="t2-task3"></div></div>
+                <div class="page" data-page="4"><div data-task-id="t2-task4"></div></div>
+                <div class="page" data-page="5"><div data-task-id="t2-task5"></div></div>
+                <div class="page" data-page="6"><div data-task-id="t2-task6"></div></div>
+                <div class="page" data-page="7"><div data-task-id="t2-task7"></div></div>
+                <div class="page" data-page="8"><div data-task-id="t2-task8"></div></div>
+                <div class="page" data-page="9"><div data-task-id="t2-task9"></div></div>
+                <div class="page" data-page="10"><div data-task-id="t2-task10"></div></div>
+            </div>
+            <div id="task3" class="content-section">
+                <div class="page active" data-page="1"><div data-task-id="t3-task1"></div></div>
+                <div class="page" data-page="2"><div data-task-id="t3-task2"></div></div>
+                <div class="page" data-page="3"><div data-task-id="t3-task3"></div></div>
+                <div class="page" data-page="4"><div data-task-id="t3-task4"></div></div>
+                <div class="page" data-page="5"><div data-task-id="t3-task5"></div></div>
+                <div class="page" data-page="6"><div data-task-id="t3-task6"></div></div>
+                <div class="page" data-page="7"><div data-task-id="t3-task7"></div></div>
+                <div class="page" data-page="8"><div data-task-id="t3-task8"></div></div>
+                <div class="page" data-page="9"><div data-task-id="t3-task9"></div></div>
+                <div class="page" data-page="10"><div data-task-id="t3-task10"></div></div>
+            </div>
+            <div id="task4" class="content-section">
+                <div class="page active" data-page="1"><div data-task-id="t4-task1"></div></div>
+                <div class="page" data-page="2"><div data-task-id="t4-task2"></div></div>
+                <div class="page" data-page="3"><div data-task-id="t4-task3"></div></div>
+                <div class="page" data-page="4"><div data-task-id="t4-task4"></div></div>
+                <div class="page" data-page="5"><div data-task-id="t4-task5"></div></div>
+                <div class="page" data-page="6"><div data-task-id="t4-task6"></div></div>
+                <div class="page" data-page="7"><div data-task-id="t4-task7"></div></div>
+                <div class="page" data-page="8"><div data-task-id="t4-task8"></div></div>
+                <div class="page" data-page="9"><div data-task-id="t4-task9"></div></div>
+                <div class="page" data-page="10"><div data-task-id="t4-task10"></div></div>
+            </div>
+            <div id="task5" class="content-section">
+                <div class="page active" data-page="1"><div data-task-id="t5-task1"></div></div>
+                <div class="page" data-page="2"><div data-task-id="t5-task2"></div></div>
+                <div class="page" data-page="3"><div data-task-id="t5-task3"></div></div>
+                <div class="page" data-page="4"><div data-task-id="t5-task4"></div></div>
+                <div class="page" data-page="5"><div data-task-id="t5-task5"></div></div>
+                <div class="page" data-page="6"><div data-task-id="t5-task6"></div></div>
+                <div class="page" data-page="7"><div data-task-id="t5-task7"></div></div>
+                <div class="page" data-page="8"><div data-task-id="t5-task8"></div></div>
+                <div class="page" data-page="9"><div data-task-id="t5-task9"></div></div>
+                <div class="page" data-page="10"><div data-task-id="t5-task10"></div></div>
+            </div>
+            <!-- Pagination Bar -->
+            </div> <!-- Penutup #contentScrollArea -->
+            <div id="paginationBar" class="shrink-0 bg-white p-3 border-t border-gray-200 flex justify-center items-center gap-1 no-print z-40 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)]"></div>
+        </main>
+    </div>
+    
+    <!-- Print Area -->
+    <div id="printArea" class="hidden p-8">
+        <div class="text-center border-b-2 border-black pb-4 mb-4">
+            <h1 class="text-xl font-bold">Math Tutoring by Deni</h1>
+            <p>Topic: Operasi Hitung Bilangan Bulat</p>
+            <div class="flex justify-around mt-4 text-sm">
+                <p>Name: ..............................</p>
+                <p>Date: ..............................</p>
+                <p>Task: <span id="printTaskNum">1</span></p>
+                <p>Score: <span id="printScore">0</span>/10</p>
+            </div>
+        </div>
+        <table class="w-full border-collapse border border-black text-sm">
+            <thead>
+                <tr class="bg-gray-200">
+                    <th class="border border-black p-1">No.</th>
+                    <th class="border border-black p-1">Question</th>
+                    <th class="border border-black p-1">Student Answer</th>
+                    <th class="border border-black p-1">Correct Answer</th>
+                    <th class="border border-black p-1">Note (❌/✔️)</th>
+                </tr>
+            </thead>
+            <tbody id="printTableBody"></tbody>
+        </table>
+        <div class="mt-8 text-right">
+            <p>Checked by,</p>
+            <br><br>
+            <p class="font-bold">Deni</p>
+        </div>
+    </div>
+    
+    <script>
+        // ====== MATH QUESTIONS DATA ======
+        const questions = {};
+
+
+        // ====== MATH QUESTIONS DATA (PART 1: WARMUP, INTRO, REVIEW, PROBLEM) ======
+        Object.assign(questions, {
+            // SPIRAL REVIEW WARM-UP TASKS (Garis Bilangan, Mutlak, Membandingkan)
+            "w-task1": { type: "single", q: "Sebuah semut berada di titik 0 pada garis bilangan. Semut tersebut melangkah 4 langkah ke kiri. Di posisi berapakah semut itu sekarang? <i class='fas fa-bug text-blue-500 ml-2'></i>", q_trans: "An ant is at point 0 on the number line. It takes 4 steps to the left. What position is the ant at now?", opts: ["\\( 4 \\)", "\\( -4 \\)", "\\( 0 \\)", "\\( 8 \\)", "\\( -8 \\)"], ans: "\\( -4 \\)", exp: "Melangkah ke kiri pada garis bilangan berarti menuju bilangan negatif. Dari 0, mundur 4 langkah berarti sampai di angka -4.", exp_trans: "Moving left on the number line means going towards negative numbers. From 0, stepping back 4 steps reaches -4." },
+            "w-task2": { type: "fill", q: "Hitunglah nilai mutlak dari \\( |-15| \\). <i class='fas fa-ruler-vertical text-blue-500 ml-2'></i>", q_trans: "Calculate the absolute value of \\( |-15| \\).", ans: "15", exp: "Nilai mutlak adalah jarak dari angka 0. Karena jarak tidak mungkin negatif, maka tanda minus dihilangkan. Jadi, \\( |-15| = 15 \\).", exp_trans: "Absolute value is distance from 0. Since distance cannot be negative, the minus sign is removed. So, \\( |-15| = 15 \\)." },
+            "w-task3": { type: "tf_table", q: "Evaluasi pernyataan berikut tentang garis bilangan! <i class='fas fa-map-signs text-blue-500 ml-2'></i>", q_trans: "Evaluate the following statements about the number line!", opts: ["Bilangan di sebelah kanan 0 selalu positif", "Bilangan -5 berada di sebelah kanan -2", "Semakin ke kiri, nilai bilangan semakin kecil", "Jarak antara -2 dan 2 adalah 5 satuan"], ans: ["B", "S", "B", "S"], exp: "1. Benar, kanan 0 positif. 2. Salah, -5 ada di kiri -2. 3. Benar, ke kiri nilai turun. 4. Salah, jaraknya 4 satuan (dari -2 ke 0 ada 2, dari 0 ke 2 ada 2).", exp_trans: "1. True. 2. False, -5 is to the left of -2. 3. True. 4. False, distance is 4 units." },
+            "w-task4": { type: "single", q: "Manakah dari bilangan berikut yang memiliki nilai PALING KECIL? <i class='fas fa-sort-amount-down text-blue-500 ml-2'></i>", q_trans: "Which of the following numbers has the SMALLEST value?", opts: ["\\( -1 \\)", "\\( -10 \\)", "\\( 0 \\)", "\\( -5 \\)", "\\( 2 \\)"], ans: "\\( -10 \\)", exp: "Pada garis bilangan, bilangan yang berada paling kiri adalah yang paling kecil. Urutannya: -10, -5, -1, 0, 2. Jadi -10 paling kecil.", exp_trans: "On the number line, the leftmost number is the smallest. Order: -10, -5, -1, 0, 2. So -10 is smallest." },
+            "w-task5": { type: "complex", q: "Pernyataan mana saja yang BENAR mengenai nilai mutlak? <i class='fas fa-equals text-blue-500 ml-2'></i>", q_trans: "Which statements are TRUE regarding absolute value?", opts: ["\\( |7| = 7 \\)", "\\( |-3| = -3 \\)", "\\( |0| = 0 \\)", "\\( |-100| = 100 \\)"], ans: [0, 2, 3], exp: "Nilai mutlak selalu positif atau nol. Jadi \\( |7|=7 \\), \\( |0|=0 \\), dan \\( |-100|=100 \\). Pernyataan 2 salah karena \\( |-3| = 3 \\), bukan -3.", exp_trans: "Absolute value is always positive or zero. Statement 2 is wrong because \\( |-3| = 3 \\)." },
+            "w-task6": { type: "fill", q: "Jika suhu suatu ruangan adalah \\( -2^\\circ C \\) lalu turun \\( 3^\\circ C \\), berapakah suhu akhirnya? <i class='fas fa-temperature-low text-blue-500 ml-2'></i>", q_trans: "If room temp is \\( -2^\\circ C \\) then drops \\( 3^\\circ C \\), what is the final temp?", ans: "-5", exp: "Turun berarti berkurang. \\( -2 - 3 = -5 \\). Bayangkan di garis bilangan, dari -2 mundur 3 langkah ke kiri sampai ke -5.", exp_trans: "Drops means subtract. \\( -2 - 3 = -5 \\). Imagine on the number line, stepping back 3 from -2 reaches -5." },
+            "w-task7": { type: "single", q: "Lambang pertidaksamaan yang tepat untuk menyatakan 'negatif 4 lebih besar dari negatif 7' adalah... <i class='fas fa-greater-than text-blue-500 ml-2'></i>", q_trans: "The correct inequality symbol to state 'negative 4 is greater than negative 7' is...", opts: ["\\( -4 < -7 \\)", "\\( -4 > -7 \\)", "\\( -4 = -7 \\)", "\\( -4 \\leq -7 \\)", "\\( -4 \\geq -7 \\)"], ans: "\\( -4 > -7 \\)", exp: "Semakin ke kanan, nilai semakin besar. -4 berada di sebelah kanan -7. Jadi \\( -4 > -7 \\) (mulut buaya terbuka ke arah -4).", exp_trans: "Further right means larger value. -4 is to the right of -7. So \\( -4 > -7 \\)." },
+            "w-task8": { type: "tf_table", q: "Tentukan Benar atau Salah untuk operasi berikut! <i class='fas fa-calculator text-blue-500 ml-2'></i>", q_trans: "Determine True or False for the following operations!", opts: ["\\( -8 + 3 = -5 \\)", "\\( -4 - 4 = 0 \\)", "\\( 10 + (-2) = 8 \\)", "\\( -1 + (-1) = -2 \\)"], ans: ["B", "S", "B", "B"], exp: "1. B, beda tanda kurangi: 8-3=5, ikut tanda besar (-5). 2. S, -4-4 = -8. 3. B, 10-2=8. 4. B, sama-sama negatif, jumlahkan: -1-1=-2.", exp_trans: "1. True. 2. False, result is -8. 3. True. 4. True." },
+            "w-task9": { type: "single", q: "Seorang pendaki berada pada ketinggian 100 meter di atas permukaan laut. Dia turun 120 meter. Di manakah posisi pendaki sekarang? <i class='fas fa-mountain text-blue-500 ml-2'></i>", q_trans: "A climber is at 100m above sea level. He descends 120m. Where is he now?", opts: ["\\( 20 \\) m di atas permukaan laut", "\\( 20 \\) m di bawah permukaan laut", "\\( 220 \\) m di atas permukaan laut", "\\( 0 \\) m (permukaan laut)", "\\( 120 \\) m di bawah permukaan laut"], ans: "\\( 20 \\) m di bawah permukaan laut", exp: "Posisi awal +100, turun berarti dikurangi. \\( 100 - 120 = -20 \\). Nilai negatif berarti di bawah permukaan laut.", exp_trans: "Start +100, descend means subtract. \\( 100 - 120 = -20 \\). Negative means below sea level." },
+            "w-task10": { type: "complex", q: "Manakah pernyataan yang BENAR tentang bilangan \\( -3 \\) dan \\( 3 \\)? <i class='fas fa-balance-scale text-blue-500 ml-2'></i>", q_trans: "Which statements are TRUE about numbers \\( -3 \\) and \\( 3 \\)?", opts: ["Kedua bilangan memiliki jarak yang sama dari 0", "\\( -3 \\) lebih besar dari \\( 3 \\)", "Nilai mutlak keduanya sama, yaitu 3", "Jika dijumlahkan, hasilnya adalah 0"], ans: [0, 2, 3], exp: "1. Benar, jaraknya 3 satuan. 2. Salah, -3 lebih kecil. 3. Benar, \\( |-3|=3 \\) dan \\( |3|=3 \\). 4. Benar, lawan jumlahnya nol: \\( -3+3=0 \\).", exp_trans: "1. True. 2. False. 3. True. 4. True." },
+
+            // INTRODUCTION & REAL-WORLD TASKS (Keuangan, Suhu, Ketinggian)
+            "i-task1": { type: "single", q: "Budi memiliki uang Rp 50.000. Dia membeli pulsa seharga Rp 20.000 dan jajan cemilan Rp 15.000. Berapa sisa uang Budi? <i class='fas fa-wallet text-green-500 ml-2'></i>", q_trans: "Budi has Rp 50k. He buys credit for Rp 20k and snacks for Rp 15k. How much money is left?", opts: ["\\( Rp 15.000 \\)", "\\( Rp 20.000 \\)", "\\( Rp 35.000 \\)", "\\( -Rp 15.000 \\)", "\\( Rp 5.000 \\)"], ans: "\\( Rp 15.000 \\)", exp: "Uang berkurang karena pengeluaran: \\( 50000 - 20000 - 15000 = 15000 \\).", exp_trans: "Money decreases due to expenses: \\( 50000 - 20000 - 15000 = 15000 \\)." },
+            "i-task2": { type: "fill", q: "Suhu di kutub Utara malam hari adalah \\( -40^\\circ C \\). Jika suhu naik \\( 15^\\circ C \\) di siang hari, berapakah suhu siang harinya? <i class='fas fa-temperature-high text-green-500 ml-2'></i>", q_trans: "North Pole night temp is \\( -40^\\circ C \\). If temp rises \\( 15^\\circ C \\) during the day, what is the daytime temp?", ans: "-25", exp: "Naik berarti bertambah. \\( -40 + 15 = -25 \\). Karena angka negatif ketemu positif, kurangi 40-15=25, lalu ikut tanda yang lebih besar (negatif).", exp_trans: "Rises means add. \\( -40 + 15 = -25 \\). Different signs: subtract, keep larger sign." },
+            "i-task3": { type: "tf_table", q: "Berikut adalah transaksi rekening bank Andi. Evaluasi benar/salahnya! <i class='fas fa-money-check-alt text-green-500 ml-2'></i>", q_trans: "Here is Andi's bank account transaction. Evaluate true/false!", opts: ["Setoran Rp 100.000 dicatat sebagai +100000", "Tarikan Rp 50.000 dicatat sebagai -50000", "Jika saldo 50000 dan ditarik 60000, saldo menjadi -10000", "Saldo negatif berarti Andi memiliki uang tambahan"], ans: ["B", "B", "B", "S"], exp: "1, 2, 3 benar. 4 salah, saldo negatif berarti Andi berhutang ke bank (overdraft).", exp_trans: "1, 2, 3 true. 4 false, negative balance means debt to bank." },
+            "i-task4": { type: "single", q: "Seekor paus berenang pada kedalaman 50 meter di bawah permukaan laut. Lalu paus itu menyelam lebih dalam 20 meter. Pada kedalaman berapakah paus itu sekarang? <i class='fas fa-fish text-green-500 ml-2'></i>", q_trans: "A whale swims at 50m below sea level. Then it dives 20m deeper. At what depth is the whale now?", opts: ["\\( 30 \\) m di bawah", "\\( 70 \\) m di bawah", "\\( 20 \\) m di bawah", "\\( 70 \\) m di atas", "\\( 30 \\) m di atas"], ans: "\\( 70 \\) m di bawah", exp: "Di bawah permukaan = negatif (-50). Menyelam lebih dalam = berkurang/dijumlah negatif. \\( -50 + (-20) = -70 \\). Jadi 70 m di bawah.", exp_trans: "Below sea level = negative (-50). Dive deeper = add negative. \\( -50 + (-20) = -70 \\)." },
+            "i-task5": { type: "complex", q: "Dalam permainan ular tangga, pemain maju jika dapat angka plus dan mundur jika dapat angka minus. Manakah pernyataan yang BENAR? <i class='fas fa-dice text-green-500 ml-2'></i>", q_trans: "In a snake ladder game, players move forward on plus and backward on minus. Which statements are TRUE?", opts: ["Mundur 5 langkah ditulis \\( -5 \\)", "Jika di posisi 10 lalu mundur 5, posisinya menjadi 5", "Jika di posisi 3 lalu maju 4, posisinya menjadi -1", "Posisi awal pemain selalu di angka 0"], ans: [0, 1, 3], exp: "1. B. 2. B, 10-5=5. 3. S, 3+4=7, bukan -1. 4. B, posisi awal 0. Hanya 1, 2, dan 4 yang benar.", exp_trans: "1. True. 2. True. 3. False, 3+4=7. 4. True." },
+            "i-task6": { type: "fill", q: "Sebuah kapal selam berada di kedalaman \\( -120 \\) meter. Jika ia naik ke permukaan laut sejauh 50 meter, posisinya menjadi... meter. <i class='fas fa-ship text-green-500 ml-2'></i>", q_trans: "A submarine is at \\( -120 \\) m depth. If it rises 50m towards the surface, its position becomes... m.", ans: "-70", exp: "Naik berarti bertambah. \\( -120 + 50 = -70 \\). (Kurangi 120-50=70, ikut tanda besar yaitu negatif).", exp_trans: "Rise means add. \\( -120 + 50 = -70 \\)." },
+            "i-task7": { type: "single", q: "Kota A memiliki suhu \\( -5^\\circ C \\). Kota B memiliki suhu \\( 12^\\circ C \\). Berapakah selisih suhu antara Kota A dan Kota B? <i class='fas fa-city text-green-500 ml-2'></i>", q_trans: "City A temp is \\( -5^\\circ C \\). City B temp is \\( 12^\\circ C \\). What is the temperature difference between City A and City B?", opts: ["\\( 7^\\circ C \\)", "\\( 17^\\circ C \\)", "\\( -17^\\circ C \\)", "\\( -7^\\circ C \\)", "\\( 12^\\circ C \\)"], ans: "\\( 17^\\circ C \\)", exp: "Selisih dihitung dengan pengurangan. Jarak dari -5 ke 0 ada 5, dari 0 ke 12 ada 12. Total 5+12 = 17. Secara matematis: \\( 12 - (-5) = 12 + 5 = 17 \\).", exp_trans: "Distance from -5 to 0 is 5, 0 to 12 is 12. Total 17. Math: \\( 12 - (-5) = 17 \\)." },
+            "i-task8": { type: "tf_table", q: "Evaluasi transaksi keuangan Doni berikut! <i class='fas fa-coins text-green-500 ml-2'></i>", q_trans: "Evaluate Doni's financial transactions below!", opts: ["Mendapat gaji Rp 500.000 = +500000", "Membayar tagihan listrik Rp 200.000 = +200000", "Menerima hadiah Rp 50.000 = +50000", "Total perubahan uang (Gaji - Listrik + Hadiah) = 350000"], ans: ["B", "S", "B", "B"], exp: "1. B. 2. S, membayar berarti dikurangi (-200000). 3. B. 4. B, 500k - 200k + 50k = 350k.", exp_trans: "1. True. 2. False, paying is negative. 3. True. 4. True." },
+			"i-task9": { type: "single", q: "Seorang atlet lompat galah melompat setinggi 5 meter dari titik awal. Kemudian ia jatuh ke kasur yang berada 2 meter di bawah titik awal lompatannya. Berapakah jarak vertikal yang ditempuh atlet saat jatuh dari puncak? <i class='fas fa-running text-green-500 ml-2'></i>", q_trans: "A pole vaulter jumps 5m high from the start point. Then falls onto a mat 2m below the start point. What is the vertical distance traveled during the fall from the peak?", opts: ["\\( 3 \\) m", "\\( 7 \\) m", "\\( 5 \\) m", "\\( 2 \\) m", "\\( 10 \\) m"], ans: "\\( 7 \\) m", exp: "Jarak vertikal dari puncak (5m di atas) ke kasur (2m di bawah) adalah 5 + 2 = 7 meter.", exp_trans: "Vertical distance from peak (5m above) to mat (2m below) is 5 + 2 = 7m." },
+            "i-task10": { type: "complex", q: "Manakah situasi yang menghasilkan nilai NEGATIF? <i class='fas fa-minus-circle text-green-500 ml-2'></i>", q_trans: "Which situations result in a NEGATIVE value?", opts: ["Hutang Rp 10.000 dan dibayar Rp 5.000", "Suhu naik 2 derajat dari -5 derajat", "Kapal selam di kedalaman 50m naik 60m", "Mendapat nilai -3 kemudian dikalikan dengan -2"], ans: [0, 1], exp: "1. -10+5 = -5 (Negatif). 2. -5+2 = -3 (Negatif). 3. -50+60 = +10 (Positif). 4. -3 x -2 = +6 (Positif). Jawaban 1 dan 2.", exp_trans: "1 and 2 result in negative values." },
+
+            // REVIEW OF PRIOR KNOWLEDGE TASKS (Penjumlahan, Pengurangan, Pola)
+            "r-task1": { type: "single", q: "Hasil dari \\( -15 + 20 \\) adalah... <i class='fas fa-plus text-purple-500 ml-2'></i>", q_trans: "The result of \\( -15 + 20 \\) is...", opts: ["\\( -35 \\)", "\\( 35 \\)", "\\( -5 \\)", "\\( 5 \\)", "\\( 0 \\)"], ans: "\\( 5 \\)", exp: "Tanda berbeda: kurangi 20-15=5. Ikut tanda yang lebih besar (20 positif). Hasilnya 5.", exp_trans: "Different signs: subtract 20-15=5. Keep the larger sign (positive 20). Result is 5." },
+            "r-task2": { type: "fill", q: "Hitung hasil dari \\( -8 - (-4) \\). <i class='fas fa-minus text-purple-500 ml-2'></i>", q_trans: "Calculate the result of \\( -8 - (-4) \\).", ans: "-4", exp: "Minus dikali minus jadi plus. \\( -8 - (-4) \\) menjadi \\( -8 + 4 \\). Karena tandanya beda, 8-4=4. Tanda ikut yang besar (-8). Hasilnya -4.", exp_trans: "Minus times minus is plus. Becomes \\( -8 + 4 \\). Different signs, 8-4=4. Keep larger sign (-). Result -4." },
+            "r-task3": { type: "tf_table", q: "Tentukan Benar atau Salah untuk penyelesaian soal berikut! <i class='fas fa-clipboard-check text-purple-500 ml-2'></i>", q_trans: "Determine True or False for the following solutions!", opts: ["\\( 7 + (-10) = -3 \\)", "\\( -5 - 5 = 0 \\)", "\\( -12 + 8 = -4 \\)", "\\( 0 - 15 = 15 \\)"], ans: ["B", "S", "B", "S"], exp: "1. B, 7-10=-3. 2. S, -5-5=-10. 3. B, -12+8=-4. 4. S, 0-15=-15.", exp_trans: "1. True. 2. False, -10. 3. True. 4. False, -15." },
+            "r-task4": { type: "single", q: "Manakah yang ekuivalen dengan \\( 15 - 20 \\)? <i class='fas fa-exchange-alt text-purple-500 ml-2'></i>", q_trans: "Which is equivalent to \\( 15 - 20 \\)?", opts: ["\\( 15 + 20 \\)", "\\( 15 + (-20) \\)", "\\( -15 + 20 \\)", "\\( -15 + (-20) \\)", "\\( 20 - 15 \\)"], ans: "\\( 15 + (-20) \\)", exp: "Pengurangan adalah penjumlahan dengan lawan tandanya. \\( 15 - 20 \\) sama dengan \\( 15 + (-20) \\).", exp_trans: "Subtraction is addition of the opposite sign. \\( 15 - 20 = 15 + (-20) \\)." },
+            "r-task5": { type: "complex", q: "Pernyataan mana yang BENAR tentang \\( -7 - (-2) \\)? <i class='fas fa-list-ul text-purple-500 ml-2'></i>", q_trans: "Which statements are TRUE about \\( -7 - (-2) \\)?", opts: ["Sama dengan \\( -7 + 2 \\)", "Hasilnya adalah -5", "Merupakan operasi penjumlahan dua bilangan negatif", "Hasilnya adalah -9"], ans: [0, 1], exp: "1. B, karena minus kali minus jadi plus. 2. B, -7+2=-5. 3. S, ini menjadi -7 dan +2. 4. S. Jawaban benar 1 dan 2.", exp_trans: "1. True. 2. True, result is -5. 3. False. 4. False." },
+            "r-task6": { type: "fill", q: "Selesaikan operasi: \\( 25 - 30 + 5 \\). <i class='fas fa-stream text-purple-500 ml-2'></i>", q_trans: "Solve the operation: \\( 25 - 30 + 5 \\).", ans: "0", exp: "Kerjakan dari kiri ke kanan. 25 - 30 = -5. Lalu -5 + 5 = 0.", exp_trans: "Work left to right. 25 - 30 = -5. Then -5 + 5 = 0." },
+            "r-task7": { type: "single", q: "Pola bilangan: 2, -1, -4, -7, ... Bilangan berikutnya adalah... <i class='fas fa-sort-numeric-down text-purple-500 ml-2'></i>", q_trans: "Number pattern: 2, -1, -4, -7, ... The next number is...", opts: ["\\( -10 \\)", "\\( -8 \\)", "\\( -9 \\)", "\\( 10 \\)", "\\( -11 \\)"], ans: "\\( -10 \\)", exp: "Selisih setiap bilangan adalah -3 (turun 3). -7 - 3 = -10.", exp_trans: "Difference is -3 (drops by 3). -7 - 3 = -10." },
+            "r-task8": { type: "tf_table", q: "Analisis pola bilangan: -5, -3, -1, 1... <i class='fas fa-chart-line text-purple-500 ml-2'></i>", q_trans: "Analyze the number pattern: -5, -3, -1, 1...", opts: ["Pola ini naik (bertambah)", "Beda polanya adalah +2", "Bilangan ke-5 adalah 3", "Pola ini terdiri dari bilangan genap"], ans: ["B", "B", "B", "S"], exp: "1. B, dari -5 ke 1 naik. 2. B, -5+2=-3. 3. B, setelah 1 adalah 1+2=3. 4. S, -5 dan -3 ganjil.", exp_trans: "1. True. 2. True. 3. True. 4. False." },
+            "r-task9": { type: "single", q: "Diketahui suhu daging beku di freezer adalah \\( -18^\\circ C \\). Saat dikeluarkan, suhunya naik \\( 15^\\circ C \\). Berapakah suhu daging sekarang? <i class='fas fa-drumstick-bite text-purple-500 ml-2'></i>", q_trans: "Frozen meat temp is \\( -18^\\circ C \\). Taken out, temp rises \\( 15^\\circ C \\). What is the meat's temp now?", opts: ["\\( -33^\\circ C \\)", "\\( 33^\\circ C \\)", "\\( 3^\\circ C \\)", "\\( -3^\\circ C \\)", "\\( 15^\\circ C \\)"], ans: "\\( -3^\\circ C \\)", exp: "Naik = ditambah. \\( -18 + 15 = -3 \\). (Kurangi 18-15=3, ikut tanda besar yaitu negatif).", exp_trans: "Rise = add. \\( -18 + 15 = -3 \\)." },
+            "r-task10": { type: "complex", q: "Manakah bentuk matematika yang menghasilkan nilai 0? <i class='fas fa-equals text-purple-500 ml-2'></i>", q_trans: "Which mathematical expressions result in 0?", opts: ["\\( 5 + (-5) \\)", "\\( |-10| - 10 \\)", "\\( -4 + 4 - 4 \\)", "\\( 0 + (-3) \\)"], ans: [0, 1], exp: "1. B, lawan jumlahnya nol. 2. B, 10-10=0. 3. S, -4+4=0, 0-4=-4. 4. S, -3. Jawaban 1 dan 2.", exp_trans: "1. True. 2. True. 3. False, result -4. 4. False, result -3." },
+
+            // PROBLEM INTRODUCTION TASKS (Soal Cerita Kompleks)
+            "p-task1": { type: "single", q: "Seorang pelari berlari mundur 5 meter dari titik start, lalu maju 12 meter, kemudian mundur lagi 8 meter. Pada posisi manakah pelari itu sekarang? <i class='fas fa-running text-orange-500 ml-2'></i>", q_trans: "A runner runs backward 5m from start, then forward 12m, then backward 8m. Where is the runner now?", opts: ["\\( 1 \\) m di depan start", "\\( -1 \\) m di belakang start", "\\( 25 \\) m di depan start", "\\( -5 \\) m di belakang start", "\\( 0 \\) m (di start)"], ans: "\\( -1 \\) m di belakang start", exp: "Mundur = negatif, Maju = positif. \\( -5 + 12 - 8 = 7 - 8 = -1 \\). Pelari ada 1 meter di belakang start.", exp_trans: "Backward = negative, Forward = positive. \\( -5 + 12 - 8 = -1 \\). Runner is 1m behind start." },
+            "p-task2": { type: "fill", q: "Ibu membeli jeruk seharga Rp 35.000. Ibu membayar dengan uang Rp 50.000. Namun, ibu juga membeli plastik seharga Rp 2.000. Berapa uang kembalian yang diterima ibu? <i class='fas fa-shopping-basket text-orange-500 ml-2'></i>", q_trans: "Mother buys oranges for Rp 35k. Mother pays with Rp 50k. But mother also buys a plastic bag for Rp 2k. How much change does she receive?", ans: "13000", exp: "Total pengeluarangan = 35000 + 2000 = 37000. Kembalian = 50000 - 37000 = 13000.", exp_trans: "Total expenses = 35k + 2k = 37k. Change = 50k - 37k = 13k." },
+            "p-task3": { type: "tf_table", q: "Seekor kapal selam dari kedalaman 80 meter di bawah permukaan laut melakukan aksi berikut. Evaluasi! <i class='fas fa-anchor text-orange-500 ml-2'></i>", q_trans: "A submarine from 80m depth does the following. Evaluate!", opts: ["Naik 30m: posisi menjadi -50m", "Turun 20m: posisi menjadi -70m", "Naik 80m: posisi menjadi 0m (permukaan)", "Naik 100m: posisi menjadi +20m (di atas laut)"], ans: ["B", "S", "B", "B"], exp: "Awal -80m. 1. B, -80+30=-50. 2. S, -80-20=-100. 3. B, -80+80=0. 4. B, -80+100=+20.", exp_trans: "Start -80m. 1. True. 2. False, -100m. 3. True. 4. True." },
+            "p-task4": { type: "single", q: "Saldo e-wallet Dodi adalah Rp 25.000. Dodi membeli kopi seharga Rp 18.000. Keesokan harinya, Dodi menerima transfer Rp 50.000. Berapa saldo akhir Dodi? <i class='fas fa-mobile-alt text-orange-500 ml-2'></i>", q_trans: "Dodi's e-wallet balance is Rp 25k. Dodi buys coffee for Rp 18k. Next day, Dodi receives Rp 50k. What is Dodi's final balance?", opts: ["\\( Rp 57.000 \\)", "\\( Rp 43.000 \\)", "\\( Rp 7.000 \\)", "\\( Rp 93.000 \\)", "\\( Rp 50.000 \\)"], ans: "\\( Rp 57.000 \\)", exp: "Saldo awal 25k. Beli kopi -18k -> sisa 7k. Terima transfer +50k. Total = 7 + 50 = 57.000.", exp_trans: "Start 25k. Buy coffee -18k -> left 7k. Receive transfer +50k. Total = 57k." },
+            "p-task5": { type: "complex", q: "Diketahui riwayat transaksi Budi: Dapat gaji (+500k), Bayar kos (-300k), Beli sepatu (-250k), Terima bonus (+100k). Manakah pernyataan yang BENAR? <i class='fas fa-file-invoice-dollar text-orange-500 ml-2'></i>", q_trans: "Transaction history: Salary (+500k), Rent (-300k), Shoes (-250k), Bonus (+100k). Which is TRUE?", opts: ["Total pemasukan adalah 600k", "Total pengeluaran adalah 550k", "Uang Budi akhirnya berkurang 50k", "Uang Budi akhirnya bertambah 50k"], ans: [0, 1, 3], exp: "1. B, 500+100=600. 2. B, 300+250=550. 3. S, 600-550=+50 (bertambah). 4. B, bertambah 50k.", exp_trans: "1. True. 2. True. 3. False, increases. 4. True." },
+            "p-task6": { type: "fill", q: "Sebuah lift berada di lantai 7. Lift turun 3 lantai, lalu turun lagi 5 lantai. Di lantai berapakah lift itu sekarang? <i class='fas fa-elevator text-orange-500 ml-2'></i>", q_trans: "An elevator is on floor 7. Goes down 3 floors, then down 5 floors. What floor is it on?", ans: "-1", exp: "7 - 3 - 5 = 4 - 5 = -1. Jadi lift berada di lantai -1 (basement).", exp_trans: "7 - 3 - 5 = -1. Elevator is on floor -1 (basement)." },
+            "p-task7": { type: "single", q: "Pemain A memiliki skor -15. Pemain B memiliki skor 12. Berapakah selisih skor antara Pemain A dan Pemain B? <i class='fas fa-trophy text-orange-500 ml-2'></i>", q_trans: "Player A has score -15. Player B has score 12. What is the score difference?", opts: ["\\( 3 \\)", "\\( 27 \\)", "\\( -27 \\)", "\\( -3 \\)", "\\( 15 \\)"], ans: "\\( 27 \\)", exp: "Selisih = Pemain B - Pemain A = 12 - (-15) = 12 + 15 = 27.", exp_trans: "Difference = Player B - Player A = 12 - (-15) = 27." },
+            "p-task8": { type: "tf_table", q: "Suhu ruangan freezer awalnya \\( -20^\\circ C \\). Listrik mati sehingga suhu naik \\( 5^\\circ C \\). Lalu listrik menyala dan suhu turun \\( 10^\\circ C \\). <i class='fas fa-snowflake text-orange-500 ml-2'></i>", q_trans: "Freezer temp was \\( -20^\\circ C \\). Power out, temp rises \\( 5^\\circ C \\). Power on, temp drops \\( 10^\\circ C \\).", opts: ["Suhu saat listrik mati adalah \\( -15^\\circ C \\)", "Suhu akhir setelah dingin lagi adalah \\( -25^\\circ C \\)", "Pada akhir peristiwa, suhu freezer menjadi lebih rendah dari suhu awal", "Total perubahan suhu dari awal hingga akhir adalah turun \\( 5^\\circ C \\)"], ans: ["B", "B", "B", "B"], exp: "1. B, -20+5=-15. 2. B, -15-10=-25. 3. B, -25 lebih rendah dari -20. 4. B, dari -20 ke -25 berarti turun 5 derajat. Semua benar.", exp_trans: "All statements are true." },
+            "p-task9": { type: "single", q: "Seekor siput berada di dasar sumur sedalam 10 meter. Setiap hari siput naik 3 meter, tapi setiap malam turun 2 meter. Pada hari ke berapa siput akan keluar dari sumur? <i class='fas fa-spa text-orange-500 ml-2'></i>", q_trans: "A snail is at the bottom of a 10m well. Each day it climbs 3m, each night slips 2m. On what day does it escape?", opts: ["Hari ke-7", "Hari ke-8", "Hari ke-9", "Hari ke-10", "Hari ke-11"], ans: "Hari ke-8", exp: "Naik bersih 1 meter per hari. Saat hari ke-7, posisinya di 7m. Hari ke-8 siang, dia naik 3m menjadi 10m, dan keluar! (Jadi tidak turun lagi malamnya).", exp_trans: "Net climb 1m per day. Day 7 it's at 7m. Day 8 daytime it climbs 3m to 10m and escapes." },
+            "p-task10": { type: "complex", q: "Sebuah drone terbang dari ketinggian 0 meter. Naik 50m, turun 20m, naik 100m, lalu turun 30m. Manakah pernyataan yang BENAR? <i class='fas fa-helicopter text-orange-500 ml-2'></i>", q_trans: "A drone flies from 0m. Up 50m, down 20m, up 100m, down 30m. Which is TRUE?", opts: ["Total ketinggian naik adalah 150m", "Total ketinggian turun adalah 50m", "Posisi akhir drone adalah 100m", "Drone tidak pernah menyentuh ketinggian negatif"], ans: [0, 1, 2, 3], exp: "1. B, 50+100=150. 2. B, 20+30=50. 3. B, 150-50=100. 4. B, semuanya positif. Semua benar.", exp_trans: "All statements are true." }
+        });
+		
+        // ====== MATH QUESTIONS DATA (PART 2: GUIDED, INDEPENDENT) ======
+        Object.assign(questions, {
+            // GUIDED PRACTICE TASKS (Perkalian & Pembagian)
+            "g-task1": { type: "single", q: "Hasil dari \\( -4 \\times 3 \\) adalah... <i class='fas fa-times-circle text-blue-500 ml-2'></i>", q_trans: "The result of \\( -4 \\times 3 \\) is...", opts: ["\\( 12 \\)", "\\( -12 \\)", "\\( 7 \\)", "\\( -7 \\)", "\\( 1 \\)"], ans: "\\( -12 \\)", exp: "Tanda berbeda (negatif x positif) menghasilkan negatif. Kalikan angkanya: 4 x 3 = 12. Hasilnya -12.", exp_trans: "Different signs yield negative. Multiply numbers: 4 x 3 = 12. Result is -12." },
+            "g-task2": { type: "fill", q: "Hitung hasil dari \\( (-5) \\times (-6) \\). <i class='fas fa-calculator text-blue-500 ml-2'></i>", q_trans: "Calculate the result of \\( (-5) \\times (-6) \\).", ans: "30", exp: "Tanda sama (negatif x negatif) menghasilkan positif. Kalikan angkanya: 5 x 6 = 30.", exp_trans: "Same signs yield positive. Multiply numbers: 5 x 6 = 30." },
+            "g-task3": { type: "tf_table", q: "Tentukan Benar atau Salah untuk aturan perkalian bilangan bulat berikut! <i class='fas fa-list-ol text-blue-500 ml-2'></i>", q_trans: "Determine True or False for the following integer multiplication rules!", opts: ["Positif x Positif = Positif", "Negatif x Negatif = Negatif", "Positif x Negatif = Negatif", "Setiap bilangan dikalikan 0 hasilnya 0"], ans: ["B", "S", "B", "B"], exp: "1. Benar. 2. Salah, negatif x negatif = positif. 3. Benar. 4. Benar, nol netral.", exp_trans: "1. True. 2. False, result is positive. 3. True. 4. True." },
+            "g-task4": { type: "single", q: "Sebuah kapal selam turun 5 meter per menit. Berapa kedalaman kapal selam setelah 8 menit? <i class='fas fa-anchor text-blue-500 ml-2'></i>", q_trans: "A submarine descends 5m per minute. What is the submarine's depth after 8 minutes?", opts: ["\\( 40 \\) m di bawah", "\\( 13 \\) m di bawah", "\\( -40 \\) m di bawah", "\\( -13 \\) m di bawah", "\\( 3 \\) m di bawah"], ans: "\\( -40 \\) m di bawah", exp: "Turun 5 meter = -5. Selama 8 menit = 8 kali. \\( (-5) \\times 8 = -40 \\). Jadi 40 m di bawah permukaan.", exp_trans: "Descend 5m = -5. For 8 mins = 8 times. \\( (-5) \\times 8 = -40 \\). So 40m below surface." },
+            "g-task5": { type: "complex", q: "Manakah perhitungan yang menghasilkan bilangan POSITIF? <i class='fas fa-plus-circle text-blue-500 ml-2'></i>", q_trans: "Which calculations result in a POSITIVE number?", opts: ["\\( -10 \\times -2 \\)", "\\( 4 \\times -5 \\)", "\\( -3 \\times -3 \\times -3 \\)", "\\( -2 \\times -2 \\times 2 \\)"], ans: [0, 3], exp: "1. Benar, 2 tanda negatif (genap) menghasilkan positif (20). 2. Salah, beda tanda menghasilkan negatif (-20). 3. Salah, 3 tanda negatif (ganjil) menghasilkan negatif (-27). 4. Benar, 2 tanda negatif (genap) menghasilkan positif (8). Jawaban 1 dan 4.", exp_trans: "1. True, even negatives. 2. False, different signs. 3. False, odd negatives. 4. True, even negatives." },
+            "g-task6": { type: "fill", q: "Sebuah utang Rp 50.000 dibagi rata kepada 5 orang. Berapa bagian utang masing-masing orang? (Tulis tanpa tanda minus dan angka saja, misal: 10000) <i class='fas fa-money-bill-wave text-blue-500 ml-2'></i>", q_trans: "A Rp 50k debt is shared equally among 5 people. What is each person's share? (Write number only, no minus)", ans: "10000", exp: "Utang = -50000. Dibagi 5: \\( -50000 / 5 = -10000 \\). Masing-masing berutang Rp 10.000.", exp_trans: "Debt = -50000. Divided by 5: \\( -50000 / 5 = -10000 \\). Each owes Rp 10k." },
+            "g-task7": { type: "single", q: "Hasil dari \\( (-24) : (-4) \\) adalah... <i class='fas fa-divide text-blue-500 ml-2'></i>", q_trans: "The result of \\( (-24) : (-4) \\) is...", opts: ["\\( -6 \\)", "\\( 6 \\)", "\\( 20 \\)", "\\( -20 \\)", "\\( 28 \\)"], ans: "\\( 6 \\)", exp: "Pembagian dengan tanda sama (negatif : negatif) menghasilkan positif. 24 : 4 = 6.", exp_trans: "Division with same signs yields positive. 24 : 4 = 6." },
+            "g-task8": { type: "tf_table", q: "Evaluasi pernyataan pembagian bilangan bulat berikut! <i class='fas fa-clipboard-check text-blue-500 ml-2'></i>", q_trans: "Evaluate the following integer division statements!", opts: ["\\( -30 : 6 = -5 \\)", "\\( 18 : -3 = 6 \\)", "\\( -100 : -10 = 10 \\)", "\\( 0 : -5 = -5 \\)"], ans: ["B", "S", "B", "S"], exp: "1. B, beda tanda -> negatif. 2. S, 18:-3 = -6. 3. B, sama-sama negatif -> positif 10. 4. S, 0 dibagi apa pun hasilnya 0.", exp_trans: "1. True. 2. False, result -6. 3. True. 4. False, result 0." },
+            "g-task9": { type: "single", q: "Sebuah lift turun dari lantai 5 ke lantai -3. Jika setiap lantai tingginya 3 meter, berapa total jarak perpindahan lift tersebut? <i class='fas fa-elevator text-blue-500 ml-2'></i>", q_trans: "An elevator goes from floor 5 to floor -3. If each floor is 3m high, what is the total distance traveled?", opts: ["\\( 24 \\) m", "\\( 8 \\) m", "\\( 15 \\) m", "\\( -24 \\) m", "\\( 11 \\) m"], ans: "\\( 24 \\) m", exp: "Jarak lantai 5 ke -3 adalah 8 lantai (5 turun ke 0, lalu 0 turun ke -3). 8 lantai x 3 meter = 24 meter.", exp_trans: "Distance from 5 to -3 is 8 floors. 8 floors x 3m = 24m." },
+            "g-task10": { type: "complex", q: "Manakah perhitungan yang menghasilkan nilai antara -10 dan 10 (tidak termasuk -10 dan 10)? <i class='fas fa-sort text-blue-500 ml-2'></i>", q_trans: "Which calculations yield a value between -10 and 10 (excluding -10 and 10)?", opts: ["\\( -4 \\times 2 \\)", "\\( 15 : -3 \\)", "\\( -8 + 12 \\)", "\\( -5 \\times -2 \\)"], ans: [0, 1, 2], exp: "1. -8 (di antara). 2. -5 (di antara). 3. 4 (di antara). 4. 10 (sama dengan batas, dikecualikan). Jawaban 1, 2, dan 3 benar.", exp_trans: "1, 2, 3 are correct." },
+
+            // INDEPENDENT PRACTICE TASKS (Operasi Campuran & Pemangkatan)
+            "ind-task1": { type: "single", q: "Hasil dari \\( 5 - 3 + 2 - 4 \\) adalah... <i class='fas fa-stream text-green-500 ml-2'></i>", q_trans: "The result of \\( 5 - 3 + 2 - 4 \\) is...", opts: ["\\( 0 \\)", "\\( 4 \\)", "\\( 6 \\)", "\\( -4 \\)", "\\( 10 \\)"], ans: "\\( 0 \\)", exp: "Kerjakan dari kiri ke kanan: 5 - 3 = 2. Lalu 2 + 2 = 4. Lalu 4 - 4 = 0.", exp_trans: "Work left to right: 5 - 3 = 2. Then 2 + 2 = 4. Then 4 - 4 = 0." },
+            "ind-task2": { type: "fill", q: "Hitung nilai dari \\( (-2)^3 \\). <i class='fas fa-superscript text-green-500 ml-2'></i>", q_trans: "Calculate the value of \\( (-2)^3 \\).", ans: "-8", exp: "Pangkat 3 berarti dikalikan 3 kali. \\( (-2) \\times (-2) \\times (-2) \\). Dua negatif jadi positif (4), dikali negatif jadi -8.", exp_trans: "Power of 3 means multiplied 3 times. Two negatives make positive (4), times negative makes -8." },
+            "ind-task3": { type: "tf_table", q: "Evaluasi pemangkatan bilangan bulat berikut! <i class='fas fa-list-ul text-green-500 ml-2'></i>", q_trans: "Evaluate the following integer exponentiations!", opts: ["\\( (-3)^2 = 9 \\)", "\\( -3^2 = 9 \\)", "\\( (-1)^5 = -1 \\)", "\\( (-10)^3 = -1000 \\)"], ans: ["B", "S", "B", "B"], exp: "1. B, (-3)x(-3)=9. 2. S, -3^2 artinya -(3x3) = -9. 3. B, pangkat ganjil tetap negatif. 4. B, -10x-10x-10 = -1000.", exp_trans: "1. True. 2. False, it's -9. 3. True. 4. True." },
+            "ind-task4": { type: "single", q: "Sebuah termometer menunjukkan suhu \\( -5^\\circ C \\). Suhu turun \\( 3^\\circ C \\), lalu naik \\( 8^\\circ C \\). Berapakah suhu akhirnya? <i class='fas fa-thermometer-half text-green-500 ml-2'></i>", q_trans: "Thermometer shows \\( -5^\\circ C \\). Temp drops \\( 3^\\circ C \\), then rises \\( 8^\\circ C \\). What is the final temp?", opts: ["\\( -16^\\circ C \\)", "\\( 0^\\circ C \\)", "\\( 6^\\circ C \\)", "\\( -6^\\circ C \\)", "\\( 16^\\circ C \\)"], ans: "\\( 0^\\circ C \\)", exp: "Awal -5. Turun 3 = -5 - 3 = -8. Naik 8 = -8 + 8 = 0. Suhu akhir 0 derajat C.", exp_trans: "Start -5. Drop 3 = -8. Rise 8 = -8 + 8 = 0." },
+            "ind-task5": { type: "complex", q: "Manakah perhitungan di bawah ini yang bernilai -10? <i class='fas fa-equals text-green-500 ml-2'></i>", q_trans: "Which calculations below equal -10?", opts: ["\\( (-2) \\times 5 \\)", "\\( 20 : (-2) \\)", "\\( -4 + (-6) \\)", "\\( (-3)^2 + 1 \\)"], ans: [0, 1, 2], exp: "1. B, beda tanda = -10. 2. B, beda tanda = -10. 3. B, sama-sama negatif = -10. 4. S, 9 + 1 = 10. Jawaban 1, 2, 3.", exp_trans: "1. True. 2. True. 3. True. 4. False, equals 10." },
+            "ind-task6": { type: "fill", q: "Selesaikan operasi campuran berikut: \\( (-4) \\times 2 - 6 \\). <i class='fas fa-calculator text-green-500 ml-2'></i>", q_trans: "Solve the mixed operation: \\( (-4) \\times 2 - 6 \\).", ans: "-14", exp: "Kerjakan perkalian dulu: (-4) x 2 = -8. Lalu kurangi 6: -8 - 6 = -14.", exp_trans: "Multiply first: (-4) x 2 = -8. Then subtract 6: -8 - 6 = -14." },
+            "ind-task7": { type: "single", q: "Hasil dari \\( (-5)^2 + (-3) \\) adalah... <i class='fas fa-plus text-green-500 ml-2'></i>", q_trans: "The result of \\( (-5)^2 + (-3) \\) is...", opts: ["\\( 28 \\)", "\\( 22 \\)", "\\( -28 \\)", "\\( -13 \\)", "\\( 13 \\)"], ans: "\\( 22 \\)", exp: "Pangkat didahulukan: (-5)^2 = 25. Lalu jumlahkan: 25 + (-3) = 25 - 3 = 22.", exp_trans: "Exponent first: (-5)^2 = 25. Then add: 25 + (-3) = 22." },
+            "ind-task8": { type: "tf_table", q: "Urutan operasi (PEMDAS) pada bilangan bulat. Tentukan Benar/Salah! <i class='fas fa-sort-amount-down text-green-500 ml-2'></i>", q_trans: "Order of operations (PEMDAS) in integers. Determine True/False!", opts: ["Perkalian didahulukan sebelum penjumlahan", "Pengurangan didahulukan sebelum pembagian", "Operasi di dalam kurung dikerjakan paling akhir", "Pemangkatan didahulukan sebelum perkalian"], ans: ["B", "S", "S", "B"], exp: "1. B, Kali/Bagi sebelum Tambah/Kurang. 2. S, Bagi sebelum Kurang. 3. S, Kurung paling awal. 4. B, Pangkat sebelum Kali.", exp_trans: "1. True. 2. False. 3. False. 4. True." },
+            "ind-task9": { type: "single", q: "Andi memiliki 3 buah utang masing-masing Rp 5.000. Jika Andi membayar semua utangnya dengan uang Rp 20.000, berapa sisa uang Andi? <i class='fas fa-wallet text-green-500 ml-2'></i>", q_trans: "Andi has 3 debts of Rp 5k each. If Andi pays all debts with Rp 20k, how much money is left?", opts: ["\\( Rp 5.000 \\)", "\\( Rp 15.000 \\)", "\\( -Rp 5.000 \\)", "\\( Rp 35.000 \\)", "\\( Rp 0 \\)"], ans: "\\( Rp 5.000 \\)", exp: "Total utang = 3 x 5000 = 15000. Membayar berarti dikurangi. 20000 - 15000 = 5000. Sisa uang Andi 5000.", exp_trans: "Total debt = 3 x 5000 = 15000. Paying means subtract. 20000 - 15000 = 5000. Leftover is 5000." },
+            "ind-task10": { type: "complex", q: "Manakah bentuk matematika yang menunjukkan posisi 4 meter di bawah permukaan laut? <i class='fas fa-water text-green-500 ml-2'></i>", q_trans: "Which mathematical expressions represent a position 4m below sea level?", opts: ["\\( -4 \\)", "\\( 0 - 4 \\)", "\\( -8 + 4 \\)", "\\( (-2)^2 \\)"], ans: [0, 1, 2], exp: "1. B, -4 langsung. 2. B, 0-4=-4. 3. B, -8+4=-4. 4. S, (-2)^2 = 4. Jawaban 1, 2, 3 benar.", exp_trans: "1. True. 2. True. 3. True. 4. False, equals 4." }
+        });
+		
+        // ====== MATH QUESTIONS DATA (PART 3: TASKS 1-5) ======
+        Object.assign(questions, {
+            // TASK 1: PENJUMLAHAN & PENGURANGAN DASAR
+            "t1-task1": { type: "single", q: "Hasil dari \\( 14 + (-9) \\) adalah... <i class='fas fa-plus-circle text-orange-500 ml-2'></i>", q_trans: "The result of \\( 14 + (-9) \\) is...", opts: ["\\( 5 \\)", "\\( -5 \\)", "\\( 23 \\)", "\\( -23 \\)", "\\( 4 \\)"], ans: "\\( 5 \\)", exp: "Tanda berbeda: kurangi 14-9=5. Ikut tanda yang lebih besar (positif). Hasilnya 5.", exp_trans: "Different signs: subtract 14-9=5. Keep larger sign (positive). Result is 5." },
+            "t1-task2": { type: "single", q: "Hasil dari \\( -7 - 8 \\) adalah... <i class='fas fa-minus-circle text-orange-500 ml-2'></i>", q_trans: "The result of \\( -7 - 8 \\) is...", opts: ["\\( -1 \\)", "\\( 1 \\)", "\\( -15 \\)", "\\( 15 \\)", "\\( 0 \\)"], ans: "\\( -15 \\)", exp: "Sama-sama negatif: jumlahkan angkanya 7+8=15, tanda tetap negatif. Hasilnya -15.", exp_trans: "Both negative: add numbers 7+8=15, keep negative sign. Result is -15." },
+            "t1-task3": { type: "fill", q: "Hitunglah \\( 20 - 25 + 5 \\). <i class='fas fa-equals text-orange-500 ml-2'></i>", q_trans: "Calculate \\( 20 - 25 + 5 \\).", ans: "0", exp: "Kerjakan dari kiri ke kanan: 20 - 25 = -5. Lalu -5 + 5 = 0.", exp_trans: "Work left to right: 20 - 25 = -5. Then -5 + 5 = 0." },
+            "t1-task4": { type: "complex", q: "Manakah perhitungan yang menghasilkan bilangan bulat negatif? <i class='fas fa-sort-down text-orange-500 ml-2'></i>", q_trans: "Which calculations yield a negative integer?", opts: ["\\( 8 + (-3) \\)", "\\( -5 - (-2) \\)", "\\( 10 - 15 \\)", "\\( |-4| - 2 \\)"], ans: [1, 2], exp: "1. Hasilnya 5 (Positif). 2. -5 + 2 = -3 (Negatif). 3. 10 - 15 = -5 (Negatif). 4. 4 - 2 = 2 (Positif). Jawaban benar 2 dan 3.", exp_trans: "1. Result 5 (Pos). 2. Result -3 (Neg). 3. Result -5 (Neg). 4. Result 2 (Pos)." },
+            "t1-task5": { type: "tf_table", q: "Evaluasi operasi penjumlahan dan pengurangan berikut! <i class='fas fa-clipboard-check text-orange-500 ml-2'></i>", q_trans: "Evaluate the following addition and subtraction operations!", opts: ["\\( -2 + 9 = 7 \\)", "\\( 5 - 11 = -6 \\)", "\\( -4 - (-4) = -8 \\)", "\\( 0 + (-8) = -8 \\)"], ans: ["B", "B", "S", "B"], exp: "1. B, 9-2=7. 2. B, 5-11=-6. 3. S, -4+4=0. 4. B, 0-8=-8.", exp_trans: "1. True. 2. True. 3. False, equals 0. 4. True." },
+            "t1-task6": { type: "single", q: "Suhu sebuah kota pagi hari \\( 3^\\circ C \\). Siang hari suhu naik \\( 7^\\circ C \\), lalu malam hari turun \\( 12^\\circ C \\). Berapakah suhu malam harinya? <i class='fas fa-temperature-high text-orange-500 ml-2'></i>", q_trans: "Morning temp is \\( 3^\\circ C \\). Day temp rises \\( 7^\\circ C \\), night temp drops \\( 12^\\circ C \\). What is the night temp?", opts: ["\\( -2^\\circ C \\)", "\\( 22^\\circ C \\)", "\\( 8^\\circ C \\)", "\\( -8^\\circ C \\)", "\\( 2^\\circ C \\)"], ans: "\\( -2^\\circ C \\)", exp: "Posisi awal 3. Naik 7 = 3 + 7 = 10. Turun 12 = 10 - 12 = -2. Suhu malam harinya -2 derajat C.", exp_trans: "Start 3. Rise 7 = 10. Drop 12 = -2. Night temp is -2 C." },
+            "t1-task7": { type: "single", q: "Rina memiliki uang Rp 25.000. Dia membeli buku Rp 12.000 dan pulpen Rp 5.000. Berapa sisa uang Rina? <i class='fas fa-wallet text-orange-500 ml-2'></i>", q_trans: "Rina has Rp 25k. She buys a book for Rp 12k and a pen for Rp 5k. How much money is left?", opts: ["\\( Rp 8.000 \\)", "\\( Rp 18.000 \\)", "\\( Rp 13.000 \\)", "\\( Rp 42.000 \\)", "\\( Rp 17.000 \\)"], ans: "\\( Rp 8.000 \\)", exp: "Uang berkurang karena belanja: 25000 - 12000 - 5000 = 8000. Sisa uang Rina Rp 8.000.", exp_trans: "Money decreases: 25000 - 12000 - 5000 = 8000. Remaining is Rp 8k." },
+            "t1-task8": { type: "complex", q: "Manakah pernyataan yang BENAR mengenai operasi \\( -10 - (-4) \\)? <i class='fas fa-list-ul text-orange-500 ml-2'></i>", q_trans: "Which statements are TRUE about the operation \\( -10 - (-4) \\)?", opts: ["Sama dengan \\( -10 + 4 \\)", "Hasilnya adalah -14", "Hasilnya adalah -6", "Merupakan pengurangan dua bilangan positif"], ans: [0, 2], exp: "1. B, minus dikali minus jadi plus. 2. S, -10+4 = -6 bukan -14. 3. B, hasilnya -6. 4. S, ini bilangan negatif. Jawaban 1 dan 3.", exp_trans: "1. True. 2. False. 3. True. 4. False." },
+            "t1-task9": { type: "fill", q: "Pada permainan panah, Dodi mendapat skor -15. Kemudian dia mendapat skor lagi -20. Berapakah total skor Dodi? <i class='fas fa-bullseye text-orange-500 ml-2'></i>", q_trans: "In archery, Dodi scores -15. Then he scores -20 again. What is Dodi's total score?", ans: "-35", exp: "Keduanya negatif (pengurangan poin). Jumlahkan angkanya: 15 + 20 = 35. Tanda tetap negatif. Hasilnya -35.", exp_trans: "Both negative. Add numbers: 15 + 20 = 35. Keep negative sign. Result is -35." },
+            "t1-task10": { type: "tf_table", q: "Tentukan Benar atau Salah untuk posisi bilangan berikut! <i class='fas fa-map-signs text-orange-500 ml-2'></i>", q_trans: "Determine True or False for the following number positions!", opts: ["\\( -3 \\) berada di sebelah kiri 0", "\\( 5 \\) berada di sebelah kanan \\( -1 \\)", "\\( -8 \\) lebih besar dari \\( -2 \\)", "Jarak \\( -4 \\) ke \\( 4 \\) adalah 8 satuan"], ans: ["B", "B", "S", "B"], exp: "1. B. 2. B. 3. S, -8 < -2. 4. B, jaraknya 4+4=8.", exp_trans: "1. True. 2. True. 3. False. 4. True." },
+
+            // TASK 2: SOAL CERITA KONTEKSTUAL
+            "t2-task1": { type: "single", q: "Kapal selam berada di kedalaman 150 m di bawah permukaan laut. Lalu naik 60 m, kemudian turun lagi 20 m. Pada kedalaman berapa kapal selam sekarang? <i class='fas fa-ship text-orange-500 ml-2'></i>", q_trans: "Submarine is 150m below sea level. Rises 60m, then descends 20m. At what depth is it now?", opts: ["\\( 110 \\) m di bawah", "\\( 230 \\) m di bawah", "\\( 90 \\) m di bawah", "\\( 70 \\) m di bawah", "\\( 150 \\) m di bawah"], ans: "\\( 110 \\) m di bawah", exp: "Posisi awal -150. Naik 60 = -150 + 60 = -90. Turun 20 = -90 - 20 = -110. Jadi 110 m di bawah.", exp_trans: "Start -150. Rise 60 = -90. Descend 20 = -110. So 110m below." },
+            "t2-task2": { type: "single", q: "Saldo rekening Doni adalah Rp 50.000. Dia menarik uang Rp 80.000. Bagaimana saldo Doni sekarang? <i class='fas fa-money-bill-alt text-orange-500 ml-2'></i>", q_trans: "Doni's balance is Rp 50k. He withdraws Rp 80k. What is Doni's balance now?", opts: ["\\( Rp 30.000 \\)", "\\( Rp 130.000 \\)", "\\( -Rp 30.000 \\)", "\\( Rp 0 \\)", "\\( -Rp 80.000 \\)"], ans: "\\( -Rp 30.000 \\)", exp: "Saldo awal 50000. Tarik 80000 = 50000 - 80000 = -30000. Saldo menjadi negatif (overdraft).", exp_trans: "Start 50k. Withdraw 80k = 50k - 80k = -30k." },
+            "t2-task3": { type: "fill", q: "Seekor belut berada pada kedalaman 5 m di bawah permukaan air. Lalu berenang turun 12 m. Pada kedalaman berapa belut tersebut sekarang? (Tulis dengan tanda minus jika di bawah) <i class='fas fa-fish text-orange-500 ml-2'></i>", q_trans: "An eel is 5m below the surface. It swims down 12m. At what depth is it now? (Use minus if below)", ans: "-17", exp: "Posisi awal -5. Turun 12 = -5 - 12 = -17. Berada di kedalaman 17 m di bawah permukaan.", exp_trans: "Start -5. Descend 12 = -5 - 12 = -17." },
+            "t2-task4": { type: "complex", q: "Transaksi e-wallet: Terima transfer Rp 100.000, Bayar tagihan Rp 30.000, Bayar parkir Rp 5.000. Manakah pernyataan yang benar? <i class='fas fa-mobile-alt text-orange-500 ml-2'></i>", q_trans: "E-wallet: Receive transfer Rp 100k, Pay bill Rp 30k, Pay parking Rp 5k. Which is true?", opts: ["Pemasukan Rp 100.000", "Pengeluaran Rp 35.000", "Saldo bertambah Rp 65.000", "Saldo akhir Rp 65.000"], ans: [0, 1, 2, 3], exp: "Pemasukan 100k. Pengeluaran 30k+5k=35k. Saldo akhir 100k - 35k = +65k (bertambah). Semua benar.", exp_trans: "Income 100k. Expense 35k. Final balance 100k - 35k = +65k." },
+            "t2-task5": { type: "single", q: "Suhu daging beku \\( -20^\\circ C \\). Daging dikeluarkan dari freezer, suhunya naik \\( 15^\\circ C \\). Berapakah suhu daging sekarang? <i class='fas fa-drumstick-bite text-orange-500 ml-2'></i>", q_trans: "Frozen meat temp is \\( -20^\\circ C \\). Taken out, temp rises \\( 15^\\circ C \\). What is the meat's temp now?", opts: ["\\( 35^\\circ C \\)", "\\( 5^\\circ C \\)", "\\( -5^\\circ C \\)", "\\( -35^\\circ C \\)", "\\( 15^\\circ C \\)"], ans: "\\( -5^\\circ C \\)", exp: "Suhu awal -20. Naik 15 = -20 + 15 = -5. Suhu daging sekarang -5 derajat C.", exp_trans: "Start -20. Rise 15 = -5." },
+            "t2-task6": { type: "single", q: "Pada sebuah permainan, Amir maju 5 langkah, mundur 8 langkah, lalu maju 2 langkah. Pada posisi manakah Amir sekarang dari titik awal? <i class='fas fa-gamepad text-orange-500 ml-2'></i>", q_trans: "In a game, Amir moves forward 5 steps, backward 8 steps, then forward 2 steps. Where is Amir now from start?", opts: ["Maju 1 langkah", "Mundur 1 langkah", "Maju 5 langkah", "Mundur 5 langkah", "Di titik awal"], ans: "Mundur 1 langkah", exp: "Maju = +, Mundur = -. 5 - 8 + 2 = -1. Jadi Amir mundur 1 langkah dari titik awal.", exp_trans: "Forward = +, Backward = -. 5 - 8 + 2 = -1. So Amir is 1 step behind start." },
+            "t2-task7": { type: "fill", q: "Lift berada di lantai 5. Turun 10 lantai, lalu naik 4 lantai. Di lantai berapa lift berada sekarang? <i class='fas fa-elevator text-orange-500 ml-2'></i>", q_trans: "Elevator is on floor 5. Goes down 10 floors, then up 4 floors. What floor is it on?", ans: "-1", exp: "Posisi awal 5. Turun 10 = 5 - 10 = -5. Naik 4 = -5 + 4 = -1. Lift berada di basement 1.", exp_trans: "Start 5. Down 10 = -5. Up 4 = -1. Elevator is on basement 1." },
+            "t2-task8": { type: "tf_table", q: "Pemain A skor 15, Pemain B skor -15, Pemain C skor 0. Evaluasi pernyataan berikut! <i class='fas fa-trophy text-orange-500 ml-2'></i>", q_trans: "Player A scores 15, Player B -15, Player C 0. Evaluate the following!", opts: ["Pemain A memiliki skor tertinggi", "Pemain B memiliki skor terendah", "Selisih skor A dan B adalah 30", "Jika pemain C mendapat -5, skornya sama dengan pemain B"], ans: ["B", "B", "B", "S"], exp: "1. B, 15 > 0 > -15. 2. B. 3. B, 15 - (-15) = 30. 4. S, -5 tidak sama dengan -15.", exp_trans: "1. True. 2. True. 3. True. 4. False." },
+            "t2-task9": { type: "single", q: "Kota X suhunya \\( -8^\\circ C \\). Kota Y suhunya \\( 12^\\circ C \\). Berapakah selisih suhu kedua kota tersebut? <i class='fas fa-city text-orange-500 ml-2'></i>", q_trans: "City X temp is \\( -8^\\circ C \\). City Y temp is \\( 12^\\circ C \\). What is the temperature difference?", opts: ["\\( 4^\\circ C \\)", "\\( 20^\\circ C \\)", "\\( -20^\\circ C \\)", "\\( 8^\\circ C \\)", "\\( 12^\\circ C \\)"], ans: "\\( 20^\\circ C \\)", exp: "Selisih = 12 - (-8) = 12 + 8 = 20. Selisih suhunya adalah 20 derajat C.", exp_trans: "Difference = 12 - (-8) = 20." },
+            "t2-task10": { type: "complex", q: "Manakah situasi yang menggambarkan nilai \\( -50 \\)? <i class='fas fa-minus-circle text-orange-500 ml-2'></i>", q_trans: "Which situations represent a value of \\( -50 \\)?", opts: ["Berutang Rp 50.000", "Ketinggian 50 m di bawah permukaan laut", "Kehilangan uang Rp 50.000", "Tabungan bertambah Rp 50.000"], ans: [0, 1, 2], exp: "1. B, utang negatif. 2. B, di bawah permukaan negatif. 3. B, kehilangan negatif. 4. S, bertambah positif. Jawaban 1, 2, 3.", exp_trans: "1, 2, 3 are true." },
+
+            // TASK 3: PERKALIAN & PEMBAGIAN
+            "t3-task1": { type: "single", q: "Hasil dari \\( -8 \\times 4 \\) adalah... <i class='fas fa-times-circle text-orange-500 ml-2'></i>", q_trans: "The result of \\( -8 \\times 4 \\) is...", opts: ["\\( -32 \\)", "\\( 32 \\)", "\\( -12 \\)", "\\( 12 \\)", "\\( -2 \\)"], ans: "\\( -32 \\)", exp: "Tanda berbeda (negatif x positif) menghasilkan negatif. 8 x 4 = 32. Hasilnya -32.", exp_trans: "Different signs yield negative. 8 x 4 = 32. Result is -32." },
+            "t3-task2": { type: "single", q: "Hasil dari \\( -36 : (-6) \\) adalah... <i class='fas fa-divide text-orange-500 ml-2'></i>", q_trans: "The result of \\( -36 : (-6) \\) is...", opts: ["\\( -6 \\)", "\\( 6 \\)", "\\( 30 \\)", "\\( -30 \\)", "\\( 42 \\)"], ans: "\\( 6 \\)", exp: "Pembagian tanda sama (negatif : negatif) menghasilkan positif. 36 : 6 = 6.", exp_trans: "Same signs yield positive. 36 : 6 = 6." },
+            "t3-task3": { type: "fill", q: "Sebuah mobil mundur dengan kecepatan 10 m/detik selama 4 detik. Berapa jarak perpindahan mobil tersebut? (Gunakan tanda minus jika mundur) <i class='fas fa-car-side text-orange-500 ml-2'></i>", q_trans: "A car reverses at 10 m/s for 4 seconds. What is its displacement? (Use minus if backward)", ans: "-40", exp: "Mundur = negatif (-10). Waktu = 4 detik. Jarak = -10 x 4 = -40 meter.", exp_trans: "Reverse = negative (-10). Time = 4s. Distance = -10 x 4 = -40m." },
+            "t3-task4": { type: "complex", q: "Manakah bentuk yang ekuivalen dengan \\( 24 : (-4) \\)? <i class='fas fa-exchange-alt text-orange-500 ml-2'></i>", q_trans: "Which forms are equivalent to \\( 24 : (-4) \\)?", opts: ["\\( -24 : 4 \\)", "\\( 24 \\times (-0.25) \\)", "\\( -6 \\)", "\\( 6 \\)"], ans: [0, 1, 2], exp: "1. B, -24:4 = -6. 2. B, 24 x -1/4 = -6. 3. B, hasilnya -6. 4. S. Jawaban 1, 2, 3.", exp_trans: "1, 2, 3 are correct." },
+            "t3-task5": { type: "tf_table", q: "Evaluasi aturan perkalian/pembagian bilangan bulat berikut! <i class='fas fa-list-ol text-orange-500 ml-2'></i>", q_trans: "Evaluate the following integer multiplication/division rules!", opts: ["Positif x Negatif = Negatif", "Negatif : Negatif = Negatif", "Positif : Negatif = Negatif", "Negatif x Negatif = Positif"], ans: ["B", "S", "B", "B"], exp: "1. B. 2. S, hasilnya positif. 3. B. 4. B.", exp_trans: "1. True. 2. False. 3. True. 4. True." },
+            "t3-task6": { type: "single", q: "Total utang Dodi adalah Rp 15.000 (ditulis -15000). Jika utang ini dibagi rata kepada 3 orang teman, berapa nilai utang per orang? <i class='fas fa-hand-holding-usd text-orange-500 ml-2'></i>", q_trans: "Dodi's total debt is Rp 15k (-15000). If shared equally among 3 friends, what is the debt per person?", opts: ["\\( Rp 5.000 \\)", "\\( -Rp 5.000 \\)", "\\( Rp 45.000 \\)", "\\( -Rp 45.000 \\)", "\\( Rp 3.000 \\)"], ans: "\\( -Rp 5.000 \\)", exp: "Utang = -15000. Dibagi 3 = -15000 : 3 = -5000. Masing-masing memikul utang Rp 5.000.", exp_trans: "Debt = -15000. Divided by 3 = -5000. Each carries Rp 5k debt." },
+            "t3-task7": { type: "single", q: "Hasil dari \\( -5 \\times -3 \\times 2 \\) adalah... <i class='fas fa-calculator text-orange-500 ml-2'></i>", q_trans: "The result of \\( -5 \\times -3 \\times 2 \\) is...", opts: ["\\( -30 \\)", "\\( 30 \\)", "\\( -10 \\)", "\\( 10 \\)", "\\( 25 \\)"], ans: "\\( 30 \\)", exp: "Kerjakan dari kiri. (-5 x -3) = 15. Lalu 15 x 2 = 30. Tanda minus genap menghasilkan positif.", exp_trans: "Work left. (-5 x -3) = 15. Then 15 x 2 = 30." },
+            "t3-task8": { type: "fill", q: "Hitung hasil bagi dari \\( -100 \\) dengan \\( -5 \\). <i class='fas fa-divide text-orange-500 ml-2'></i>", q_trans: "Calculate the quotient of \\( -100 \\) by \\( -5 \\).", ans: "20", exp: "Tanda sama (negatif : negatif) = positif. 100 : 5 = 20.", exp_trans: "Same signs = positive. 100 : 5 = 20." },
+            "t3-task9": { type: "tf_table", q: "Tentukan Benar atau Salah untuk perhitungan berikut! <i class='fas fa-clipboard-check text-orange-500 ml-2'></i>", q_trans: "Determine True or False for the following calculations!", opts: ["\\( -4 \\times -2 = 8 \\)", "\\( 15 : (-3) = 5 \\)", "\\( 0 : (-10) = 0 \\)", "\\( -7 \\times 0 = -7 \\)"], ans: ["B", "S", "B", "S"], exp: "1. B, 4x2=8. 2. S, 15:-3 = -5. 3. B, 0 dibagi apa pun = 0. 4. S, -7 x 0 = 0.", exp_trans: "1. True. 2. False, -5. 3. True. 4. False, 0." },
+            "t3-task10": { type: "complex", q: "Manakah perhitungan yang menghasilkan bilangan negatif? <i class='fas fa-minus text-orange-500 ml-2'></i>", q_trans: "Which calculations yield a negative number?", opts: ["\\( -10 \\times -5 \\)", "\\( 20 : -4 \\)", "\\( -3 \\times 4 \\times -2 \\)", "\\( -8 : 2 \\)"], ans: [1, 3], exp: "1. S, 50. 2. B, -5. 3. S, 24. 4. B, -4. Jawaban 2 dan 4.", exp_trans: "2 and 4 are correct." },
+
+            // TASK 4: PEMANGKATAN & OPERASI CAMPURAN
+            "t4-task1": { type: "single", q: "Hasil dari \\( (-4)^2 \\) adalah... <i class='fas fa-superscript text-orange-500 ml-2'></i>", q_trans: "The result of \\( (-4)^2 \\) is...", opts: ["\\( -8 \\)", "\\( 8 \\)", "\\( -16 \\)", "\\( 16 \\)", "\\( 4 \\)"], ans: "\\( 16 \\)", exp: "Pangkat genap dari bilangan negatif menghasilkan positif. (-4) x (-4) = 16.", exp_trans: "Even power of negative yields positive. (-4) x (-4) = 16." },
+            "t4-task2": { type: "single", q: "Hasil dari \\( -3^2 \\) adalah... <i class='fas fa-superscript text-orange-500 ml-2'></i>", q_trans: "The result of \\( -3^2 \\) is...", opts: ["\\( -9 \\)", "\\( 9 \\)", "\\( -6 \\)", "\\( 6 \\)", "\\( 3 \\)"], ans: "\\( -9 \\)", exp: "Hati-hati! Tanpa kurung, pangkat hanya berlaku untuk angkanya, bukan tandanya. -(3x3) = -9.", exp_trans: "Careful! Without brackets, power applies only to the number, not the sign. -(3x3) = -9." },
+            "t4-task3": { type: "fill", q: "Hitung nilai dari \\( (-3)^3 \\). <i class='fas fa-superscript text-orange-500 ml-2'></i>", q_trans: "Calculate the value of \\( (-3)^3 \\).", ans: "-27", exp: "Pangkat ganjil dari bilangan negatif tetap negatif. (-3) x (-3) x (-3) = 9 x (-3) = -27.", exp_trans: "Odd power of negative stays negative. (-3) x (-3) x (-3) = -27." },
+            "t4-task4": { type: "complex", q: "Manakah bentuk matematika yang bernilai 7? <i class='fas fa-equals text-orange-500 ml-2'></i>", q_trans: "Which mathematical expressions equal 7?", opts: ["\\( (-2)^3 + 15 \\)", "\\( -5 + 12 \\)", "\\( (-3)^2 - 2 \\)", "\\( 10 - (-3)^2 \\)"], ans: [0, 1, 2], exp: "1. -8 + 15 = 7. 2. 7. 3. 9 - 2 = 7. 4. 10 - 9 = 1. Jawaban 1, 2, 3.", exp_trans: "1, 2, 3 equal 7." },
+            "t4-task5": { type: "tf_table", q: "Evaluasi urutan operasi (PEMDAS) berikut! <i class='fas fa-sort-amount-down text-orange-500 ml-2'></i>", q_trans: "Evaluate the order of operations (PEMDAS) below!", opts: ["Operasi dalam kurung dikerjakan pertama", "Perkalian didahulukan sebelum penjumlahan", "Pemangkatan didahulukan sebelum pembagian", "Pengurangan didahulukan sebelum pembagian"], ans: ["B", "B", "B", "S"], exp: "1. B, Kurung. 2. B, Kali sebelum Tambah. 3. B, Pangkat sebelum Bagi. 4. S, Bagi sebelum Kurang.", exp_trans: "1. True. 2. True. 3. True. 4. False." },
+            "t4-task6": { type: "single", q: "Hasil dari \\( 10 - 2 \\times (-3) \\) adalah... <i class='fas fa-stream text-orange-500 ml-2'></i>", q_trans: "The result of \\( 10 - 2 \\times (-3) \\) is...", opts: ["\\( -24 \\)", "\\( 4 \\)", "\\( 16 \\)", "\\( 24 \\)", "\\( -4 \\)"], ans: "\\( 16 \\)", exp: "Perkalian didahulukan: 2 x (-3) = -6. Lalu 10 - (-6) = 10 + 6 = 16.", exp_trans: "Multiply first: 2 x (-3) = -6. Then 10 - (-6) = 16." },
+            "t4-task7": { type: "single", q: "Hasil dari \\( (-15) : 3 + 5 \\) adalah... <i class='fas fa-stream text-orange-500 ml-2'></i>", q_trans: "The result of \\( (-15) : 3 + 5 \\) is...", opts: ["\\( 0 \\)", "\\( 10 \\)", "\\( -10 \\)", "\\( 20 \\)", "\\( -20 \\)"], ans: "\\( 0 \\)", exp: "Pembagian didahulukan: (-15) : 3 = -5. Lalu -5 + 5 = 0.", exp_trans: "Divide first: (-15) : 3 = -5. Then -5 + 5 = 0." },
+            "t4-task8": { type: "fill", q: "Selesaikan \\( 2 \\times (-4)^2 \\). <i class='fas fa-calculator text-orange-500 ml-2'></i>", q_trans: "Solve \\( 2 \\times (-4)^2 \\).", ans: "32", exp: "Pangkat didahulukan: (-4)^2 = 16. Lalu kali: 2 x 16 = 32.", exp_trans: "Exponent first: (-4)^2 = 16. Then multiply: 2 x 16 = 32." },
+            "t4-task9": { type: "tf_table", q: "Tentukan Benar atau Salah untuk pemangkatan berikut! <i class='fas fa-list-ul text-orange-500 ml-2'></i>", q_trans: "Determine True or False for the following exponentiation!", opts: ["\\( (-1)^4 = 1 \\)", "\\( (-1)^3 = -1 \\)", "Pangkat genap dari bilangan negatif selalu positif", "Pangkat ganjil dari bilangan negatif selalu positif"], ans: ["B", "B", "B", "S"], exp: "1. B, 1x1x1x1=1. 2. B, 1x1x1=-1. 3. B. 4. S, ganjil negatif tetap negatif.", exp_trans: "1. True. 2. True. 3. True. 4. False." },
+            "t4-task10": { type: "complex", q: "Manakah perhitungan yang menghasilkan nilai antara -10 dan 0? <i class='fas fa-sort text-orange-500 ml-2'></i>", q_trans: "Which calculations yield a value between -10 and 0?", opts: ["\\( (-2)^3 + 5 \\)", "\\( 3 \\times (-4) \\)", "\\( 8 + (-12) \\)", "\\( (-5)^2 : (-5) \\)"], ans: [0, 2, 3], exp: "1. -8+5 = -3. 2. -12 (bukan di antara). 3. -4. 4. 25:-5 = -5. Jawaban 1, 3, 4.", exp_trans: "1, 3, 4 are between -10 and 0." },
+
+            // TASK 5: PEMECAHAN MASALAH KOMPLEKS
+            "t5-task1": { type: "single", q: "Pendaki berada di ketinggian 200 m. Turun 50 m, naik 120 m, lalu turun 300 m. Pada posisi manakah pendaki sekarang? <i class='fas fa-mountain text-orange-500 ml-2'></i>", q_trans: "Climber is at 200m. Descends 50m, rises 120m, descends 300m. Where is the climber now?", opts: ["\\( 30 \\) m di atas", "\\( -30 \\) m (di bawah)", "\\( 370 \\) m di atas", "\\( 670 \\) m di atas", "\\( -370 \\) m (di bawah)"], ans: "\\( -30 \\) m (di bawah)", exp: "Posisi: 200 - 50 + 120 - 300 = 150 + 120 - 300 = 270 - 300 = -30. Pendaki berada 30 m di bawah permukaan laut.", exp_trans: "Position: 200 - 50 + 120 - 300 = -30. Climber is 30m below sea level." },
+            "t5-task2": { type: "single", q: "Saldo bank Rp 500.000. Bayar listrik Rp 150.000, bayar air Rp 50.000, terima gaji Rp 1.000.000. Berapa saldo akhir? <i class='fas fa-money-check-alt text-orange-500 ml-2'></i>", q_trans: "Bank balance Rp 500k. Pay electricity Rp 150k, pay water Rp 50k, receive salary Rp 1M. What is the final balance?", opts: ["\\( Rp 1.700.000 \\)", "\\( Rp 1.300.000 \\)", "\\( Rp 700.000 \\)", "\\( -Rp 200.000 \\)", "\\( Rp 300.000 \\)"], ans: "\\( Rp 1.300.000 \\)", exp: "Saldo: 500k - 150k - 50k + 1000k = 300k + 1000k = 1.300.000. Saldo akhir Rp 1.300.000.", exp_trans: "Balance: 500k - 150k - 50k + 1000k = 1.300k." },
+            "t5-task3": { type: "fill", q: "Suhu awal \\( -10^\\circ C \\). Naik \\( 5^\\circ C \\), turun \\( 12^\\circ C \\), naik \\( 2^\\circ C \\). Suhu akhir? <i class='fas fa-thermometer-half text-orange-500 ml-2'></i>", q_trans: "Start temp \\( -10^\\circ C \\). Rises \\( 5^\\circ C \\), drops \\( 12^\\circ C \\), rises \\( 2^\\circ C \\). Final temp?", ans: "-15", exp: "Suhu: -10 + 5 - 12 + 2 = -5 - 12 + 2 = -17 + 2 = -15. Suhu akhir -15 derajat C.", exp_trans: "Temp: -10 + 5 - 12 + 2 = -15." },
+            "t5-task4": { type: "complex", q: "Manakah bentuk yang menunjukkan 'naik 10 meter dari kedalaman 15 meter di bawah laut'? <i class='fas fa-water text-orange-500 ml-2'></i>", q_trans: "Which expression represents 'rises 10m from 15m below sea level'?", opts: ["\\( -15 + 10 \\)", "\\( 10 - 15 \\)", "\\( -5 \\)", "\\( |-15| - 10 \\)"], ans: [0, 1, 2], exp: "Kedalaman -15. Naik 10 = -15 + 10 = -5. Opsi 1 dan 2 sama (-5). Opsi 3 adalah hasilnya (-5). Jawaban 1, 2, 3.", exp_trans: "Depth -15. Rise 10 = -5. Options 1 and 2 are equivalent, option 3 is the result." },
+            "t5-task5": { type: "tf_table", q: "Drone terbang dari ketinggian 0. Naik 50, turun 20, naik 30, turun 40. Evaluasi! <i class='fas fa-helicopter text-orange-500 ml-2'></i>", q_trans: "Drone flies from 0. Up 50, down 20, up 30, down 40. Evaluate!", opts: ["Total naik adalah 80 m", "Total turun adalah 60 m", "Posisi akhir adalah 20 m", "Posisi akhirnya positif"], ans: ["B", "B", "B", "B"], exp: "Naik: 50+30=80. Turun: 20+40=60. Posisi: 80-60=+20. Semua benar.", exp_trans: "All true." },
+            "t5-task6": { type: "single", q: "Sebuah robot mainan maju 5 meter, mundur 2 meter, lalu maju lagi 3 meter. Berapakah jarak akhir robot dari titik awal? <i class='fas fa-robot text-orange-500 ml-2'></i>", q_trans: "A toy robot moves forward 5m, backward 2m, then forward 3m. What is the final distance from the start?", opts: ["\\( 10 \\) m", "\\( 6 \\) m", "\\( 4 \\) m", "\\( -6 \\) m", "\\( 0 \\) m"], ans: "\\( 6 \\) m", exp: "Posisi: 5 - 2 + 3 = 3 + 3 = 6. Robot berada 6 meter di depan titik awal.", exp_trans: "Position: 5 - 2 + 3 = 6. Robot is 6m ahead." },
+            "t5-task7": { type: "single", q: "Kapal selam A di kedalaman -80 m. Kapal selam B di kedalaman -30 m. Berapa jarak vertikal antara kedua kapal? <i class='fas fa-anchor text-orange-500 ml-2'></i>", q_trans: "Submarine A is at -80m depth. Submarine B is at -30m depth. What is the vertical distance between them?", opts: ["\\( 110 \\) m", "\\( 50 \\) m", "\\( -50 \\) m", "\\( -110 \\) m", "\\( 30 \\) m"], ans: "\\( 50 \\) m", exp: "Jarak = posisi B - posisi A = -30 - (-80) = -30 + 80 = 50. Jaraknya 50 meter.", exp_trans: "Distance = -30 - (-80) = 50." },
+            "t5-task8": { type: "fill", q: "Hitung hasil dari \\( (-15 + 5) \\times 2 \\). <i class='fas fa-calculator text-orange-500 ml-2'></i>", q_trans: "Calculate the result of \\( (-15 + 5) \\times 2 \\).", ans: "-20", exp: "Kurung didahulukan: -15 + 5 = -10. Lalu kali 2: -10 x 2 = -20.", exp_trans: "Brackets first: -10 x 2 = -20." },
+            "t5-task9": { type: "tf_table", q: "Terjemahan kata ke operasi matematika. Tentukan Benar/Salah! <i class='fas fa-language text-orange-500 ml-2'></i>", q_trans: "Translating words to math operations. True/False!", opts: ["'Berutang' = operasi pengurangan / nilai negatif", "'Naik' = operasi penjumlahan / nilai positif", "'Turun' = operasi perkalian", "'Sisa' = hasil akhir operasi pengurangan"], ans: ["B", "B", "S", "B"], exp: "1. B. 2. B. 3. S, turun = pengurangan. 4. B.", exp_trans: "1. True. 2. True. 3. False. 4. True." },
+            "t5-task10": { type: "complex", q: "Manakah perhitungan yang menghasilkan angka POSITIF? <i class='fas fa-plus-circle text-orange-500 ml-2'></i>", q_trans: "Which calculations yield a POSITIVE number?", opts: ["\\( -5 \\times -4 \\)", "\\( (-2)^3 \\)", "\\( 20 - 25 \\)", "\\( |-10| - 5 \\)"], ans: [0, 3], exp: "1. B, 20. 2. S, -8. 3. S, -5. 4. B, 10-5=5. Jawaban 1 dan 4.", exp_trans: "1 and 4 are correct." }
+        });
+
+        // ====== JAVASCRIPT LOGIC ======
+        let currentPage = 1;
+        let currentTaskSection = ""; 
+
+        function openModal() {
+            const modal = document.getElementById('classRulesModal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+        function closeModal() {
+            const modal = document.getElementById('classRulesModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        function showSection(sectionId) {
+            document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
+            document.getElementById(sectionId).classList.add('active');
+            
+            document.querySelectorAll('.sidebar-item').forEach(item => {
+                item.classList.remove('bg-indigo-100', 'text-indigo-800', 'font-bold', 'bg-orange-100', 'text-orange-800');
+            });
+            const activeLink = document.querySelector(`.sidebar-item[data-section="${sectionId}"]`);
+            if (activeLink) {
+                if(sectionId.startsWith('task')) {
+                    activeLink.classList.add('bg-orange-100', 'text-orange-800', 'font-bold');
+                } else {
+                    activeLink.classList.add('bg-indigo-100', 'text-indigo-800', 'font-bold');
+                }
+            }
+            currentPage = 1;
+            currentTaskSection = sectionId;
+            
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            const firstPage = document.querySelector(`#${sectionId} .page[data-page="1"]`);
+            if(firstPage) firstPage.classList.add('active');
+            
+            renderMath();
+            renderPagination(sectionId, currentPage);
+        }
+
+        function changePage(direction) {
+            const activeSection = document.querySelector('.content-section.active');
+            if(!activeSection) return;
+            const pages = activeSection.querySelectorAll('.page');
+            let newPage = currentPage + direction;
+            if(newPage >= 1 && newPage <= pages.length) {
+                pages[currentPage - 1].classList.remove('active');
+                pages[newPage - 1].classList.add('active');
+                currentPage = newPage;
+                renderMath();
+                renderPagination(currentTaskSection, currentPage);
+                document.getElementById('contentScrollArea').scrollTo(0, 0);
+            }
+        }
+
+        function goToPage(pageNum) {
+            const activeSection = document.querySelector('.content-section.active');
+            if(!activeSection) return;
+            const pages = activeSection.querySelectorAll('.page');
+            if(pageNum >= 1 && pageNum <= pages.length) {
+                pages[currentPage - 1].classList.remove('active');
+                pages[pageNum - 1].classList.add('active');
+                currentPage = pageNum;
+                renderMath();
+                renderPagination(currentTaskSection, currentPage);
+                document.getElementById('contentScrollArea').scrollTo(0, 0);
+            }
+        }
+
+        function renderPagination(sectionId, pageNum) {
+            const activeSection = document.getElementById(sectionId);
+            if (!activeSection) return;
+            const pages = activeSection.querySelectorAll('.page');
+            const totalPages = pages.length;
+            let html = '';
+            const isMainTask = sectionId.startsWith('t');
+            const theoryPages = [1, 5, 9]; 
+            
+            html += `<button onclick="goToPage(${pageNum - 1})" class="px-3 py-1.5 rounded-md text-sm bg-gray-200 hover:bg-gray-300 text-gray-700 ${pageNum === 1 ? 'opacity-50 cursor-not-allowed' : ''}" ${pageNum === 1 ? 'disabled' : ''}><i class="fas fa-chevron-left"></i> Prev</button>`;
+            
+            for (let i = 1; i <= totalPages; i++) {
+                let btnColor = 'bg-gray-100 hover:bg-gray-200 text-gray-700';
+                if (!isMainTask && theoryPages.includes(i)) {
+                    btnColor = 'bg-indigo-100 hover:bg-indigo-200 text-indigo-800'; 
+                } else {
+                    btnColor = 'bg-orange-100 hover:bg-orange-200 text-orange-800'; 
+                }
+                if (i === pageNum) {
+                    if (!isMainTask && theoryPages.includes(i)) {
+                        btnColor = 'bg-indigo-600 text-white shadow-md'; 
+                    } else {
+                        btnColor = 'bg-orange-500 text-white shadow-md'; 
+                    }
+                }
+                html += `<button onclick="goToPage(${i})" class="w-9 h-9 rounded-md text-sm font-semibold transition-all ${btnColor}">${i}</button>`;
+            }
+            
+            html += `<button onclick="goToPage(${pageNum + 1})" class="px-3 py-1.5 rounded-md text-sm bg-gray-200 hover:bg-gray-300 text-gray-700 ${pageNum === totalPages ? 'opacity-50 cursor-not-allowed' : ''}" ${pageNum === totalPages ? 'disabled' : ''}>Next <i class="fas fa-chevron-right"></i></button>`;
+            document.getElementById('paginationBar').innerHTML = html;
+        }
+
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+        let studentAnswers = {};
+
+        function renderTasks() {
+            document.querySelectorAll('[data-task-id]').forEach(div => {
+                const taskId = div.getAttribute('data-task-id');
+                renderSingleTask(taskId, div);
+            });
+            renderMath();
+        }
+        
+        function renderSingleTask(taskId, div) {
+            const data = questions[taskId];
+            if(!data) return;
+
+            const isMainTask = taskId.startsWith('t');
+            const taskNum = isMainTask ? taskId[1] : 0;
+            let taskType = data.type || 'single';
+            
+            let questionHTML = `
+                <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-orange-500">
+                    <div class="flex justify-between items-center mb-4 no-print">
+                        <h2 class="text-xl font-bold text-orange-600">
+                            ${isMainTask ? `Task ${taskNum}` : 'Latihan'} 
+                            ${taskType === 'complex' ? '<span class="text-sm bg-purple-200 text-purple-800 px-2 py-1 rounded ml-2">PG Kompleks</span>' : ''}
+                            ${taskType === 'fill' ? '<span class="text-sm bg-blue-200 text-blue-800 px-2 py-1 rounded ml-2">Isian Singkat</span>' : ''}
+                            ${taskType === 'tf_table' ? '<span class="text-sm bg-teal-200 text-teal-800 px-2 py-1 rounded ml-2">Tabel Benar/Salah</span>' : ''}
+                            <span class="translation text-gray-500 text-sm">Exercise</span>
+                        </h2>
+                        <div class="flex gap-2">
+                            <button onclick="resetTask('${taskId}')" class="text-sm bg-gray-200 hover:bg-gray-300 px-3 py-1 rounded">
+                                <i class="fas fa-redo"></i> Reset
+                            </button>
+                            ${isMainTask ? `<button onclick="printTask(${taskNum})" class="text-sm bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded">
+                                <i class="fas fa-print"></i> Print
+                            </button>` : ''}
+                        </div>
+                    </div>
+                    <div class="mb-6 flex gap-4 items-start">
+                        <div class="bg-orange-100 p-3 rounded-full shrink-0">
+                            <i class="fas fa-question text-orange-500 text-xl"></i>
+                        </div>
+                        <div class="flex-1">
+                            <p class="text-lg">${data.q}</p>
+                            <p class="translation">${data.q_trans}</p>
+                        </div>
+                    </div>
+            `;
+
+            if (taskType === 'single') {
+                const shuffledOpts = shuffleArray([...data.opts]);
+                questionHTML += `
+                    <div id="options-${taskId}" class="space-y-3">
+                        ${shuffledOpts.map((opt, i) => `
+                            <button onclick="checkAnswer('${taskId}', this.getAttribute('data-opt'), 'single')" 
+                                    class="option-btn w-full text-left p-3 border-2 border-gray-200 rounded hover:border-orange-500 flex items-center gap-3" 
+                                    data-opt="${opt}">
+                                <span class="w-6 h-6 flex items-center justify-center bg-gray-100 rounded-full font-bold shrink-0">${String.fromCharCode(65 + i)}</span>
+                                <span class="katex">${opt}</span>
+                            </button>
+                        `).join('')}
+                    </div>
+                `;
+            } else if (taskType === 'complex') {
+                questionHTML += `
+                    <p class="text-sm text-gray-600 mb-3">*Pilih semua pernyataan yang benar. <span class="translation">*Select all correct statements.</span></p>
+                    <div id="options-${taskId}" class="space-y-3">
+                        ${data.opts.map((opt, i) => `
+                            <label class="option-btn w-full text-left p-3 border-2 border-gray-200 rounded hover:border-purple-500 flex items-center gap-3 cursor-pointer">
+                                <input type="checkbox" class="w-5 h-5 complex-checkbox shrink-0" data-opt-index="${i}">
+                                <span class="katex">${opt}</span>
+                            </label>
+                        `).join('')}
+                    </div>
+                    <button onclick="checkAnswer('${taskId}', null, 'complex')" class="mt-4 bg-purple-500 hover:bg-purple-600 text-white px-4 py-2 rounded font-bold">Submit Jawaban</button>
+                `;
+            } else if (taskType === 'fill') {
+                questionHTML += `
+                    <div class="flex gap-2 items-center mt-2">
+                        <input type="text" id="input-${taskId}" class="border-2 border-gray-200 rounded p-2 w-32 text-lg text-center focus:border-orange-500 outline-none" placeholder="Jawaban...">
+                        <button onclick="checkAnswer('${taskId}', null, 'fill')" class="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded font-bold">Submit</button>
+                    </div>
+                `;
+            } else if (taskType === 'tf_table') {
+                questionHTML += `
+                    <p class="text-sm text-gray-600 mb-3">*Tentukan Benar atau Salah untuk setiap pernyataan. <span class="translation">*Determine True or False for each statement.</span></p>
+                    <div id="options-${taskId}" class="overflow-x-auto">
+                        <table class="w-full border-collapse border border-gray-300 text-sm">
+                            <thead>
+                                <tr class="bg-gray-100">
+                                    <th class="border border-gray-300 p-2 w-10">No.</th>
+                                    <th class="border border-gray-300 p-2 text-left">Pernyataan <span class="translation text-xs">Statement</span></th>
+                                    <th class="border border-gray-300 p-2 w-20">Benar <span class="translation text-xs block">True</span></th>
+                                    <th class="border border-gray-300 p-2 w-20">Salah <span class="translation text-xs block">False</span></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${data.opts.map((opt, i) => `
+                                    <tr>
+                                        <td class="border border-gray-300 p-2 text-center font-bold">${i + 1}</td>
+                                        <td class="border border-gray-300 p-2"><span class="katex">${opt}</span></td>
+                                        <td class="border border-gray-300 p-2 text-center">
+                                            <input type="radio" name="tf-${taskId}-${i}" value="B" class="tf-radio w-5 h-5 cursor-pointer">
+                                        </td>
+                                        <td class="border border-gray-300 p-2 text-center">
+                                            <input type="radio" name="tf-${taskId}-${i}" value="S" class="tf-radio w-5 h-5 cursor-pointer">
+                                        </td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                    <button onclick="checkAnswer('${taskId}', null, 'tf_table')" class="mt-4 bg-teal-500 hover:bg-teal-600 text-white px-4 py-2 rounded font-bold">Submit Jawaban</button>
+                `;
+            }
+
+            questionHTML += `
+                    <div id="result-${taskId}" class="mt-4 hidden p-4 rounded"></div>
+
+                    <div class="mt-4 no-print">
+						<button onclick="toggleCollapse('${taskId}')" id="collapse-btn-${taskId}" class="hidden text-blue-600 underline">
+							Tampilkan Penjelasan <span class="translation text-gray-500 text-xs" style="display: inline-block; margin-left: 4px;">Show Explanation</span>
+						</button>
+                        <div id="collapse-${taskId}" class="collapse-content w-full">
+                            <h3 class="font-bold text-blue-800">Penjelasan: <span class="translation text-gray-500 text-sm">Explanation:</span></h3>
+                            <p class="mt-2">${data.exp}</p>
+                            <p class="translation">${data.exp_trans}</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+            div.innerHTML = questionHTML;
+        }
+
+        function checkAnswer(taskId, selectedOpt, type) {
+            const data = questions[taskId];
+            const resultDiv = document.getElementById(`result-${taskId}`);
+            const collapseBtn = document.getElementById(`collapse-btn-${taskId}`);
+            let isCorrect = false;
+            let correctAnsText = '';
+
+            if (type === 'single') {
+                const buttons = document.querySelectorAll(`#options-${taskId} button`);
+                buttons.forEach(btn => {
+                    btn.disabled = true;
+                    btn.classList.add('opacity-70', 'cursor-not-allowed');
+                    if(btn.getAttribute('data-opt') === data.ans) {
+                        btn.classList.remove('border-gray-200', 'hover:border-orange-500');
+                        btn.classList.add('border-green-500', 'bg-green-50');
+                    } else if (btn.getAttribute('data-opt') === selectedOpt) {
+                        btn.classList.remove('border-gray-200', 'hover:border-orange-500');
+                        btn.classList.add('border-red-500', 'bg-red-50');
+                    }
+                });
+                isCorrect = (selectedOpt === data.ans);
+                correctAnsText = data.ans;
+                studentAnswers[taskId] = selectedOpt; 
+            } 
+            else if (type === 'complex') {
+                const checkboxes = document.querySelectorAll(`#options-${taskId} input[type="checkbox"]`);
+                let selectedAns = [];
+                checkboxes.forEach((cb, i) => {
+                    if (cb.checked) selectedAns.push(i);
+                    cb.disabled = true;
+                });
+                const correctAnsStr = [...data.ans].sort().join(',');
+                const selectedAnsStr = [...selectedAns].sort().join(',');
+                isCorrect = (correctAnsStr === selectedAnsStr);
+                
+                let correctComplexText = [];
+                data.ans.forEach(i => correctComplexText.push(data.opts[i]));
+                correctAnsText = correctComplexText.join(', ');
+
+                checkboxes.forEach((cb, i) => {
+                    if(data.ans.includes(i)) {
+                        cb.parentElement.classList.remove('border-gray-200', 'hover:border-purple-500');
+                        cb.parentElement.classList.add('border-green-500', 'bg-green-50');
+                    } else if (cb.checked) {
+                        cb.parentElement.classList.remove('border-gray-200', 'hover:border-purple-500');
+                        cb.parentElement.classList.add('border-red-500', 'bg-red-50');
+                    }
+                });
+                studentAnswers[taskId] = selectedAns;
+            } 
+            else if (type === 'fill') {
+                const inputField = document.getElementById(`input-${taskId}`);
+                let userVal = inputField.value.trim().replace(/\s/g, '').replace(',', '.');
+                inputField.disabled = true;
+                isCorrect = (userVal === data.ans);
+                if(!isCorrect) inputField.classList.add('border-red-500', 'bg-red-50');
+                else inputField.classList.add('border-green-500', 'bg-green-50');
+                correctAnsText = data.ans;
+                studentAnswers[taskId] = userVal;
+            }
+            else if (type === 'tf_table') {
+                const rows = document.querySelectorAll(`#options-${taskId} tbody tr`);
+                let userAns = [];
+                let allFilled = true;
+
+                rows.forEach((row, i) => {
+                    const radios = row.querySelectorAll('input[type="radio"]');
+                    let rowVal = null;
+                    radios.forEach(r => {
+                        r.disabled = true;
+                        if (r.checked) rowVal = r.value;
+                    });
+                    if (rowVal === null) allFilled = false;
+                    userAns.push(rowVal);
+                });
+
+                if (!allFilled) {
+                    alert("Harap isi semua pernyataan terlebih dahulu! / Please answer all statements first!");
+                    rows.forEach((row, i) => {
+                        let radios = row.querySelectorAll('input[type="radio"]');
+                        radios.forEach(r => r.disabled = false);
+                    });
+                    return;
+                }
+
+                let correctCount = 0;
+                let correctTFText = [];
+                rows.forEach((row, i) => {
+                    const userVal = userAns[i];
+                    const correctVal = data.ans[i];
+                    correctTFText.push(`${i+1}. ${correctVal}`);
+                    if (userVal === correctVal) {
+                        correctCount++;
+                        row.classList.add('bg-green-50');
+                    } else {
+                        row.classList.add('bg-red-50');
+                    }
+                });
+
+                isCorrect = (correctCount === data.ans.length);
+                correctAnsText = correctTFText.join(' | ');
+                studentAnswers[taskId] = userAns;
+            }
+
+            if(isCorrect) {
+                resultDiv.innerHTML = `<p class="text-green-600 font-bold"><i class="fas fa-check-circle"></i> Benar! <span class="translation text-gray-600 font-normal">Correct!</span></p>`;
+                resultDiv.className = "mt-4 p-4 rounded bg-green-50 border border-green-200";
+            } else {
+                resultDiv.innerHTML = `<p class="text-red-600 font-bold"><i class="fas fa-times-circle"></i> Salah! Jawaban yang benar adalah: ${correctAnsText}. <span class="translation text-gray-600 font-normal">Wrong! The correct answer is: ${correctAnsText}.</span></p>`;
+                resultDiv.className = "mt-4 p-4 rounded bg-red-50 border border-red-200";
+            }
+            resultDiv.classList.remove('hidden');
+            collapseBtn.classList.remove('hidden');
+            
+            const collapseContent = document.getElementById(`collapse-${taskId}`);
+            collapseContent.classList.add('open');
+            collapseBtn.innerHTML = 'Sembunyikan Penjelasan <span class="translation text-gray-500 text-xs">Hide Explanation</span>';
+            
+            renderMath();
+        }
+
+        function resetTask(taskId) {
+            delete studentAnswers[taskId];
+            const taskDiv = document.querySelector(`[data-task-id="${taskId}"]`);
+            if(taskDiv) {
+                renderSingleTask(taskId, taskDiv);
+                renderMath();
+            }
+        }
+
+        function printTask(taskNum) {
+            let score = 0;
+            let tableBody = '';
+            for(let i=1; i<=10; i++) {
+                const taskId = `t${taskNum}-task${i}`;
+                const data = questions[taskId];
+                if(!data) continue;
+                
+                let studentAns = studentAnswers[taskId] || 'Tidak Dijawab';
+                let correctAns = data.ans;
+                
+                let sAnsStr = '';
+                let cAnsStr = '';
+                let isCorrect = false;
+                
+                if (data.type === 'complex') {
+                    let sArr = Array.isArray(studentAns) ? studentAns : [];
+                    let cArr = Array.isArray(correctAns) ? correctAns : [];
+                    sAnsStr = sArr.slice().sort().map(idx => data.opts[idx]).join(', ');
+                    cAnsStr = cArr.slice().sort().map(idx => data.opts[idx]).join(', ');
+                    isCorrect = (sArr.slice().sort().join(',') === cArr.slice().sort().join(','));
+                } else if (data.type === 'tf_table') {
+                    let sArr = Array.isArray(studentAns) ? studentAns : [];
+                    let cArr = Array.isArray(correctAns) ? correctAns : [];
+                    sAnsStr = sArr.join(' | ');
+                    cAnsStr = cArr.join(' | ');
+                    isCorrect = (sArr.join(',') === cArr.join(','));
+                } else {
+                    sAnsStr = studentAns;
+                    cAnsStr = correctAns;
+                    isCorrect = (sAnsStr === cAnsStr);
+                }
+                
+                let note = '❌';
+                if(isCorrect) { score++; note = '✔️'; }
+                
+                tableBody += `<tr>
+                    <td class="border border-black p-1 text-center">${i}</td>
+                    <td class="border border-black p-1">${data.q.replace(/<[^>]+>/g, '')}</td>
+                    <td class="border border-black p-1">${sAnsStr}</td>
+                    <td class="border border-black p-1">${cAnsStr}</td>
+                    <td class="border border-black p-1 text-center">${note}</td>
+                </tr>`;
+            }
+            document.getElementById('printTableBody').innerHTML = tableBody;
+            document.getElementById('printTaskNum').innerText = taskNum;
+            document.getElementById('printScore').innerText = score;
+            
+            renderMathInElement(document.getElementById('printArea'), {
+                delimiters: [
+                    {left: '\\(', right: '\\)', display: false},
+                    {left: '\\[', right: '\\]', display: true}
+                ]
+            });
+            window.print();
+        }
+
+        function toggleCollapse(taskId) {
+            const content = document.getElementById(`collapse-${taskId}`);
+            const btn = document.getElementById(`collapse-btn-${taskId}`);
+            content.classList.toggle('open');
+            if(content.classList.contains('open')) {
+                btn.innerHTML = 'Sembunyikan Penjelasan <span class="translation text-gray-500 text-xs" style="display: inline-block; margin-left: 4px;">Hide Explanation</span>';
+            } else {
+                btn.innerHTML = 'Tampilkan Penjelasan <span class="translation text-gray-500 text-xs">Show Explanation</span>';
+            }
+        }
+
+        function renderMath() {
+            renderMathInElement(document.body, {
+                delimiters: [
+                    {left: '\\(', right: '\\)', display: false},
+                    {left: '\\[', right: '\\]', display: true}
+                ]
+            });
+        }
+
+        window.onload = () => {
+            renderTasks();
+            renderMath();
+            showSection('warmup');
+        };
+    </script>
+</body>
+</html>
