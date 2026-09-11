@@ -1,0 +1,1472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Math Tutoring by Deni - Faktor Bilangan Bulat</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { font-family: 'Segoe UI', Arial, Helvetica, sans-serif; }
+        .prompt-box { max-width: 650px; margin-left: auto; margin-right: auto; display: flex; flex-direction: column; align-items: center; text-align: left; }
+        .prompt-box p { width: 100%; }
+        .prompt-box img { width: 100%; height: auto; max-width: 300px; display: block; margin-top: 0.5rem; }
+        .translation { font-style: italic; font-size: 0.85rem; color: #6b7280; margin-top: 0.25rem; display: block; }
+        .content-section { display: none; }
+        .content-section.active { display: block; }
+        .page { display: none; }
+        .page.active { display: block; }
+        .option-btn { transition: all 0.2s; }
+        .option-btn:hover { transform: translateX(5px); }
+        .collapse-content { max-height: 0; overflow: hidden; transition: max-height 0.4s ease-in-out, padding 0.4s, border 0.4s, background 0.4s; padding: 0; border: 0; background: transparent; }
+        .collapse-content.open { max-height: 2000px; padding: 1.5rem; border: 1px solid #bfdbfe; background: #eff6ff; border-radius: 0.5rem; margin-top: 1rem; }
+        @media print {
+            body * { visibility: hidden; }
+            #printArea, #printArea * { visibility: visible; }
+            #printArea { display: block !important; position: absolute; left: 0; top: 0; width: 100%; padding: 10px; box-sizing: border-box; }
+            .no-print { display: none !important; }
+            #printArea table { table-layout: fixed; width: 100%; font-size: 9px; }
+            #printArea td, #printArea th { word-wrap: break-word; padding: 2px !important; }
+            @page { size: A4; margin: 5mm; }
+        }
+    </style>
+</head>
+<body class="bg-gray-100 flex flex-col h-screen overflow-hidden">
+    <svg width="0" height="0" style="position: absolute;">
+        <defs>
+            <marker id="arr1" markerWidth="10" markerHeight="10" refX="0" refY="3" orient="auto" markerUnits="strokeWidth">
+                <path d="M0,0 L0,6 L9,3 z" fill="#333" />
+            </marker>
+        </defs>
+    </svg>
+
+    <!-- Header -->
+    <header class="bg-indigo-600 text-white p-4 flex justify-between items-center shadow-md no-print shrink-0 z-50">
+        <div>
+            <h1 class="text-xl font-bold">Math Tutoring by Deni</h1>
+            <p class="text-sm">Topic: Faktor Bilangan Bulat</p>
+            <p class="translation text-indigo-200">Topic: Factors of Integers</p>
+        </div>
+        <div>
+            <button onclick="openModal()" class="bg-yellow-400 hover:bg-yellow-500 text-indigo-900 font-bold py-2 px-4 rounded flex items-center gap-2">
+                <i class="fas fa-gavel"></i> Class Rules
+            </button>
+        </div>
+    </header>
+
+    <!-- Modal Class Rules -->
+    <div id="classRulesModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50 no-print">
+        <div class="bg-white rounded-lg p-6 w-80 max-w-sm">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-xl font-bold text-indigo-600">Class Rules <br><span class="translation text-gray-500">Aturan Kelas</span></h2>
+                <button onclick="closeModal()" class="text-gray-500 hover:text-red-500"><i class="fas fa-times text-xl"></i></button>
+            </div>
+            <ul class="space-y-3 text-gray-700">
+                <li class="flex items-start gap-2">
+                    <i class="fas fa-comments text-indigo-500 mt-1"></i>
+                    <div>Berbicara secara bergantian. <span class="translation">Take turns speaking.</span></div>
+                </li>
+                <li class="flex items-start gap-2">
+                    <i class="fas fa-door-open text-indigo-500 mt-1"></i>
+                    <div>Meminta izin jika ingin meninggalkan kelas. <span class="translation">Ask permission if you want to leave the class.</span></div>
+                </li>
+                <li class="flex items-start gap-2">
+                    <i class="fas fa-video text-indigo-500 mt-1"></i>
+                    <div>Menyalakan kamera dan microphone jika diperlukan. <span class="translation">Turn on camera and microphone if needed.</span></div>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Main Layout -->
+    <div class="flex flex-1 overflow-hidden">
+        <!-- Sidebar -->
+        <aside class="w-64 bg-white shadow-lg no-print border-r border-gray-200 flex flex-col">
+            <div class="p-4 bg-indigo-600 text-white">
+                <h3 class="font-bold text-lg flex items-center gap-2"><i class="fas fa-book-open"></i> Class Agenda</h3>
+                <p class="text-xs text-indigo-200 mt-1">Select topic to navigate <span class="translation text-indigo-300 block">Pilih topik untuk navigasi</span></p>
+            </div>
+            <nav class="flex-1 overflow-y-auto p-2">
+                <ul class="space-y-1">
+                    <li><a href="javascript:void(0)" onclick="showSection('warmup')" class="sidebar-item block px-4 py-2 rounded-lg hover:bg-indigo-50 hover:text-indigo-800 transition-colors cursor-pointer" data-section="warmup"><div class="font-semibold text-sm text-gray-800">Spiral Review Warm-up</div><div class="text-xs text-gray-500 flex items-center gap-1 mt-1"><i class="far fa-clock"></i> 00:00 - 00:10</div></a></li>
+                    <li><a href="javascript:void(0)" onclick="showSection('intro')" class="sidebar-item block px-4 py-2 rounded-lg hover:bg-indigo-50 hover:text-indigo-800 transition-colors cursor-pointer" data-section="intro"><div class="font-semibold text-sm text-gray-800">Introduction & Real-World</div><div class="text-xs text-gray-500 flex items-center gap-1 mt-1"><i class="far fa-clock"></i> 00:10 - 00:15</div></a></li>
+                    <li><a href="javascript:void(0)" onclick="showSection('review')" class="sidebar-item block px-4 py-2 rounded-lg hover:bg-indigo-50 hover:text-indigo-800 transition-colors cursor-pointer" data-section="review"><div class="font-semibold text-sm text-gray-800">Review of Prior Knowledge</div><div class="text-xs text-gray-500 flex items-center gap-1 mt-1"><i class="far fa-clock"></i> 00:15 - 00:20</div></a></li>
+                    <li><a href="javascript:void(0)" onclick="showSection('problem')" class="sidebar-item block px-4 py-2 rounded-lg hover:bg-indigo-50 hover:text-indigo-800 transition-colors cursor-pointer" data-section="problem"><div class="font-semibold text-sm text-gray-800">Problem Introduction</div><div class="text-xs text-gray-500 flex items-center gap-1 mt-1"><i class="far fa-clock"></i> 00:20 - 00:30</div></a></li>
+                    <li><a href="javascript:void(0)" onclick="showSection('guided')" class="sidebar-item block px-4 py-2 rounded-lg hover:bg-indigo-50 hover:text-indigo-800 transition-colors cursor-pointer" data-section="guided"><div class="font-semibold text-sm text-gray-800">Guided Practice</div><div class="text-xs text-gray-500 flex items-center gap-1 mt-1"><i class="far fa-clock"></i> 00:30 - 00:45</div></a></li>
+                    <li><a href="javascript:void(0)" onclick="showSection('independent')" class="sidebar-item block px-4 py-2 rounded-lg hover:bg-indigo-50 hover:text-indigo-800 transition-colors cursor-pointer" data-section="independent"><div class="font-semibold text-sm text-gray-800">Independent Practice</div><div class="text-xs text-gray-500 flex items-center gap-1 mt-1"><i class="far fa-clock"></i> 00:45 - 00:55</div></a></li>
+                    <li><a href="javascript:void(0)" onclick="showSection('consolidation')" class="sidebar-item block px-4 py-2 rounded-lg hover:bg-indigo-50 hover:text-indigo-800 transition-colors cursor-pointer" data-section="consolidation"><div class="font-semibold text-sm text-gray-800">Consolidation & Reflection</div><div class="text-xs text-gray-500 flex items-center gap-1 mt-1"><i class="far fa-clock"></i> 00:55 - 01:00</div></a></li>
+                    <hr class="my-3 border-gray-200">
+                    <li><a href="javascript:void(0)" onclick="showSection('task1')" class="sidebar-item block px-4 py-2 rounded-lg hover:bg-orange-50 hover:text-orange-800 transition-colors cursor-pointer" data-section="task1"><div class="font-bold text-sm text-indigo-800 flex items-center gap-2"><i class="fas fa-clipboard-list text-xs"></i> Task 1</div><div class="text-xs text-gray-500 mt-1">10 Multiple Choice</div></a></li>
+                    <li><a href="javascript:void(0)" onclick="showSection('task2')" class="sidebar-item block px-4 py-2 rounded-lg hover:bg-orange-50 hover:text-orange-800 transition-colors cursor-pointer" data-section="task2"><div class="font-bold text-sm text-indigo-800 flex items-center gap-2"><i class="fas fa-clipboard-list text-xs"></i> Task 2</div><div class="text-xs text-gray-500 mt-1">10 Multiple Choice</div></a></li>
+                    <li><a href="javascript:void(0)" onclick="showSection('task3')" class="sidebar-item block px-4 py-2 rounded-lg hover:bg-orange-50 hover:text-orange-800 transition-colors cursor-pointer" data-section="task3"><div class="font-bold text-sm text-indigo-800 flex items-center gap-2"><i class="fas fa-clipboard-list text-xs"></i> Task 3</div><div class="text-xs text-gray-500 mt-1">10 Multiple Choice</div></a></li>
+                    <li><a href="javascript:void(0)" onclick="showSection('task4')" class="sidebar-item block px-4 py-2 rounded-lg hover:bg-orange-50 hover:text-orange-800 transition-colors cursor-pointer" data-section="task4"><div class="font-bold text-sm text-indigo-800 flex items-center gap-2"><i class="fas fa-clipboard-list text-xs"></i> Task 4</div><div class="text-xs text-gray-500 mt-1">10 Multiple Choice</div></a></li>
+                    <li><a href="javascript:void(0)" onclick="showSection('task5')" class="sidebar-item block px-4 py-2 rounded-lg hover:bg-orange-50 hover:text-orange-800 transition-colors cursor-pointer" data-section="task5"><div class="font-bold text-sm text-indigo-800 flex items-center gap-2"><i class="fas fa-clipboard-list text-xs"></i> Task 5</div><div class="text-xs text-gray-500 mt-1">10 Multiple Choice</div></a></li>
+                </ul>
+            </nav>
+            <div class="p-4 bg-gray-50 border-t border-gray-200 text-center">
+                <p class="text-xs text-gray-500 font-medium">Math Tutoring System</p>
+                <p class="text-xs text-gray-400">by Deni</p>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 flex flex-col overflow-hidden">
+            <div id="contentScrollArea" class="flex-1 overflow-y-auto p-6">
+
+            <!-- ========================================== -->
+            <!-- SECTION: SPIRAL REVIEW WARM-UP             -->
+            <!-- ========================================== -->
+            <div id="warmup" class="content-section active">
+                <!-- PAGE 1: THEORY 1 -->
+                <div class="page active" data-page="1">
+                    <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-indigo-500">
+                        <h2 class="text-2xl font-bold text-indigo-600 mb-2">Mengenal Faktor: Pembagi Nyata <i class="fas fa-divide text-indigo-400 ml-2"></i></h2>
+                        <p class="translation">Knowing Factors: True Dividers</p>
+                        <div class="flex gap-4 my-4 items-center">
+                            <div class="bg-indigo-50 p-4 rounded flex justify-center shrink-0">
+                                <svg width="180" height="140" viewBox="0 0 180 140">
+                                    <circle cx="60" cy="70" r="35" fill="#3b82f6" opacity="0.8"/>
+                                    <text x="60" y="75" font-size="18" fill="#fff" text-anchor="middle" font-weight="bold">12</text>
+                                    <path d="M 95 70 L 125 40 M 95 70 L 125 100" stroke="#333" stroke-width="2" fill="none"/>
+                                    <rect x="125" y="20" width="40" height="40" rx="5" fill="#f59e0b"/>
+                                    <text x="145" y="45" font-size="18" fill="#fff" text-anchor="middle" font-weight="bold">3</text>
+                                    <rect x="125" y="80" width="40" height="40" rx="5" fill="#10b981"/>
+                                    <text x="145" y="105" font-size="18" fill="#fff" text-anchor="middle" font-weight="bold">4</text>
+                                </svg>
+                            </div>
+                            <div>
+                                <p>Faktor dari suatu bilangan adalah bilangan bulat yang bisa membagi bilangan tersebut dengan sisa \( 0 \). Misalnya, \( 12 \) bisa dibagi \( 3 \) dan \( 4 \). <span class="translation">A factor of a number is an integer that can divide that number with a remainder of \( 0 \). For example, \( 12 \) can be divided by \( 3 \) and \( 4 \).</span></p>
+                                <p class="mt-2">Karena \( 3 \times 4 = 12 \), maka \( 3 \) dan \( 4 \) adalah faktor dari \( 12 \). <span class="translation">Since \( 3 \times 4 = 12 \), then \( 3 \) and \( 4 \) are factors of \( 12 \).</span></p>
+                            </div>
+                        </div>
+                        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mt-4">
+                            <p class="font-bold text-yellow-800"><i class="fas fa-lightbulb mr-1"></i> Tips & Tricks: Bayangkan Membagi Permen</p>
+                            <p class="mt-1">Jika kamu punya 12 permen dan bisa dibagi rata kepada temanmu tanpa sisa, maka jumlah teman itu adalah faktor. <span class="translation">If you have 12 candies and can divide them equally among your friends without remainder, the number of friends is a factor.</span></p>
+                            <p class="mt-1 font-bold"><i class="fas fa-flag mr-1"></i> To The Point Formula: \( a \) adalah faktor dari \( b \) jika \( b \div a = 0 \) sisa.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="page" data-page="2" data-task-id="w-task1"></div>
+                <div class="page" data-page="3" data-task-id="w-task2"></div>
+                <div class="page" data-page="4" data-task-id="w-task3"></div>
+
+                <!-- PAGE 5: THEORY 2 -->
+                <div class="page" data-page="5">
+                    <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-green-500">
+                        <h2 class="text-2xl font-bold text-green-600 mb-2">Faktor Prima: Batu Bata Terkecil <i class="fas fa-cubes text-green-400 ml-2"></i></h2>
+                        <p class="translation">Prime Factors: The Smallest Bricks</p>
+                        <div class="flex gap-4 my-4 items-center">
+                            <div class="bg-green-50 p-4 rounded flex justify-center shrink-0">
+                                <svg width="180" height="140" viewBox="0 0 180 140">
+                                    <rect x="60" y="50" width="60" height="60" rx="5" fill="#10b981"/>
+                                    <text x="90" y="85" font-size="18" fill="#fff" text-anchor="middle" font-weight="bold">12</text>
+                                    <path d="M 90 50 L 90 30 M 80 30 L 100 30" stroke="#333" stroke-width="2" fill="none"/>
+                                    <rect x="30" y="10" width="30" height="20" rx="3" fill="#f59e0b"/>
+                                    <text x="45" y="25" font-size="12" fill="#fff" text-anchor="middle">2</text>
+                                    <rect x="120" y="10" width="30" height="20" rx="3" fill="#ef4444"/>
+                                    <text x="135" y="25" font-size="12" fill="#fff" text-anchor="middle">6</text>
+                                </svg>
+                            </div>
+                            <div>
+                                <p>Faktor Prima adalah faktor yang juga merupakan Bilangan Prima (hanya bisa dibagi 1 dan dirinya sendiri). Contoh: \( 2, 3, 5, 7 \). <span class="translation">Prime factors are factors that are also Prime Numbers (only divisible by 1 and themselves). Example: \( 2, 3, 5, 7 \).</span></p>
+                                <p class="mt-2">Bilangan \( 12 \) bisa dipecah menjadi \( 2 \times 6 \). Lalu \( 6 \) dipecah lagi menjadi \( 2 \times 3 \). Jadi faktor primanya adalah \( 2 \) dan \( 3 \). <span class="translation">Number \( 12 \) can be broken down into \( 2 \times 6 \). Then \( 6 \) is broken down into \( 2 \times 3 \). So the prime factors are \( 2 \) and \( 3 \).</span></p>
+                            </div>
+                        </div>
+                        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mt-4">
+                            <p class="font-bold text-yellow-800"><i class="fas fa-lightbulb mr-1"></i> Tips & Tricks: Pecahan Sampai Habis</p>
+                            <p class="mt-1">Terus bagi bilangan dengan bilangan prima terkecil yang bisa, sampai sisanya 1. <span class="translation">Keep dividing the number by the smallest possible prime number, until the remainder is 1.</span></p>
+                            <p class="mt-1 font-bold"><i class="fas fa-flag mr-1"></i> To The Point Formula: \( 12 = 2 \times 2 \times 3 = 2^2 \times 3 \)</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="page" data-page="6" data-task-id="w-task4"></div>
+                <div class="page" data-page="7" data-task-id="w-task5"></div>
+                <div class="page" data-page="8" data-task-id="w-task6"></div>
+
+                <!-- PAGE 9: THEORY 3 -->
+                <div class="page" data-page="9">
+                    <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-purple-500">
+                        <h2 class="text-2xl font-bold text-purple-600 mb-2">Menentukan Semua Faktor <i class="fas fa-list-ol text-purple-400 ml-2"></i></h2>
+                        <p class="translation">Finding All Factors</p>
+                        <div class="flex gap-4 my-4 items-center">
+                            <div class="bg-purple-50 p-4 rounded flex justify-center shrink-0">
+                                <svg width="180" height="140" viewBox="0 0 180 140">
+                                    <rect x="20" y="20" width="140" height="100" rx="5" fill="#f3e8ff" stroke="#8b5cf6" stroke-width="2"/>
+                                    <circle cx="45" cy="50" r="15" fill="#8b5cf6"/><text x="45" y="55" font-size="12" fill="#fff" text-anchor="middle">1</text>
+                                    <circle cx="90" cy="50" r="15" fill="#8b5cf6"/><text x="90" y="55" font-size="12" fill="#fff" text-anchor="middle">2</text>
+                                    <circle cx="135" cy="50" r="15" fill="#8b5cf6"/><text x="135" y="55" font-size="12" fill="#fff" text-anchor="middle">3</text>
+                                    <circle cx="45" cy="90" r="15" fill="#8b5cf6"/><text x="45" y="95" font-size="12" fill="#fff" text-anchor="middle">4</text>
+                                    <circle cx="90" cy="90" r="15" fill="#8b5cf6"/><text x="90" y="95" font-size="12" fill="#fff" text-anchor="middle">6</text>
+                                    <circle cx="135" cy="90" r="15" fill="#8b5cf6"/><text x="135" y="95" font-size="12" fill="#fff" text-anchor="middle">12</text>
+                                </svg>
+                            </div>
+                            <div>
+                                <p>Untuk mencari semua faktor dari \( 12 \), kita bisa pasangkan perkaliannya: \( 1 \times 12 \), \( 2 \times 6 \), dan \( 3 \times 4 \). <span class="translation">To find all factors of \( 12 \), we can pair the multiplications: \( 1 \times 12 \), \( 2 \times 6 \), and \( 3 \times 4 \).</span></p>
+                                <p class="mt-2">Jadi, faktornya adalah \( 1, 2, 3, 4, 6, \) dan \( 12 \). Selalu mulai dari 1 dan bilangan itu sendiri! <span class="translation">So, the factors are \( 1, 2, 3, 4, 6, \) and \( 12 \). Always start with 1 and the number itself!</span></p>
+                            </div>
+                        </div>
+                        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mt-4">
+                            <p class="font-bold text-yellow-800"><i class="fas fa-lightbulb mr-1"></i> Tips & Tricks: Pasangan Berkelingking</p>
+                            <p class="mt-1">Tulis dari 1, lalu cari pasangannya. Jika sudah ketemu pasangan yang sama (misal \( 3 \times 3 \) untuk 9), berhenti. <span class="translation">Start from 1, find its pair. If you meet the same pair (like \( 3 \times 3 \) for 9), stop.</span></p>
+                            <p class="mt-1 font-bold"><i class="fas fa-flag mr-1"></i> To The Point Formula: \( a \times b = N \implies a \) dan \( b \) adalah faktor \( N \).</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="page" data-page="10" data-task-id="w-task7"></div>
+                <div class="page" data-page="11" data-task-id="w-task8"></div>
+                <div class="page" data-page="12" data-task-id="w-task9"></div>
+                <div class="page" data-page="13" data-task-id="w-task10"></div>
+            </div>
+
+            <!-- ========================================== -->
+            <!-- SECTION: INTRODUCTION & REAL-WORLD         -->
+            <!-- ========================================== -->
+            <div id="intro" class="content-section">
+                <div class="page active" data-page="1">
+                    <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-indigo-500">
+                        <h2 class="text-2xl font-bold text-indigo-600 mb-2">Mengemas Hadiah: Kelipatan dan Faktor <i class="fas fa-gift text-indigo-400 ml-2"></i></h2>
+                        <p class="translation">Packaging Gifts: Multiples and Factors</p>
+                        <div class="flex gap-4 my-4 items-center">
+                            <div class="bg-indigo-50 p-4 rounded flex justify-center shrink-0">
+                                <svg width="180" height="140" viewBox="0 0 180 140">
+                                    <rect x="40" y="40" width="100" height="60" rx="5" fill="#f59e0b" stroke="#333" stroke-width="2"/>
+                                    <path d="M 40 60 L 140 60 M 90 40 L 90 100" stroke="#ef4444" stroke-width="4"/>
+                                    <path d="M 70 40 Q 90 10 110 40" fill="none" stroke="#ef4444" stroke-width="4"/>
+                                    <text x="90" y="120" font-size="12" text-anchor="middle" fill="#333">24 coklat</text>
+                                </svg>
+                            </div>
+                            <div>
+                                <p>Deni punya 24 coklat. Ia ingin membaginya rata ke dalam beberapa kotak tanpa sisa. Berapa kotang yang bisa dipakai? <span class="translation">Deni has 24 chocolates. He wants to divide them equally into several boxes without remainder. How many boxes can be used?</span></p>
+                                <p class="mt-2">Jumlah kotak haruslah faktor dari 24. Bisa 2 kotak (isi 12), 3 kotak (isi 8), 4 kotak (isi 6), dst. <span class="translation">The number of boxes must be a factor of 24. It could be 2 boxes (contains 12), 3 boxes (8), 4 boxes (6), etc.</span></p>
+                            </div>
+                        </div>
+                        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mt-4">
+                            <p class="font-bold text-yellow-800"><i class="fas fa-lightbulb mr-1"></i> Tips & Tricks: Tanpa Sisa</p>
+                            <p class="mt-1">Dalam soal cerita "membagi rata", jumlah kelompok harus merupakan faktor dari total benda. <span class="translation">In "dividing equally" word problems, the number of groups must be a factor of the total items.</span></p>
+                            <p class="mt-1 font-bold"><i class="fas fa-flag mr-1"></i> To The Point Formula: Total Benda \( \div \) Kelompok \( = 0 \) sisa.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="page" data-page="2" data-task-id="i-task1"></div>
+                <div class="page" data-page="3" data-task-id="i-task2"></div>
+                <div class="page" data-page="4" data-task-id="i-task3"></div>
+
+                <div class="page" data-page="5">
+                    <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-green-500">
+                        <h2 class="text-2xl font-bold text-green-600 mb-2">Formasi Barisan: Faktor Persegi <i class="fas fa-th text-green-400 ml-2"></i></h2>
+                        <p class="translation">Formation: Square Factors</p>
+                        <div class="flex gap-4 my-4 items-center">
+                            <div class="bg-green-50 p-4 rounded flex justify-center shrink-0">
+                                <svg width="180" height="140" viewBox="0 0 180 140">
+                                    <rect x="50" y="20" width="100" height="100" fill="none" stroke="#10b981" stroke-width="2"/>
+                                    <rect x="50" y="20" width="25" height="25" fill="#10b981" opacity="0.5"/>
+                                    <rect x="75" y="20" width="25" height="25" fill="#10b981" opacity="0.5"/>
+                                    <rect x="100" y="20" width="25" height="25" fill="#10b981" opacity="0.5"/>
+                                    <rect x="125" y="20" width="25" height="25" fill="#10b981" opacity="0.5"/>
+                                    <rect x="50" y="45" width="25" height="25" fill="#10b981" opacity="0.5"/>
+                                    <rect x="75" y="45" width="25" height="25" fill="#10b981" opacity="0.5"/>
+                                    <rect x="100" y="45" width="25" height="25" fill="#10b981" opacity="0.5"/>
+                                    <rect x="125" y="45" width="25" height="25" fill="#10b981" opacity="0.5"/>
+                                    <rect x="50" y="70" width="25" height="25" fill="#10b981" opacity="0.5"/>
+                                    <rect x="75" y="70" width="25" height="25" fill="#10b981" opacity="0.5"/>
+                                    <rect x="100" y="70" width="25" height="25" fill="#10b981" opacity="0.5"/>
+                                    <rect x="125" y="70" width="25" height="25" fill="#10b981" opacity="0.5"/>
+                                    <rect x="50" y="95" width="25" height="25" fill="#10b981" opacity="0.5"/>
+                                    <rect x="75" y="95" width="25" height="25" fill="#10b981" opacity="0.5"/>
+                                    <rect x="100" y="95" width="25" height="25" fill="#10b981" opacity="0.5"/>
+                                    <rect x="125" y="95" width="25" height="25" fill="#10b981" opacity="0.5"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <p>Pasukan penjaga ingin berbaris membentuk kotak. Jika ada 16 orang, mereka bisa berbaris \( 4 \times 4 \). Faktor persegi memungkinkan barisan simetris. <span class="translation">Guards want to march in a square formation. If there are 16 people, they can form a \( 4 \times 4 \) square. Square factors allow symmetrical formations.</span></p>
+                                <p class="mt-2">Karena \( 4 \times 4 = 16 \), maka 16 memiliki faktor persegi yaitu 4. <span class="translation">Since \( 4 \times 4 = 16 \), 16 has a square factor which is 4.</span></p>
+                            </div>
+                        </div>
+                        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mt-4">
+                            <p class="font-bold text-yellow-800"><i class="fas fa-lightbulb mr-1"></i> Tips & Tricks: Cari Akar</p>
+                            <p class="mt-1">Jika soal menyebut "barisan bujur sangkar" atau "kotak sempurna", carilah faktor yang jika dikalikan dengan dirinya sendiri menghasilkan bilangan tersebut. <span class="translation">If the problem mentions "square formation" or "perfect square", find a factor that multiplied by itself results in the number.</span></p>
+                            <p class="mt-1 font-bold"><i class="fas fa-flag mr-1"></i> To The Point Formula: \( k \times k = N \implies k \) adalah akar persegi.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="page" data-page="6" data-task-id="i-task4"></div>
+                <div class="page" data-page="7" data-task-id="i-task5"></div>
+                <div class="page" data-page="8" data-task-id="i-task6"></div>
+
+                <div class="page" data-page="9">
+                    <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-purple-500">
+                        <h2 class="text-2xl font-bold text-purple-600 mb-2">Membagi Tugas: Faktor Persekutuan <i class="fas fa-people-arrows text-purple-400 ml-2"></i></h2>
+                        <p class="translation">Dividing Tasks: Common Factors</p>
+                        <div class="flex gap-4 my-4 items-center">
+                            <div class="bg-purple-50 p-4 rounded flex justify-center shrink-0">
+                                <svg width="180" height="140" viewBox="0 0 180 140">
+                                    <circle cx="60" cy="70" r="40" fill="none" stroke="#3b82f6" stroke-width="2"/>
+                                    <text x="60" y="65" font-size="12" text-anchor="middle" fill="#3b82f6">12</text>
+                                    <text x="60" y="80" font-size="10" text-anchor="middle" fill="#666">Siswa</text>
+                                    <circle cx="120" cy="70" r="40" fill="none" stroke="#ef4444" stroke-width="2"/>
+                                    <text x="120" y="65" font-size="12" text-anchor="middle" fill="#ef4444">18</text>
+                                    <text x="120" y="80" font-size="10" text-anchor="middle" fill="#666">Buku</text>
+                                    <text x="90" y="75" font-size="14" text-anchor="middle" fill="#8b5cf6" font-weight="bold">?</text>
+                                </svg>
+                            </div>
+                            <div>
+                                <p>Di kelas ada 12 siswa dan 18 buku. Buku akan dibagi rata kepada siswa. Berapa kelompok terbesar yang bisa dibentuk agar pembagian rata? <span class="translation">In class there are 12 students and 18 books. Books will be divided equally among students. What is the largest group that can be formed for equal distribution?</span></p>
+                                <p class="mt-2">Ini adalah konsep Faktor Persekutuan Terbesar (FPB). Faktor dari 12: \( 1,2,3,4,6,12 \). Faktor dari 18: \( 1,2,3,6,9,18 \). Sama-sama punya 6, berarti maksimal 6 kelompok. <span class="translation">This is the Greatest Common Factor (GCF) concept. Factors of 12: \( 1,2,3,4,6,12 \). Factors of 18: \( 1,2,3,6,9,18 \). Both have 6, so maximum 6 groups.</span></p>
+                            </div>
+                        </div>
+                        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mt-4">
+                            <p class="font-bold text-yellow-800"><i class="fas fa-lightbulb mr-1"></i> Tips & Tricks: Irisan Kue</p>
+                            <p class="mt-1">Faktor persekutuan adalah bilangan yang ada di "irisan" atau bagian yang sama dari dua bilangan. <span class="translation">Common factors are numbers in the "intersection" or same part of two numbers.</span></p>
+                            <p class="mt-1 font-bold"><i class="fas fa-flag mr-1"></i> To The Point Formula: FPB\( (a, b) = \) Faktor terbesar yang sama-sama membagi \( a \) dan \( b \).</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="page" data-page="10" data-task-id="i-task7"></div>
+                <div class="page" data-page="11" data-task-id="i-task8"></div>
+                <div class="page" data-page="12" data-task-id="i-task9"></div>
+                <div class="page" data-page="13" data-task-id="i-task10"></div>
+            </div>
+
+            <!-- ========================================== -->
+            <!-- SECTION: REVIEW OF PRIOR KNOWLEDGE         -->
+            <!-- ========================================== -->
+            <div id="review" class="content-section">
+                <div class="page active" data-page="1">
+                    <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-indigo-500">
+                        <h2 class="text-2xl font-bold text-indigo-600 mb-2">Operasi Hitung: Kali dan Bagi <i class="fas fa-times text-indigo-400 ml-2"></i></h2>
+                        <p class="translation">Arithmetic: Multiplication and Division</p>
+                        <div class="flex gap-4 my-4 items-center">
+                            <div class="bg-indigo-50 p-4 rounded flex justify-center shrink-0">
+                                <svg width="180" height="140" viewBox="0 0 180 140">
+                                    <rect x="30" y="40" width="120" height="60" rx="5" fill="#dbeafe" stroke="#3b82f6" stroke-width="2"/>
+                                    <text x="50" y="75" font-size="20" fill="#333" text-anchor="middle">15</text>
+                                    <text x="90" y="75" font-size="20" fill="#3b82f6" text-anchor="middle">/</text>
+                                    <text x="130" y="75" font-size="20" fill="#333" text-anchor="middle">3</text>
+                                    <text x="90" y="110" font-size="20" fill="#10b981" text-anchor="middle">= 5</text>
+                                </svg>
+                            </div>
+                            <div>
+                                <p>Sebelumnya kita belajar bagi. \( 15 \div 3 = 5 \). Karena sisanya \( 0 \), maka \( 3 \) adalah faktor dari \( 15 \). <span class="translation">Previously we learned division. \( 15 \div 3 = 5 \). Since the remainder is \( 0 \), \( 3 \) is a factor of \( 15 \).</span></p>
+                                <p class="mt-2">Ini berhubungan langsung dengan perkalian: \( 3 \times 5 = 15 \). Keduanya (3 dan 5) adalah faktor. <span class="translation">This is directly related to multiplication: \( 3 \times 5 = 15 \). Both (3 and 5) are factors.</span></p>
+                            </div>
+                        </div>
+                        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mt-4">
+                            <p class="font-bold text-yellow-800"><i class="fas fa-lightbulb mr-1"></i> Tips & Tricks: Lawan Kata</p>
+                            <p class="mt-1">Faktor adalah kebalikan dari kelipatan. Jika 3 faktor dari 15, maka 15 adalah kelipatan dari 3. <span class="translation">Factor is the opposite of multiple. If 3 is a factor of 15, then 15 is a multiple of 3.</span></p>
+                            <p class="mt-1 font-bold"><i class="fas fa-flag mr-1"></i> To The Point Formula: \( a \times b = c \implies a \) dan \( b \) faktor, \( c \) kelipatan.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="page" data-page="2" data-task-id="r-task1"></div>
+                <div class="page" data-page="3" data-task-id="r-task2"></div>
+                <div class="page" data-page="4" data-task-id="r-task3"></div>
+
+                <div class="page" data-page="5">
+                    <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-green-500">
+                        <h2 class="text-2xl font-bold text-green-600 mb-2">Bilangan Bulat: Positif dan Negatif <i class="fas fa-plus-minus text-green-400 ml-2"></i></h2>
+                        <p class="translation">Integers: Positive and Negative</p>
+                        <div class="flex gap-4 my-4 items-center">
+                            <div class="bg-green-50 p-4 rounded flex justify-center shrink-0">
+                                <svg width="180" height="140" viewBox="0 0 180 140">
+                                    <line x1="20" y1="70" x2="160" y2="70" stroke="#333" stroke-width="2"/>
+                                    <path d="M 160 70 L 150 65 L 150 75 Z" fill="#333"/>
+                                    <line x1="40" y1="65" x2="40" y2="75" stroke="#333" stroke-width="2"/>
+                                    <text x="40" y="90" font-size="10" text-anchor="middle">-4</text>
+                                    <line x1="80" y1="65" x2="80" y2="75" stroke="#333" stroke-width="2"/>
+                                    <text x="80" y="90" font-size="10" text-anchor="middle">-2</text>
+                                    <line x1="120" y1="65" x2="120" y2="75" stroke="#333" stroke-width="2"/>
+                                    <text x="120" y="90" font-size="10" text-anchor="middle">2</text>
+                                </svg>
+                            </div>
+                            <div>
+                                <p>Faktor tidak hanya untuk bilangan positif. \( -2 \) juga merupakan faktor dari \( 4 \), karena \( -2 \times -2 = 4 \). <span class="translation">Factors are not only for positive numbers. \( -2 \) is also a factor of \( 4 \), because \( -2 \times -2 = 4 \).</span></p>
+                                <p class="mt-2">Namun, biasanya di sekolah menengah, kita fokus dulu pada faktor bilangan bulat positif. <span class="translation">However, usually in middle school, we focus first on factors of positive integers.</span></p>
+                            </div>
+                        </div>
+                        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mt-4">
+                            <p class="font-bold text-yellow-800"><i class="fas fa-lightbulb mr-1"></i> Tips & Tricks: Tanda Tetap Sama</p>
+                            <p class="mt-1">Faktor negatif selalu berpasangan menghasilkan bilangan positif (misal \( -3 \times -4 = 12 \)). <span class="translation">Negative factors always pair up to result in a positive number (e.g., \( -3 \times -4 = 12 \)).</span></p>
+                            <p class="mt-1 font-bold"><i class="fas fa-flag mr-1"></i> To The Point Formula: \( (-a) \times (-b) = a \times b \)</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="page" data-page="6" data-task-id="r-task4"></div>
+                <div class="page" data-page="7" data-task-id="r-task5"></div>
+                <div class="page" data-page="8" data-task-id="r-task6"></div>
+
+                <div class="page" data-page="9">
+                    <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-purple-500">
+                        <h2 class="text-2xl font-bold text-purple-600 mb-2">Sifat Pembagian: Bulat dan Bersisa <i class="fas fa-divide text-purple-400 ml-2"></i></h2>
+                        <p class="translation">Division Properties: Integer and Remainder</p>
+                        <div class="flex gap-4 my-4 items-center">
+                            <div class="bg-purple-50 p-4 rounded flex justify-center shrink-0">
+                                <svg width="180" height="140" viewBox="0 0 180 140">
+                                    <circle cx="40" cy="70" r="15" fill="#8b5cf6"/>
+                                    <circle cx="70" cy="70" r="15" fill="#8b5cf6"/>
+                                    <circle cx="100" cy="70" r="15" fill="#8b5cf6"/>
+                                    <circle cx="130" cy="70" r="15" fill="#8b5cf6"/>
+                                    <path d="M 40 90 L 40 100 M 70 90 L 70 100 M 100 90 L 100 100 M 130 90 L 130 100" stroke="#333" stroke-width="2"/>
+                                    <rect x="30" y="100" width="110" height="20" rx="3" fill="#f3e8ff" stroke="#8b5cf6"/>
+                                    <text x="85" y="115" font-size="12" text-anchor="middle" fill="#666">Sisa 0</text>
+                                </svg>
+                            </div>
+                            <div>
+                                <p>Jika \( 14 \) dibagi \( 2 \), hasilnya \( 7 \) tanpa sisa. Maka 2 adalah faktor. <span class="translation">If \( 14 \) is divided by \( 2 \), the result is \( 7 \) without remainder. So 2 is a factor.</span></p>
+                                <p class="mt-2">Jika \( 14 \) dibagi \( 4 \), hasilnya \( 3 \) sisa \( 2 \). Ada sisa, berarti 4 BUKAN faktor dari 14. <span class="translation">If \( 14 \) is divided by \( 4 \), the result is \( 3 \) remainder \( 2 \). There is a remainder, meaning 4 is NOT a factor of 14.</span></p>
+                            </div>
+                        </div>
+                        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mt-4">
+                            <p class="font-bold text-yellow-800"><i class="fas fa-lightbulb mr-1"></i> Tips & Tricks: Nol Penentu</p>
+                            <p class="mt-1">Syarat mutlak menjadi faktor adalah sisanya harus nol. Bukan hasil baginya yang bulat, tapi sisanya. <span class="translation">The absolute requirement to be a factor is the remainder must be zero. Not just the quotient being an integer, but the remainder.</span></p>
+                            <p class="mt-1 font-bold"><i class="fas fa-flag mr-1"></i> To The Point Formula: \( N \div k = q \) sisa \( 0 \implies k \) adalah faktor.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="page" data-page="10" data-task-id="r-task7"></div>
+                <div class="page" data-page="11" data-task-id="r-task8"></div>
+                <div class="page" data-page="12" data-task-id="r-task9"></div>
+                <div class="page" data-page="13" data-task-id="r-task10"></div>
+            </div>
+            
+            <!-- ========================================== -->
+            <!-- SECTION: PROBLEM INTRODUCTION              -->
+            <!-- ========================================== -->
+            <div id="problem" class="content-section">
+                <div class="page active" data-page="1">
+                    <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-indigo-500">
+                        <h2 class="text-2xl font-bold text-indigo-600 mb-2">Pohon Faktor: Memecah Bilangan <i class="fas fa-tree text-indigo-400 ml-2"></i></h2>
+                        <p class="translation">Factor Tree: Breaking Down Numbers</p>
+                        <div class="flex gap-4 my-4 items-center">
+                            <div class="bg-indigo-50 p-4 rounded flex justify-center shrink-0">
+                                <svg width="180" height="160" viewBox="0 0 180 160">
+                                    <circle cx="90" cy="30" r="20" fill="#3b82f6"/>
+                                    <text x="90" y="35" font-size="14" fill="#fff" text-anchor="middle" font-weight="bold">24</text>
+                                    <path d="M 90 50 L 50 80 M 90 50 L 130 80" stroke="#333" stroke-width="2"/>
+                                    <circle cx="50" cy="100" r="15" fill="#10b981"/>
+                                    <text x="50" y="105" font-size="12" fill="#fff" text-anchor="middle" font-weight="bold">4</text>
+                                    <circle cx="130" cy="100" r="15" fill="#f59e0b"/>
+                                    <text x="130" y="105" font-size="12" fill="#fff" text-anchor="middle" font-weight="bold">6</text>
+                                    <path d="M 50 115 L 30 140 M 50 115 L 70 140" stroke="#333" stroke-width="2"/>
+                                    <text x="30" y="150" font-size="12" text-anchor="middle" fill="#333">2</text>
+                                    <text x="70" y="150" font-size="12" text-anchor="middle" fill="#333">2</text>
+                                    <path d="M 130 115 L 110 140 M 130 115 L 150 140" stroke="#333" stroke-width="2"/>
+                                    <text x="110" y="150" font-size="12" text-anchor="middle" fill="#333">2</text>
+                                    <text x="150" y="150" font-size="12" text-anchor="middle" fill="#333">3</text>
+                                </svg>
+                            </div>
+                            <div>
+                                <p>Pohon faktor adalah cara visual untuk mencari faktor prima. Kita mulai dari bilangan asal (misal 24), lalu pecah menjadi dua faktor (4 dan 6). <span class="translation">A factor tree is a visual way to find prime factors. We start from the original number (e.g., 24), then break it into two factors (4 and 6).</span></p>
+                                <p class="mt-2">Terus pecah sampai daun-daunnya berupa bilangan prima. Untuk 24, hasil akhirnya adalah \( 2, 2, 2, 3 \). <span class="translation">Keep breaking until the leaves are prime numbers. For 24, the final results are \( 2, 2, 2, 3 \).</span></p>
+                            </div>
+                        </div>
+                        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mt-4">
+                            <p class="font-bold text-yellow-800"><i class="fas fa-lightbulb mr-1"></i> Tips & Tricks: Cara Acak</p>
+                            <p class="mt-1">Tidak masalah bilangan pertama kamu dipecah jadi apa (misal 24 jadi 3x8 atau 4x6), hasil faktor primanya pasti sama. <span class="translation">It doesn't matter how you first break the number (e.g., 24 into 3x8 or 4x6), the prime factors will be the same.</span></p>
+                            <p class="mt-1 font-bold"><i class="fas fa-flag mr-1"></i> To The Point Formula: \( 24 = 2 \times 2 \times 2 \times 3 = 2^3 \times 3 \)</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="page" data-page="2" data-task-id="p-task1"></div>
+                <div class="page" data-page="3" data-task-id="p-task2"></div>
+                <div class="page" data-page="4" data-task-id="p-task3"></div>
+
+                <div class="page" data-page="5">
+                    <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-green-500">
+                        <h2 class="text-2xl font-bold text-green-600 mb-2">Prima vs Komposit <i class="fas fa-shield-halved text-green-400 ml-2"></i></h2>
+                        <p class="translation">Prime vs Composite</p>
+                        <div class="flex gap-4 my-4 items-center">
+                            <div class="bg-green-50 p-4 rounded flex justify-center shrink-0">
+                                <svg width="180" height="140" viewBox="0 0 180 140">
+                                    <rect x="20" y="30" width="50" height="50" rx="5" fill="#dcfce7" stroke="#10b981" stroke-width="2"/>
+                                    <text x="45" y="60" font-size="14" text-anchor="middle" fill="#333">Prima</text>
+                                    <text x="45" y="100" font-size="12" text-anchor="middle" fill="#666">Faktor: 1, 7</text>
+                                    <rect x="110" y="30" width="50" height="50" rx="5" fill="#fef9c3" stroke="#eab308" stroke-width="2"/>
+                                    <text x="135" y="60" font-size="14" text-anchor="middle" fill="#333">Komposit</text>
+                                    <text x="135" y="100" font-size="12" text-anchor="middle" fill="#666">Faktor: 1,2,3,6</text>
+                                </svg>
+                            </div>
+                            <div>
+                                <p>Bilangan Prima hanya punya 2 faktor (1 dan dirinya sendiri). Contoh: 2, 3, 5, 7. <span class="translation">Prime Numbers have only 2 factors (1 and themselves). Example: 2, 3, 5, 7.</span></p>
+                                <p class="mt-2">Bilangan Komposit punya lebih dari 2 faktor. Contoh: 4 (faktornya 1,2,4), 6 (faktornya 1,2,3,6). <span class="translation">Composite Numbers have more than 2 factors. Example: 4 (factors 1,2,4), 6 (factors 1,2,3,6).</span></p>
+                            </div>
+                        </div>
+                        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mt-4">
+                            <p class="font-bold text-yellow-800"><i class="fas fa-lightbulb mr-1"></i> Tips & Tricks: Pengecualian Angka 1</p>
+                            <p class="mt-1">Ingat! Angka 1 BUKAN prima dan BUKAN komposit, karena ia hanya punya 1 faktor (dirinya sendiri). <span class="translation">Remember! Number 1 is NOT prime and NOT composite, because it only has 1 factor (itself).</span></p>
+                            <p class="mt-1 font-bold"><i class="fas fa-flag mr-1"></i> To The Point Formula: Prima = 2 faktor, Komposit = >2 faktor.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="page" data-page="6" data-task-id="p-task4"></div>
+                <div class="page" data-page="7" data-task-id="p-task5"></div>
+                <div class="page" data-page="8" data-task-id="p-task6"></div>
+
+                <div class="page" data-page="9">
+                    <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-purple-500">
+                        <h2 class="text-2xl font-bold text-purple-600 mb-2">FPB: Faktor Persekutuan Terbesar <i class="fas fa-trophy text-purple-400 ml-2"></i></h2>
+                        <p class="translation">GCF: Greatest Common Factor</p>
+                        <div class="flex gap-4 my-4 items-center">
+                            <div class="bg-purple-50 p-4 rounded flex justify-center shrink-0">
+                                <svg width="180" height="140" viewBox="0 0 180 140">
+                                    <rect x="20" y="20" width="60" height="100" rx="5" fill="#f3e8ff" stroke="#8b5cf6" stroke-width="2"/>
+                                    <text x="50" y="40" font-size="12" text-anchor="middle" fill="#333">12</text>
+                                    <text x="50" y="60" font-size="10" text-anchor="middle" fill="#666">1,2,3,4</text>
+                                    <text x="50" y="75" font-size="10" text-anchor="middle" fill="#666">6,12</text>
+                                    <rect x="100" y="20" width="60" height="100" rx="5" fill="#dbeafe" stroke="#3b82f6" stroke-width="2"/>
+                                    <text x="130" y="40" font-size="12" text-anchor="middle" fill="#333">18</text>
+                                    <text x="130" y="60" font-size="10" text-anchor="middle" fill="#666">1,2,3,6</text>
+                                    <text x="130" y="75" font-size="10" text-anchor="middle" fill="#666">9,18</text>
+                                    <path d="M 80 70 L 100 70" stroke="#ef4444" stroke-width="3"/>
+                                    <text x="90" y="100" font-size="12" text-anchor="middle" fill="#ef4444" font-weight="bold">6</text>
+                                </svg>
+                            </div>
+                            <div>
+                                <p>FPB adalah faktor terbesar yang sama-sama dimiliki dua bilangan. Cari semua faktornya, lalu cari yang sama dan paling besar. <span class="translation">GCF is the largest factor shared by two numbers. Find all factors, then find the common ones and pick the largest.</span></p>
+                                <p class="mt-2">Faktor 12: \( 1,2,3,4,6,12 \). Faktor 18: \( 1,2,3,6,9,18 \). Faktor yang sama: \( 1,2,3,6 \). Yang terbesar adalah 6. <span class="translation">Factors of 12: \( 1,2,3,4,6,12 \). Factors of 18: \( 1,2,3,6,9,18 \). Common factors: \( 1,2,3,6 \). Largest is 6.</span></p>
+                            </div>
+                        </div>
+                        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mt-4">
+                            <p class="font-bold text-yellow-800"><i class="fas fa-lightbulb mr-1"></i> Tips & Tricks: Cepat dengan Prima</p>
+                            <p class="mt-1">Bagi kedua bilangan dengan faktor primanya yang sama sampai tidak bisa dibagi lagi. <span class="translation">Divide both numbers by their common prime factors until they can't be divided anymore.</span></p>
+                            <p class="mt-1 font-bold"><i class="fas fa-flag mr-1"></i> To The Point Formula: FPB\( (a,b) = \) Perkalian faktor prima yang sama.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="page" data-page="10" data-task-id="p-task7"></div>
+                <div class="page" data-page="11" data-task-id="p-task8"></div>
+                <div class="page" data-page="12" data-task-id="p-task9"></div>
+                <div class="page" data-page="13" data-task-id="p-task10"></div>
+            </div>
+
+            <!-- ========================================== -->
+            <!-- SECTION: GUIDED PRACTICE                   -->
+            <!-- ========================================== -->
+            <div id="guided" class="content-section">
+                <div class="page active" data-page="1">
+                    <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-indigo-500">
+                        <h2 class="text-2xl font-bold text-indigo-600 mb-2">KPK: Kelipatan Persekutuan Terkecil <i class="fas fa-infinity text-indigo-400 ml-2"></i></h2>
+                        <p class="translation">LCM: Least Common Multiple</p>
+                        <div class="flex gap-4 my-4 items-center">
+                            <div class="bg-indigo-50 p-4 rounded flex justify-center shrink-0">
+                                <svg width="180" height="140" viewBox="0 0 180 140">
+                                    <text x="40" y="40" font-size="14" fill="#3b82f6">Kelipatan 4:</text>
+                                    <text x="50" y="60" font-size="12" fill="#666">4, 8, 12, 16...</text>
+                                    <text x="40" y="90" font-size="14" fill="#ef4444">Kelipatan 6:</text>
+                                    <text x="50" y="110" font-size="12" fill="#666">6, 12, 18, 24...</text>
+                                    <circle cx="55" cy="55" r="12" fill="none" stroke="#10b981" stroke-width="2"/>
+                                    <circle cx="55" cy="100" r="12" fill="none" stroke="#10b981" stroke-width="2"/>
+                                    <text x="120" y="80" font-size="16" fill="#10b981" font-weight="bold">= 12</text>
+                                </svg>
+                            </div>
+                            <div>
+                                <p>Kelipatan adalah kebalikan faktor. Kelipatan 4 adalah \( 4, 8, 12, 16, \dots \). <span class="translation">Multiples are the opposite of factors. Multiples of 4 are \( 4, 8, 12, 16, \dots \).</span></p>
+                                <p class="mt-2">KPK adalah kelipatan terkecil yang sama. Kelipatan 4 dan 6 yang sama pertama adalah 12. <span class="translation">LCM is the smallest common multiple. The first common multiple of 4 and 6 is 12.</span></p>
+                            </div>
+                        </div>
+                        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mt-4">
+                            <p class="font-bold text-yellow-800"><i class="fas fa-lightbulb mr-1"></i> Tips & Tricks: Tabel Kelipatan</p>
+                            <p class="mt-1">Tulis kelipatan kedua bilangan berurutan sampai menemukan angka yang sama. <span class="translation">Write down the multiples of both numbers sequentially until you find a matching number.</span></p>
+                            <p class="mt-1 font-bold"><i class="fas fa-flag mr-1"></i> To The Point Formula: KPK\( (a,b) = \) Perkalian semua faktor prima tertinggi.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="page" data-page="2" data-task-id="g-task1"></div>
+                <div class="page" data-page="3" data-task-id="g-task2"></div>
+                <div class="page" data-page="4" data-task-id="g-task3"></div>
+
+                <div class="page" data-page="5">
+                    <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-green-500">
+                        <h2 class="text-2xl font-bold text-green-600 mb-2">Soal Cerita KPK: Pertemuan Berkala <i class="fas fa-people-arrows text-green-400 ml-2"></i></h2>
+                        <p class="translation">LCM Word Problem: Periodic Meetings</p>
+                        <div class="flex gap-4 my-4 items-center">
+                            <div class="bg-green-50 p-4 rounded flex justify-center shrink-0">
+                                <svg width="180" height="140" viewBox="0 0 180 140">
+                                    <circle cx="60" cy="70" r="30" fill="#10b981" opacity="0.7"/>
+                                    <text x="60" y="65" font-size="12" text-anchor="middle" fill="#fff">Deni</text>
+                                    <text x="60" y="80" font-size="10" text-anchor="middle" fill="#fff">(4 hari)</text>
+                                    <circle cx="120" cy="70" r="30" fill="#3b82f6" opacity="0.7"/>
+                                    <text x="120" y="65" font-size="12" text-anchor="middle" fill="#fff">Sinta</text>
+                                    <text x="120" y="80" font-size="10" text-anchor="middle" fill="#fff">(6 hari)</text>
+                                    <text x="90" y="120" font-size="12" text-anchor="middle" fill="#ef4444" font-weight="bold">Kapan bertemu lagi?</text>
+                                </svg>
+                            </div>
+                            <div>
+                                <p>Deni latihan tiap 4 hari, Sinta tiap 6 hari. Jika hari ini latihan bareng, kapan bareng lagi? <span class="translation">Deni practices every 4 days, Sinta every 6 days. If they practice together today, when will they practice together again?</span></p>
+                                <p class="mt-2">Ini soal KPK! KPK(4, 6) = 12. Mereka akan bertemu lagi dalam 12 hari. <span class="translation">This is an LCM problem! LCM(4, 6) = 12. They will meet again in 12 days.</span></p>
+                            </div>
+                        </div>
+                        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mt-4">
+                            <p class="font-bold text-yellow-800"><i class="fas fa-lightbulb mr-1"></i> Tips & Tricks: Kata Kunci</p>
+                            <p class="mt-1">"Bareng lagi", "bersama lagi", "berbunyi bersama" = KPK. "Dibagi rata", "kelompok terbesar" = FPB. <span class="translation">"Together again", "ring together" = LCM. "Divided equally", "largest group" = GCF.</span></p>
+                            <p class="mt-1 font-bold"><i class="fas fa-flag mr-1"></i> To The Point Formula: Cari KPK jika mencari waktu perulangan bersama.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="page" data-page="6" data-task-id="g-task4"></div>
+                <div class="page" data-page="7" data-task-id="g-task5"></div>
+                <div class="page" data-page="8" data-task-id="g-task6"></div>
+
+                <div class="page" data-page="9">
+                    <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-purple-500">
+                        <h2 class="text-2xl font-bold text-purple-600 mb-2">Soal Cerita FPB: Membagi Rata <i class="fas fa-equals text-purple-400 ml-2"></i></h2>
+                        <p class="translation">GCF Word Problem: Equal Distribution</p>
+                        <div class="flex gap-4 my-4 items-center">
+                            <div class="bg-purple-50 p-4 rounded flex justify-center shrink-0">
+                                <svg width="180" height="140" viewBox="0 0 180 140">
+                                    <rect x="20" y="40" width="50" height="60" rx="5" fill="#f3e8ff" stroke="#8b5cf6" stroke-width="2"/>
+                                    <text x="45" y="75" font-size="12" text-anchor="middle" fill="#333">20</text>
+                                    <text x="45" y="90" font-size="10" text-anchor="middle" fill="#666">Permen</text>
+                                    <rect x="90" y="40" width="50" height="60" rx="5" fill="#dbeafe" stroke="#3b82f6" stroke-width="2"/>
+                                    <text x="115" y="75" font-size="12" text-anchor="middle" fill="#333">30</text>
+                                    <text x="115" y="90" font-size="10" text-anchor="middle" fill="#666">Coklat</text>
+                                    <path d="M 70 70 L 90 70" stroke="#ef4444" stroke-width="3"/>
+                                    <text x="80" y="120" font-size="12" text-anchor="middle" fill="#ef4444" font-weight="bold">FPB</text>
+                                </svg>
+                            </div>
+                            <div>
+                                <p>Ada 20 permen dan 30 coklat. Dibagi ke beberapa kantong secara adil (isi setiap kantong sama). Maksimal berapa kantong? <span class="translation">There are 20 candies and 30 chocolates. Divided into several bags fairly (same contents). Maximum how many bags?</span></p>
+                                <p class="mt-2">Cari FPB(20, 30). Faktor 20: \( 1,2,4,5,10,20 \). Faktor 30: \( 1,2,3,5,6,10,15,30 \). FPB=10. <span class="translation">Find GCF(20, 30). Factors of 20: \( 1,2,4,5,10,20 \). Factors of 30: \( 1,2,3,5,6,10,15,30 \). GCF=10.</span></p>
+                            </div>
+                        </div>
+                        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mt-4">
+                            <p class="font-bold text-yellow-800"><i class="fas fa-lightbulb mr-1"></i> Tips & Tricks: Adil Maksimal</p>
+                            <p class="mt-1">Jika soal meminta pembagian tanpa sisa dan meminta jumlah maksimal, itu selalu FPB. <span class="translation">If the problem asks for division without remainder and asks for the maximum amount, it's always GCF.</span></p>
+                            <p class="mt-1 font-bold"><i class="fas fa-flag mr-1"></i> To The Point Formula: Maksimal & Tanpa Sisa \( = \) FPB.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="page" data-page="10" data-task-id="g-task7"></div>
+                <div class="page" data-page="11" data-task-id="g-task8"></div>
+                <div class="page" data-page="12" data-task-id="g-task9"></div>
+                <div class="page" data-page="13" data-task-id="g-task10"></div>
+            </div>
+
+            <!-- ========================================== -->
+            <!-- SECTION: INDEPENDENT PRACTICE               -->
+            <!-- ========================================== -->
+            <div id="independent" class="content-section">
+                <div class="page active" data-page="1">
+                    <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-indigo-500">
+                        <h2 class="text-2xl font-bold text-indigo-600 mb-2">Aplikasi FPB: Deni Menata Kelas <i class="fas fa-chalkboard text-indigo-400 ml-2"></i></h2>
+                        <p class="translation">GCF Application: Deni Arranges Class</p>
+                        <div class="flex gap-4 my-4 items-center">
+                            <div class="bg-indigo-50 p-4 rounded flex justify-center shrink-0">
+                                <svg width="180" height="140" viewBox="0 0 180 140">
+                                    <rect x="30" y="20" width="40" height="40" fill="#3b82f6"/>
+                                    <rect x="80" y="20" width="40" height="40" fill="#10b981"/>
+                                    <text x="50" y="80" font-size="12" text-anchor="middle">Meja</text>
+                                    <text x="100" y="80" font-size="12" text-anchor="middle">Kursi</text>
+                                    <path d="M 50 90 L 50 110 L 100 110" stroke="#333" stroke-width="2" fill="none"/>
+                                    <text x="75" y="130" font-size="12" text-anchor="middle" fill="#ef4444" font-weight="bold">Kelompok FPB</text>
+                                </svg>
+                            </div>
+                            <div>
+                                <p>Deni punya 24 meja dan 32 kursi. Ia ingin membuat kelompok dengan jumlah meja dan kursi yang sama di tiap kelompok. Maksimal berapa kelompok? <span class="translation">Deni has 24 desks and 32 chairs. He wants to make groups with the same number of desks and chairs in each. Maximum how many groups?</span></p>
+                                <p class="mt-2">FPB(24, 32). 24 = \( 2^3 \times 3 \), 32 = \( 2^5 \). Ambil pangkat terkecil = \( 2^3 = 8 \). Maksimal 8 kelompok. <span class="translation">GCF(24, 32). 24 = \( 2^3 \times 3 \), 32 = \( 2^5 \). Take smallest power = \( 2^3 = 8 \). Max 8 groups.</span></p>
+                            </div>
+                        </div>
+                        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mt-4">
+                            <p class="font-bold text-yellow-800"><i class="fas fa-lightbulb mr-1"></i> Tips & Tricks: Faktorisasi Prima Cepat</p>
+                            <p class="mt-1">Gunakan pohon faktor untuk dapatkan pangkat prima, lalu ambil pangkat terkecil yang sama untuk FPB. <span class="translation">Use factor tree to get prime powers, then take the smallest matching power for GCF.</span></p>
+                            <p class="mt-1 font-bold"><i class="fas fa-flag mr-1"></i> To The Point Formula: FPB\( (2^3 \times 3, 2^5) = 2^{\min(3,5)} = 2^3 \)</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="page" data-page="2" data-task-id="ind-task1"></div>
+                <div class="page" data-page="3" data-task-id="ind-task2"></div>
+                <div class="page" data-page="4" data-task-id="ind-task3"></div>
+
+                <div class="page" data-page="5">
+                    <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-green-500">
+                        <h2 class="text-2xl font-bold text-green-600 mb-2">Aplikasi KPK: Lampu Menyala <i class="fas fa-lightbulb text-green-400 ml-2"></i></h2>
+                        <p class="translation">LCM Application: Lights On</p>
+                        <div class="flex gap-4 my-4 items-center">
+                            <div class="bg-green-50 p-4 rounded flex justify-center shrink-0">
+                                <svg width="180" height="140" viewBox="0 0 180 140">
+                                    <circle cx="50" cy="70" r="20" fill="#f59e0b"/>
+                                    <text x="50" y="100" font-size="12" text-anchor="middle">3s</text>
+                                    <circle cx="90" cy="70" r="20" fill="#ef4444"/>
+                                    <text x="90" y="100" font-size="12" text-anchor="middle">5s</text>
+                                    <circle cx="130" cy="70" r="20" fill="#10b981"/>
+                                    <text x="130" y="100" font-size="12" text-anchor="middle">6s</text>
+                                    <path d="M 50 50 L 130 50" stroke="#333" stroke-dasharray="5"/>
+                                    <text x="90" y="130" font-size="12" text-anchor="middle" fill="#8b5cf6" font-weight="bold">KPK</text>
+                                </svg>
+                            </div>
+                            <div>
+                                <p>Tiga lampu menyala bersama. Lampu 1 tiap 3 detik, Lampu 2 tiap 5 detik, Lampu 3 tiap 6 detik. Kapan menyala bersama lagi? <span class="translation">Three lights flash together. Light 1 every 3s, Light 2 every 5s, Light 3 every 6s. When will they flash together again?</span></p>
+                                <p class="mt-2">KPK(3, 5, 6). 3=3, 5=5, 6=\( 2 \times 3 \). KPK = \( 2 \times 3 \times 5 = 30 \). Bersama lagi dalam 30 detik. <span class="translation">LCM(3, 5, 6). 3=3, 5=5, 6=\( 2 \times 3 \). LCM = \( 2 \times 3 \times 5 = 30 \). Together again in 30 seconds.</span></p>
+                            </div>
+                        </div>
+                        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mt-4">
+                            <p class="font-bold text-yellow-800"><i class="fas fa-lightbulb mr-1"></i> Tips & Tricks: Ambil Pangkat Tertinggi</p>
+                            <p class="mt-1">Untuk KPK, ambil semua faktor prima yang ada, dan gunakan pangkat TERTINGGI dari masing-masing. <span class="translation">For LCM, take all prime factors present, and use the HIGHEST power of each.</span></p>
+                            <p class="mt-1 font-bold"><i class="fas fa-flag mr-1"></i> To The Point Formula: KPK\( (2^1 \times 3^1, 2^2 \times 3^0) = 2^2 \times 3^1 \)</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="page" data-page="6" data-task-id="ind-task4"></div>
+                <div class="page" data-page="7" data-task-id="ind-task5"></div>
+                <div class="page" data-page="8" data-task-id="ind-task6"></div>
+
+                <div class="page" data-page="9">
+                    <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-purple-500">
+                        <h2 class="text-2xl font-bold text-purple-600 mb-2">Analisis Kesalahan: Jangan Tertipu! <i class="fas fa-magnifying-glass text-purple-400 ml-2"></i></h2>
+                        <p class="translation">Error Analysis: Don't Be Tricked!</p>
+                        <div class="flex gap-4 my-4 items-center">
+                            <div class="bg-purple-50 p-4 rounded flex justify-center shrink-0">
+                                <svg width="180" height="140" viewBox="0 0 180 140">
+                                    <path d="M 90 20 L 40 100 L 140 100 Z" fill="none" stroke="#ef4444" stroke-width="3"/>
+                                    <text x="90" y="80" font-size="30" text-anchor="middle" fill="#ef4444" font-weight="bold">!</text>
+                                    <text x="90" y="130" font-size="12" text-anchor="middle" fill="#333">Salah Konsep</text>
+                                </svg>
+                            </div>
+                            <div>
+                                <p>Banyak siswa tertukar antara FPB dan KPK. FPB untuk "membagi jadi kelompok", KPK untuk "menunggu sampai bareng". <span class="translation">Many students confuse GCF and LCM. GCF for "dividing into groups", LCM for "waiting until together".</span></p>
+                                <p class="mt-2">Ingat: FPB = Faktor (membagi habis), KPK = Kelipatan (mengalikan berulang). <span class="translation">Remember: GCF = Factor (dividing evenly), LCM = Multiple (multiplying repeatedly).</span></p>
+                            </div>
+                        </div>
+                        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mt-4">
+                            <p class="font-bold text-yellow-800"><i class="fas fa-lightbulb mr-1"></i> Tips & Tricks: Paham, Bukan Hafal</p>
+                            <p class="mt-1">Jika diminta "jumlah maksimal kelompok", bayangkan kantong plastik. Itu FPB. <span class="translation">If asked "maximum number of groups", imagine plastic bags. That's GCF.</span></p>
+                            <p class="mt-1 font-bold"><i class="fas fa-flag mr-1"></i> To The Point Formula: Kelompok/Membagi = FPB. Perulangan/Bersama = KPK.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="page" data-page="10" data-task-id="ind-task7"></div>
+                <div class="page" data-page="11" data-task-id="ind-task8"></div>
+                <div class="page" data-page="12" data-task-id="ind-task9"></div>
+                <div class="page" data-page="13" data-task-id="ind-task10"></div>
+            </div>
+
+            <!-- ========================================== -->
+            <!-- SECTION: CONSOLIDATION & REFLECTION         -->
+            <!-- ========================================== -->
+            <div id="consolidation" class="content-section">
+                 <div class="bg-white p-6 rounded-lg shadow-md text-center">
+                    <h2 class="text-2xl font-bold text-gray-800">Konsolidasi & Refleksi</h2>
+                    <p class="translation">Consolidation & Reflection</p>
+                    <p>Hebat! Kamu telah menguasai Faktor Bilangan Bulat, FPB, dan KPK. Konsep ini sangat berguna untuk membagi barang secara adil atau menyusun jadwal pertemuan. <span class="translation">Great! You have mastered Integer Factors, GCF, and LCM. This concept is very useful for dividing things fairly or arranging meeting schedules.</span></p>
+                    <p class="mt-2">Teruslah berlatih agar makin mahir menemukan pola bilangan! <span class="translation">Keep practicing to get better at finding number patterns!</span></p>
+                    <a href="https://learn.algonova.id" target="_blank" class="mt-4 inline-block bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-6 rounded">
+                        Go to learn.algonova.id <span class="translation text-sm italic">Pergi ke learn.algonova.id</span>
+                    </a>
+                </div>
+            </div>
+            
+            <!-- TASK SECTIONS -->
+            <div id="task1" class="content-section">
+                <div class="page active" data-page="1"><div data-task-id="t1-task1"></div></div>
+                <div class="page" data-page="2"><div data-task-id="t1-task2"></div></div>
+                <div class="page" data-page="3"><div data-task-id="t1-task3"></div></div>
+                <div class="page" data-page="4"><div data-task-id="t1-task4"></div></div>
+                <div class="page" data-page="5"><div data-task-id="t1-task5"></div></div>
+                <div class="page" data-page="6"><div data-task-id="t1-task6"></div></div>
+                <div class="page" data-page="7"><div data-task-id="t1-task7"></div></div>
+                <div class="page" data-page="8"><div data-task-id="t1-task8"></div></div>
+                <div class="page" data-page="9"><div data-task-id="t1-task9"></div></div>
+                <div class="page" data-page="10"><div data-task-id="t1-task10"></div></div>
+            </div>
+            <div id="task2" class="content-section">
+                <div class="page active" data-page="1"><div data-task-id="t2-task1"></div></div>
+                <div class="page" data-page="2"><div data-task-id="t2-task2"></div></div>
+                <div class="page" data-page="3"><div data-task-id="t2-task3"></div></div>
+                <div class="page" data-page="4"><div data-task-id="t2-task4"></div></div>
+                <div class="page" data-page="5"><div data-task-id="t2-task5"></div></div>
+                <div class="page" data-page="6"><div data-task-id="t2-task6"></div></div>
+                <div class="page" data-page="7"><div data-task-id="t2-task7"></div></div>
+                <div class="page" data-page="8"><div data-task-id="t2-task8"></div></div>
+                <div class="page" data-page="9"><div data-task-id="t2-task9"></div></div>
+                <div class="page" data-page="10"><div data-task-id="t2-task10"></div></div>
+            </div>
+            <div id="task3" class="content-section">
+                <div class="page active" data-page="1"><div data-task-id="t3-task1"></div></div>
+                <div class="page" data-page="2"><div data-task-id="t3-task2"></div></div>
+                <div class="page" data-page="3"><div data-task-id="t3-task3"></div></div>
+                <div class="page" data-page="4"><div data-task-id="t3-task4"></div></div>
+                <div class="page" data-page="5"><div data-task-id="t3-task5"></div></div>
+                <div class="page" data-page="6"><div data-task-id="t3-task6"></div></div>
+                <div class="page" data-page="7"><div data-task-id="t3-task7"></div></div>
+                <div class="page" data-page="8"><div data-task-id="t3-task8"></div></div>
+                <div class="page" data-page="9"><div data-task-id="t3-task9"></div></div>
+                <div class="page" data-page="10"><div data-task-id="t3-task10"></div></div>
+            </div>
+            <div id="task4" class="content-section">
+                <div class="page active" data-page="1"><div data-task-id="t4-task1"></div></div>
+                <div class="page" data-page="2"><div data-task-id="t4-task2"></div></div>
+                <div class="page" data-page="3"><div data-task-id="t4-task3"></div></div>
+                <div class="page" data-page="4"><div data-task-id="t4-task4"></div></div>
+                <div class="page" data-page="5"><div data-task-id="t4-task5"></div></div>
+                <div class="page" data-page="6"><div data-task-id="t4-task6"></div></div>
+                <div class="page" data-page="7"><div data-task-id="t4-task7"></div></div>
+                <div class="page" data-page="8"><div data-task-id="t4-task8"></div></div>
+                <div class="page" data-page="9"><div data-task-id="t4-task9"></div></div>
+                <div class="page" data-page="10"><div data-task-id="t4-task10"></div></div>
+            </div>
+            <div id="task5" class="content-section">
+                <div class="page active" data-page="1"><div data-task-id="t5-task1"></div></div>
+                <div class="page" data-page="2"><div data-task-id="t5-task2"></div></div>
+                <div class="page" data-page="3"><div data-task-id="t5-task3"></div></div>
+                <div class="page" data-page="4"><div data-task-id="t5-task4"></div></div>
+                <div class="page" data-page="5"><div data-task-id="t5-task5"></div></div>
+                <div class="page" data-page="6"><div data-task-id="t5-task6"></div></div>
+                <div class="page" data-page="7"><div data-task-id="t5-task7"></div></div>
+                <div class="page" data-page="8"><div data-task-id="t5-task8"></div></div>
+                <div class="page" data-page="9"><div data-task-id="t5-task9"></div></div>
+                <div class="page" data-page="10"><div data-task-id="t5-task10"></div></div>
+            </div>
+            </div> <!-- Penutup #contentScrollArea -->
+            <div id="paginationBar" class="shrink-0 bg-white p-3 border-t border-gray-200 flex justify-center items-center gap-1 no-print z-40 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)]"></div>
+        </main>
+    </div>
+    
+    <!-- Print Area -->
+    <div id="printArea" class="hidden p-8">
+        <div class="text-center border-b-2 border-black pb-4 mb-4">
+            <h1 class="text-xl font-bold">Math Tutoring by Deni</h1>
+            <p>Topic: Faktor Bilangan Bulat</p>
+            <div class="flex justify-around mt-4 text-sm">
+                <p>Name: ..............................</p>
+                <p>Date: ..............................</p>
+                <p>Task: <span id="printTaskNum">1</span></p>
+                <p>Score: <span id="printScore">0</span>/10</p>
+            </div>
+        </div>
+        <table class="w-full border-collapse border border-black text-sm">
+            <thead>
+                <tr class="bg-gray-200">
+                    <th class="border border-black p-1">No.</th>
+                    <th class="border border-black p-1">Question</th>
+                    <th class="border border-black p-1">Student Answer</th>
+                    <th class="border border-black p-1">Correct Answer</th>
+                    <th class="border border-black p-1">Note (❌/✔️)</th>
+                </tr>
+            </thead>
+            <tbody id="printTableBody"></tbody>
+        </table>
+        <div class="mt-8 text-right">
+            <p>Checked by,</p>
+            <br><br>
+            <p class="font-bold">Deni</p>
+        </div>
+    </div>
+    
+    <script>
+        // ====== MATH QUESTIONS DATA (PART 1) ======
+        const questions = {};
+        Object.assign(questions, {
+            // SPIRAL REVIEW WARM-UP
+            "w-task1": { type: "single", q: "Manakah di bawah ini yang merupakan faktor dari 15? <i class='fas fa-divide text-blue-500 ml-2'></i>", q_trans: "Which of the following is a factor of 15?", opts: ["\\( 2 \\)", "\\( 4 \\)", "\\( 5 \\)", "\\( 7 \\)", "\\( 8 \\)"], ans: "\\( 5 \\)", exp: "Faktor adalah pembagi habis. 15 dibagi 5 sama dengan 3, sisa 0. Jadi 5 adalah faktor dari 15.", exp_trans: "Factor divides evenly. 15 divided by 5 is 3, remainder 0. So 5 is a factor of 15." },
+            "w-task2": { type: "fill", q: "Sebuah kantong berisi 20 permen. Jika ingin dibagi rata ke 4 teman, masing-masing teman mendapatkan berapa permen? <i class='fas fa-candy-cane text-blue-500 ml-2'></i>", q_trans: "A bag contains 20 candies. If divided equally among 4 friends, how many candies does each get?", ans: "5", exp: "20 dibagi 4 adalah 5. Karena habis dibagi, 4 adalah faktor dari 20.", exp_trans: "20 divided by 4 is 5. Since it's even, 4 is a factor of 20." },
+            "w-task3": { type: "tf_table", q: "Evaluasi pernyataan berikut tentang faktor. <i class='fas fa-list-ul text-blue-500 ml-2'></i>", q_trans: "Evaluate the following statements about factors.", opts: ["Faktor selalu lebih kecil atau sama dengan bilangannya", "1 adalah faktor dari semua bilangan bulat", "Bilangan prima hanya punya 1 faktor", "Faktor harus bilangan genap"], ans: ["B", "B", "S", "S"], exp: "1. B. 2. B, 1 adalah faktor semua bilangan. 3. S, bilangan prima punya 2 faktor (1 dan dirinya). 4. S, bilangan ganjil punya faktor ganjil.", exp_trans: "1. T. 2. T, 1 is a factor of all. 3. F, primes have 2 factors. 4. F, odd numbers have odd factors." },
+            "w-task4": { type: "single", q: "Manakah yang BUKAN merupakan faktor dari 24? <i class='fas fa-times text-blue-500 ml-2'></i>", q_trans: "Which is NOT a factor of 24?", opts: ["\\( 3 \\)", "\\( 4 \\)", "\\( 5 \\)", "\\( 6 \\)", "\\( 8 \\)"], ans: "\\( 5 \\)", exp: "24 dibagi 5 menghasilkan sisa 4. Jadi 5 bukan faktor.", exp_trans: "24 divided by 5 leaves remainder 4. So 5 is not a factor." },
+            "w-task5": { type: "complex", q: "Pilih semua bilangan yang merupakan faktor prima dari 12. <i class='fas fa-cubes text-blue-500 ml-2'></i>", q_trans: "Select all numbers that are prime factors of 12.", opts: ["\\( 1 \\)", "\\( 2 \\)", "\\( 3 \\)", "\\( 4 \\)"], ans: [1, 2], exp: "Faktor 12 adalah 1,2,3,4,6,12. Yang prima hanya 2 dan 3 (1 bukan prima).", exp_trans: "Factors of 12 are 1,2,3,4,6,12. Prime ones are only 2 and 3 (1 is not prime)." },
+            "w-task6": { type: "fill", q: "Faktor prima terkecil dari 30 adalah... <i class='fas fa-seedling text-blue-500 ml-2'></i>", q_trans: "The smallest prime factor of 30 is...", ans: "2", exp: "30 habis dibagi 2. Dan 2 adalah bilangan prima terkecil.", exp_trans: "30 is divisible by 2. And 2 is the smallest prime number." },
+            "w-task7": { type: "single", q: "Deni punya 18 kelereng. Ia ingin membaginya sama rata ke beberapa teman. Pilihan jumlah teman berikut yang TIDAK MUNGKIN adalah... <i class='fas fa-users text-blue-500 ml-2'></i>", q_trans: "Deni has 18 marbles. He wants to divide them equally to some friends. The following number of friends that is IMPOSSIBLE is...", opts: ["\\( 2 \\text{ teman} \\)", "\\( 3 \\text{ teman} \\)", "\\( 4 \\text{ teman} \\)", "\\( 6 \\text{ teman} \\)", "\\( 9 \\text{ teman} \\)"], ans: "\\( 4 \\text{ teman} \\)", exp: "18 dibagi 4 sisa 2. Berarti tidak bisa dibagi rata. 4 bukan faktor dari 18.", exp_trans: "18 divided by 4 remainder 2. Means it can't be divided equally. 4 is not a factor of 18." },
+            "w-task8": { type: "tf_table", q: "Tentukan Benar atau Salah faktor dari 16. <i class='fas fa-clipboard-check text-blue-500 ml-2'></i>", q_trans: "Determine True or False factors of 16.", opts: ["2 adalah faktor dari 16", "5 adalah faktor dari 16", "8 adalah faktor dari 16", "16 adalah faktor dari dirinya sendiri"], ans: ["B", "S", "B", "B"], exp: "16:2=8(sisa 0), 16:5=3(sisa 1), 16:8=2(sisa 0), 16:16=1(sisa 0). Yang benar: 1,3,4.", exp_trans: "16:2=8(rem 0), 16:5=3(rem 1), 16:8=2(rem 0), 16:16=1(rem 0). True: 1,3,4." },
+			"w-task9": { type: "single", q: "Faktor perseki (bilangan kuadrat) dari 25 adalah... <i class='fas fa-th text-blue-500 ml-2'></i>", q_trans: "The square factor of 25 is...", opts: ["\\( 2 \\)", "\\( 3 \\)", "\\( 5 \\)", "\\( 7 \\)", "\\( 10 \\)"], ans: "\\( 5 \\)", exp: "Faktor perseki berarti angka yang jika dikalikan dirinya sendiri menghasilkan bilangan tersebut. 5 x 5 = 25. Jadi 5 adalah faktor perseki (kuadrat) dari 25.", exp_trans: "Square factor means a number multiplied by itself results in the number. 5 x 5 = 25. So 5 is the square factor of 25." },
+            "w-task10": { type: "complex", q: "Manakah pernyataan yang BENAR tentang faktor dari bilangan bulat positif? <i class='fas fa-brain text-blue-500 ml-2'></i>", q_trans: "Which statements are TRUE about factors of positive integers?", opts: ["Setiap bilangan bulat positif memiliki minimal 2 faktor", "Bilangan 1 hanya memiliki 1 faktor", "Bilangan prima memiliki tepat 2 faktor", "Faktor tidak pernah lebih besar dari bilangan aslinya"], ans: [1, 2, 3], exp: "1. S, karena angka 1 hanya punya 1 faktor (dirinya sendiri). 2. B. 3. B. 4. B. Maka yang benar 2,3,4.", exp_trans: "1. F, because 1 only has 1 factor. 2. T. 3. T. 4. T. So true are 2,3,4." },
+
+            // INTRODUCTION & REAL-WORLD
+            "i-task1": { type: "single", q: "Ibu membeli 30 apel. Apel ini akan dimasukkan ke dalam plastik dengan jumlah yang sama rata. Berapa banyak plastik yang TIDAK BISA digunakan ibu? <i class='fas fa-apple-whole text-green-500 ml-2'></i>", q_trans: "Mother bought 30 apples. They will be put into bags equally. How many bags CANNOT be used?", opts: ["\\( 3 \\)", "\\( 5 \\)", "\\( 7 \\)", "\\( 10 \\)", "\\( 15 \\)"], ans: "\\( 7 \\)", exp: "30 dibagi 3,5,10,15 semuanya sisa 0. Tapi 30 dibagi 7 sisa 2. Jadi 7 plastik tidak bisa dipakai.", exp_trans: "30 div by 3,5,10,15 all remainder 0. But 30 div by 7 remainder 2. So 7 bags cannot be used." },
+            "i-task2": { type: "fill", q: "Sebuah resitasi dihadiri 24 siswa laki-laki dan 36 siswa perempuan. Mereka ingin berbaris dalam beberapa baris dengan jumlah orang yang sama di setiap baris. Berapa jumlah baris MAKSIMAL yang bisa dibentuk? <i class='fas fa-users-rectangle text-green-500 ml-2'></i>", q_trans: "A recitation is attended by 24 boys and 36 girls. They want to line up in rows with the same number of people in each row. What is the MAXIMUM number of rows?", ans: "12", exp: "Ini mencari FPB(24, 36). Faktor 24: 1,2,3,4,6,8,12,24. Faktor 36: 1,2,3,4,6,9,12,18,36. FPB=12. Maksimal 12 baris.", exp_trans: "This finds GCF(24, 36). Factors of 24: 1,2,3,4,6,8,12,24. Factors of 36: 1,2,3,4,6,9,12,18,36. GCF=12. Max 12 rows." },
+            "i-task3": { type: "tf_table", q: "Analisis situasi pembagian rata 40 buku. <i class='fas fa-book text-green-500 ml-2'></i>", q_trans: "Analyze the equal distribution situation of 40 books.", opts: ["Bisa dibagi rata ke 8 siswa", "Bisa dibagi rata ke 3 siswa", "Bisa dibagi rata ke 5 siswa", "Tidak bisa dibagi rata ke 6 siswa"], ans: ["B", "S", "B", "B"], exp: "40:8=5(sisa 0). 40:3=13(sisa 1). 40:5=8(sisa 0). 40:6=6(sisa 4). Jadi 1,3,4 benar.", exp_trans: "40:8=5(rem 0). 40:3=13(rem 1). 40:5=8(rem 0). 40:6=6(rem 4). So 1,3,4 true." },
+            "i-task4": { type: "single", q: "Pak guru punya 25 kupon. Kupon hanya bisa diberikan jika siswa menjawab benar kelipatan tertentu. Jika 25 siswa harus dapat kupon rata, berapa yang salah? <i class='fas fa-ticket text-green-500 ml-2'></i>", q_trans: "Teacher has 25 coupons. Coupons can only be given if students answer correctly. If 25 students must get coupons equally, what is wrong?", opts: ["Setiap siswa dapat 1 kupon", "5 siswa bisa dapat 5 kupon", "10 siswa bisa dapat 2 kupon", "25 siswa bisa dapat 1 kupon", "Semua benar"], ans: "10 siswa bisa dapat 2 kupon", exp: "25 dibagi 10 sisa 5. Tidak rata. 10 bukan faktor dari 25.", exp_trans: "25 div by 10 remainder 5. Not equal. 10 is not a factor of 25." },
+            "i-task5": { type: "complex", q: "Tentukan situasi yang menggunakan konsep FAKTOR. <i class='fas fa-check-double text-green-500 ml-2'></i>", q_trans: "Determine situations that use the concept of FACTORS.", opts: ["Membagi 30 siswa menjadi kelompok yang sama besar", "Mencari kelipatan dari 4 untuk barisan", "Mengetahui apakah 15 bisa dibagi 3 tanpa sisa", "Mencari FPB untuk membuat kelompok belajar"], ans: [0, 2, 3], exp: "1. B, membagi habis berarti faktor. 2. S, itu kelipatan. 3. B, mengecek pembagi berarti faktor. 4. B, FPB = faktor persekutuan.", exp_trans: "1. T, dividing evenly means factor. 2. F, that's multiple. 3. T, checking divisor means factor. 4. T, GCF = common factor." },
+            "i-task6": { type: "fill", q: "Ada 12 potong kue. Kue ini akan disusun membentuk persegi panjang. Jika panjangnya 4 potong, berapa lebarnya? <i class='fas fa-cookie-bite text-green-500 ml-2'></i>", q_trans: "There are 12 pieces of cake. They will be arranged to form a rectangle. If the length is 4 pieces, what is the width?", ans: "3", exp: "Luas = panjang x lebar. 12 = 4 x lebar. Lebar = 3. Berarti 4 dan 3 adalah faktor pasangan dari 12.", exp_trans: "Area = length x width. 12 = 4 x width. Width = 3. Means 4 and 3 are factor pairs of 12." },
+            "i-task7": { type: "single", q: "Deni ingin menanam 16 pohon menjadi barisan bujur sangkar (kotak). Berapa jumlah pohon di satu sisi kotak tersebut? <i class='fas fa-tree text-green-500 ml-2'></i>", q_trans: "Deni wants to plant 16 trees into a square formation. How many trees are on one side of the square?", opts: ["\\( 2 \\)", "\\( 3 \\)", "\\( 4 \\)", "\\( 5 \\)", "\\( 8 \\)"], ans: "\\( 4 \\)", exp: "Bujur sangkar berarti panjang = lebar. Kita cari faktor persegi. 16 = 4 x 4. Maka sisisnya 4 pohon.", exp_trans: "Square means length = width. We find square factor. 16 = 4 x 4. So the side is 4 trees." },
+            "i-task8": { type: "tf_table", q: "Evaluasi pasangan faktor. <i class='fas fa-clipboard-list text-green-500 ml-2'></i>", q_trans: "Evaluate factor pairs.", opts: ["Pasangan faktor dari 18 adalah 2 dan 9", "Pasangan faktor dari 20 adalah 3 dan 7", "Pasangan faktor dari 24 adalah 4 dan 6", "Pasangan faktor dari 28 adalah 2 dan 14"], ans: ["B", "S", "B", "B"], exp: "1. 2x9=18 (B). 2. 3x7=21 (S). 3. 4x6=24 (B). 4. 2x14=28 (B).", exp_trans: "1. 2x9=18 (T). 2. 3x7=21 (F). 3. 4x6=24 (T). 4. 2x14=28 (T)." },
+			"i-task9": { type: "single", q: "Ada 40 orang pasukan penjaga. Mereka ingin dibagi menjadi beberapa baris dengan jumlah orang yang sama di setiap baris. Berapa jumlah baris yang MUNGKIN? <i class='fas fa-shield-halved text-green-500 ml-2'></i>", q_trans: "There are 40 guards. They want to be divided into several rows with the same number of people in each row. What number of rows is POSSIBLE?", opts: ["\\( 3 \\)", "\\( 5 \\)", "\\( 7 \\)", "\\( 9 \\)", "\\( 11 \\)"], ans: "\\( 5 \\)", exp: "Agar jumlah orang tiap baris sama, jumlah baris harus faktor dari 40. Dari opsi yang ada, hanya 5 yang merupakan faktor dari 40 (40 : 5 = 8 orang per baris).", exp_trans: "For equal people per row, the number of rows must be a factor of 40. From the options, only 5 is a factor of 40 (40 : 5 = 8 people per row)." },
+            "i-task10": { type: "complex", q: "Pilih langkah yang benar untuk mencari faktor persekutuan dari 12 dan 8. <i class='fas fa-check-circle text-green-500 ml-2'></i>", q_trans: "Select correct steps to find common factors of 12 and 8.", opts: ["Cari semua faktor dari 12", "Cari semua faktor dari 8", "Cari angka yang ada di kedua daftar", "Kalikan kedua bilangan"], ans: [0, 1, 2], exp: "Langkah 4 salah, mengalikan bukan cara mencari faktor persekutuan (FPB).", exp_trans: "Step 4 is wrong, multiplying is not how to find common factors." },
+
+            // REVIEW OF PRIOR KNOWLEDGE
+            "r-task1": { type: "single", q: "Hasil dari \( 24 \div 4 \) adalah... <i class='fas fa-divide text-purple-500 ml-2'></i>", q_trans: "The result of \( 24 \div 4 \) is...", opts: ["\\( 4 \\)", "\\( 5 \\)", "\\( 6 \\)", "\\( 7 \\)", "\\( 8 \\)"], ans: "\\( 6 \\)", exp: "24 habis dibagi 4. Hasilnya 6. Karena habis, 4 dan 6 adalah faktor dari 24.", exp_trans: "24 is divisible by 4. Result is 6. Because it's even, 4 and 6 are factors of 24." },
+            "r-task2": { type: "fill", q: "Jika 7 adalah faktor dari 21, maka 21 adalah... dari 7. <i class='fas fa-arrows-left-right text-purple-500 ml-2'></i>", q_trans: "If 7 is a factor of 21, then 21 is a... of 7.", ans: "kelipatan", exp: "Faktor dan kelipatan adalah kebalikan. Jika A faktor B, maka B kelipatan A.", exp_trans: "Factor and multiple are opposites. If A is factor of B, then B is multiple of A." },
+            "r-task3": { type: "tf_table", q: "Pilih pernyataan yang benar tentang operasi hitung. <i class='fas fa-list-ul text-purple-500 ml-2'></i>", q_trans: "Select true statements about arithmetic operations.", opts: ["Karena 5 x 4 = 20, maka 20 adalah kelipatan 5", "Karena 20 : 2 = 10, maka 2 adalah faktor 20", "Karena 3 x 6 = 18, maka 4 adalah faktor 18", "Karena 15 : 4 = 3 sisa 3, maka 4 bukan faktor 15"], ans: ["B", "B", "S", "B"], exp: "1. B. 2. B. 3. S, yang faktor 3 dan 6. 4. B, ada sisa berarti bukan faktor.", exp_trans: "1. T. 2. T. 3. F, factors are 3 and 6. 4. T, remainder means not a factor." },
+            "r-task4": { type: "single", q: "Manakah bilangan yang memiliki faktor 1, 2, 3, 4, 6, dan 12? <i class='fas fa-puzzle-piece text-purple-500 ml-2'></i>", q_trans: "Which number has factors 1, 2, 3, 4, 6, and 12?", opts: ["\\( 12 \\)", "\\( 14 \\)", "\\( 16 \\)", "\\( 18 \\)", "\\( 20 \\)"], ans: "\\( 12 \\)", exp: "Daftar faktor tersebut persis merupakan daftar semua faktor dari 12.", exp_trans: "That list of factors is exactly the list of all factors of 12." },
+            "r-task5": { type: "complex", q: "Pilih bilangan yang 3 adalah faktornya. <i class='fas fa-check-double text-purple-500 ml-2'></i>", q_trans: "Select numbers where 3 is a factor.", opts: ["\\( 9 \\)", "\\( 10 \\)", "\\( 12 \\)", "\\( 14 \\)"], ans: [0, 2], exp: "9:3=3 (sisa 0). 12:3=4 (sisa 0). 10:3 sisa 1. 14:3 sisa 2.", exp_trans: "9:3=3 (rem 0). 12:3=4 (rem 0). 10:3 rem 1. 14:3 rem 2." },
+            "r-task6": { type: "fill", q: "Bilangan bulat negatif yang jika dikalikan dirinya sendiri menghasilkan 25 adalah... <i class='fas fa-minus text-purple-500 ml-2'></i>", q_trans: "The negative integer that multiplied by itself results in 25 is...", ans: "-5", exp: "-5 x -5 = 25. Ini menunjukkan bahwa -5 juga merupakan faktor dari 25.", exp_trans: "-5 x -5 = 25. This shows that -5 is also a factor of 25." },
+            "r-task7": { type: "single", q: "Deni membagi 17 permen kepada 5 temannya. Berapakah sisa permennya? <i class='fas fa-divide text-purple-500 ml-2'></i>", q_trans: "Deni divides 17 candies among 5 friends. What is the remainder?", opts: ["\\( 0 \\)", "\\( 1 \\)", "\\( 2 \\)", "\\( 3 \\)", "\\( 4 \\)"], ans: "\\( 2 \\)", exp: "17 dibagi 5 sama dengan 3, sisa 2. Karena ada sisa, 5 BUKAN faktor dari 17.", exp_trans: "17 divided by 5 is 3, remainder 2. Because there is a remainder, 5 is NOT a factor of 17." },
+            "r-task8": { type: "tf_table", q: "Hubungan perkalian dan pembagian. <i class='fas fa-clipboard-check text-purple-500 ml-2'></i>", q_trans: "Relationship of multiplication and division.", opts: ["Jika A x B = C, maka C adalah kelipatan A", "Jika A x B = C, maka A adalah faktor C", "Jika C : A = B sisa 0, maka A bukan faktor C", "Perkalian adalah kebalikan dari pembagian"], ans: ["B", "B", "S", "B"], exp: "1. B. 2. B. 3. S, jika sisa 0 berarti A adalah faktor. 4. B.", exp_trans: "1. T. 2. T. 3. F, if remainder 0 then A is a factor. 4. T." },
+            "r-task9": { type: "single", q: "Manakah pasangan yang TIDAK menunjukkan hubungan faktor-kelipatan? <i class='fas fa-link-slash text-purple-500 ml-2'></i>", q_trans: "Which pair does NOT show a factor-multiple relationship?", opts: ["2 dan 8", "3 dan 15", "4 dan 20", "5 dan 12"], ans: "5 dan 12", exp: "12 tidak habis dibagi 5 (sisa 2). Jadi 5 bukan faktor 12.", exp_trans: "12 is not divisible by 5 (remainder 2). So 5 is not a factor of 12." },
+            "r-task10": { type: "complex", q: "Pilih rumus matematika yang benar terkait sisa bagi. <i class='fas fa-check-circle text-purple-500 ml-2'></i>", q_trans: "Select correct math formulas regarding division remainder.", opts: ["Jika sisa = 0, pembagi adalah faktor", "Sisa tidak pernah lebih besar dari pembagi", "Sisa bisa lebih besar dari pembagi", "Bilangan prima selalu memberi sisa 1 jika dibagi 2"], ans: [0, 1], exp: "1. B. 2. B, sisa selalu < pembagi. 3. S. 4. S, bilangan prima ganjil dibagi 2 sisanya 1, tapi 2 dibagi 2 sisa 0.", exp_trans: "1. T. 2. T, remainder is always < divisor. 3. F. 4. F, odd primes div 2 rem 1, but 2 div 2 rem 0." }
+        });
+        Object.assign(questions, {
+            // PROBLEM INTRODUCTION
+            "p-task1": { type: "single", q: "Pohon faktor dari 24 dipecah menjadi 4 dan 6. Berapakah 6 dipecah menjadi bilangan prima? <i class='fas fa-tree text-orange-500 ml-2'></i>", q_trans: "Factor tree of 24 breaks into 4 and 6. What does 6 break into as primes?", opts: ["\\( 2 \\text{ dan } 2 \\)", "\\( 2 \\text{ dan } 3 \\)", "\\( 3 \\text{ dan } 3 \\)", "\\( 1 \\text{ dan } 6 \\)", "\\( 2 \\text{ dan } 4 \\)"], ans: "\\( 2 \\text{ dan } 3 \\)", exp: "6 jika dipecah menjadi bilangan prima adalah 2 x 3.", exp_trans: "6 broken into primes is 2 x 3." },
+            "p-task2": { type: "fill", q: "Tuliskan faktorisasi prima dari 18 dalam bentuk perkalian (contoh: 2x3x3). <i class='fas fa-calculator text-orange-500 ml-2'></i>", q_trans: "Write the prime factorization of 18 in multiplication form (e.g., 2x3x3).", ans: "2x3x3", exp: "18 dibagi 2 = 9. 9 dibagi 3 = 3. 3 dibagi 3 = 1. Jadi 2 x 3 x 3.", exp_trans: "18 div 2 = 9. 9 div 3 = 3. 3 div 3 = 1. So 2 x 3 x 3." },
+            "p-task3": { type: "tf_table", q: "Pilih pernyataan yang benar tentang pohon faktor. <i class='fas fa-list-ul text-orange-500 ml-2'></i>", q_trans: "Select true statements about factor trees.", opts: ["Akar pohon adalah bilangan asalnya", "Daun pohon adalah bilangan primanya", "Pohon faktor hanya bisa dibuat 1 cara", "Hasil akhir perkalian semua daun sama dengan bilangan asal"], ans: ["B", "B", "S", "B"], exp: "1. B. 2. B. 3. S, bisa banyak cara tapi hasil sama. 4. B.", exp_trans: "1. T. 2. T. 3. F, can be many ways but same result. 4. T." },
+            "p-task4": { type: "single", q: "Manakah yang BUKAN bilangan prima? <i class='fas fa-shield-halved text-orange-500 ml-2'></i>", q_trans: "Which is NOT a prime number?", opts: ["\\( 2 \\)", "\\( 5 \\)", "\\( 9 \\)", "\\( 11 \\)", "\\( 13 \\)"], ans: "\\( 9 \\)", exp: "9 bisa dibagi 3 (9=3x3). Bilangan prima hanya bisa dibagi 1 dan dirinya.", exp_trans: "9 can be divided by 3 (9=3x3). Prime numbers can only be divided by 1 and themselves." },
+            "p-task5": { type: "complex", q: "Pilih semua bilangan komposit. <i class='fas fa-check-double text-orange-500 ml-2'></i>", q_trans: "Select all composite numbers.", opts: ["\\( 4 \\)", "\\( 7 \\)", "\\( 10 \\)", "\\( 15 \\)"], ans: [0, 2, 3], exp: "Komposit punya lebih dari 2 faktor. 4 (1,2,4), 10 (1,2,5,10), 15 (1,3,5,15). 7 prima.", exp_trans: "Composite has more than 2 factors. 4, 10, 15 are composite. 7 is prime." },
+            "p-task6": { type: "fill", q: "Berapa banyak faktor yang dimiliki bilangan prima 17? <i class='fas fa-hashtag text-orange-500 ml-2'></i>", q_trans: "How many factors does the prime number 17 have?", ans: "2", exp: "Bilangan prima selalu memiliki tepat 2 faktor (1 dan dirinya sendiri).", exp_trans: "Prime numbers always have exactly 2 factors (1 and themselves)." },
+            "p-task7": { type: "single", q: "Faktor Persekutuan Terbesar (FPB) dari 12 dan 16 adalah... <i class='fas fa-trophy text-orange-500 ml-2'></i>", q_trans: "Greatest Common Factor (GCF) of 12 and 16 is...", opts: ["\\( 2 \\)", "\\( 4 \\)", "\\( 6 \\)", "\\( 8 \\)", "\\( 12 \\)"], ans: "\\( 4 \\)", exp: "Faktor 12: 1,2,3,4,6,12. Faktor 16: 1,2,4,8,16. Terbesar yang sama adalah 4.", exp_trans: "Factors of 12: 1,2,3,4,6,12. Factors of 16: 1,2,4,8,16. Largest common is 4." },
+            "p-task8": { type: "tf_table", q: "Analisis FPB. <i class='fas fa-clipboard-check text-orange-500 ml-2'></i>", q_trans: "Analyze GCF.", opts: ["FPB dari dua bilangan prima selalu 1", "FPB tidak pernah lebih besar dari bilangan terkecil", "FPB(10, 20) adalah 20", "FPB digunakan untuk mencari kelipatan bersama"], ans: ["B", "B", "S", "S"], exp: "1. B, prima tidak punya faktor sama kecuali 1. 2. B. 3. S, 20 adalah kelipatan, bukan faktor (FPB=10). 4. S, itu KPK.", exp_trans: "1. T. 2. T. 3. F. 4. F." },
+            "p-task9": { type: "single", q: "Deni menanam 15 mawar dan 20 melati. Ia ingin mengelompokkannya sama rata. Berapa maksimal kelompok yang bisa dibuat? <i class='fas fa-leaf text-orange-500 ml-2'></i>", q_trans: "Deni plants 15 roses and 20 jasmines. He wants to group them equally. Max groups?", opts: ["\\( 3 \\)", "\\( 5 \\)", "\\( 10 \\)", "\\( 15 \\)", "\\( 20 \\)"], ans: "\\( 5 \\)", exp: "Membagi rata maksimal = FPB. FPB(15, 20). Faktor 15: 1,3,5,15. Faktor 20: 1,2,4,5,10,20. FPB=5.", exp_trans: "Max equal division = GCF. GCF(15, 20) = 5." },
+            "p-task10": { type: "complex", q: "Pilih langkah yang benar untuk mencari FPB(24, 36). <i class='fas fa-check-circle text-orange-500 ml-2'></i>", q_trans: "Select correct steps to find GCF(24, 36).", opts: ["Cari faktor prima 24 (2^3 x 3)", "Cari faktor prima 36 (2^2 x 3^2)", "Ambil pangkat terkecil dari setiap prima (2^2 x 3)", "Kalikan keduanya"], ans: [0, 1, 2], exp: "Langkah 4 salah, cara cepatnya bukan dikali tapi ambil pangkat terkecil.", exp_trans: "Step 4 is wrong, quick way is not multiply but take smallest power." },
+
+            // GUIDED PRACTICE
+            "g-task1": { type: "single", q: "Kelipatan Persekutuan Terkecil (KPK) dari 4 dan 5 adalah... <i class='fas fa-infinity text-blue-500 ml-2'></i>", q_trans: "Least Common Multiple (LCM) of 4 and 5 is...", opts: ["\\( 9 \\)", "\\( 10 \\)", "\\( 15 \\)", "\\( 20 \\)", "\\( 40 \\)"], ans: "\\( 20 \\)", exp: "Kelipatan 4: 4,8,12,16,20. Kelipatan 5: 5,10,15,20. Yang terkecil sama adalah 20.", exp_trans: "Multiples of 4: 4,8,12,16,20. Multiples of 5: 5,10,15,20. Smallest common is 20." },
+            "g-task2": { type: "fill", q: "KPK dari 3 dan 7 adalah... <i class='fas fa-calculator text-blue-500 ml-2'></i>", q_trans: "LCM of 3 and 7 is...", ans: "21", exp: "3 dan 7 prima. KPK dua bilangan prima adalah perkaliannya. 3x7=21.", exp_trans: "3 and 7 are primes. LCM of two primes is their product. 3x7=21." },
+            "g-task3": { type: "tf_table", q: "Pilih pernyataan yang benar tentang KPK. <i class='fas fa-list-ul text-blue-500 ml-2'></i>", q_trans: "Select true statements about LCM.", opts: ["KPK selalu lebih besar atau sama dengan bilangan terbesar", "KPK digunakan untuk masalah pertemuan berkala", "KPK dari 2 dan 4 adalah 4", "KPK bisa dicari dengan mengalikan FPB"], ans: ["B", "B", "B", "S"], exp: "1. B. 2. B. 3. B. 4. S, asalnya salah. KPK x FPB = a x b. Jadi KPK = (a x b) / FPB.", exp_trans: "1. T. 2. T. 3. T. 4. F." },
+            "g-task4": { type: "single", q: "Bus A berangkat tiap 8 menit, Bus B tiap 12 menit. Jika berangkat bareng jam 07.00, jam berapa bareng lagi? <i class='fas fa-bus text-blue-500 ml-2'></i>", q_trans: "Bus A departs every 8 mins, Bus B every 12 mins. If they depart together at 07:00, what time together again?", opts: ["\\( 07.20 \\)", "\\( 07.24 \\)", "\\( 07.30 \\)", "\\( 07.40 \\)", "\\( 08.00 \\)"], ans: "\\( 07.24 \\)", exp: "KPK(8, 12). 8=2^3, 12=2^2x3. KPK=2^3x3=24 menit. 07.00 + 24 menit = 07.24.", exp_trans: "LCM(8, 12) = 24 mins. 07:00 + 24 mins = 07:24." },
+            "g-task5": { type: "complex", q: "Pilih situasi yang menggunakan konsep KPK. <i class='fas fa-check-double text-blue-500 ml-2'></i>", q_trans: "Select situations using the LCM concept.", opts: ["Mencari kapan dua lampu menyala bareng lagi", "Membagi siswa ke kelompok terbesar", "Menjadwalkan pertemuan rutin dokter dan perawat", "Mencari ukuran kotak kado terbesar"], ans: [0, 2], exp: "1. B. 2. S, itu FPB. 3. B. 4. S, itu FPB.", exp_trans: "1. T. 2. F. 3. T. 4. F." },
+            "g-task6": { type: "fill", q: "KPK dari 6 dan 8 adalah... <i class='fas fa-dumbbell text-blue-500 ml-2'></i>", q_trans: "LCM of 6 and 8 is...", ans: "24", exp: "6=2x3, 8=2^3. KPK ambil pangkat tertinggi: 2^3 x 3 = 8 x 3 = 24.", exp_trans: "6=2x3, 8=2^3. LCM take highest power: 2^3 x 3 = 8 x 3 = 24." },
+			"g-task7": { type: "single", q: "Deni punya 12 kemeja dan 18 celana. Ia ingin membuat paket donasi yang berisi jumlah kemeja dan celana yang sama persis di setiap paketnya. Berapa maksimal jumlah paket yang bisa ia buat? <i class='fas fa-shirt text-blue-500 ml-2'></i>", q_trans: "Deni has 12 shirts and 18 pants. He wants to make donation packages with the exact same number of shirts and pants in each. Max packages?", opts: ["\\( 6 \\text{ paket} \\)", "\\( 12 \\text{ paket} \\)", "\\( 18 \\text{ paket} \\)", "\\( 36 \\text{ paket} \\)", "\\( 216 \\text{ paket} \\)"], ans: "\\( 6 \\text{ paket} \\)", exp: "Mencari jumlah paket maksimal dengan isi sama rata tanpa sisa menggunakan FPB. FPB(12, 18) = 6. Maka maksimal ada 6 paket (tiap paket berisi 12/6=2 kemeja dan 18/6=3 celana).", exp_trans: "Finding max packages with equal contents without remainder uses GCF. GCF(12, 18) = 6. So max 6 packages (each contains 2 shirts and 3 pants)." },
+            "g-task8": { type: "tf_table", q: "Evaluasi rumus KPK dan FPB. <i class='fas fa-clipboard-check text-blue-500 ml-2'></i>", q_trans: "Evaluate LCM and GCF formulas.", opts: ["KPK(4,6) = 12", "FPB(4,6) = 2", "KPK(4,6) x FPB(4,6) = 4 x 6 = 24", "FPB(4,6) = 12"], ans: ["B", "B", "B", "S"], exp: "1. B. 2. B. 3. B, ini sifat bagus: KPK x FPB = a x b. 4. S.", exp_trans: "1. T. 2. T. 3. T. 4. F." },
+            "g-task9": { type: "single", q: "Deni lari tiap 3 hari, Sinta lari tiap 5 hari. Hari ini mereka lari bareng. Berapa hari lagi mereka lari bareng? <i class='fas fa-person-running text-blue-500 ml-2'></i>", q_trans: "Deni runs every 3 days, Sinta every 5 days. Today they run together. How many days until they run together again?", opts: ["\\( 8 \\text{ hari} \\)", "\\( 10 \\text{ hari} \\)", "\\( 12 \\text{ hari} \\)", "\\( 15 \\text{ hari} \\)", "\\( 30 \\text{ hari} \\)"], ans: "\\( 15 \\text{ hari} \\)", exp: "KPK(3, 5). Karena prima, KPK = 3 x 5 = 15 hari.", exp_trans: "LCM(3, 5). Since prime, LCM = 3 x 5 = 15 days." },
+            "g-task10": { type: "complex", q: "Pilih langkah yang benar untuk mencari KPK(8, 12). <i class='fas fa-check-circle text-blue-500 ml-2'></i>", q_trans: "Select correct steps to find LCM(8, 12).", opts: ["Faktorisasi prima 8 = 2^3", "Faktorisasi prima 12 = 2^2 x 3", "Ambil prima yang sama, pangkat tertinggi (2^3)", "Ambil prima yang sama, pangkat terendah (2^2)"], ans: [0, 1, 2], exp: "Langkah 4 salah, untuk KPK ambil pangkat TERTINGGI.", exp_trans: "Step 4 is wrong, for LCM take the HIGHEST power." },
+
+            // INDEPENDENT PRACTICE
+            "ind-task1": { type: "single", q: "FPB dari 32 dan 48 adalah... <i class='fas fa-trophy text-green-500 ml-2'></i>", q_trans: "GCF of 32 and 48 is...", opts: ["\\( 8 \\)", "\\( 12 \\)", "\\( 16 \\)", "\\( 24 \\)", "\\( 32 \\)"], ans: "\\( 16 \\)", exp: "32=2^5, 48=2^4x3. FPB ambil pangkat terkecil yang sama = 2^4 = 16.", exp_trans: "32=2^5, 48=2^4x3. GCF take smallest matching power = 2^4 = 16." },
+            "ind-task2": { type: "fill", q: "Ada 40 siswa laki-laki dan 32 siswi perempuan. Mereka akan dibentuk barisan dengan jumlah anggota laki-laki dan perempuan yang sama di setiap baris. Berapa maksimal jumlah baris? <i class='fas fa-users-rectangle text-green-500 ml-2'></i>", q_trans: "40 boys and 32 girls. They will form lines with same number of boys and girls in each line. Max lines?", ans: "8", exp: "Maksimal baris = FPB(40, 32). 40=2^3x5, 32=2^5. FPB=2^3=8.", exp_trans: "Max lines = GCF(40, 32) = 8." },
+            "ind-task3": { type: "tf_table", q: "Analisis soal FPB. <i class='fas fa-list-ol text-green-500 ml-2'></i>", q_trans: "Analyze GCF problems.", opts: ["Jika soal meminta jumlah maksimal kelompok, gunakan FPB", "Jika soal meminta pembagian tanpa sisa, gunakan FPB", "FPB(20, 30) adalah 10", "FPB(12, 15) adalah 60"], ans: ["B", "B", "B", "S"], exp: "1. B. 2. B. 3. B. 4. S, 60 itu KPK(12,15). FPB=3.", exp_trans: "1. T. 2. T. 3. T. 4. F." },
+            "ind-task4": { type: "single", q: "KPK dari 5 dan 8 adalah... <i class='fas fa-infinity text-green-500 ml-2'></i>", q_trans: "LCM of 5 and 8 is...", opts: ["\\( 13 \\)", "\\( 20 \\)", "\\( 32 \\)", "\\( 40 \\)", "\\( 80 \\)"], ans: "\\( 40 \\)", exp: "KPK(5, 8) = 5 x 8 = 40.", exp_trans: "LCM(5, 8) = 5 x 8 = 40." },
+            "ind-task5": { type: "complex", q: "Pilih pernyataan yang benar terkait KPK. <i class='fas fa-check-double text-green-500 ml-2'></i>", q_trans: "Select true statements regarding LCM.", opts: ["KPK(4, 9) = 36", "KPK dua bilangan yang relatif prima (tidak punya FPB>1) adalah perkaliannya", "KPK(6, 10) = 60", "KPK(3, 12) = 12"], ans: [0, 1, 3], exp: "1. B. 2. B. 3. S, KPK(6,10)=30. 4. B, 12 kelipatan 3.", exp_trans: "1. T. 2. T. 3. F. 4. T." },
+            "ind-task6": { type: "fill", q: "Deni ganti oli tiap 6 bulan, service radiator tiap 8 bulan. Jika sekarang bareng, berapa bulan lagi bareng lagi? <i class='fas fa-car text-green-500 ml-2'></i>", q_trans: "Deni changes oil every 6 months, radiator service every 8 months. If together now, how many months again?", ans: "24", exp: "KPK(6, 8). 6=2x3, 8=2^3. KPK=2^3x3=24 bulan.", exp_trans: "LCM(6, 8) = 24 months." },
+            "ind-task7": { type: "single", q: "Tiga lampu menyala tiap 4, 6, dan 8 sekon. Jika menyala bareng, kapan bareng lagi? <i class='fas fa-lightbulb text-green-500 ml-2'></i>", q_trans: "Three lights flash every 4, 6, and 8 secs. If flashing together, when again?", opts: ["\\( 12 \\text{ sekon} \\)", "\\( 16 \\text{ sekon} \\)", "\\( 24 \\text{ sekon} \\)", "\\( 32 \\text{ sekon} \\)", "\\( 48 \\text{ sekon} \\)"], ans: "\\( 24 \\text{ sekon} \\)", exp: "KPK(4, 6, 8). 4=2^2, 6=2x3, 8=2^3. KPK=2^3x3=24.", exp_trans: "LCM(4, 6, 8) = 24." },
+            "ind-task8": { type: "tf_table", q: "Analisis kesalahan FPB dan KPK. <i class='fas fa-clipboard-check text-green-500 ml-2'></i>", q_trans: "Error analysis of GCF and LCM.", opts: ["Mencari jumlah kantong maksimal = KPK (Salah)", "Mencari kapan bertemu lagi = KPK (Benar)", "Mencari panjang potongan terpanjang sama = FPB (Benar)", "Mencari kelipatan bersama terkecil = FPB (Salah)"], ans: ["B", "B", "B", "B"], exp: "1. B, itu harusnya FPB. 2. B. 3. B. 4. B, itu KPK.", exp_trans: "1. T. 2. T. 3. T. 4. T." },
+            "ind-task9": { type: "single", q: "Deni punya kawat 18m dan 24m. Ia memotong dengan panjang sama tanpa sisa. Berapa panjang potongan MAKSIMAL? <i class='fas fa-scissors text-green-500 ml-2'></i>", q_trans: "Deni has 18m and 24m wires. He cuts them into equal lengths without remainder. Max length?", opts: ["\\( 2 \\text{m} \\)", "\\( 3 \\text{m} \\)", "\\( 4 \\text{m} \\)", "\\( 6 \\text{m} \\)", "\\( 8 \\text{m} \\)"], ans: "\\( 6 \\text{m} \\)", exp: "Maksimal potongan = FPB(18, 24) = 6.", exp_trans: "Max length = GCF(18, 24) = 6." },
+            "ind-task10": { type: "complex", q: "Pilih rumus yang benar. <i class='fas fa-check-circle text-green-500 ml-2'></i>", q_trans: "Select correct formulas.", opts: ["\\( \\text{KPK}(a,b) \\times \\text{FPB}(a,b) = a \\times b \\)", "\\( \\text{KPK}(a,b) = \\frac{a \\times b}{\\text{FPB}(a,b)} \\)", "\\( \\text{FPB}(a,b) = a \\times b \\)", "\\( \\text{KPK}(3, 4) = 12 \\)"], ans: [0, 1, 3], exp: "1. B, sifat bagus. 2. B, penurunan dari sifat. 3. S. 4. B.", exp_trans: "1. T. 2. T. 3. F. 4. T." },
+
+            // TASK 1: Faktorisasi Prima & Pohon Faktor
+            "t1-task1": { type: "single", q: "Faktorisasi prima dari 28 adalah... <i class='fas fa-tree text-orange-500 ml-2'></i>", q_trans: "Prime factorization of 28 is...", opts: ["\\( 2 \\times 2 \\times 7 \\)", "\\( 2 \\times 14 \\)", "\\( 4 \\times 7 \\)", "\\( 2 \\times 2 \\times 2 \\times 3 \\)", "\\( 2 \\times 2 \\times 5 \\)"], ans: "\\( 2 \\times 2 \\times 7 \\)", exp: "28 / 2 = 14. 14 / 2 = 7. 7 adalah prima. Jadi 2x2x7.", exp_trans: "28 / 2 = 14. 14 / 2 = 7. 7 is prime. So 2x2x7." },
+            "t1-task2": { type: "fill", q: "Selesaikan pohon faktor ini: 36 -> 4 x 9. 4 -> 2 x 2. 9 -> 3 x ?. Isi angka yang hilang. <i class='fas fa-puzzle-piece text-orange-500 ml-2'></i>", q_trans: "Complete factor tree: 36 -> 4 x 9. 4 -> 2 x 2. 9 -> 3 x ?. Fill missing number.", ans: "3", exp: "9 jika dipecah prima adalah 3 x 3.", exp_trans: "9 broken into primes is 3 x 3." },
+            "t1-task3": { type: "tf_table", q: "Tentukan Benar/Salah faktor prima. <i class='fas fa-list-ul text-orange-500 ml-2'></i>", q_trans: "Determine True/False prime factors.", opts: ["Faktor prima 20 adalah 2 dan 5", "Faktor prima 15 adalah 3 dan 5", "Faktor prima 30 adalah 2, 3, dan 5", "Faktor prima 40 adalah 2 dan 7"], ans: ["B", "B", "B", "S"], exp: "1. B (2x2x5). 2. B (3x5). 3. B (2x3x5). 4. S, 40=2x2x2x5.", exp_trans: "1. T. 2. T. 3. T. 4. F." },
+            "t1-task4": { type: "single", q: "Bilangan 1 BUKAN bilangan prima karena... <i class='fas fa-circle-question text-orange-500 ml-2'></i>", q_trans: "Number 1 is NOT a prime number because...", opts: ["Karena 1 itu ganjil", "Karena 1 hanya punya 1 faktor", "Karena 1 tidak bisa dibagi", "Karena 1 lebih kecil dari 2", "Karena 1 adalah bilangan komposit"], ans: "Karena 1 hanya punya 1 faktor", exp: "Prima harus punya TEPAT 2 faktor (1 dan dirinya). 1 hanya punya 1.", exp_trans: "Primes must have EXACTLY 2 factors. 1 only has 1." },
+            "t1-task5": { type: "complex", q: "Pilih bilangan yang merupakan hasil dari \( 2^2 \\times 3 \\). <i class='fas fa-check-double text-orange-500 ml-2'></i>", q_trans: "Select numbers that result from \( 2^2 \\times 3 \\).", opts: ["\\( 6 \\)", "\\( 12 \\)", "\\( 18 \\)", "\\( 24 \\)"], ans: [1], exp: "2^2 = 4. 4 x 3 = 12.", exp_trans: "2^2 = 4. 4 x 3 = 12." },
+            "t1-task6": { type: "fill", q: "Tuliskan 45 sebagai perkalian bilangan prima (contoh: 3x3x5). <i class='fas fa-calculator text-orange-500 ml-2'></i>", q_trans: "Write 45 as multiplication of primes (e.g., 3x3x5).", ans: "3x3x5", exp: "45 / 3 = 15. 15 / 3 = 5. Jadi 3x3x5.", exp_trans: "45 / 3 = 15. 15 / 3 = 5. So 3x3x5." },
+            "t1-task7": { type: "single", q: "Deni punya 50 kelereng. Ia ingin tahu apakah bisa dibagi rata tanpa sisa ke 7 teman. Tanpa menghitung, apa syarat 7 jadi faktor? <i class='fas fa-users text-orange-500 ml-2'></i>", q_trans: "Deni has 50 marbles. He wants to know if they can be divided equally to 7 friends. Without calculating, what's the condition for 7 to be a factor?", opts: ["50 habis dibagi 7", "50 adalah bilangan prima", "7 lebih kecil dari 50", "50 adalah kelipatan 7", "50 dan 7 sama-sama ganjil"], ans: "50 habis dibagi 7", exp: "Syarat mutlak jadi faktor adalah bisa membagi habis tanpa sisa.", exp_trans: "Absolute requirement to be a factor is to divide evenly without remainder." },
+            "t1-task8": { type: "tf_table", q: "Pilih pernyataan yang benar tentang faktor. <i class='fas fa-clipboard-check text-orange-500 ml-2'></i>", q_trans: "Select true statements about factors.", opts: ["Faktor dari 16 adalah 1,2,4,8,16", "Faktor persegi dari 25 adalah 5", "Faktor dari 21 adalah 1,3,7,21", "Faktor dari 10 adalah 2 dan 5 saja"], ans: ["B", "B", "B", "S"], exp: "1. B. 2. B. 3. B. 4. S, faktor 10 ada 1,2,5,10.", exp_trans: "1. T. 2. T. 3. T. 4. F." },
+            "t1-task9": { type: "single", q: "Bilangan komposit adalah... <i class='fas fa-cubes text-orange-500 ml-2'></i>", q_trans: "Composite numbers are...", opts: ["Bilangan yang hanya bisa dibagi 1", "Bilangan prima", "Bilangan yang punya lebih dari 2 faktor", "Bilangan ganjil", "Bilangan yang tidak bisa dibagi 2"], ans: "Bilangan yang punya lebih dari 2 faktor", exp: "Komposit memiliki definisi punya lebih dari 2 faktor.", exp_trans: "Composite has definition of having more than 2 factors." },
+            "t1-task10": { type: "complex", q: "Pilih langkah menentukan bilangan prima. <i class='fas fa-check-circle text-orange-500 ml-2'></i>", q_trans: "Select steps to determine prime numbers.", opts: ["Bagi dengan bilangan prima mulai dari 2", "Jika bisa dibagi habis, berarti komposit", "Jika tidak habis dibagi sampai akarnya, berarti prima", "Kalikan dengan dirinya sendiri"], ans: [0, 1, 2], exp: "Langkah 4 salah, tidak relevan.", exp_trans: "Step 4 is wrong, not relevant." },
+
+            // TASK 2: FPB (Faktor Persekutuan Terbesar)
+            "t2-task1": { type: "single", q: "FPB dari 20 dan 30 adalah... <i class='fas fa-trophy text-orange-500 ml-2'></i>", q_trans: "GCF of 20 and 30 is...", opts: ["\\( 2 \\)", "\\( 5 \\)", "\\( 10 \\)", "\\( 20 \\)", "\\( 60 \\)"], ans: "\\( 10 \\)", exp: "Faktor 20: 1,2,4,5,10,20. Faktor 30: 1,2,3,5,6,10,15,30. Terbesar 10.", exp_trans: "Largest common is 10." },
+            "t2-task2": { type: "fill", q: "Deni punya 18 buku tulis dan 24 pensil. Dibagi rata ke beberapa anak. Berapa maksimal anak yang dapat pembagian sama? <i class='fas fa-book text-orange-500 ml-2'></i>", q_trans: "Deni has 18 notebooks and 24 pencils. Divided equally to some children. Max children with equal share?", ans: "6", exp: "Maksimal anak = FPB(18, 24) = 6.", exp_trans: "Max children = GCF(18, 24) = 6." },
+            "t2-task3": { type: "tf_table", q: "Evaluasi FPB. <i class='fas fa-list-ul text-orange-500 ml-2'></i>", q_trans: "Evaluate GCF.", opts: ["FPB(12, 18) = 6", "FPB(15, 25) = 5", "FPB(8, 16) = 8", "FPB(7, 14) = 14"], ans: ["B", "B", "B", "S"], exp: "1. B. 2. B. 3. B. 4. S, FPB(7,14)=7.", exp_trans: "1. T. 2. T. 3. T. 4. F." },
+            "t2-task4": { type: "single", q: "Ada kertas 40cm dan 60cm. Dipotong dengan ukuran sama terbesar. Berapa cm potongan itu? <i class='fas fa-scissors text-orange-500 ml-2'></i>", q_trans: "There are papers 40cm and 60cm. Cut to largest equal size. How many cm?", opts: ["\\( 10 \\text{ cm} \\)", "\\( 20 \\text{ cm} \\)", "\\( 40 \\text{ cm} \\)", "\\( 60 \\text{ cm} \\)", "\\( 120 \\text{ cm} \\)"], ans: "\\( 20 \\text{ cm} \\)", exp: "Potongan terbesar = FPB(40, 60) = 20.", exp_trans: "Largest cut = GCF(40, 60) = 20." },
+            "t2-task5": { type: "complex", q: "Pilih rumus yang benar terkait FPB. <i class='fas fa-check-double text-orange-500 ml-2'></i>", q_trans: "Select correct formulas related to GCF.", opts: ["\\( \\text{FPB}(a,b) = \\text{Faktor prima terkecil yang sama} \\)", "\\( \\text{FPB}(a,b) \\times \\text{KPK}(a,b) = a \\times b \\)", "\\( \\text{FPB}(12, 15) = 60 \\)", "\\( \\text{FPB}(a,a) = a \\)"], ans: [1, 3], exp: "1. S, ambil pangkat terkecil. 2. B. 3. S, 60 itu KPK. 4. B.", exp_trans: "1. F. 2. T. 3. F. 4. T." },
+            "t2-task6": { type: "fill", q: "FPB dari 14 dan 21 adalah... <i class='fas fa-calculator text-orange-500 ml-2'></i>", q_trans: "GCF of 14 and 21 is...", ans: "7", exp: "14=2x7, 21=3x7. FPB=7.", exp_trans: "14=2x7, 21=3x7. GCF=7." },
+            "t2-task7": { type: "single", q: "Deni punya 16 baju dan 24 celana. Membuat kotak donasi dengan isi kombinasi sama. Maksimal kotak donasi? <i class='fas fa-box text-orange-500 ml-2'></i>", q_trans: "Deni has 16 shirts and 24 pants. Making donation boxes with same contents. Max boxes?", opts: ["\\( 4 \\)", "\\( 6 \\)", "\\( 8 \\)", "\\( 12 \\)", "\\( 16 \\)"], ans: "\\( 8 \\)", exp: "FPB(16, 24) = 8.", exp_trans: "GCF(16, 24) = 8." },
+            "t2-task8": { type: "tf_table", q: "Hubungan FPB dengan soal cerita. <i class='fas fa-clipboard-check text-orange-500 ml-2'></i>", q_trans: "GCF relationship with word problems.", opts: ["Jika mencari jumlah maksimal, pakai FPB", "Jika mencari sisa, pakai FPB", "Jika mencari ukuran terbesar tanpa sisa, pakai FPB", "Jika mencari pertemuan berikutnya, pakai FPB"], ans: ["B", "S", "B", "S"], exp: "1. B. 2. S. 3. B. 4. S, itu KPK.", exp_trans: "1. T. 2. F. 3. T. 4. F." },
+            "t2-task9": { type: "single", q: "FPB dari 3 bilangan: 12, 18, dan 24 adalah... <i class='fas fa-layer-group text-orange-500 ml-2'></i>", q_trans: "GCF of 3 numbers: 12, 18, and 24 is...", opts: ["\\( 2 \\)", "\\( 3 \\)", "\\( 6 \\)", "\\( 12 \\)", "\\( 24 \\)"], ans: "\\( 6 \\)", exp: "Faktor 12: 1,2,3,4,6,12. Yang sama di 18 dan 24 ada 1,2,3,6. Terbesar 6.", exp_trans: "Largest common in all three is 6." },
+            "t2-task10": { type: "complex", q: "Pilih bilangan yang FPB-nya 5. <i class='fas fa-check-circle text-orange-500 ml-2'></i>", q_trans: "Select numbers whose GCF is 5.", opts: ["\\( 10 \\text{ dan } 15 \\)", "\\( 15 \\text{ dan } 20 \\)", "\\( 20 \\text{ dan } 25 \\)", "\\( 10 \\text{ dan } 20 \\)"], ans: [0, 1, 2], exp: "1. FPB=5. 2. FPB=5. 3. FPB=5. 4. FPB=10.", exp_trans: "1. GCF=5. 2. GCF=5. 3. GCF=5. 4. GCF=10." },
+
+            // TASK 3: KPK (Kelipatan Persekutuan Terkecil)
+            "t3-task1": { type: "single", q: "KPK dari 6 dan 9 adalah... <i class='fas fa-infinity text-orange-500 ml-2'></i>", q_trans: "LCM of 6 and 9 is...", opts: ["\\( 12 \\)", "\\( 15 \\)", "\\( 18 \\)", "\\( 27 \\)", "\\( 54 \\)"], ans: "\\( 18 \\)", exp: "6=2x3, 9=3^2. KPK=2x3^2=18.", exp_trans: "6=2x3, 9=3^2. LCM=2x3^2=18." },
+            "t3-task2": { type: "fill", q: "Deni berenang tiap 4 hari, Sinta tiap 6 hari. Berapa hari lagi berenang bareng? <i class='fas fa-person-swimming text-orange-500 ml-2'></i>", q_trans: "Deni swims every 4 days, Sinta every 6 days. How many days until swimming together?", ans: "12", exp: "KPK(4, 6) = 12.", exp_trans: "LCM(4, 6) = 12." },
+            "t3-task3": { type: "tf_table", q: "Evaluasi KPK. <i class='fas fa-list-ul text-orange-500 ml-2'></i>", q_trans: "Evaluate LCM.", opts: ["KPK(4, 5) = 20", "KPK(8, 12) = 24", "KPK(6, 10) = 60", "KPK(3, 9) = 9"], ans: ["B", "B", "S", "B"], exp: "1. B. 2. B. 3. S, KPK(6,10)=30. 4. B, 9 kelipatan 3.", exp_trans: "1. T. 2. T. 3. F. 4. T." },
+            "t3-task4": { type: "single", q: "Bel sekolah berbunyi tiap 30 menit dan 45 menit. Jika bareng jam 08.00, kapan bareng berikutnya? <i class='fas fa-bell text-orange-500 ml-2'></i>", q_trans: "School bells ring every 30 mins and 45 mins. If together at 08:00, when next together?", opts: ["\\( 08.30 \\)", "\\( 08.45 \\)", "\\( 09.00 \\)", "\\( 09.15 \\)", "\\( 09.30 \\)"], ans: "\\( 09.30 \\)", exp: "KPK(30, 45) = 90 menit = 1.5 jam. 08.00 + 1.5 jam = 09.30.", exp_trans: "LCM(30, 45) = 90 mins = 1.5h. 08:00 + 1.5h = 09:30." },
+            "t3-task5": { type: "complex", q: "Pilih rumus yang benar terkait KPK. <i class='fas fa-check-double text-orange-500 ml-2'></i>", q_trans: "Select correct formulas related to LCM.", opts: ["\\( \\text{KPK}(a,b) = \\text{Kelipatan terkecil yang sama} \\)", "\\( \\text{KPK}(a,b) = a \\times b \\text{ (jika FPB=1)} \\)", "\\( \\text{KPK}(12, 15) = 60 \\)", "\\( \\text{KPK}(a,b) = \\text{FPB}(a,b) \\)"], ans: [0, 1, 2], exp: "1. B. 2. B. 3. B. 4. S.", exp_trans: "1. T. 2. T. 3. T. 4. F." },
+            "t3-task6": { type: "fill", q: "KPK dari 10 dan 15 adalah... <i class='fas fa-calculator text-orange-500 ml-2'></i>", q_trans: "LCM of 10 and 15 is...", ans: "30", exp: "10=2x5, 15=3x5. KPK=2x3x5=30.", exp_trans: "10=2x5, 15=3x5. LCM=2x3x5=30." },
+            "t3-task7": { type: "single", q: "Roket mainan diluncurkan tiap 8 sekon, pesawat mainan tiap 12 sekon. Kapan diluncurkan bareng lagi? <i class='fas fa-rocket text-orange-500 ml-2'></i>", q_trans: "Toy rocket launched every 8s, toy plane every 12s. When launched together again?", opts: ["\\( 16 \\text{ s} \\)", "\\( 20 \\text{ s} \\)", "\\( 24 \\text{ s} \\)", "\\( 32 \\text{ s} \\)", "\\( 48 \\text{ s} \\)"], ans: "\\( 24 \\text{ s} \\)", exp: "KPK(8, 12) = 24 sekon.", exp_trans: "LCM(8, 12) = 24s." },
+            "t3-task8": { type: "tf_table", q: "Hubungan KPK dengan soal cerita. <i class='fas fa-clipboard-check text-orange-500 ml-2'></i>", q_trans: "LCM relationship with word problems.", opts: ["Jika mencari pertemuan berkala, pakai KPK", "Jika mencari kelipatan bersama, pakai KPK", "Jika mencari kelompok maksimal, pakai KPK", "Jika soal menyebut 'bersama lagi', pakai KPK"], ans: ["B", "B", "S", "B"], exp: "1. B. 2. B. 3. S, itu FPB. 4. B.", exp_trans: "1. T. 2. T. 3. F. 4. T." },
+            "t3-task9": { type: "single", q: "KPK dari 3 bilangan: 4, 6, dan 8 adalah... <i class='fas fa-layer-group text-orange-500 ml-2'></i>", q_trans: "LCM of 3 numbers: 4, 6, and 8 is...", opts: ["\\( 12 \\)", "\\( 16 \\)", "\\( 24 \\)", "\\( 32 \\)", "\\( 48 \\)"], ans: "\\( 24 \\)", exp: "KPK(4,6,8). 4=2^2, 6=2x3, 8=2^3. KPK=2^3x3=24.", exp_trans: "LCM(4,6,8) = 24." },
+            "t3-task10": { type: "complex", q: "Pilih bilangan yang KPK-nya 60. <i class='fas fa-check-circle text-orange-500 ml-2'></i>", q_trans: "Select numbers whose LCM is 60.", opts: ["\\( 12 \\text{ dan } 15 \\)", "\\( 15 \\text{ dan } 20 \\)", "\\( 10 \\text{ dan } 12 \\)", "\\( 20 \\text{ dan } 30 \\)"], ans: [0, 1, 2, 3], exp: "Semua pasangan memiliki KPK 60. 12 & 15: 60. 15 & 20: 60. 10 & 12: 60. 20 & 30: 60.", exp_trans: "All options have LCM 60." }
+        });
+
+        Object.assign(questions, {
+		
+            // TASK 4: FPB & KPK (Soal Cerita Campuran)
+            "t4-task1": { type: "single", q: "Deni ingin membuat kotak donasi. Ia punya 20 buku dan 30 pensil. Isi tiap kotak harus sama. Berapa maksimal kotak yang bisa dibuat? <i class='fas fa-box-open text-orange-500 ml-2'></i>", q_trans: "Deni wants to make donation boxes. He has 20 books and 30 pencils. Contents must be equal. Max boxes?", opts: ["\\( 5 \\)", "\\( 10 \\)", "\\( 15 \\)", "\\( 20 \\)", "\\( 60 \\)"], ans: "\\( 10 \\)", exp: "Membagi rata maksimal = FPB. FPB(20,30) = 10.", exp_trans: "Max equal division = GCF. GCF(20,30) = 10." },
+            "t4-task2": { type: "fill", q: "Bus A datang tiap 10 menit, Bus B tiap 15 menit. Jika datang bareng jam 08.00, jam berapa bareng lagi? (Tulis dalam format HH.MM) <i class='fas fa-bus-simple text-orange-500 ml-2'></i>", q_trans: "Bus A arrives every 10 mins, Bus B every 15 mins. If they arrive together at 08:00, what time together again? (Format HH.MM)", ans: "08.30", exp: "KPK(10,15) = 30 menit. 08.00 + 30 menit = 08.30.", exp_trans: "LCM(10,15) = 30 mins. 08:00 + 30 mins = 08:30." },
+            "t4-task3": { type: "tf_table", q: "Pilih pernyataan yang benar. <i class='fas fa-list-ul text-orange-500 ml-2'></i>", q_trans: "Select true statements.", opts: ["Mencari kelompok terbesar = FPB", "Mencari pertemuan berkala = KPK", "Membagi barang tanpa sisa = KPK", "Mencari kelipatan bersama = KPK"], ans: ["B", "B", "S", "B"], exp: "1. B. 2. B. 3. S, itu FPB. 4. B.", exp_trans: "1. T. 2. T. 3. F, that's GCF. 4. T." },
+            "t4-task4": { type: "single", q: "Deni beli 12 apel dan 16 jeruk. Dibuat selotip buah dengan isi sama. Berapa maksimal jumlah selotip yang bisa dibuat? <i class='fas fa-apple-whole text-orange-500 ml-2'></i>", q_trans: "Deni buys 12 apples and 16 oranges. Made into fruit tape with equal contents. Max number of tapes?", opts: ["\\( 2 \\)", "\\( 4 \\)", "\\( 6 \\)", "\\( 8 \\)", "\\( 12 \\)"], ans: "\\( 4 \\)", exp: "Maksimal selotip = FPB(12,16) = 4. Maka tiap selotip berisi 12/4=3 apel dan 16/4=4 jeruk.", exp_trans: "Max tapes = GCF(12,16) = 4. So each tape contains 3 apples and 4 oranges." },
+            "t4-task5": { type: "complex", q: "Pilih situasi yang menggunakan FPB. <i class='fas fa-check-double text-orange-500 ml-2'></i>", q_trans: "Select situations using GCF.", opts: ["Membagi 24 siswa menjadi baris yang sama", "Mencari kapan dua planet berevolusi bareng", "Memotong kawat jadi ukuran terpanjang sama", "Mencari frekuensi pertemuan dokter"], ans: [0, 2], exp: "1. B. 2. S, itu KPK. 3. B. 4. S, itu KPK.", exp_trans: "1. T. 2. F. 3. T. 4. F." },
+            "t4-task6": { type: "fill", q: "Deni ganti ban tiap 9 bulan, service mesin tiap 12 bulan. Berapa bulan lagi bareng? <i class='fas fa-car-side text-orange-500 ml-2'></i>", q_trans: "Deni changes tires every 9 months, engine service every 12 months. How many months together?", ans: "36", exp: "KPK(9,12) = 36.", exp_trans: "LCM(9,12) = 36." },
+            "t4-task7": { type: "single", q: "Ada 3 lampu menyala tiap 4, 5, 6 sekon. Bareng lagi dalam... sekon. <i class='fas fa-lightbulb text-orange-500 ml-2'></i>", q_trans: "3 lights flash every 4, 5, 6 secs. Together again in... secs.", opts: ["\\( 20 \\)", "\\( 30 \\)", "\\( 60 \\)", "\\( 120 \\)", "\\( 15 \\)"], ans: "\\( 60 \\)", exp: "KPK(4,5,6) = 60.", exp_trans: "LCM(4,5,6) = 60." },
+            "t4-task8": { type: "tf_table", q: "Analisis FPB dan KPK. <i class='fas fa-clipboard-check text-orange-500 ml-2'></i>", q_trans: "Analyze GCF and LCM.", opts: ["FPB(10, 20) = 10", "KPK(10, 20) = 20", "FPB selalu <= bilangan terkecil", "KPK selalu < bilangan terbesar"], ans: ["B", "B", "B", "S"], exp: "1. B. 2. B. 3. B. 4. S, KPK selalu >= bilangan terbesar.", exp_trans: "1. T. 2. T. 3. T. 4. F." },
+            "t4-task9": { type: "single", q: "Deni punya kawat 45m dan 60m. Potong jadi ukuran sama. Berapa panjang potongan terpanjang? <i class='fas fa-ruler text-orange-500 ml-2'></i>", q_trans: "Deni has 45m and 60m wire. Cut to same length. Longest cut?", opts: ["\\( 5 \\text{ m} \\)", "\\( 10 \\text{ m} \\)", "\\( 15 \\text{ m} \\)", "\\( 20 \\text{ m} \\)", "\\( 45 \\text{ m} \\)"], ans: "\\( 15 \\text{ m} \\)", exp: "FPB(45,60) = 15.", exp_trans: "GCF(45,60) = 15." },
+            "t4-task10": { type: "complex", q: "Pilih pernyataan yang benar tentang prima. <i class='fas fa-check-circle text-orange-500 ml-2'></i>", q_trans: "Select true statements about primes.", opts: ["Bilangan prima genap hanya ada 1", "Bilangan prima terkecil adalah 2", "Semua bilangan prima adalah ganjil", "1 bukan bilangan prima"], ans: [0, 1, 3], exp: "1. B. 2. B. 3. S, 2 genap. 4. B.", exp_trans: "1. T. 2. T. 3. F. 4. T." },
+
+            // TASK 5: Mastery - Aplikasi Dunia Nyata
+            "t5-task1": { type: "single", q: "Deni sedang menata 60 buku dan 75 pensil ke dalam paket. Tiap paket harus berisi buku dan pensil yang sama banyak. Berapa maksimal paket yang bisa dibuat? <i class='fas fa-box-open text-orange-500 ml-2'></i>", q_trans: "Deni is packing 60 books and 75 pencils into packages. Each package must have equal number of books and pencils. Max packages?", opts: ["\\( 10 \\)", "\\( 15 \\)", "\\( 20 \\)", "\\( 25 \\)", "\\( 30 \\)"], ans: "\\( 15 \\)", exp: "Maksimal paket = FPB(60, 75) = 15.", exp_trans: "Max packages = GCF(60, 75) = 15." },
+            "t5-task2": { type: "fill", q: "Kelas Deni lari estafet. Deni berlari tiap 12 sekon, Sinta tiap 8 sekon. Kapan mereka berpapasan di titik yang sama lagi? (dalam sekon) <i class='fas fa-person-running text-orange-500 ml-2'></i>", q_trans: "Deni's class does relay. Deni runs every 12s, Sinta every 8s. When do they meet at the same point again? (in secs)", ans: "24", exp: "KPK(12, 8) = 24.", exp_trans: "LCM(12, 8) = 24." },
+            "t5-task3": { type: "tf_table", q: "Evaluasi faktor dan kelipatan. <i class='fas fa-list-ul text-orange-500 ml-2'></i>", q_trans: "Evaluate factors and multiples.", opts: ["Faktor dari 100 adalah 1, 2, 4, 5, 10, 20, 25, 50, 100", "Kelipatan 5 di bawah 20: 5, 10, 15", "FPB(2, 3) = 6", "KPK(4, 6) = 12"], ans: ["B", "B", "S", "B"], exp: "1. B. 2. B. 3. S, FPB=1. 4. B.", exp_trans: "1. T. 2. T. 3. F. 4. T." },
+            "t5-task4": { type: "single", q: "Tukang bangunan punya 3 tumpuk batu bata: 36, 48, dan 60. Dibuat menjadi menara setinggi-tingginya dengan jumlah bata sama. Berapa tinggi menara? <i class='fas fa-bricks text-orange-500 ml-2'></i>", q_trans: "Builder has 3 piles of bricks: 36, 48, 60. Made into highest towers with same number of bricks. How tall?", opts: ["\\( 6 \\)", "\\( 8 \\)", "\\( 10 \\)", "\\( 12 \\)", "\\( 24 \\)"], ans: "\\( 12 \\)", exp: "FPB(36, 48, 60). 36=2^2x3^2, 48=2^4x3, 60=2^2x3x5. FPB=2^2x3=12.", exp_trans: "GCF(36, 48, 60) = 12." },
+            "t5-task5": { type: "complex", q: "Pilih cara menentukan bilangan prima. <i class='fas fa-check-double text-orange-500 ml-2'></i>", q_trans: "Select ways to determine prime numbers.", opts: ["Membagi dengan bilangan prima lainnya", "Menggunakan saringan Eratosthenes", "Memastikan tidak bisa dibagi habis sampai akarnya", "Memastikan bilangannya genap"], ans: [0, 1, 2], exp: "1. B. 2. B. 3. B. 4. S, 2 genap tapi lainnya ganjil.", exp_trans: "1. T. 2. T. 3. T. 4. F." },
+            "t5-task6": { type: "fill", q: "Deni beli 24 apel dan 36 pir. Dibuat keranjang buah berisi sama. Maksimal isi apel tiap keranjang adalah... <i class='fas fa-apple-whole text-orange-500 ml-2'></i>", q_trans: "Deni buys 24 apples and 36 pears. Made into fruit baskets with equal contents. Max apples per basket?", ans: "2", exp: "Maksimal keranjang = FPB(24, 36) = 12. Tiap keranjang berisi 24/12 = 2 apel.", exp_trans: "Max baskets = GCF(24, 36) = 12. Each basket has 24/12 = 2 apples." },
+            "t5-task7": { type: "single", q: "Planet A edar 200 hari, Planet B 300 hari. Bareng lagi dalam... hari. <i class='fas fa-globe text-orange-500 ml-2'></i>", q_trans: "Planet A orbits 200 days, Planet B 300 days. Together again in... days.", opts: ["\\( 100 \\)", "\\( 500 \\)", "\\( 600 \\)", "\\( 1000 \\)", "\\( 3000 \\)"], ans: "\\( 600 \\)", exp: "KPK(200, 300) = 600.", exp_trans: "LCM(200, 300) = 600." },
+            "t5-task8": { type: "tf_table", q: "Analisis faktor. <i class='fas fa-clipboard-check text-orange-500 ml-2'></i>", q_trans: "Analyze factors.", opts: ["Faktor 17 hanya 1 dan 17", "Faktor 25 adalah 1, 5, 25", "Faktor 100 ada 8 buah", "Faktor 50 ada 5 buah"], ans: ["B", "B", "S", "S"], exp: "1. B (prima). 2. B. 3. S, 100=2^2x5^2, jumlah faktor=(2+1)x(2+1)=9. 4. S, 50=2x5^2, jumlah faktor=(1+1)x(2+1)=6.", exp_trans: "1. T. 2. T. 3. F. 4. F." },
+            "t5-task9": { type: "single", q: "Deni punya 40 permen dan 32 coklat. Dibungkus dengan isi sama. Berapa maksimal bungkus? <i class='fas fa-candy-cane text-orange-500 ml-2'></i>", q_trans: "Deni has 40 candies and 32 chocolates. Packed with equal contents. Max packages?", opts: ["\\( 4 \\)", "\\( 8 \\)", "\\( 10 \\)", "\\( 16 \\)", "\\( 32 \\)"], ans: "\\( 8 \\)", exp: "FPB(40, 32) = 8.", exp_trans: "GCF(40, 32) = 8." },
+            "t5-task10": { type: "complex", q: "Pilih cara mencari FPB(18, 27). <i class='fas fa-check-circle text-orange-500 ml-2'></i>", q_trans: "Select ways to find GCF(18, 27).", opts: ["Mencari faktor prima 18 dan 27", "Mengambil pangkat terendah yang sama", "Mencari faktor yang sama dan ambil terbesar", "Mengalikan keduanya"], ans: [0, 1, 2], exp: "1. B. 2. B. 3. B. 4. S, itu mencari a x b.", exp_trans: "1. T. 2. T. 3. T. 4. F." }
+        });
+        
+        // ====== JAVASCRIPT LOGIC ======
+        let currentPage = 1;
+        let currentTaskSection = ""; 
+
+        function openModal() {
+            const modal = document.getElementById('classRulesModal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+        function closeModal() {
+            const modal = document.getElementById('classRulesModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        function showSection(sectionId) {
+            document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
+            document.getElementById(sectionId).classList.add('active');
+            
+            document.querySelectorAll('.sidebar-item').forEach(item => {
+                item.classList.remove('bg-indigo-100', 'text-indigo-800', 'font-bold', 'bg-orange-100', 'text-orange-800');
+            });
+            const activeLink = document.querySelector(`.sidebar-item[data-section="${sectionId}"]`);
+            if (activeLink) {
+                if(sectionId.startsWith('task')) {
+                    activeLink.classList.add('bg-orange-100', 'text-orange-800', 'font-bold');
+                } else {
+                    activeLink.classList.add('bg-indigo-100', 'text-indigo-800', 'font-bold');
+                }
+            }
+            currentPage = 1;
+            currentTaskSection = sectionId;
+            
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            const firstPage = document.querySelector(`#${sectionId} .page[data-page="1"]`);
+            if(firstPage) firstPage.classList.add('active');
+            
+            renderMath();
+            renderPagination(sectionId, currentPage);
+            document.getElementById('contentScrollArea').scrollTo(0, 0);
+        }
+
+        function changePage(direction) {
+            const activeSection = document.querySelector('.content-section.active');
+            if(!activeSection) return;
+            const pages = activeSection.querySelectorAll('.page');
+            let newPage = currentPage + direction;
+            if(newPage >= 1 && newPage <= pages.length) {
+                pages[currentPage - 1].classList.remove('active');
+                pages[newPage - 1].classList.add('active');
+                currentPage = newPage;
+                renderMath();
+                renderPagination(currentTaskSection, currentPage);
+                document.getElementById('contentScrollArea').scrollTo(0, 0);
+            }
+        }
+
+        function goToPage(pageNum) {
+            const activeSection = document.querySelector('.content-section.active');
+            if(!activeSection) return;
+            const pages = activeSection.querySelectorAll('.page');
+            if(pageNum >= 1 && pageNum <= pages.length) {
+                pages[currentPage - 1].classList.remove('active');
+                pages[pageNum - 1].classList.add('active');
+                currentPage = pageNum;
+                renderMath();
+                renderPagination(currentTaskSection, currentPage);
+                document.getElementById('contentScrollArea').scrollTo(0, 0);
+            }
+        }
+        
+        function renderPagination(sectionId, pageNum) {
+            const activeSection = document.getElementById(sectionId);
+            if (!activeSection) return;
+            const pages = activeSection.querySelectorAll('.page');
+            const totalPages = pages.length;
+            let html = '';
+            const isMainTask = sectionId.startsWith('t');
+            const theoryPages = [1, 5, 9]; 
+            
+            html += `<button onclick="goToPage(${pageNum - 1})" class="px-3 py-1.5 rounded-md text-sm bg-gray-200 hover:bg-gray-300 text-gray-700 ${pageNum === 1 ? 'opacity-50 cursor-not-allowed' : ''}" ${pageNum === 1 ? 'disabled' : ''}><i class="fas fa-chevron-left"></i> Prev</button>`;
+            
+            for (let i = 1; i <= totalPages; i++) {
+                let btnColor = 'bg-gray-100 hover:bg-gray-200 text-gray-700';
+                if (!isMainTask && theoryPages.includes(i)) {
+                    btnColor = 'bg-indigo-100 hover:bg-indigo-200 text-indigo-800'; 
+                } else {
+                    btnColor = 'bg-orange-100 hover:bg-orange-200 text-orange-800'; 
+                }
+                if (i === pageNum) {
+                    if (!isMainTask && theoryPages.includes(i)) {
+                        btnColor = 'bg-indigo-600 text-white shadow-md'; 
+                    } else {
+                        btnColor = 'bg-orange-500 text-white shadow-md'; 
+                    }
+                }
+                html += `<button onclick="goToPage(${i})" class="w-9 h-9 rounded-md text-sm font-semibold transition-all ${btnColor}">${i}</button>`;
+            }
+            
+            html += `<button onclick="goToPage(${pageNum + 1})" class="px-3 py-1.5 rounded-md text-sm bg-gray-200 hover:bg-gray-300 text-gray-700 ${pageNum === totalPages ? 'opacity-50 cursor-not-allowed' : ''}" ${pageNum === totalPages ? 'disabled' : ''}>Next <i class="fas fa-chevron-right"></i></button>`;
+            document.getElementById('paginationBar').innerHTML = html;
+        }
+
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+        let studentAnswers = {};
+
+        function renderTasks() {
+            document.querySelectorAll('[data-task-id]').forEach(div => {
+                const taskId = div.getAttribute('data-task-id');
+                renderSingleTask(taskId, div);
+            });
+            renderMath();
+        }
+        
+        function renderSingleTask(taskId, div) {
+            const data = questions[taskId];
+            if(!data) return;
+
+            const isMainTask = taskId.startsWith('t');
+            const taskNum = isMainTask ? taskId[1] : 0;
+            let taskType = data.type || 'single';
+            
+            let questionHTML = `
+                <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-orange-500">
+                    <div class="flex justify-between items-center mb-4 no-print">
+                        <h2 class="text-xl font-bold text-orange-600">
+                            ${isMainTask ? `Task ${taskNum}` : 'Exercise'} 
+                            ${taskType === 'complex' ? '<span class="text-sm bg-purple-200 text-purple-800 px-2 py-1 rounded ml-2">PG Kompleks</span>' : ''}
+                            ${taskType === 'fill' ? '<span class="text-sm bg-blue-200 text-blue-800 px-2 py-1 rounded ml-2">Isian Singkat</span>' : ''}
+                            ${taskType === 'tf_table' ? '<span class="text-sm bg-teal-200 text-teal-800 px-2 py-1 rounded ml-2">Tabel Benar/Salah</span>' : ''}
+                            <span class="translation text-gray-500 text-sm">Exercise</span>
+                        </h2>
+                        <div class="flex gap-2">
+                            <button onclick="resetTask('${taskId}')" class="text-sm bg-gray-200 hover:bg-gray-300 px-3 py-1 rounded">
+                                <i class="fas fa-redo"></i> Reset
+                            </button>
+                            ${isMainTask ? `<button onclick="printTask(${taskNum})" class="text-sm bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded">
+                                <i class="fas fa-print"></i> Print
+                            </button>` : ''}
+                        </div>
+                    </div>
+                    <div class="mb-6 flex gap-4 items-start">
+                        <div class="bg-orange-100 p-3 rounded-full shrink-0">
+                            <i class="fas fa-question text-orange-500 text-xl"></i>
+                        </div>
+                        <div class="flex-1">
+                            <p class="text-lg">${data.q}</p>
+                            <p class="translation">${data.q_trans}</p>
+                        </div>
+                    </div>
+            `;
+
+            if (taskType === 'single') {
+                const shuffledOpts = shuffleArray([...data.opts]);
+                questionHTML += `
+                    <div id="options-${taskId}" class="space-y-3">
+                        ${shuffledOpts.map((opt, i) => `
+                            <button onclick="checkAnswer('${taskId}', this.getAttribute('data-opt'), 'single')" 
+                                    class="option-btn w-full text-left p-3 border-2 border-gray-200 rounded hover:border-orange-500 flex items-center gap-3" 
+                                    data-opt="${opt}">
+                                <span class="w-6 h-6 flex items-center justify-center bg-gray-100 rounded-full font-bold shrink-0">${String.fromCharCode(65 + i)}</span>
+                                <span class="katex">${opt}</span>
+                            </button>
+                        `).join('')}
+                    </div>
+                `;
+            } else if (taskType === 'complex') {
+                questionHTML += `
+                    <p class="text-sm text-gray-600 mb-3">*Pilih semua pernyataan yang benar. <span class="translation">*Select all correct statements.</span></p>
+                    <div id="options-${taskId}" class="space-y-3">
+                        ${data.opts.map((opt, i) => `
+                            <label class="option-btn w-full text-left p-3 border-2 border-gray-200 rounded hover:border-purple-500 flex items-center gap-3 cursor-pointer">
+                                <input type="checkbox" class="w-5 h-5 complex-checkbox shrink-0" data-opt-index="${i}">
+                                <span class="katex">${opt}</span>
+                            </label>
+                        `).join('')}
+                    </div>
+                    <button onclick="checkAnswer('${taskId}', null, 'complex')" class="mt-4 bg-purple-500 hover:bg-purple-600 text-white px-4 py-2 rounded font-bold">Submit Jawaban</button>
+                `;
+            } else if (taskType === 'fill') {
+                questionHTML += `
+                    <div class="flex gap-2 items-center mt-2">
+                        <input type="text" id="input-${taskId}" class="border-2 border-gray-200 rounded p-2 w-32 text-lg text-center focus:border-orange-500 outline-none" placeholder="Jawaban...">
+                        <button onclick="checkAnswer('${taskId}', null, 'fill')" class="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded font-bold">Submit</button>
+                    </div>
+                `;
+            } else if (taskType === 'tf_table') {
+                questionHTML += `
+                    <p class="text-sm text-gray-600 mb-3">*Tentukan Benar atau Salah untuk setiap pernyataan. <span class="translation">*Determine True or False for each statement.</span></p>
+                    <div id="options-${taskId}" class="overflow-x-auto">
+                        <table class="w-full border-collapse border border-gray-300 text-sm">
+                            <thead>
+                                <tr class="bg-gray-100">
+                                    <th class="border border-gray-300 p-2 w-10">No.</th>
+                                    <th class="border border-gray-300 p-2 text-left">Pernyataan <span class="translation text-xs">Statement</span></th>
+                                    <th class="border border-gray-300 p-2 w-20">Benar <span class="translation text-xs block">True</span></th>
+                                    <th class="border border-gray-300 p-2 w-20">Salah <span class="translation text-xs block">False</span></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${data.opts.map((opt, i) => `
+                                    <tr>
+                                        <td class="border border-gray-300 p-2 text-center font-bold">${i + 1}</td>
+                                        <td class="border border-gray-300 p-2"><span class="katex">${opt}</span></td>
+                                        <td class="border border-gray-300 p-2 text-center">
+                                            <input type="radio" name="tf-${taskId}-${i}" value="B" class="tf-radio w-5 h-5 cursor-pointer">
+                                        </td>
+                                        <td class="border border-gray-300 p-2 text-center">
+                                            <input type="radio" name="tf-${taskId}-${i}" value="S" class="tf-radio w-5 h-5 cursor-pointer">
+                                        </td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                    <button onclick="checkAnswer('${taskId}', null, 'tf_table')" class="mt-4 bg-teal-500 hover:bg-teal-600 text-white px-4 py-2 rounded font-bold">Submit Jawaban</button>
+                `;
+            }
+
+            questionHTML += `
+                    <div id="result-${taskId}" class="mt-4 hidden p-4 rounded"></div>
+
+                    <div class="mt-4 no-print">
+                        <button onclick="toggleCollapse('${taskId}')" id="collapse-btn-${taskId}" class="hidden text-blue-600 underline">
+                            Tampilkan Penjelasan <span class="translation text-gray-500 text-xs" style="display: inline-block; margin-left: 4px;">Show Explanation</span>
+                        </button>
+                        <div id="collapse-${taskId}" class="collapse-content w-full">
+                            <h3 class="font-bold text-blue-800">Penjelasan: <span class="translation text-gray-500 text-sm">Explanation:</span></h3>
+                            <p class="mt-2">${data.exp}</p>
+                            <p class="translation">${data.exp_trans}</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+            div.innerHTML = questionHTML;
+        }
+
+        function checkAnswer(taskId, selectedOpt, type) {
+            const data = questions[taskId];
+            const resultDiv = document.getElementById(`result-${taskId}`);
+            const collapseBtn = document.getElementById(`collapse-btn-${taskId}`);
+            let isCorrect = false;
+            let correctAnsText = '';
+
+            if (type === 'single') {
+                const buttons = document.querySelectorAll(`#options-${taskId} button`);
+                buttons.forEach(btn => {
+                    btn.disabled = true;
+                    btn.classList.add('opacity-70', 'cursor-not-allowed');
+                    if(btn.getAttribute('data-opt') === data.ans) {
+                        btn.classList.remove('border-gray-200', 'hover:border-orange-500');
+                        btn.classList.add('border-green-500', 'bg-green-50');
+                    } else if (btn.getAttribute('data-opt') === selectedOpt) {
+                        btn.classList.remove('border-gray-200', 'hover:border-orange-500');
+                        btn.classList.add('border-red-500', 'bg-red-50');
+                    }
+                });
+                isCorrect = (selectedOpt === data.ans);
+                correctAnsText = data.ans;
+                studentAnswers[taskId] = selectedOpt; 
+            } 
+            else if (type === 'complex') {
+                const checkboxes = document.querySelectorAll(`#options-${taskId} input[type="checkbox"]`);
+                let selectedAns = [];
+                checkboxes.forEach((cb, i) => {
+                    if (cb.checked) selectedAns.push(i);
+                    cb.disabled = true;
+                });
+                const correctAnsStr = [...data.ans].sort().join(',');
+                const selectedAnsStr = [...selectedAns].sort().join(',');
+                isCorrect = (correctAnsStr === selectedAnsStr);
+                
+                let correctComplexText = [];
+                data.ans.forEach(i => correctComplexText.push(data.opts[i]));
+                correctAnsText = correctComplexText.join(', ');
+
+                checkboxes.forEach((cb, i) => {
+                    if(data.ans.includes(i)) {
+                        cb.parentElement.classList.remove('border-gray-200', 'hover:border-purple-500');
+                        cb.parentElement.classList.add('border-green-500', 'bg-green-50');
+                    } else if (cb.checked) {
+                        cb.parentElement.classList.remove('border-gray-200', 'hover:border-purple-500');
+                        cb.parentElement.classList.add('border-red-500', 'bg-red-50');
+                    }
+                });
+                studentAnswers[taskId] = selectedAns;
+            } 
+            else if (type === 'fill') {
+                const inputField = document.getElementById(`input-${taskId}`);
+                // Ubah validasi agar hanya menghapus spasi dan mengecilkan huruf, tanpa menghapus karakter penting seperti 'x' atau ':'
+                let userVal = inputField.value.trim().toLowerCase().replace(/\s/g, '');
+                let correctAns = data.ans.toString().toLowerCase().replace(/\s/g, '');
+                inputField.disabled = true;
+                isCorrect = (userVal === correctAns);
+                if(!isCorrect) inputField.classList.add('border-red-500', 'bg-red-50');
+                else inputField.classList.add('border-green-500', 'bg-green-50');
+                correctAnsText = data.ans;
+                studentAnswers[taskId] = userVal;
+            }
+            else if (type === 'tf_table') {
+                const rows = document.querySelectorAll(`#options-${taskId} tbody tr`);
+                let userAns = [];
+                let allFilled = true;
+
+                rows.forEach((row, i) => {
+                    const radios = row.querySelectorAll('input[type="radio"]');
+                    let rowVal = null;
+                    radios.forEach(r => {
+                        r.disabled = true;
+                        if (r.checked) rowVal = r.value;
+                    });
+                    if (rowVal === null) allFilled = false;
+                    userAns.push(rowVal);
+                });
+
+                if (!allFilled) {
+                    alert("Harap isi semua pernyataan terlebih dahulu! / Please answer all statements first!");
+                    rows.forEach((row, i) => {
+                        let radios = row.querySelectorAll('input[type="radio"]');
+                        radios.forEach(r => r.disabled = false);
+                    });
+                    return;
+                }
+
+                let correctCount = 0;
+                let correctTFText = [];
+                rows.forEach((row, i) => {
+                    const userVal = userAns[i];
+                    const correctVal = data.ans[i];
+                    correctTFText.push(`${i+1}. ${correctVal}`);
+                    if (userVal === correctVal) {
+                        correctCount++;
+                        row.classList.add('bg-green-50');
+                    } else {
+                        row.classList.add('bg-red-50');
+                    }
+                });
+
+                isCorrect = (correctCount === data.ans.length);
+                correctAnsText = correctTFText.join(' | ');
+                studentAnswers[taskId] = userAns;
+            }
+
+            if(isCorrect) {
+                resultDiv.innerHTML = `<p class="text-green-600 font-bold"><i class="fas fa-check-circle"></i> Benar! <span class="translation text-gray-600 font-normal" style="display: inline-block; margin-left: 4px;">Correct!</span></p>`;
+                resultDiv.className = "mt-4 p-4 rounded bg-green-50 border border-green-200";
+            } else {
+                resultDiv.innerHTML = `<p class="text-red-600 font-bold"><i class="fas fa-times-circle"></i> Salah! Jawaban yang benar adalah: ${correctAnsText}. <span class="translation text-gray-600 font-normal" style="display: inline-block; margin-left: 4px;">Wrong! The correct answer is: ${correctAnsText}.</span></p>`;
+                resultDiv.className = "mt-4 p-4 rounded bg-red-50 border border-red-200";
+            }
+            resultDiv.classList.remove('hidden');
+            collapseBtn.classList.remove('hidden');
+            
+            const collapseContent = document.getElementById(`collapse-${taskId}`);
+            collapseContent.classList.add('open');
+            collapseBtn.innerHTML = 'Sembunyikan Penjelasan <span class="translation text-gray-500 text-xs" style="display: inline-block; margin-left: 4px;">Hide Explanation</span>';
+            
+            renderMath();
+        }
+
+        function resetTask(taskId) {
+            delete studentAnswers[taskId];
+            const taskDiv = document.querySelector(`[data-task-id="${taskId}"]`);
+            if(taskDiv) {
+                renderSingleTask(taskId, taskDiv);
+                renderMath();
+            }
+        }
+
+        function printTask(taskNum) {
+            let score = 0;
+            let tableBody = '';
+            for(let i=1; i<=10; i++) {
+                const taskId = `t${taskNum}-task${i}`;
+                const data = questions[taskId];
+                if(!data) continue;
+                
+                let studentAns = studentAnswers[taskId] || 'Tidak Dijawab';
+                let correctAns = data.ans;
+                
+                let sAnsStr = '';
+                let cAnsStr = '';
+                let isCorrect = false;
+                
+                if (data.type === 'complex') {
+                    let sArr = Array.isArray(studentAns) ? studentAns : [];
+                    let cArr = Array.isArray(correctAns) ? correctAns : [];
+                    sAnsStr = sArr.length > 0 ? sArr.slice().sort().map(idx => data.opts[idx]).join(', ') : 'Tidak Dijawab';
+                    cAnsStr = cArr.length > 0 ? cArr.slice().sort().map(idx => data.opts[idx]).join(', ') : 'Tidak Dijawab';
+                    isCorrect = (sArr.length > 0 && sArr.slice().sort().join(',') === cArr.slice().sort().join(','));
+                } else if (data.type === 'tf_table') {
+                    let sArr = Array.isArray(studentAns) ? studentAns : [];
+                    let cArr = Array.isArray(correctAns) ? correctAns : [];
+                    sAnsStr = sArr.length > 0 ? sArr.join(' | ') : 'Tidak Dijawab';
+                    cAnsStr = cArr.join(' | ');
+                    isCorrect = (sArr.length > 0 && sArr.join(',') === cArr.join(','));
+                } else {
+                    sAnsStr = studentAns || 'Tidak Dijawab';
+                    cAnsStr = correctAns;
+                    isCorrect = (sAnsStr === cAnsStr);
+                }
+                
+                let note = '❌';
+                if(isCorrect) { score++; note = '✔️'; }
+                
+                let qText = data.q.replace(/<[^>]+>/g, '');
+                if (data.type === 'tf_table') {
+                    qText += " | Statements: " + data.opts.map((opt, idx) => `${idx+1}. ${opt}`).join(" ; ");
+                }
+                
+                tableBody += `<tr>
+                    <td class="border border-black p-1 text-center">${i}</td>
+                    <td class="border border-black p-1">${qText}</td>
+                    <td class="border border-black p-1">${sAnsStr}</td>
+                    <td class="border border-black p-1">${cAnsStr}</td>
+                    <td class="border border-black p-1 text-center">${note}</td>
+                </tr>`;
+            }
+            document.getElementById('printTableBody').innerHTML = tableBody;
+            document.getElementById('printTaskNum').innerText = taskNum;
+            document.getElementById('printScore').innerText = score;
+            
+            renderMathInElement(document.getElementById('printArea'), {
+                delimiters: [
+                    {left: '\\(', right: '\\)', display: false},
+                    {left: '\\[', right: '\\]', display: true}
+                ]
+            });
+            window.print();
+        }
+
+        function toggleCollapse(taskId) {
+            const content = document.getElementById(`collapse-${taskId}`);
+            const btn = document.getElementById(`collapse-btn-${taskId}`);
+            content.classList.toggle('open');
+            if(content.classList.contains('open')) {
+                btn.innerHTML = 'Sembunyikan Penjelasan <span class="translation text-gray-500 text-xs" style="display: inline-block; margin-left: 4px;">Hide Explanation</span>';
+            } else {
+                btn.innerHTML = 'Tampilkan Penjelasan <span class="translation text-gray-500 text-xs">Show Explanation</span>';
+            }
+        }
+
+        function renderMath() {
+            if (typeof renderMathInElement === 'undefined') return;
+            
+            const target = document.querySelector('.content-section.active') || document.body;
+            try {
+                renderMathInElement(target, {
+                    delimiters: [
+                        {left: '\\(', right: '\\)', display: false},
+                        {left: '\\[', right: '\\]', display: true}
+                    ],
+                    throwOnError: false
+                });
+            } catch(e) {
+                console.error("KaTeX rendering error:", e);
+            }
+        }
+
+        window.onload = () => {
+            renderTasks();
+            setTimeout(() => {
+                showSection('warmup');
+                renderMath();
+            }, 100);
+        };
+    </script>
+</body>
+</html>
