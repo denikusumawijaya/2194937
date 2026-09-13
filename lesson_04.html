@@ -1,0 +1,1484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Math Tutoring by Deni - Bilangan Rasional</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { font-family: 'Segoe UI', Arial, Helvetica, sans-serif; }
+        .prompt-box { max-width: 650px; margin-left: auto; margin-right: auto; display: flex; flex-direction: column; align-items: center; text-align: left; }
+        .prompt-box p { width: 100%; }
+        .prompt-box img { width: 100%; height: auto; max-width: 300px; display: block; margin-top: 0.5rem; }
+        .translation { font-style: italic; font-size: 0.85rem; color: #6b7280; margin-top: 0.25rem; display: block; }
+        .content-section { display: none; }
+        .content-section.active { display: block; }
+        .page { display: none; }
+        .page.active { display: block; }
+        .option-btn { transition: all 0.2s; }
+        .option-btn:hover { transform: translateX(5px); }
+        .collapse-content { max-height: 0; overflow: hidden; transition: max-height 0.4s ease-in-out, padding 0.4s, border 0.4s, background 0.4s; padding: 0; border: 0; background: transparent; }
+        .collapse-content.open { max-height: 2000px; padding: 1.5rem; border: 1px solid #bfdbfe; background: #eff6ff; border-radius: 0.5rem; margin-top: 1rem; }
+        @media print {
+            body * { visibility: hidden; }
+            #printArea, #printArea * { visibility: visible; }
+            #printArea { display: block !important; position: absolute; left: 0; top: 0; width: 100%; padding: 10px; box-sizing: border-box; }
+            .no-print { display: none !important; }
+            #printArea table { table-layout: fixed; width: 100%; font-size: 9px; }
+            #printArea td, #printArea th { word-wrap: break-word; padding: 2px !important; }
+            @page { size: A4; margin: 5mm; }
+        }
+    </style>
+</head>
+<body class="bg-gray-100 flex flex-col h-screen overflow-hidden">
+    <svg width="0" height="0" style="position: absolute;">
+        <defs>
+            <marker id="arr1" markerWidth="10" markerHeight="10" refX="0" refY="3" orient="auto" markerUnits="strokeWidth">
+                <path d="M0,0 L0,6 L9,3 z" fill="#333" />
+            </marker>
+        </defs>
+    </svg>
+
+    <!-- Header -->
+    <header class="bg-indigo-600 text-white p-4 flex justify-between items-center shadow-md no-print shrink-0 z-50">
+        <div>
+            <h1 class="text-xl font-bold">Math Tutoring by Deni</h1>
+            <p class="text-sm">Topic: Bilangan Rasional - Di Antara Dua Bilangan Bulat</p>
+            <p class="translation text-indigo-200">Topik: Rational Numbers - Between Two Integers</p>
+        </div>
+        <div>
+            <button onclick="openModal()" class="bg-yellow-400 hover:bg-yellow-500 text-indigo-900 font-bold py-2 px-4 rounded flex items-center gap-2">
+                <i class="fas fa-gavel"></i> Class Rules
+            </button>
+        </div>
+    </header>
+
+    <!-- Modal Class Rules -->
+    <div id="classRulesModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50 no-print">
+        <div class="bg-white rounded-lg p-6 w-80 max-w-sm">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-xl font-bold text-indigo-600">Aturan Kelas <br><span class="translation text-gray-500">Class Rules</span></h2>
+                <button onclick="closeModal()" class="text-gray-500 hover:text-red-500"><i class="fas fa-times text-xl"></i></button>
+            </div>
+            <ul class="space-y-3 text-gray-700">
+                <li class="flex items-start gap-2">
+                    <i class="fas fa-comments text-indigo-500 mt-1"></i>
+                    <div>Berbicara secara bergantian. <span class="translation">Take turns speaking.</span></div>
+                </li>
+                <li class="flex items-start gap-2">
+                    <i class="fas fa-door-open text-indigo-500 mt-1"></i>
+                    <div>Meminta izin jika ingin meninggalkan kelas. <span class="translation">Ask permission if you want to leave the class.</span></div>
+                </li>
+                <li class="flex items-start gap-2">
+                    <i class="fas fa-video text-indigo-500 mt-1"></i>
+                    <div>Menyalakan kamera dan microphone jika diperlukan. <span class="translation">Turn on camera and microphone if needed.</span></div>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Main Layout -->
+    <div class="flex flex-1 overflow-hidden">
+        <!-- Sidebar -->
+        <aside class="w-64 bg-white shadow-lg no-print border-r border-gray-200 flex flex-col">
+            <div class="p-4 bg-indigo-600 text-white">
+                <h3 class="font-bold text-lg flex items-center gap-2"><i class="fas fa-book-open"></i> Class Agenda</h3>
+                <p class="text-xs text-indigo-200 mt-1">Pilih topik untuk navigasi <span class="translation text-indigo-300 block">Select topic to navigate</span></p>
+            </div>
+            <nav class="flex-1 overflow-y-auto p-2">
+                <ul class="space-y-1">
+                    <li><a href="javascript:void(0)" onclick="showSection('warmup')" class="sidebar-item block px-4 py-2 rounded-lg hover:bg-indigo-50 hover:text-indigo-800 transition-colors cursor-pointer" data-section="warmup"><div class="font-semibold text-sm text-gray-800">Spiral Review Warm-up</div><div class="text-xs text-gray-500 flex items-center gap-1 mt-1"><i class="far fa-clock"></i> 00:00 - 00:10</div></a></li>
+                    <li><a href="javascript:void(0)" onclick="showSection('intro')" class="sidebar-item block px-4 py-2 rounded-lg hover:bg-indigo-50 hover:text-indigo-800 transition-colors cursor-pointer" data-section="intro"><div class="font-semibold text-sm text-gray-800">Introduction & Real-World</div><div class="text-xs text-gray-500 flex items-center gap-1 mt-1"><i class="far fa-clock"></i> 00:10 - 00:15</div></a></li>
+                    <li><a href="javascript:void(0)" onclick="showSection('review')" class="sidebar-item block px-4 py-2 rounded-lg hover:bg-indigo-50 hover:text-indigo-800 transition-colors cursor-pointer" data-section="review"><div class="font-semibold text-sm text-gray-800">Review of Prior Knowledge</div><div class="text-xs text-gray-500 flex items-center gap-1 mt-1"><i class="far fa-clock"></i> 00:15 - 00:20</div></a></li>
+                    <li><a href="javascript:void(0)" onclick="showSection('problem')" class="sidebar-item block px-4 py-2 rounded-lg hover:bg-indigo-50 hover:text-indigo-800 transition-colors cursor-pointer" data-section="problem"><div class="font-semibold text-sm text-gray-800">Problem Introduction</div><div class="text-xs text-gray-500 flex items-center gap-1 mt-1"><i class="far fa-clock"></i> 00:20 - 00:30</div></a></li>
+                    <li><a href="javascript:void(0)" onclick="showSection('guided')" class="sidebar-item block px-4 py-2 rounded-lg hover:bg-indigo-50 hover:text-indigo-800 transition-colors cursor-pointer" data-section="guided"><div class="font-semibold text-sm text-gray-800">Guided Practice</div><div class="text-xs text-gray-500 flex items-center gap-1 mt-1"><i class="far fa-clock"></i> 00:30 - 00:45</div></a></li>
+                    <li><a href="javascript:void(0)" onclick="showSection('independent')" class="sidebar-item block px-4 py-2 rounded-lg hover:bg-indigo-50 hover:text-indigo-800 transition-colors cursor-pointer" data-section="independent"><div class="font-semibold text-sm text-gray-800">Independent Practice</div><div class="text-xs text-gray-500 flex items-center gap-1 mt-1"><i class="far fa-clock"></i> 00:45 - 00:55</div></a></li>
+                    <li><a href="javascript:void(0)" onclick="showSection('consolidation')" class="sidebar-item block px-4 py-2 rounded-lg hover:bg-indigo-50 hover:text-indigo-800 transition-colors cursor-pointer" data-section="consolidation"><div class="font-semibold text-sm text-gray-800">Consolidation & Reflection</div><div class="text-xs text-gray-500 flex items-center gap-1 mt-1"><i class="far fa-clock"></i> 00:55 - 01:00</div></a></li>
+                    <hr class="my-3 border-gray-200">
+                    <li><a href="javascript:void(0)" onclick="showSection('task1')" class="sidebar-item block px-4 py-2 rounded-lg hover:bg-orange-50 hover:text-orange-800 transition-colors cursor-pointer" data-section="task1"><div class="font-bold text-sm text-indigo-800 flex items-center gap-2"><i class="fas fa-clipboard-list text-xs"></i> Task 1</div><div class="text-xs text-gray-500 mt-1">10 Multiple Choice</div></a></li>
+                    <li><a href="javascript:void(0)" onclick="showSection('task2')" class="sidebar-item block px-4 py-2 rounded-lg hover:bg-orange-50 hover:text-orange-800 transition-colors cursor-pointer" data-section="task2"><div class="font-bold text-sm text-indigo-800 flex items-center gap-2"><i class="fas fa-clipboard-list text-xs"></i> Task 2</div><div class="text-xs text-gray-500 mt-1">10 Multiple Choice</div></a></li>
+                    <li><a href="javascript:void(0)" onclick="showSection('task3')" class="sidebar-item block px-4 py-2 rounded-lg hover:bg-orange-50 hover:text-orange-800 transition-colors cursor-pointer" data-section="task3"><div class="font-bold text-sm text-indigo-800 flex items-center gap-2"><i class="fas fa-clipboard-list text-xs"></i> Task 3</div><div class="text-xs text-gray-500 mt-1">10 Multiple Choice</div></a></li>
+                    <li><a href="javascript:void(0)" onclick="showSection('task4')" class="sidebar-item block px-4 py-2 rounded-lg hover:bg-orange-50 hover:text-orange-800 transition-colors cursor-pointer" data-section="task4"><div class="font-bold text-sm text-indigo-800 flex items-center gap-2"><i class="fas fa-clipboard-list text-xs"></i> Task 4</div><div class="text-xs text-gray-500 mt-1">10 Multiple Choice</div></a></li>
+                    <li><a href="javascript:void(0)" onclick="showSection('task5')" class="sidebar-item block px-4 py-2 rounded-lg hover:bg-orange-50 hover:text-orange-800 transition-colors cursor-pointer" data-section="task5"><div class="font-bold text-sm text-indigo-800 flex items-center gap-2"><i class="fas fa-clipboard-list text-xs"></i> Task 5</div><div class="text-xs text-gray-500 mt-1">10 Multiple Choice</div></a></li>
+                </ul>
+            </nav>
+            <div class="p-4 bg-gray-50 border-t border-gray-200 text-center">
+                <p class="text-xs text-gray-500 font-medium">Math Tutoring System</p>
+                <p class="text-xs text-gray-400">by Deni</p>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 flex flex-col overflow-hidden">
+            <div id="contentScrollArea" class="flex-1 overflow-y-auto p-6">
+
+            <!-- ========================================== -->
+            <!-- SECTION: SPIRAL REVIEW WARM-UP             -->
+            <!-- ========================================== -->
+            <div id="warmup" class="content-section active">
+                <!-- PAGE 1: THEORY 1 -->
+                <div class="page active" data-page="1">
+                    <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-indigo-500">
+                        <h2 class="text-2xl font-bold text-indigo-600 mb-2">Mengingat Bilangan Bulat <i class="fas fa-list-ol text-indigo-400 ml-2"></i></h2>
+                        <p class="translation">Remembering Integers</p>
+                        <div class="flex gap-4 my-4 items-center">
+                            <div class="bg-indigo-50 p-4 rounded flex justify-center shrink-0">
+                                <svg width="180" height="140" viewBox="0 0 180 140">
+                                    <line x1="10" y1="70" x2="170" y2="70" stroke="#333" stroke-width="2" marker-end="url(#arr1)"/>
+                                    <line x1="40" y1="60" x2="40" y2="80" stroke="#333" stroke-width="2"/>
+                                    <text x="40" y="95" font-size="12" text-anchor="middle" fill="#333">-2</text>
+                                    <line x1="70" y1="60" x2="70" y2="80" stroke="#333" stroke-width="2"/>
+                                    <text x="70" y="95" font-size="12" text-anchor="middle" fill="#333">-1</text>
+                                    <line x1="100" y1="60" x2="100" y2="80" stroke="#333" stroke-width="2"/>
+                                    <text x="100" y="95" font-size="12" text-anchor="middle" fill="#333">0</text>
+                                    <line x1="130" y1="60" x2="130" y2="80" stroke="#333" stroke-width="2"/>
+                                    <text x="130" y="95" font-size="12" text-anchor="middle" fill="#333">1</text>
+                                    <line x1="160" y1="60" x2="160" y2="80" stroke="#333" stroke-width="2"/>
+                                    <text x="160" y="95" font-size="12" text-anchor="middle" fill="#333">2</text>
+                                </svg>
+                            </div>
+                            <div>
+                                <p>Bilangan bulat adalah bilangan utuh tanpa pecahan atau desimal, termasuk bilangan negatif, nol, dan positif. <span class="translation">Integers are whole numbers without fractions or decimals, including negative, zero, and positive numbers.</span></p>
+                                <p class="mt-2">Contoh: \(-3, -2, -1, 0, 1, 2, 3\). <span class="translation">Examples: \(-3, -2, -1, 0, 1, 2, 3\).</span></p>
+                            </div>
+                        </div>
+                        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mt-4">
+                            <p class="font-bold text-yellow-800"><i class="fas fa-lightbulb mr-1"></i> Tips & Trik: Tangga Satuan</p>
+                            <p class="mt-1">Bayangkan bilangan bulat seperti anak tangga. Naik 1 tangga berarti \(+1\), turun 1 tangga berarti \(-1\). <span class="translation">Imagine integers like stairs. Up 1 stair means \(+1\), down 1 stair means \(-1\).</span></p>
+                            <p class="mt-1 font-bold"><i class="fas fa-flag mr-1"></i> Rumus To The Point: Bulat = Utuh, Tanpa Koma.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="page" data-page="2" data-task-id="w-task1"></div>
+                <div class="page" data-page="3" data-task-id="w-task2"></div>
+                <div class="page" data-page="4" data-task-id="w-task3"></div>
+
+                <!-- PAGE 5: THEORY 2 -->
+                <div class="page" data-page="5">
+                    <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-green-500">
+                        <h2 class="text-2xl font-bold text-green-600 mb-2">Faktor dan Pembagian <i class="fas fa-divide text-green-400 ml-2"></i></h2>
+                        <p class="translation">Factors and Division</p>
+                        <div class="flex gap-4 my-4 items-center">
+                            <div class="bg-green-50 p-4 rounded flex justify-center shrink-0">
+                                <svg width="180" height="140" viewBox="0 0 180 140">
+                                    <rect x="30" y="20" width="120" height="100" rx="5" fill="#dcfce7" stroke="#10b981" stroke-width="2"/>
+                                    <text x="90" y="75" font-size="20" text-anchor="middle" fill="#333" font-weight="bold">12</text>
+                                    <line x1="30" y1="70" x2="150" y2="70" stroke="#ef4444" stroke-width="2"/>
+                                    <text x="90" y="100" font-size="14" text-anchor="middle" fill="#ef4444">2</text>
+                                    <text x="70" y="100" font-size="14" text-anchor="middle" fill="#10b981">6</text>
+                                    <text x="110" y="100" font-size="14" text-anchor="middle" fill="#10b981">6</text>
+                                </svg>
+                            </div>
+                            <div>
+                                <p>Faktor adalah bilangan yang bisa membagi habis bilangan lain. Misalnya, faktor dari \(12\) adalah \(1, 2, 3, 4, 6, 12\). <span class="translation">Factors are numbers that divide another number exactly. For example, factors of \(12\) are \(1, 2, 3, 4, 6, 12\).</span></p>
+                                <p class="mt-2">Jika \(12\) dibagi \(2\), hasilnya \(6\) (tidak ada sisa). Ini dasar untuk memahami pecahan. <span class="translation">If \(12\) is divided by \(2\), the result is \(6\) (no remainder). This is the basis for understanding fractions.</span></p>
+                            </div>
+                        </div>
+                        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mt-4">
+                            <p class="font-bold text-yellow-800"><i class="fas fa-lightbulb mr-1"></i> Tips & Trik: Tabel Perkalian</p>
+                            <p class="mt-1">Untuk mencari faktor, bayangkan tabel perkalian. Berapa kali berapa yang menghasilkan angka itu? <span class="translation">To find factors, imagine a multiplication table. What times what makes that number?</span></p>
+                            <p class="mt-1 font-bold"><i class="fas fa-flag mr-1"></i> Rumus To The Point: Faktor = Pembagi Habis Tanpa Sisa.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="page" data-page="6" data-task-id="w-task4"></div>
+                <div class="page" data-page="7" data-task-id="w-task5"></div>
+                <div class="page" data-page="8" data-task-id="w-task6"></div>
+
+                <!-- PAGE 9: THEORY 3 -->
+                <div class="page" data-page="9">
+                    <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-purple-500">
+                        <h2 class="text-2xl font-bold text-purple-600 mb-2">Bayangan "Di Antara" <i class="fas fa-arrows-left-right-to-line text-purple-400 ml-2"></i></h2>
+                        <p class="translation">The Concept of "Between"</p>
+                        <div class="flex gap-4 my-4 items-center">
+                            <div class="bg-purple-50 p-4 rounded flex justify-center shrink-0">
+                                <svg width="180" height="140" viewBox="0 0 180 140">
+                                    <circle cx="40" cy="70" r="15" fill="#fbbf24" stroke="#d97706" stroke-width="2"/>
+                                    <text x="40" y="100" font-size="14" text-anchor="middle" fill="#333" font-weight="bold">1</text>
+                                    
+                                    <path d="M 60 70 L 120 70" stroke="#8b5cf6" stroke-width="2" stroke-dasharray="5,5" marker-end="url(#arr1)"/>
+                                    <text x="90" y="60" font-size="12" text-anchor="middle" fill="#8b5cf6">Di Antara?</text>
+                                    
+                                    <circle cx="140" cy="70" r="15" fill="#fbbf24" stroke="#d97706" stroke-width="2"/>
+                                    <text x="140" y="100" font-size="14" text-anchor="middle" fill="#333" font-weight="bold">2</text>
+                                </svg>
+                            </div>
+                            <div>
+                                <p>Saat kita berjalan dari bilangan \(1\) ke bilangan \(2\), kita tidak langsung melompat. Ada jarak kecil yang kita lewati. <span class="translation">When we walk from number \(1\) to number \(2\), we don't jump instantly. There is a small distance we pass.</span></p>
+                                <p class="mt-2">Jarak kecil ini berisi bilangan rasional (pecahan/desimal) seperti \(1.5\) atau \(1 \frac{1}{2}\). <span class="translation">This small distance contains rational numbers (fractions/decimals) like \(1.5\) or \(1 \frac{1}{2}\).</span></p>
+                            </div>
+                        </div>
+                        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mt-4">
+                            <p class="font-bold text-yellow-800"><i class="fas fa-lightbulb mr-1"></i> Tips & Trik: Bayangkan Penggaris</p>
+                            <p class="mt-1">Bayangkan bilangan bulat adalah cetakan sentimeter besar di penggaris. Di antara sentimeter 1 dan 2 ada milimeter. <span class="translation">Imagine integers are large centimeter marks on a ruler. Between cm 1 and 2 are millimeters.</span></p>
+                            <p class="mt-1 font-bold"><i class="fas fa-flag mr-1"></i> Rumus To The Point: Antara A dan B ada tak hingga bilangan rasional.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="page" data-page="10" data-task-id="w-task7"></div>
+                <div class="page" data-page="11" data-task-id="w-task8"></div>
+                <div class="page" data-page="12" data-task-id="w-task9"></div>
+                <div class="page" data-page="13" data-task-id="w-task10"></div>
+            </div>
+
+            <!-- ========================================== -->
+            <!-- SECTION: INTRODUCTION & REAL-WORLD         -->
+            <!-- ========================================== -->
+            <div id="intro" class="content-section">
+                <div class="page active" data-page="1">
+                    <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-indigo-500">
+                        <h2 class="text-2xl font-bold text-indigo-600 mb-2">Termometer Suhu <i class="fas fa-temperature-half text-indigo-400 ml-2"></i></h2>
+                        <p class="translation">Temperature Thermometer</p>
+                        <div class="flex gap-4 my-4 items-center">
+                            <div class="bg-indigo-50 p-4 rounded flex justify-center shrink-0">
+                                <svg width="180" height="140" viewBox="0 0 180 140">
+                                    <rect x="80" y="20" width="20" height="100" rx="10" fill="#dbeafe" stroke="#3b82f6" stroke-width="2"/>
+                                    <rect x="82" y="80" width="16" height="40" fill="#ef4444"/>
+                                    <circle cx="90" cy="120" r="15" fill="#ef4444" stroke="#b91c1c" stroke-width="2"/>
+                                    <line x1="100" y1="60" x2="120" y2="60" stroke="#333" stroke-width="1"/>
+                                    <text x="125" y="65" font-size="12" fill="#333">20°</text>
+                                    <line x1="100" y1="90" x2="120" y2="90" stroke="#333" stroke-width="1"/>
+                                    <text x="125" y="95" font-size="12" fill="#333">21°</text>
+                                    <line x1="100" y1="75" x2="115" y2="75" stroke="#ef4444" stroke-width="2"/>
+                                    <text x="125" y="80" font-size="12" fill="#ef4444" font-weight="bold">20.5°</text>
+                                </svg>
+                            </div>
+                            <div>
+                                <p>Suhu ruangan adalah \(20\) derajat, lalu naik menjadi \(21\) derajat. Tapi tunggu, apakah suhunya langsung loncat? <span class="translation">Room temperature is \(20\) degrees, then rises to \(21\) degrees. But wait, does the temperature jump instantly?</span></p>
+                                <p class="mt-2">Tidak! Suhu bisa \(20.5\) derajat. Angka \(20.5\) ini berada di antara \(20\) dan \(21\). <span class="translation">No! The temperature can be \(20.5\) degrees. The number \(20.5\) is between \(20\) and \(21\).</span></p>
+                            </div>
+                        </div>
+                        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mt-4">
+                            <p class="font-bold text-yellow-800"><i class="fas fa-lightbulb mr-1"></i> Tips & Trik: Angka Desimal</p>
+                            <p class="mt-1">Suhu sering menggunakan koma (desimal). Desimal adalah cara lain menulis pecahan. <span class="translation">Temperatures often use decimals. Decimals are another way to write fractions.</span></p>
+                            <p class="mt-1 font-bold"><i class="fas fa-flag mr-1"></i> Rumus To The Point: \(20.5 = 20 \frac{1}{2}\).</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="page" data-page="2" data-task-id="i-task1"></div>
+                <div class="page" data-page="3" data-task-id="i-task2"></div>
+                <div class="page" data-page="4" data-task-id="i-task3"></div>
+
+                <div class="page" data-page="5">
+                    <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-green-500">
+                        <h2 class="text-2xl font-bold text-green-600 mb-2">Penggaris dan Pengukuran <i class="fas fa-ruler text-green-400 ml-2"></i></h2>
+                        <p class="translation">Ruler and Measurement</p>
+                        <div class="flex gap-4 my-4 items-center">
+                            <div class="bg-green-50 p-4 rounded flex justify-center shrink-0">
+                                <svg width="180" height="140" viewBox="0 0 180 140">
+                                    <rect x="10" y="60" width="160" height="20" fill="#dcfce7" stroke="#10b981" stroke-width="2"/>
+                                    <line x1="40" y1="60" x2="40" y2="80" stroke="#333" stroke-width="2"/>
+                                    <text x="40" y="95" font-size="12" text-anchor="middle" fill="#333">2 cm</text>
+                                    <line x1="120" y1="60" x2="120" y2="80" stroke="#333" stroke-width="2"/>
+                                    <text x="120" y="95" font-size="12" text-anchor="middle" fill="#333">3 cm</text>
+                                    <line x1="80" y1="60" x2="80" y2="75" stroke="#ef4444" stroke-width="2"/>
+                                    <text x="80" y="50" font-size="12" text-anchor="middle" fill="#ef4444" font-weight="bold">2.5 cm</text>
+                                </svg>
+                            </div>
+                            <div>
+                                <p>Ketika mengukur pensil, panjangnya bisa lebih dari \(2\) cm tapi belum mencapai \(3\) cm. <span class="translation">When measuring a pencil, its length can be more than \(2\) cm but not yet \(3\) cm.</span></p>
+                                <p class="mt-2">Jika tepat di tengah-tengah, panjangnya adalah \(2 \frac{1}{2}\) cm atau \(2.5\) cm. Ini adalah bilangan rasional. <span class="translation">If exactly in the middle, the length is \(2 \frac{1}{2}\) cm or \(2.5\) cm. This is a rational number.</span></p>
+                            </div>
+                        </div>
+                        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mt-4">
+                            <p class="font-bold text-yellow-800"><i class="fas fa-lightbulb mr-1"></i> Tips & Trik: Bayangkan Tengah</p>
+                            <p class="mt-1">Mencari bilangan di antara bisa dengan mencari titik tengahnya. Tengah antara \(2\) dan \(3\) adalah \(2.5\). <span class="translation">Finding a number in between can be done by finding the midpoint. Midpoint between \(2\) and \(3\) is \(2.5\).</span></p>
+                            <p class="mt-1 font-bold"><i class="fas fa-flag mr-1"></i> Rumus To The Point: Tengah = (A + B) / 2.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="page" data-page="6" data-task-id="i-task4"></div>
+                <div class="page" data-page="7" data-task-id="i-task5"></div>
+                <div class="page" data-page="8" data-task-id="i-task6"></div>
+
+                <div class="page" data-page="9">
+                    <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-purple-500">
+                        <h2 class="text-2xl font-bold text-purple-600 mb-2">Uang dan Kembalian <i class="fas fa-money-bill-wave text-purple-400 ml-2"></i></h2>
+                        <p class="translation">Money and Change</p>
+                        <div class="flex gap-4 my-4 items-center">
+                            <div class="bg-purple-50 p-4 rounded flex justify-center shrink-0">
+                                <svg width="180" height="140" viewBox="0 0 180 140">
+                                    <rect x="30" y="40" width="60" height="40" rx="5" fill="#86efac" stroke="#10b981" stroke-width="2"/>
+                                    <text x="60" y="65" font-size="12" text-anchor="middle" fill="#333" font-weight="bold">Rp 1.000</text>
+                                    
+                                    <rect x="100" y="40" width="60" height="40" rx="5" fill="#86efac" stroke="#10b981" stroke-width="2"/>
+                                    <text x="130" y="65" font-size="12" text-anchor="middle" fill="#333" font-weight="bold">Rp 2.000</text>
+                                    
+                                    <path d="M 90 100 L 110 100" stroke="#ef4444" stroke-width="2" marker-end="url(#arr1)"/>
+                                    <circle cx="90" cy="100" r="10" fill="#fca5a5"/>
+                                    <circle cx="120" cy="100" r="10" fill="#fca5a5"/>
+                                    <text x="105" y="125" font-size="12" text-anchor="middle" fill="#ef4444" font-weight="bold">Rp 1.500</text>
+                                </svg>
+                            </div>
+                            <div>
+                                <p>Harga buku tulis bisa lebih dari Rp \(1.000\) tapi kurang dari Rp \(2.000\). <span class="translation">The price of a notebook can be more than Rp \(1,000\) but less than Rp \(2,000\).</span></p>
+                                <p class="mt-2">Harga Rp \(1.500\) berada di antara Rp \(1.000\) dan Rp \(2.000\). Seribu lima ratus sama dengan satu setengah ribu. <span class="translation">The price of Rp \(1,500\) is between Rp \(1,000\) and Rp \(2,000\). One thousand five hundred is the same as one and a half thousand.</span></p>
+                            </div>
+                        </div>
+                        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mt-4">
+                            <p class="font-bold text-yellow-800"><i class="fas fa-lightbulb mr-1"></i> Tips & Trik: Uang Pecahan</p>
+                            <p class="mt-1">Bagi uang menjadi bagian yang lebih kecil. Setengah dari \(2000\) adalah \(1000\). <span class="translation">Divide money into smaller parts. Half of \(2000\) is \(1000\).</span></p>
+                            <p class="mt-1 font-bold"><i class="fas fa-flag mr-1"></i> Rumus To The Point: \(1500 = 1000 + 500\).</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="page" data-page="10" data-task-id="i-task7"></div>
+                <div class="page" data-page="11" data-task-id="i-task8"></div>
+                <div class="page" data-page="12" data-task-id="i-task9"></div>
+                <div class="page" data-page="13" data-task-id="i-task10"></div>
+            </div>
+
+            <!-- ========================================== -->
+            <!-- SECTION: REVIEW OF PRIOR KNOWLEDGE         -->
+            <!-- ========================================== -->
+            <div id="review" class="content-section">
+                <div class="page active" data-page="1">
+                    <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-indigo-500">
+                        <h2 class="text-2xl font-bold text-indigo-600 mb-2">Pecahan Sederhana <i class="fas fa-pizza-slice text-indigo-400 ml-2"></i></h2>
+                        <p class="translation">Simple Fractions</p>
+                        <div class="flex gap-4 my-4 items-center">
+                            <div class="bg-indigo-50 p-4 rounded flex justify-center shrink-0">
+                                <svg width="180" height="140" viewBox="0 0 180 140">
+                                    <circle cx="60" cy="70" r="40" fill="#fbbf24" stroke="#d97706" stroke-width="2"/>
+                                    <path d="M 60 30 A 40 40 0 0 1 100 70 L 60 70 Z" fill="#ef4444"/>
+                                    <text x="60" y="80" font-size="20" text-anchor="middle" fill="#333" font-weight="bold">1/2</text>
+                                    
+                                    <circle cx="130" cy="70" r="40" fill="#fbbf24" stroke="#d97706" stroke-width="2"/>
+                                    <path d="M 130 30 A 40 40 0 0 1 170 70 L 130 70 Z" fill="#3b82f6"/>
+                                    <path d="M 130 70 A 40 40 0 0 1 90 70 L 130 70 Z" fill="#3b82f6"/>
+                                    <text x="130" y="80" font-size="20" text-anchor="middle" fill="#333" font-weight="bold">1/2</text>
+                                </svg>
+                            </div>
+                            <div>
+                                <p>Pecahan seperti potongan pizza. \( \frac{1}{2} \) berarti pizza dipotong jadi 2 bagian sama besar, ambil 1 potong. <span class="translation">Fractions are like pizza slices. \( \frac{1}{2} \) means the pizza is cut into 2 equal parts, take 1 slice.</span></p>
+                                <p class="mt-2">Di dalam bilangan bulat, \(1\) bisa ditulis sebagai \( \frac{2}{2} \). Maka setengah dari 1 adalah \( \frac{1}{2} \) atau \(0.5\). <span class="translation">In integers, \(1\) can be written as \( \frac{2}{2} \). So half of 1 is \( \frac{1}{2} \) or \(0.5\).</span></p>
+                            </div>
+                        </div>
+                        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mt-4">
+                            <p class="font-bold text-yellow-800"><i class="fas fa-lightbulb mr-1"></i> Tips & Trik: Pembilang dan Penyebut</p>
+                            <p class="mt-1">Angka atas (pembilang) = punyamu. Angka bawah (penyebut) = total potongan. <span class="translation">Top number (numerator) = yours. Bottom number (denominator) = total slices.</span></p>
+                            <p class="mt-1 font-bold"><i class="fas fa-flag mr-1"></i> Rumus To The Point: \( \frac{a}{b} \) (a di atas, b di bawah).</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="page" data-page="2" data-task-id="r-task1"></div>
+                <div class="page" data-page="3" data-task-id="r-task2"></div>
+                <div class="page" data-page="4" data-task-id="r-task3"></div>
+
+                <div class="page" data-page="5">
+                    <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-green-500">
+                        <h2 class="text-2xl font-bold text-green-600 mb-2">Desimal dan Koma <i class="fas fa-comma text-green-400 ml-2"></i></h2>
+                        <p class="translation">Decimals and Commas</p>
+                        <div class="flex gap-4 my-4 items-center">
+                            <div class="bg-green-50 p-4 rounded flex justify-center shrink-0">
+                                <svg width="180" height="140" viewBox="0 0 180 140">
+                                    <rect x="20" y="20" width="20" height="100" fill="#dcfce7" stroke="#10b981" stroke-width="2"/>
+                                    <rect x="45" y="20" width="20" height="100" fill="#dcfce7" stroke="#10b981" stroke-width="2"/>
+                                    <rect x="70" y="20" width="20" height="50" fill="#86efac" stroke="#10b981" stroke-width="2"/>
+                                    <rect x="70" y="70" width="20" height="50" fill="#dcfce7" stroke="#10b981" stroke-width="2"/>
+                                    <rect x="95" y="20" width="20" height="100" fill="#dcfce7" stroke="#10b981" stroke-width="2"/>
+                                    <rect x="120" y="20" width="20" height="100" fill="#dcfce7" stroke="#10b981" stroke-width="2"/>
+                                    <rect x="145" y="20" width="20" height="100" fill="#dcfce7" stroke="#10b981" stroke-width="2"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <p>Desimal adalah pecahan yang penyebutnya kelipatan 10. \( \frac{1}{2} \) sama dengan \( \frac{5}{10} \), yang ditulis sebagai \(0.5\). <span class="translation">Decimals are fractions with denominators that are multiples of 10. \( \frac{1}{2} \) is the same as \( \frac{5}{10} \), which is written as \(0.5\).</span></p>
+                                <p class="mt-2">Jadi, di antara \(0\) dan \(1\), ada \(0.5\). <span class="translation">So, between \(0\) and \(1\), there is \(0.5\).</span></p>
+                            </div>
+                        </div>
+                        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mt-4">
+                            <p class="font-bold text-yellow-800"><i class="fas fa-lightbulb mr-1"></i> Tips & Trik: Pindah Koma</p>
+                            <p class="mt-1">Jika dibagi 10, geser koma ke kiri 1 kali. \(5 \div 10 = 0.5\). <span class="translation">If divided by 10, move the comma left 1 time. \(5 \div 10 = 0.5\).</span></p>
+                            <p class="mt-1 font-bold"><i class="fas fa-flag mr-1"></i> Rumus To The Point: \( \frac{1}{2} = 0.5 \), \( \frac{1}{4} = 0.25 \).</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="page" data-page="6" data-task-id="r-task4"></div>
+                <div class="page" data-page="7" data-task-id="r-task5"></div>
+                <div class="page" data-page="8" data-task-id="r-task6"></div>
+
+                <div class="page" data-page="9">
+                    <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-purple-500">
+                        <h2 class="text-2xl font-bold text-purple-600 mb-2">Garis Bilangan <i class="fas fa-stream text-purple-400 ml-2"></i></h2>
+                        <p class="translation">Number Line</p>
+                        <div class="flex gap-4 my-4 items-center">
+                            <div class="bg-purple-50 p-4 rounded flex justify-center shrink-0">
+                                <svg width="180" height="140" viewBox="0 0 180 140">
+                                    <line x1="10" y1="70" x2="170" y2="70" stroke="#333" stroke-width="2" marker-end="url(#arr1)"/>
+                                    <line x1="40" y1="60" x2="40" y2="80" stroke="#333" stroke-width="2"/>
+                                    <text x="40" y="95" font-size="14" text-anchor="middle" fill="#333" font-weight="bold">0</text>
+                                    <line x1="100" y1="60" x2="100" y2="80" stroke="#333" stroke-width="2"/>
+                                    <text x="100" y="95" font-size="14" text-anchor="middle" fill="#333" font-weight="bold">1</text>
+                                    <line x1="160" y1="60" x2="160" y2="80" stroke="#333" stroke-width="2"/>
+                                    <text x="160" y="95" font-size="14" text-anchor="middle" fill="#333" font-weight="bold">2</text>
+                                    <circle cx="70" cy="70" r="5" fill="#ef4444"/>
+                                    <text x="70" y="55" font-size="12" text-anchor="middle" fill="#ef4444">0.5</text>
+                                    <circle cx="130" cy="70" r="5" fill="#ef4444"/>
+                                    <text x="130" y="55" font-size="12" text-anchor="middle" fill="#ef4444">1.5</text>
+                                </svg>
+                            </div>
+                            <div>
+                                <p>Garis bilangan membantu kita melihat posisi bilangan. Titik merah berada tepat di tengah antara bilangan bulat. <span class="translation">A number line helps us see the position of numbers. The red dot is exactly in the middle between integers.</span></p>
+                                <p class="mt-2">Jarak antara \(0\) dan \(1\) sama dengan jarak antara \(1\) dan \(2\). <span class="translation">The distance between \(0\) and \(1\) is the same as between \(1\) and \(2\).</span></p>
+                            </div>
+                        </div>
+                        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mt-4">
+                            <p class="font-bold text-yellow-800"><i class="fas fa-lightbulb mr-1"></i> Tips & Trik: Lompat Katak</p>
+                            <p class="mt-1">Bayangkan kamu katak. Lompatan kecil dari 0 ke 1 adalah 1 langkah. Lompatan setengah adalah 0.5. <span class="translation">Imagine you are a frog. A small jump from 0 to 1 is 1 step. A half jump is 0.5.</span></p>
+                            <p class="mt-1 font-bold"><i class="fas fa-flag mr-1"></i> Rumus To The Point: Jarak sama = Selisih dibagi 2.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="page" data-page="10" data-task-id="r-task7"></div>
+                <div class="page" data-page="11" data-task-id="r-task8"></div>
+                <div class="page" data-page="12" data-task-id="r-task9"></div>
+                <div class="page" data-page="13" data-task-id="r-task10"></div>
+            </div>
+            
+            <!-- ========================================== -->
+            <!-- SECTION: PROBLEM INTRODUCTION              -->
+            <!-- ========================================== -->
+            <div id="problem" class="content-section">
+                <div class="page active" data-page="1">
+                    <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-indigo-500">
+                        <h2 class="text-2xl font-bold text-indigo-600 mb-2">Mencari Pecahan di Antara <i class="fas fa-magnifying-glass-chart text-indigo-400 ml-2"></i></h2>
+                        <p class="translation">Finding Fractions In Between</p>
+                        <div class="flex gap-4 my-4 items-center">
+                            <div class="bg-indigo-50 p-4 rounded flex justify-center shrink-0">
+                                <svg width="180" height="140" viewBox="0 0 180 140">
+                                    <line x1="10" y1="70" x2="170" y2="70" stroke="#333" stroke-width="2" marker-end="url(#arr1)"/>
+                                    <line x1="40" y1="60" x2="40" y2="80" stroke="#333" stroke-width="2"/>
+                                    <text x="40" y="95" font-size="14" text-anchor="middle" fill="#333" font-weight="bold">1</text>
+                                    <line x1="160" y1="60" x2="160" y2="80" stroke="#333" stroke-width="2"/>
+                                    <text x="160" y="95" font-size="14" text-anchor="middle" fill="#333" font-weight="bold">2</text>
+                                    
+                                    <circle cx="100" cy="70" r="7" fill="#10b981"/>
+                                    <text x="100" y="55" font-size="14" text-anchor="middle" fill="#10b981" font-weight="bold">3/2</text>
+                                </svg>
+                            </div>
+                            <div>
+                                <p>Bagaimana mencari pecahan di antara \(1\) dan \(2\)? <span class="translation">How to find a fraction between \(1\) and \(2\)?</span></p>
+                                <p class="mt-2">Kita bisa menulis \(1\) sebagai \( \frac{2}{2} \) dan \(2\) sebagai \( \frac{4}{2} \). Pecahan di antaranya adalah \( \frac{3}{2} \). <span class="translation">We can write \(1\) as \( \frac{2}{2} \) and \(2\) as \( \frac{4}{2} \). The fraction between them is \( \frac{3}{2} \).</span></p>
+                            </div>
+                        </div>
+                        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mt-4">
+                            <p class="font-bold text-yellow-800"><i class="fas fa-lightbulb mr-1"></i> Tips & Trik: Samakan Penyebut</p>
+                            <p class="mt-1">Kalikan pembilang dan penyebut dengan angka yang sama agar tidak merubah nilai, tapi mencari ruang di antaranya. <span class="translation">Multiply numerator and denominator by the same number so the value doesn't change, but space is created in between.</span></p>
+                            <p class="mt-1 font-bold"><i class="fas fa-flag mr-1"></i> Rumus To The Point: \( a = \frac{2a}{2} \), \( b = \frac{2b}{2} \).</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="page" data-page="2" data-task-id="p-task1"></div>
+                <div class="page" data-page="3" data-task-id="p-task2"></div>
+                <div class="page" data-page="4" data-task-id="p-task3"></div>
+
+                <div class="page" data-page="5">
+                    <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-green-500">
+                        <h2 class="text-2xl font-bold text-green-600 mb-2">Mengubah ke Desimal <i class="fas fa-calculator text-green-400 ml-2"></i></h2>
+                        <p class="translation">Converting to Decimal</p>
+                        <div class="flex gap-4 my-4 items-center">
+                            <div class="bg-green-50 p-4 rounded flex justify-center shrink-0">
+                                <svg width="180" height="140" viewBox="0 0 180 140">
+                                    <rect x="30" y="30" width="120" height="80" rx="5" fill="#dcfce7" stroke="#10b981" stroke-width="2"/>
+                                    <text x="90" y="65" font-size="20" text-anchor="middle" fill="#333" font-weight="bold">3 ÷ 2</text>
+                                    <path d="M 80 75 L 100 75" stroke="#ef4444" stroke-width="2" marker-end="url(#arr1)"/>
+                                    <text x="90" y="100" font-size="20" text-anchor="middle" fill="#ef4444" font-weight="bold">1.5</text>
+                                </svg>
+                            </div>
+                            <div>
+                                <p>Pecahan \( \frac{3}{2} \) sulit dibayangkan. Mari ubah ke desimal dengan membagi pembilang dengan penyebutnya. <span class="translation">The fraction \( \frac{3}{2} \) is hard to imagine. Let's convert it to decimal by dividing the numerator by its denominator.</span></p>
+                                <p class="mt-2">\( 3 \div 2 = 1.5 \). Ini membuktikan \(1.5\) berada di antara \(1\) dan \(2\). <span class="translation">\( 3 \div 2 = 1.5 \). This proves \(1.5\) is between \(1\) and \(2\).</span></p>
+                            </div>
+                        </div>
+                        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mt-4">
+                            <p class="font-bold text-yellow-800"><i class="fas fa-lightbulb mr-1"></i> Tips & Trik: Pembagian Dasar</p>
+                            <p class="mt-1">Jika bingung, coret di kertas. Bagi 3 dengan 2. Sisa 1 ditambah koma 0 menjadi 10, lalu dibagi 2 dapat 5. <span class="translation">If confused, scribble on paper. Divide 3 by 2. Remainder 1 plus comma 0 becomes 10, then divided by 2 is 5.</span></p>
+                            <p class="mt-1 font-bold"><i class="fas fa-flag mr-1"></i> Rumus To The Point: \( \frac{a}{b} = a \div b \).</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="page" data-page="6" data-task-id="p-task4"></div>
+                <div class="page" data-page="7" data-task-id="p-task5"></div>
+                <div class="page" data-page="8" data-task-id="p-task6"></div>
+
+                <div class="page" data-page="9">
+                    <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-purple-500">
+                        <h2 class="text-2xl font-bold text-purple-600 mb-2">Pecahan yang Sama <i class="fas fa-equals text-purple-400 ml-2"></i></h2>
+                        <p class="translation">Equivalent Fractions</p>
+                        <div class="flex gap-4 my-4 items-center">
+                            <div class="bg-purple-50 p-4 rounded flex justify-center shrink-0">
+                                <svg width="180" height="140" viewBox="0 0 180 140">
+                                    <rect x="20" y="20" width="40" height="40" fill="#8b5cf6"/>
+                                    <rect x="60" y="20" width="40" height="40" fill="#f3e8ff"/>
+                                    <rect x="20" y="60" width="40" height="40" fill="#f3e8ff"/>
+                                    <rect x="60" y="60" width="40" height="40" fill="#f3e8ff"/>
+                                    <text x="50" y="115" font-size="16" text-anchor="middle" fill="#333" font-weight="bold">1/2</text>
+                                    
+                                    <rect x="100" y="20" width="20" height="20" fill="#8b5cf6"/>
+                                    <rect x="120" y="20" width="20" height="20" fill="#f3e8ff"/>
+                                    <rect x="140" y="20" width="20" height="20" fill="#f3e8ff"/>
+                                    <rect x="160" y="20" width="20" height="20" fill="#f3e8ff"/>
+                                    <rect x="100" y="40" width="20" height="20" fill="#f3e8ff"/>
+                                    <rect x="120" y="40" width="20" height="20" fill="#f3e8ff"/>
+                                    <rect x="140" y="40" width="20" height="20" fill="#f3e8ff"/>
+                                    <rect x="160" y="40" width="20" height="20" fill="#f3e8ff"/>
+                                    <rect x="100" y="60" width="20" height="20" fill="#f3e8ff"/>
+                                    <rect x="120" y="60" width="20" height="20" fill="#f3e8ff"/>
+                                    <rect x="140" y="60" width="20" height="20" fill="#f3e8ff"/>
+                                    <rect x="160" y="60" width="20" height="20" fill="#f3e8ff"/>
+                                    <rect x="100" y="80" width="20" height="20" fill="#f3e8ff"/>
+                                    <rect x="120" y="80" width="20" height="20" fill="#f3e8ff"/>
+                                    <rect x="140" y="80" width="20" height="20" fill="#f3e8ff"/>
+                                    <rect x="160" y="80" width="20" height="20" fill="#f3e8ff"/>
+                                    <text x="140" y="115" font-size="16" text-anchor="middle" fill="#333" font-weight="bold">2/8 = 1/4</text>
+                                </svg>
+                            </div>
+                            <div>
+                                <p>Pecahan \( \frac{1}{2} \) nilainya sama dengan \( \frac{2}{4} \) atau \( \frac{4}{8} \). <span class="translation">The fraction \( \frac{1}{2} \) has the same value as \( \frac{2}{4} \) or \( \frac{4}{8} \).</span></p>
+                                <p class="mt-2">Dengan menyamakan penyebut, kita bisa mencari banyak bilangan rasional di antara dua bilangan bulat. <span class="translation">By equating denominators, we can find many rational numbers between two integers.</span></p>
+                            </div>
+                        </div>
+                        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mt-4">
+                            <p class="font-bold text-yellow-800"><i class="fas fa-lightbulb mr-1"></i> Tips & Trik: Kali Atas Bawah</p>
+                            <p class="mt-1">Kalikan atas dan bawah dengan angka yang sama. Nilai tidak berubah. <span class="translation">Multiply top and bottom by the same number. The value doesn't change.</span></p>
+                            <p class="mt-1 font-bold"><i class="fas fa-flag mr-1"></i> Rumus To The Point: \( \frac{a}{b} = \frac{ka}{kb} \).</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="page" data-page="10" data-task-id="p-task7"></div>
+                <div class="page" data-page="11" data-task-id="p-task8"></div>
+                <div class="page" data-page="12" data-task-id="p-task9"></div>
+                <div class="page" data-page="13" data-task-id="p-task10"></div>
+            </div>
+
+            <!-- ========================================== -->
+            <!-- SECTION: GUIDED PRACTICE                   -->
+            <!-- ========================================== -->
+            <div id="guided" class="content-section">
+                <div class="page active" data-page="1">
+                    <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-indigo-500">
+                        <h2 class="text-2xl font-bold text-indigo-600 mb-2">Langkah Mencari Bilangan Tengah <i class="fas fa-bullseye text-indigo-400 ml-2"></i></h2>
+                        <p class="translation">Steps to Find the Middle Number</p>
+                        <div class="flex gap-4 my-4 items-center">
+                            <div class="bg-indigo-50 p-4 rounded flex justify-center shrink-0">
+                                <svg width="180" height="140" viewBox="0 0 180 140">
+                                    <circle cx="40" cy="70" r="15" fill="#fbbf24" stroke="#d97706" stroke-width="2"/>
+                                    <text x="40" y="75" font-size="14" text-anchor="middle" fill="#fff" font-weight="bold">3</text>
+                                    <circle cx="140" cy="70" r="15" fill="#fbbf24" stroke="#d97706" stroke-width="2"/>
+                                    <text x="140" y="75" font-size="14" text-anchor="middle" fill="#fff" font-weight="bold">4</text>
+                                    <path d="M 60 70 L 120 70" stroke="#3b82f6" stroke-width="2" stroke-dasharray="5,5" marker-end="url(#arr1)"/>
+                                    <circle cx="90" cy="70" r="15" fill="#3b82f6" stroke="#1d4ed8" stroke-width="2"/>
+                                    <text x="90" y="75" font-size="12" text-anchor="middle" fill="#fff" font-weight="bold">3.5</text>
+                                </svg>
+                            </div>
+                            <div>
+                                <p>Coba kita cari bilangan di antara \(3\) dan \(4\). <span class="translation">Let's try to find a number between \(3\) and \(4\).</span></p>
+                                <p class="mt-2">Cara cepat: jumlahkan keduanya lalu bagi 2. \( (3 + 4) \div 2 = 7 \div 2 = 3.5 \). <span class="translation">Quick way: add them together then divide by 2. \( (3 + 4) \div 2 = 7 \div 2 = 3.5 \).</span></p>
+                            </div>
+                        </div>
+                        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mt-4">
+                            <p class="font-bold text-yellow-800"><i class="fas fa-lightbulb mr-1"></i> Tips & Trik: Setengah Jarak</p>
+                            <p class="mt-1">Jumlahkan kedua ujung, bagi dua. Ini mencari titik tengah yang pasti. <span class="translation">Add both ends, divide by two. This finds the exact midpoint.</span></p>
+                            <p class="mt-1 font-bold"><i class="fas fa-flag mr-1"></i> Rumus To The Point: Tengah = \( \frac{A + B}{2} \).</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="page" data-page="2" data-task-id="g-task1"></div>
+                <div class="page" data-page="3" data-task-id="g-task2"></div>
+                <div class="page" data-page="4" data-task-id="g-task3"></div>
+
+                <div class="page" data-page="5">
+                    <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-green-500">
+                        <h2 class="text-2xl font-bold text-green-600 mb-2">Pecahan Campuran <i class="fas fa-shapes text-green-400 ml-2"></i></h2>
+                        <p class="translation">Mixed Fractions</p>
+                        <div class="flex gap-4 my-4 items-center">
+                            <div class="bg-green-50 p-4 rounded flex justify-center shrink-0">
+                                <svg width="180" height="140" viewBox="0 0 180 140">
+                                    <rect x="20" y="40" width="140" height="60" rx="5" fill="#dcfce7" stroke="#10b981" stroke-width="2"/>
+                                    <text x="90" y="75" font-size="24" text-anchor="middle" fill="#333" font-weight="bold">1 1/2</text>
+                                </svg>
+                            </div>
+                            <div>
+                                <p>Di antara \(1\) dan \(2\), ada \(1 \frac{1}{2}\) (satu setengah). <span class="translation">Between \(1\) and \(2\), there is \(1 \frac{1}{2}\) (one and a half).</span></p>
+                                <p class="mt-2">Pecahan campuran terdiri dari bilangan bulat dan pecahan biasa. \(1 \frac{1}{2} = 1 + \frac{1}{2} = 1.5\). <span class="translation">A mixed fraction consists of an integer and a simple fraction. \(1 \frac{1}{2} = 1 + \frac{1}{2} = 1.5\).</span></p>
+                            </div>
+                        </div>
+                        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mt-4">
+                            <p class="font-bold text-yellow-800"><i class="fas fa-lightbulb mr-1"></i> Tips & Trik: Angka Depan</p>
+                            <p class="mt-1">Angka bulat di depan menunjukkan posisi dasarnya. Pecahan di belakang menunjukkan seberapa jauh dari angka bulat itu. <span class="translation">The whole number in front indicates the base position. The fraction behind shows how far from that integer.</span></p>
+                            <p class="mt-1 font-bold"><i class="fas fa-flag mr-1"></i> Rumus To The Point: \( A \frac{b}{c} = A + \frac{b}{c} \).</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="page" data-page="6" data-task-id="g-task4"></div>
+                <div class="page" data-page="7" data-task-id="g-task5"></div>
+                <div class="page" data-page="8" data-task-id="g-task6"></div>
+
+                <div class="page" data-page="9">
+                    <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-purple-500">
+                        <h2 class="text-2xl font-bold text-purple-600 mb-2">Lebih Banyak Pecahan di Antara <i class="fas fa-ellipsis text-purple-400 ml-2"></i></h2>
+                        <p class="translation">More Fractions In Between</p>
+                        <div class="flex gap-4 my-4 items-center">
+                            <div class="bg-purple-50 p-4 rounded flex justify-center shrink-0">
+                                <svg width="180" height="140" viewBox="0 0 180 140">
+                                    <line x1="10" y1="70" x2="170" y2="70" stroke="#333" stroke-width="2" marker-end="url(#arr1)"/>
+                                    <line x1="40" y1="60" x2="40" y2="80" stroke="#333" stroke-width="2"/>
+                                    <text x="40" y="95" font-size="14" text-anchor="middle" fill="#333" font-weight="bold">2</text>
+                                    <line x1="160" y1="60" x2="160" y2="80" stroke="#333" stroke-width="2"/>
+                                    <text x="160" y="95" font-size="14" text-anchor="middle" fill="#333" font-weight="bold">3</text>
+                                    <circle cx="70" cy="70" r="5" fill="#10b981"/>
+                                    <text x="70" y="55" font-size="10" text-anchor="middle" fill="#10b981">2.25</text>
+                                    <circle cx="100" cy="70" r="5" fill="#10b981"/>
+                                    <text x="100" y="55" font-size="10" text-anchor="middle" fill="#10b981">2.5</text>
+                                    <circle cx="130" cy="70" r="5" fill="#10b981"/>
+                                    <text x="130" y="55" font-size="10" text-anchor="middle" fill="#10b981">2.75</text>
+                                </svg>
+                            </div>
+                            <div>
+                                <p>Di antara \(2\) dan \(3\) tidak hanya ada satu bilangan, tapi tak terhingga! <span class="translation">Between \(2\) and \(3\) there is not just one number, but infinitely many!</span></p>
+                                <p class="mt-2">Ada \(2.25, 2.5, 2.75\). Jika dibagi lagi, ada \(2.1, 2.2\), dan seterusnya. <span class="translation">There is \(2.25, 2.5, 2.75\). If divided again, there is \(2.1, 2.2\), and so on.</span></p>
+                            </div>
+                        </div>
+                        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mt-4">
+                            <p class="font-bold text-yellow-800"><i class="fas fa-lightbulb mr-1"></i> Tips & Trik: Bagi Terus</p>
+                            <p class="mt-1">Bagi jarak menjadi 4 bagian, dapat perempatan. Bagi jadi 10 bagian, dapat desimal. <span class="translation">Divide the distance into 4 parts, get quarters. Divide into 10 parts, get decimals.</span></p>
+                            <p class="mt-1 font-bold"><i class="fas fa-flag mr-1"></i> Rumus To The Point: Terbagi tak hingga.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="page" data-page="10" data-task-id="g-task7"></div>
+                <div class="page" data-page="11" data-task-id="g-task8"></div>
+                <div class="page" data-page="12" data-task-id="g-task9"></div>
+                <div class="page" data-page="13" data-task-id="g-task10"></div>
+            </div>
+
+            <!-- ========================================== -->
+            <!-- SECTION: INDEPENDENT PRACTICE               -->
+            <!-- ========================================== -->
+            <div id="independent" class="content-section">
+                <div class="page active" data-page="1">
+                    <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-indigo-500">
+                        <h2 class="text-2xl font-bold text-indigo-600 mb-2">Soal Cerita: Tinggi Badan <i class="fas fa-ruler-vertical text-indigo-400 ml-2"></i></h2>
+                        <p class="translation">Word Problem: Height</p>
+                        <div class="flex gap-4 my-4 items-center">
+                            <div class="bg-indigo-50 p-4 rounded flex justify-center shrink-0">
+                                <svg width="180" height="140" viewBox="0 0 180 140">
+                                    <rect x="80" y="40" width="20" height="80" fill="#dbeafe" stroke="#3b82f6" stroke-width="2"/>
+                                    <line x1="100" y1="60" x2="120" y2="60" stroke="#333" stroke-width="1"/>
+                                    <text x="125" y="65" font-size="12" fill="#333">1 m</text>
+                                    <line x1="100" y1="90" x2="120" y2="90" stroke="#333" stroke-width="1"/>
+                                    <text x="125" y="95" font-size="12" fill="#333">2 m</text>
+                                    <line x1="100" y1="75" x2="115" y2="75" stroke="#ef4444" stroke-width="2"/>
+                                    <text x="125" y="80" font-size="12" fill="#ef4444" font-weight="bold">1.5 m</text>
+                                </svg>
+                            </div>
+                            <div>
+                                <p>Tinggi adik adalah lebih dari \(1\) meter, tapi belum mencapai \(2\) meter. Tinggi adik bisa saja \(1.5\) meter. <span class="translation">The younger sibling's height is more than \(1\) meter, but not yet \(2\) meters. The height could be \(1.5\) meters.</span></p>
+                                <p class="mt-2">\(\frac{1}{2}\) meter ditambah \(1\) meter sama dengan \(1.5\) meter. <span class="translation">\(\frac{1}{2}\) meter plus \(1\) meter equals \(1.5\) meters.</span></p>
+                            </div>
+                        </div>
+                        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mt-4">
+                            <p class="font-bold text-yellow-800"><i class="fas fa-lightbulb mr-1"></i> Tips & Trik: Bayangkan Siswa</p>
+                            <p class="mt-1">Siswa jarang punya tinggi yang persis bulat meter-nya. Pasti ada pecahan. <span class="translation">Students rarely have exactly integer meter heights. There must be a fraction.</span></p>
+                            <p class="mt-1 font-bold"><i class="fas fa-flag mr-1"></i> Rumus To The Point: \(1 \text{ m } 50 \text{ cm} = 1.5 \text{ m}\).</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="page" data-page="2" data-task-id="ind-task1"></div>
+                <div class="page" data-page="3" data-task-id="ind-task2"></div>
+                <div class="page" data-page="4" data-task-id="ind-task3"></div>
+
+                <div class="page" data-page="5">
+                    <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-green-500">
+                        <h2 class="text-2xl font-bold text-green-600 mb-2">Waktu dan Jam <i class="fas fa-clock text-green-400 ml-2"></i></h2>
+                        <p class="translation">Time and Clock</p>
+                        <div class="flex gap-4 my-4 items-center">
+                            <div class="bg-green-50 p-4 rounded flex justify-center shrink-0">
+                                <svg width="180" height="140" viewBox="0 0 180 140">
+                                    <circle cx="90" cy="70" r="50" fill="#dcfce7" stroke="#10b981" stroke-width="3"/>
+                                    <line x1="90" y1="70" x2="90" y2="30" stroke="#333" stroke-width="4"/>
+                                    <line x1="90" y1="70" x2="120" y2="70" stroke="#333" stroke-width="2"/>
+                                    <text x="90" y="25" font-size="14" text-anchor="middle" fill="#333" font-weight="bold">12</text>
+                                    <text x="140" y="75" font-size="14" text-anchor="middle" fill="#333" font-weight="bold">3</text>
+                                    <text x="90" y="120" font-size="14" text-anchor="middle" fill="#333" font-weight="bold">6</text>
+                                    <text x="40" y="75" font-size="14" text-anchor="middle" fill="#333" font-weight="bold">9</text>
+                                </svg>
+                            </div>
+                            <div>
+                                <p>Antara jam 1 dan 2, ada jam 1 setengah (1:30). <span class="translation">Between 1 o'clock and 2 o'clock, there is half past 1 (1:30).</span></p>
+                                <p class="mt-2">Satu setengah jam adalah \(1 \frac{1}{2}\) jam, atau bisa ditulis \(1.5\) jam. <span class="translation">One and a half hours is \(1 \frac{1}{2}\) hours, or it can be written as \(1.5\) hours.</span></p>
+                            </div>
+                        </div>
+                        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mt-4">
+                            <p class="font-bold text-yellow-800"><i class="fas fa-lightbulb mr-1"></i> Tips & Trik: 30 Menit</p>
+                            <p class="mt-1">Setengah jam adalah 30 menit. Karena 1 jam = 60 menit, maka \(30/60 = \frac{1}{2}\). <span class="translation">Half an hour is 30 minutes. Since 1 hour = 60 minutes, then \(30/60 = \frac{1}{2}\).</span></p>
+                            <p class="mt-1 font-bold"><i class="fas fa-flag mr-1"></i> Rumus To The Point: \(1.5 \text{ jam} = 1 \text{ jam } 30 \text{ menit}\).</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="page" data-page="6" data-task-id="ind-task4"></div>
+                <div class="page" data-page="7" data-task-id="ind-task5"></div>
+                <div class="page" data-page="8" data-task-id="ind-task6"></div>
+
+                <div class="page" data-page="9">
+                    <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-purple-500">
+                        <h2 class="text-2xl font-bold text-purple-600 mb-2">Membandingkan Pecahan <i class="fas fa-less-than text-purple-400 ml-2"></i></h2>
+                        <p class="translation">Comparing Fractions</p>
+                        <div class="flex gap-4 my-4 items-center">
+                            <div class="bg-purple-50 p-4 rounded flex justify-center shrink-0">
+                                <svg width="180" height="140" viewBox="0 0 180 140">
+                                    <rect x="20" y="30" width="60" height="60" rx="5" fill="#f3e8ff" stroke="#8b5cf6" stroke-width="2"/>
+                                    <text x="50" y="65" font-size="20" text-anchor="middle" fill="#333" font-weight="bold">3/2</text>
+                                    <text x="50" y="105" font-size="14" text-anchor="middle" fill="#333">1.5</text>
+                                    
+                                    <text x="95" y="65" font-size="20" text-anchor="middle" fill="#ef4444" font-weight="bold">&lt;</text>
+                                    
+                                    <rect x="110" y="30" width="60" height="60" rx="5" fill="#f3e8ff" stroke="#8b5cf6" stroke-width="2"/>
+                                    <text x="140" y="65" font-size="20" text-anchor="middle" fill="#333" font-weight="bold">7/4</text>
+                                    <text x="140" y="105" font-size="14" text-anchor="middle" fill="#333">1.75</text>
+                                </svg>
+                            </div>
+                            <div>
+                                <p>Manakah yang lebih besar: \( \frac{3}{2} \) atau \( \frac{7}{4} \)? <span class="translation">Which is larger: \( \frac{3}{2} \) or \( \frac{7}{4} \)?</span></p>
+                                <p class="mt-2">Ubah ke desimal. \( \frac{3}{2} = 1.5 \). \( \frac{7}{4} = 1.75 \). Karena \(1.5 < 1.75\), maka \( \frac{3}{2} < \frac{7}{4} \). <span class="translation">Convert to decimal. \( \frac{3}{2} = 1.5 \). \( \frac{7}{4} = 1.75 \). Since \(1.5 < 1.75\), then \( \frac{3}{2} < \frac{7}{4} \).</span></p>
+                            </div>
+                        </div>
+                        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mt-4">
+                            <p class="font-bold text-yellow-800"><i class="fas fa-lightbulb mr-1"></i> Tips & Trik: Jadikan Sama</p>
+                            <p class="mt-1">Bandingkan desimal lebih mudah daripada membandingkan pecahan dengan penyebut berbeda. <span class="translation">Comparing decimals is easier than comparing fractions with different denominators.</span></p>
+                            <p class="mt-1 font-bold"><i class="fas fa-flag mr-1"></i> Rumus To The Point: Pecahan \(\implies\) Desimal \(\implies\) Bandingkan.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="page" data-page="10" data-task-id="ind-task7"></div>
+                <div class="page" data-page="11" data-task-id="ind-task8"></div>
+                <div class="page" data-page="12" data-task-id="ind-task9"></div>
+                <div class="page" data-page="13" data-task-id="ind-task10"></div>
+            </div>
+
+            <!-- ========================================== -->
+            <!-- SECTION: CONSOLIDATION & REFLECTION         -->
+            <!-- ========================================== -->
+            <div id="consolidation" class="content-section">
+                 <div class="bg-white p-6 rounded-lg shadow-md text-center">
+                    <h2 class="text-2xl font-bold text-gray-800">Konsolidasi & Refleksi</h2>
+                    <p class="translation">Consolidation & Reflection</p>
+                    <p>Kerja bagus! Anda telah menguasai bilangan rasional di antara dua bilangan bulat. Ini adalah fondasi penting untuk memahami garis bilangan dan operasi pecahan selanjutnya. <span class="translation">Excellent work! You have mastered rational numbers between two integers. This is an important foundation for understanding number lines and future fraction operations.</span></p>
+                    <p class="mt-2">Teruslah berlatih membayangkan bilangan sebagai titik di penggaris, bukan sekadar angka! <span class="translation">Keep practicing imagining numbers as points on a ruler, not just abstract numbers!</span></p>
+                    <a href="https://learn.algonova.id" target="_blank" class="mt-4 inline-block bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-6 rounded">
+                        Lanjut ke learn.algonova.id <span class="translation text-sm italic">Go to learn.algonova.id</span>
+                    </a>
+                </div>
+            </div>
+            
+            <!-- TASK SECTIONS -->
+            <div id="task1" class="content-section">
+                <div class="page active" data-page="1"><div data-task-id="t1-task1"></div></div>
+                <div class="page" data-page="2"><div data-task-id="t1-task2"></div></div>
+                <div class="page" data-page="3"><div data-task-id="t1-task3"></div></div>
+                <div class="page" data-page="4"><div data-task-id="t1-task4"></div></div>
+                <div class="page" data-page="5"><div data-task-id="t1-task5"></div></div>
+                <div class="page" data-page="6"><div data-task-id="t1-task6"></div></div>
+                <div class="page" data-page="7"><div data-task-id="t1-task7"></div></div>
+                <div class="page" data-page="8"><div data-task-id="t1-task8"></div></div>
+                <div class="page" data-page="9"><div data-task-id="t1-task9"></div></div>
+                <div class="page" data-page="10"><div data-task-id="t1-task10"></div></div>
+            </div>
+            <div id="task2" class="content-section">
+                <div class="page active" data-page="1"><div data-task-id="t2-task1"></div></div>
+                <div class="page" data-page="2"><div data-task-id="t2-task2"></div></div>
+                <div class="page" data-page="3"><div data-task-id="t2-task3"></div></div>
+                <div class="page" data-page="4"><div data-task-id="t2-task4"></div></div>
+                <div class="page" data-page="5"><div data-task-id="t2-task5"></div></div>
+                <div class="page" data-page="6"><div data-task-id="t2-task6"></div></div>
+                <div class="page" data-page="7"><div data-task-id="t2-task7"></div></div>
+                <div class="page" data-page="8"><div data-task-id="t2-task8"></div></div>
+                <div class="page" data-page="9"><div data-task-id="t2-task9"></div></div>
+                <div class="page" data-page="10"><div data-task-id="t2-task10"></div></div>
+            </div>
+            <div id="task3" class="content-section">
+                <div class="page active" data-page="1"><div data-task-id="t3-task1"></div></div>
+                <div class="page" data-page="2"><div data-task-id="t3-task2"></div></div>
+                <div class="page" data-page="3"><div data-task-id="t3-task3"></div></div>
+                <div class="page" data-page="4"><div data-task-id="t3-task4"></div></div>
+                <div class="page" data-page="5"><div data-task-id="t3-task5"></div></div>
+                <div class="page" data-page="6"><div data-task-id="t3-task6"></div></div>
+                <div class="page" data-page="7"><div data-task-id="t3-task7"></div></div>
+                <div class="page" data-page="8"><div data-task-id="t3-task8"></div></div>
+                <div class="page" data-page="9"><div data-task-id="t3-task9"></div></div>
+                <div class="page" data-page="10"><div data-task-id="t3-task10"></div></div>
+            </div>
+            <div id="task4" class="content-section">
+                <div class="page active" data-page="1"><div data-task-id="t4-task1"></div></div>
+                <div class="page" data-page="2"><div data-task-id="t4-task2"></div></div>
+                <div class="page" data-page="3"><div data-task-id="t4-task3"></div></div>
+                <div class="page" data-page="4"><div data-task-id="t4-task4"></div></div>
+                <div class="page" data-page="5"><div data-task-id="t4-task5"></div></div>
+                <div class="page" data-page="6"><div data-task-id="t4-task6"></div></div>
+                <div class="page" data-page="7"><div data-task-id="t4-task7"></div></div>
+                <div class="page" data-page="8"><div data-task-id="t4-task8"></div></div>
+                <div class="page" data-page="9"><div data-task-id="t4-task9"></div></div>
+                <div class="page" data-page="10"><div data-task-id="t4-task10"></div></div>
+            </div>
+            <div id="task5" class="content-section">
+                <div class="page active" data-page="1"><div data-task-id="t5-task1"></div></div>
+                <div class="page" data-page="2"><div data-task-id="t5-task2"></div></div>
+                <div class="page" data-page="3"><div data-task-id="t5-task3"></div></div>
+                <div class="page" data-page="4"><div data-task-id="t5-task4"></div></div>
+                <div class="page" data-page="5"><div data-task-id="t5-task5"></div></div>
+                <div class="page" data-page="6"><div data-task-id="t5-task6"></div></div>
+                <div class="page" data-page="7"><div data-task-id="t5-task7"></div></div>
+                <div class="page" data-page="8"><div data-task-id="t5-task8"></div></div>
+                <div class="page" data-page="9"><div data-task-id="t5-task9"></div></div>
+                <div class="page" data-page="10"><div data-task-id="t5-task10"></div></div>
+            </div>
+            </div> <!-- Penutup #contentScrollArea -->
+            <div id="paginationBar" class="shrink-0 bg-white p-3 border-t border-gray-200 flex justify-center items-center gap-1 no-print z-40 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)]"></div>
+        </main>
+    </div>
+    
+    <!-- Print Area -->
+    <div id="printArea" class="hidden p-8">
+        <div class="text-center border-b-2 border-black pb-4 mb-4">
+            <h1 class="text-xl font-bold">Math Tutoring by Deni</h1>
+            <p>Topic: Bilangan Rasional - Di Antara Dua Bilangan Bulat</p>
+            <div class="flex justify-around mt-4 text-sm">
+                <p>Name: ..............................</p>
+                <p>Date: ..............................</p>
+                <p>Task: <span id="printTaskNum">1</span></p>
+                <p>Score: <span id="printScore">0</span>/10</p>
+            </div>
+        </div>
+        <table class="w-full border-collapse border border-black text-sm">
+            <thead>
+                <tr class="bg-gray-200">
+                    <th class="border border-black p-1">No.</th>
+                    <th class="border border-black p-1">Question</th>
+                    <th class="border border-black p-1">Student Answer</th>
+                    <th class="border border-black p-1">Correct Answer</th>
+                    <th class="border border-black p-1">Note (❌/✔️)</th>
+                </tr>
+            </thead>
+            <tbody id="printTableBody"></tbody>
+        </table>
+        <div class="mt-8 text-right">
+            <p>Checked by,</p>
+            <br><br>
+            <p class="font-bold">Deni</p>
+        </div>
+    </div>
+    
+    <script>
+        // ====== MATH QUESTIONS DATA ======
+        const questions = {};
+        Object.assign(questions, {
+            // SPIRAL REVIEW WARM-UP
+            "w-task1": { type: "single", q: "Ibu membeli sebatang kayu sepanjang 2 meter. Kayu itu akan dipotong menjadi 4 bagian sama panjang. Berapakah panjang setiap potongan kayu tersebut? <i class='fas fa-tree text-blue-500 ml-2'></i>", q_trans: "Mother bought a 2-meter long wooden stick. It will be cut into 4 equal pieces. What is the length of each piece?", opts: ["\\( 0.2 \\text{ m} \\)", "\\( 0.4 \\text{ m} \\)", "\\( 0.5 \\text{ m} \\)", "\\( 0.8 \\text{ m} \\)", "\\( 1.5 \\text{ m} \\)"], ans: "\\( 0.5 \\text{ m} \\)", exp: "2 meter dibagi 4 bagian: \\( 2 \\div 4 = 0.5 \\) meter. Ini sama dengan \\( \\frac{1}{2} \\) meter.", exp_trans: "2 meters divided by 4 parts: \\( 2 \\div 4 = 0.5 \\) meters. This is equal to \\( \\frac{1}{2} \\) meter." },
+            "w-task2": { type: "complex", q: "Manakah dari bilangan berikut yang berada di antara 1 dan 2? (Pilih semua yang benar) <i class='fas fa-magnifying-glass text-blue-500 ml-2'></i>", q_trans: "Which of the following numbers are between 1 and 2? (Select all that apply)", opts: ["\\( 1.5 \\)", "\\( 0.5 \\)", "\\( 1 \\frac{1}{4} \\)", "\\( 2.5 \\)", "\\( \\frac{3}{2} \\)"], ans: [0, 2, 4], exp: "1.5 ada di antara 1 dan 2. \\( 1 \\frac{1}{4} \\) (1.25) juga. \\( \\frac{3}{2} \\) sama dengan 1.5.", exp_trans: "1.5 is between 1 and 2. \\( 1 \\frac{1}{4} \\) (1.25) too. \\( \\frac{3}{2} \\) is 1.5." },
+            "w-task3": { type: "single", q: "Suhu di dalam lemari es adalah 4 derajat Celsius. Suhu ruangan adalah 5 derajat Celsius. Jika suhu makanan di meja turun perlahan, suhu manakah yang mungkin dilewati makanan tersebut sebelum mencapai suhu lemari es? <i class='fas fa-temperature-half text-blue-500 ml-2'></i>", q_trans: "Fridge temp is 4°C. Room temp is 5°C. If food on the table cools down, which temp might it pass through before reaching fridge temp?", opts: ["\\( 3.5 ^\\circ \\text{C} \\)", "\\( 4.5 ^\\circ \\text{C} \\)", "\\( 5.5 ^\\circ \\text{C} \\)", "\\( 6 ^\\circ \\text{C} \\)", "\\( 4 ^\\circ \\text{C} \\)"], ans: "\\( 4.5 ^\\circ \\text{C} \\)", exp: "Makanan turun dari 5°C ke 4°C. Bilangan di antaranya adalah 4.5°C.", exp_trans: "Food drops from 5°C to 4°C. The number between them is 4.5°C." },
+            "w-task4": { type: "single", q: "Ali mempunyai Rp 5.000. Ia ingin membeli permen yang harganya Rp 1.000 per buah. Berapa permen terbanyak yang bisa dibeli dan berapa sisa uangnya yang berupa pecahan? <i class='fas fa-candy-cane text-blue-500 ml-2'></i>", q_trans: "Ali has Rp 5,000. He wants to buy candies priced at Rp 1,000 each. What is the max candies he can buy and what is the fractional change left?", opts: ["\\( 5 \\text{ permen, sisa } 0 \\)", "\\( 4 \\text{ permen, sisa } 1000 \\)", "\\( 5.5 \\text{ permen} \\)", "\\( 6 \\text{ permen, sisa } -1000 \\)", "\\( 4.5 \\text{ permen} \\)"], ans: "\\( 5 \\text{ permen, sisa } 0 \\)", exp: "Uang pas, 5000 / 1000 = 5. Tidak ada sisa. Soal ini menguji pemahaman bahwa pembelian tidak selalu menghasilkan pecahan.", exp_trans: "Exact money, 5000 / 1000 = 5. No remainder. This tests understanding that purchases don't always yield fractions." },
+            "w-task5": { type: "complex", q: "Pilih semua pecahan yang sama dengan 0.5! <i class='fas fa-equals text-blue-500 ml-2'></i>", q_trans: "Select all fractions equal to 0.5!", opts: ["\\( \\frac{1}{2} \\)", "\\( \\frac{2}{4} \\)", "\\( \\frac{3}{6} \\)", "\\( \\frac{5}{10} \\)", "\\( \\frac{1}{4} \\)"], ans: [0, 1, 2, 3], exp: "Setengah dari suatu benda bisa ditulis 1/2, 2/4, 3/6, 5/10. Semuanya bernilai 0.5.", exp_trans: "Half of an object can be written as 1/2, 2/4, 3/6, 5/10. All equal 0.5." },
+            "w-task6": { type: "single", q: "Sebuah pizza dipotong menjadi 8 bagian sama besar. Budi memakan 2 potong. Bagian pizza yang dimakan Budi adalah ... <i class='fas fa-pizza-slice text-blue-500 ml-2'></i>", q_trans: "A pizza is cut into 8 equal slices. Budi eats 2 slices. The fraction of pizza Budi ate is...", opts: ["\\( \\frac{1}{8} \\)", "\\( \\frac{2}{8} \\)", "\\( \\frac{1}{2} \\)", "\\( \\frac{1}{4} \\)", "\\( \\frac{2}{4} \\)"], ans: "\\( \\frac{1}{4} \\)", exp: "2 dari 8 potong adalah \\( \\frac{2}{8} \\). Jika disederhanakan (dibagi 2 atas dan bawah), hasilnya \\( \\frac{1}{4} \\).", exp_trans: "2 out of 8 slices is \\( \\frac{2}{8} \\). Simplified (divide by 2 top and bottom), it becomes \\( \\frac{1}{4} \\)." },
+            "w-task7": { type: "single", q: "Mira berlari sejauh 1.5 km, lalu berjalan sejauh 0.5 km. Berapa km total jarak yang ditempuh Mira? <i class='fas fa-person-running text-blue-500 ml-2'></i>", q_trans: "Mira runs 1.5 km, then walks 0.5 km. What is the total distance in km?", opts: ["\\( 1 \\text{ km} \\)", "\\( 1.5 \\text{ km} \\)", "\\( 2 \\text{ km} \\)", "\\( 2.5 \\text{ km} \\)", "\\( 0.2 \\text{ km} \\)"], ans: "\\( 2 \\text{ km} \\)", exp: "1.5 + 0.5 = 2.0 km. Pecahan bisa dijumlahkan jika bentuknya sama (desimal).", exp_trans: "1.5 + 0.5 = 2.0 km. Fractions can be added if in the same form (decimal)." },
+            "w-task8": { type: "tf_table", q: "Evaluasi pernyataan berikut tentang bilangan! <i class='fas fa-list-ul text-blue-500 ml-2'></i>", q_trans: "Evaluate the following statements about numbers!", opts: ["Bilangan bulat selalu lebih besar dari 0", "Bilangan 0.5 adalah bilangan rasional", "Di antara 0 dan 1 tidak ada bilangan lain", "Bilangan 1.5 sama dengan \\( 1 \\frac{1}{2} \\)"], ans: ["S", "B", "S", "B"], exp: "1. S, bulat bisa negatif. 2. B, 0.5 = 1/2 adalah rasional. 3. S, ada tak hingga bilangan di antaranya. 4. B, 1.5 = 1 setengah.", exp_trans: "1. F, integers can be negative. 2. T, 0.5=1/2 is rational. 3. F, infinite numbers between. 4. T, 1.5 = 1 and a half." },
+            "w-task9": { type: "single", q: "Jarum jam menunjukkan pukul 1. Berapa derajat sudut yang dibentuk jika jarum jam bergerak menuju pukul 2? (Bayangkan satu jam penuh adalah 360 derajat) <i class='fas fa-clock text-blue-500 ml-2'></i>", q_trans: "Clock shows 1. What angle if it moves to 2? (Full circle is 360 degrees)", opts: ["\\( 30^\\circ \\)", "\\( 45^\\circ \\)", "\\( 60^\\circ \\)", "\\( 90^\\circ \\)", "\\( 180^\\circ \\)"], ans: "\\( 30^\\circ \\)", exp: "Lingkaran 360 derajat dibagi 12 jam = 30 derajat per jam.", exp_trans: "360 degrees / 12 hours = 30 degrees per hour." },
+            "w-task10": { type: "single", q: "Faktor dari 12 adalah ... <i class='fas fa-divide text-blue-500 ml-2'></i>", q_trans: "The factors of 12 are...", opts: ["\\( 1, 2, 3, 4, 6, 12 \\)", "\\( 1, 2, 3, 4, 5, 6 \\)", "\\( 12, 24, 36 \\)", "\\( 1, 3, 5, 7 \\)", "\\( 2, 4, 6, 8 \\)"], ans: "\\( 1, 2, 3, 4, 6, 12 \\)", exp: "Faktor adalah pembagi habis. 12 bisa dibagi 1, 2, 3, 4, 6, dan 12.", exp_trans: "Factors are exact divisors. 12 is divisible by 1, 2, 3, 4, 6, and 12." },
+
+            // INTRODUCTION & REAL-WORLD
+            "i-task1": { type: "single", q: "Suhu kamar AC diatur mulai dari 16°C. Jika Anda ingin menaikkannya sedikit agar tidak terlalu dingin, namun belum mau 17°C, suhu apa yang cocok dipilih di remote AC? <i class='fas fa-snowflake text-green-500 ml-2'></i>", q_trans: "AC room temp starts at 16°C. If you want to raise it slightly but not reach 17°C, what temp is suitable?", opts: ["\\( 15^\\circ \\text{C} \\)", "\\( 15.5^\\circ \\text{C} \\)", "\\( 16.5^\\circ \\text{C} \\)", "\\( 17.5^\\circ \\text{C} \\)", "\\( 18^\\circ \\text{C} \\)"], ans: "\\( 16.5^\\circ \\text{C} \\)", exp: "16.5°C berada tepat di antara 16°C dan 17°C.", exp_trans: "16.5°C is exactly between 16°C and 17°C." },
+            "i-task2": { type: "complex", q: "Pak Budi mengukur panjang meja. Panjang meja lebih dari 1 meter, tapi kurang dari 2 meter. Manakah ukuran yang mungkin? <i class='fas fa-ruler text-green-500 ml-2'></i>", q_trans: "Mr. Budi measures a table. It's more than 1m, less than 2m. Which are possible lengths?", opts: ["\\( 1.2 \\text{ m} \\)", "\\( 1.8 \\text{ m} \\)", "\\( 0.9 \\text{ m} \\)", "\\( 2.1 \\text{ m} \\)", "\\( 1 \\frac{1}{2} \\text{ m} \\)"], ans: [0, 1, 4], exp: "Semua bilangan antara 1 dan 2 memenuhi syarat. 0.9 kurang dari 1, 2.1 lebih dari 2.", exp_trans: "All numbers between 1 and 2 qualify. 0.9 is less than 1, 2.1 is more than 2." },
+            "i-task3": { type: "tf_table", q: "Evaluasi penggunaan bilangan rasional di kehidupan sehari-hari! <i class='fas fa-clipboard-check text-green-500 ml-2'></i>", q_trans: "Evaluate the use of rational numbers in daily life!", opts: ["Mengukur berat badan bayi (3.5 kg)", "Mencatat jumlah kendaraan di jalan (15 mobil)", "Mengukur tinggi badan siswa (1.45 m)", "Menentukan posisi lantai gedung (Lantai 2)"], ans: ["B", "S", "B", "S"], exp: "Berat bayi dan tinggi siswa sering menggunakan pecahan/desimal. Jumlah mobil dan lantai gedung adalah bilangan bulat.", exp_trans: "Baby weight and student height often use fractions/decimals. Car count and floors are integers." },
+            "i-task4": { type: "single", q: "Andi membeli 1 kg gula. Ibu meminta setengah kg saja. Berapa gram gula yang harus dipisahkan Andi? <i class='fas fa-bag-shopping text-green-500 ml-2'></i>", q_trans: "Andi buys 1 kg of sugar. Mother asks for half a kg. How many grams of sugar should Andi separate?", opts: ["\\( 100 \\text{ g} \\)", "\\( 250 \\text{ g} \\)", "\\( 500 \\text{ g} \\)", "\\( 750 \\text{ g} \\)", "\\( 1000 \\text{ g} \\)"], ans: "\\( 500 \\text{ g} \\)", exp: "1 kg = 1000 gram. Setengah kg = 1000 / 2 = 500 gram.", exp_trans: "1 kg = 1000 grams. Half kg = 1000 / 2 = 500 grams." },
+            "i-task5": { type: "single", q: "Sebuah botol berisi 1 liter air. Air itu diminum setengahnya. Lalu diminum setengahnya lagi. Berapa liter sisa air di botol? <i class='fas fa-bottle-water text-green-500 ml-2'></i>", q_trans: "A bottle has 1 L of water. Half is drunk. Then half of the remainder is drunk. How many liters are left?", opts: ["\\( \\frac{1}{2} \\text{ L} \\)", "\\( \\frac{1}{4} \\text{ L} \\)", "\\( \\frac{3}{4} \\text{ L} \\)", "\\( 0 \\text{ L} \\)", "\\( \\frac{1}{3} \\text{ L} \\)"], ans: "\\( \\frac{1}{4} \\text{ L} \\)", exp: "Awal 1 L. Diminum setengah -> sisa 1/2 L. Diminum setengah dari sisa -> sisa 1/4 L.", exp_trans: "Starts 1 L. Half drunk -> 1/2 L left. Half of remainder drunk -> 1/4 L left." },
+            "i-task6": { type: "single", q: "Harga 1 buah jeruk adalah Rp 1.500. Berapakah harga 4 buah jeruk? <i class='fas fa-apple-whole text-green-500 ml-2'></i>", q_trans: "Price of 1 orange is Rp 1,500. What is the price of 4 oranges?", opts: ["\\( \\text{Rp } 4.000 \\)", "\\( \\text{Rp } 4.500 \\)", "\\( \\text{Rp } 5.000 \\)", "\\( \\text{Rp } 6.000 \\)", "\\( \\text{Rp } 7.500 \\)"], ans: "\\( \\text{Rp } 6.000 \\)", exp: "1500 x 4 = 6000. Bilangan rasional dikalikan bilangan bulat menghasilkan bilangan rasional.", exp_trans: "1500 x 4 = 6000. Rational multiplied by integer yields rational." },
+            "i-task7": { type: "single", q: "Sebuah mobil melaju 2 km, lalu mundur 0.5 km. Berapa km posisi akhir mobil dari titik awal? <i class='fas fa-car-side text-green-500 ml-2'></i>", q_trans: "A car moves 2 km forward, then reverses 0.5 km. How many km is the final position from start?", opts: ["\\( 1.5 \\text{ km} \\)", "\\( 2.5 \\text{ km} \\)", "\\( 0.5 \\text{ km} \\)", "\\( 2 \\text{ km} \\)", "\\( 1 \\text{ km} \\)"], ans: "\\( 1.5 \\text{ km} \\)", exp: "2 - 0.5 = 1.5 km.", exp_trans: "2 - 0.5 = 1.5 km." },
+            "i-task8": { type: "complex", q: "Manakah pernyataan yang benar mengenai jarak 1.5 km? <i class='fas fa-route text-green-500 ml-2'></i>", q_trans: "Which statements are true about a distance of 1.5 km?", opts: ["Sama dengan 1 km 500 meter", "Lebih dekat daripada 1 km 200 meter", "Sama dengan \\( 1 \\frac{1}{2} \\) km", "Lebih jauh dari 2 km"], ans: [0, 2], exp: "1.5 km = 1 setengah km = 1 km 500 m. Lebih jauh dari 1 km 200 m (1.2 km). Lebih dekat dari 2 km.", exp_trans: "1.5 km = 1.5 km = 1 km 500 m. Farther than 1.2 km. Closer than 2 km." },
+            "i-task9": { type: "single", q: "Reses kue membutuhkan 0.25 kg tepung. Jika Ibu mempunyai 1 kg tepung, berapa kali Ibu bisa membuat kue? <i class='fas fa-cookie-bite text-green-500 ml-2'></i>", q_trans: "Cookie recipe needs 0.25 kg flour. If Mother has 1 kg, how many times can she bake?", opts: ["\\( 2 \\text{ kali} \\)", "\\( 3 \\text{ kali} \\)", "\\( 4 \\text{ kali} \\)", "\\( 5 \\text{ kali} \\)", "\\( 0.25 \\text{ kali} \\)"], ans: "\\( 4 \\text{ kali} \\)", exp: "0.25 kg = 1/4 kg. 1 dibagi 1/4 = 4.", exp_trans: "0.25 kg = 1/4 kg. 1 divided by 1/4 = 4." },
+            "i-task10": { type: "single", q: "Andi menimbang berat kucingnya. Berat kucing lebih dari 3 kg tapi kurang dari 4 kg. Manakah yang mungkin menjadi berat kucing itu? <i class='fas fa-cat text-green-500 ml-2'></i>", q_trans: "Andi weighs his cat. It's more than 3 kg but less than 4 kg. Which could be its weight?", opts: ["\\( 3.0 \\text{ kg} \\)", "\\( 3.2 \\text{ kg} \\)", "\\( 4.1 \\text{ kg} \\)", "\\( 2.5 \\text{ kg} \\)", "\\( 4.0 \\text{ kg} \\)"], ans: "\\( 3.2 \\text{ kg} \\)", exp: "3.2 berada di antara 3 dan 4.", exp_trans: "3.2 is between 3 and 4." },
+
+            // REVIEW OF PRIOR KNOWLEDGE
+            "r-task1": { type: "single", q: "Bilangan desimal 0.75 jika ditulis dalam pecahan adalah ... <i class='fas fa-percent text-purple-500 ml-2'></i>", q_trans: "Decimal 0.75 as a fraction is...", opts: ["\\( \\frac{1}{2} \\)", "\\( \\frac{1}{4} \\)", "\\( \\frac{3}{4} \\)", "\\( \\frac{3}{5} \\)", "\\( \\frac{7}{10} \\)"], ans: "\\( \\frac{3}{4} \\)", exp: "0.75 sama dengan 75/100. Disederhanakan bagi 25 jadi 3/4.", exp_trans: "0.75 is 75/100. Simplified by 25 becomes 3/4." },
+            "r-task2": { type: "complex", q: "Pilih semua pecahan yang ekuivalen (sama nilainya) dengan \\( \\frac{1}{2} \\)! <i class='fas fa-equals text-purple-500 ml-2'></i>", q_trans: "Select all fractions equivalent to \\( \\frac{1}{2} \\)!", opts: ["\\( \\frac{2}{3} \\)", "\\( \\frac{4}{8} \\)", "\\( \\frac{5}{10} \\)", "\\( \\frac{3}{6} \\)", "\\( \\frac{2}{5} \\)"], ans: [1, 2, 3], exp: "4/8, 5/10, dan 3/6 jika disederhanakan nilainya sama dengan 1/2.", exp_trans: "4/8, 5/10, and 3/6 simplify to 1/2." },
+            "r-task3": { type: "single", q: "Pada garis bilangan, jarak antara 0 ke 1 dibagi menjadi 4 bagian sama. Titik pada bagian pertama (setelah 0) bernilai ... <i class='fas fa-stream text-purple-500 ml-2'></i>", q_trans: "On a number line, distance 0 to 1 is divided into 4 equal parts. The first point (after 0) is...", opts: ["\\( 0.1 \\)", "\\( 0.2 \\)", "\\( 0.25 \\)", "\\( 0.4 \\)", "\\( 0.5 \\)"], ans: "\\( 0.25 \\)", exp: "1 dibagi 4 bagian = 1/4 = 0.25.", exp_trans: "1 divided by 4 parts = 1/4 = 0.25." },
+            "r-task4": { type: "single", q: "Manakah bilangan yang bernilai lebih dari 0.5? <i class='fas fa-greater-than text-purple-500 ml-2'></i>", q_trans: "Which number is greater than 0.5?", opts: ["\\( 0.25 \\)", "\\( \\frac{1}{4} \\)", "\\( 0.4 \\)", "\\( \\frac{3}{4} \\)", "\\( 0.1 \\)"], ans: "\\( \\frac{3}{4} \\)", exp: "3/4 = 0.75. 0.75 > 0.5.", exp_trans: "3/4 = 0.75. 0.75 > 0.5." },
+            "r-task5": { type: "single", q: "Suhu udara pagi hari adalah -2 derajat. Siang hari naik 3 derajat. Berapa suhu siang hari? <i class='fas fa-cloud-sun text-purple-500 ml-2'></i>", q_trans: "Morning temp is -2 degrees. Noon rises by 3 degrees. What is noon temp?", opts: ["\\( -5 ^\\circ \\text{C} \\)", "\\( 1 ^\\circ \\text{C} \\)", "\\( 2 ^\\circ \\text{C} \\)", "\\( -1 ^\\circ \\text{C} \\)", "\\( 5 ^\\circ \\text{C} \\)"], ans: "\\( 1 ^\\circ \\text{C} \\)", exp: "-2 + 3 = 1.", exp_trans: "-2 + 3 = 1." },
+            "r-task6": { type: "tf_table", q: "Evaluasi pecahan dan desimal! <i class='fas fa-clipboard-check text-purple-500 ml-2'></i>", q_trans: "Evaluate fractions and decimals!", opts: ["\\( 0.5 \\) sama dengan \\( \\frac{1}{2} \\)", "\\( 0.25 \\) lebih kecil dari \\( \\frac{1}{4} \\)", "\\( 1.5 \\) sama dengan \\( \\frac{3}{2} \\)", "Pecahan \\( \\frac{4}{2} \\) sama dengan 1"], ans: ["B", "S", "B", "S"], exp: "1. B. 2. S, 0.25 = 1/4. 3. B. 4. S, 4/2 = 2.", exp_trans: "1. T. 2. F, 0.25 = 1/4. 3. T. 4. F, 4/2 = 2." },
+            "r-task7": { type: "single", q: "Faktor dari 10 adalah ... <i class='fas fa-divide text-purple-500 ml-2'></i>", q_trans: "Factors of 10 are...", opts: ["\\( 1, 2, 5, 10 \\)", "\\( 1, 3, 5, 10 \\)", "\\( 2, 5 \\)", "\\( 1, 2, 4, 8, 10 \\)", "\\( 10, 20, 30 \\)"], ans: "\\( 1, 2, 5, 10 \\)", exp: "10 bisa dibagi habis oleh 1, 2, 5, dan 10.", exp_trans: "10 is exactly divisible by 1, 2, 5, and 10." },
+			"r-task8": { type: "single", q: "Pecahan \\( \\frac{6}{4} \\) jika diubah ke pecahan campuran menjadi ... <i class='fas fa-shapes text-purple-500 ml-2'></i>", q_trans: "Fraction \\( \\frac{6}{4} \\) as a mixed fraction is...", opts: ["\\( 1 \\frac{1}{2} \\)", "\\( 1 \\frac{1}{4} \\)", "\\( 2 \\frac{1}{2} \\)", "\\( 2 \\frac{1}{4} \\)", "\\( 1 \\frac{3}{4} \\)"], ans: "\\( 1 \\frac{1}{2} \\)", exp: "6 dibagi 4 = 1 sisa 2. Jadi 1 2/4. 2/4 disederhanakan jadi 1/2. Hasilnya 1 1/2.", exp_trans: "6 divided by 4 = 1 remainder 2. So 1 2/4. 2/4 simplifies to 1/2. Result 1 1/2." },
+            "r-task9": { type: "single", q: "Manakah bilangan yang terletak di antara -1 dan 0 pada garis bilangan? <i class='fas fa-arrows-left-right-to-line text-purple-500 ml-2'></i>", q_trans: "Which number is between -1 and 0 on the number line?", opts: ["\\( -1.5 \\)", "\\( -0.5 \\)", "\\( 0.5 \\)", "\\( 1.5 \\)", "\\( -2 \\)"], ans: "\\( -0.5 \\)", exp: "-0.5 berada di tengah antara -1 dan 0.", exp_trans: "-0.5 is halfway between -1 and 0." },
+            "r-task10": { type: "single", q: "Hasil dari \\( 1 - 0.4 \\) adalah ... <i class='fas fa-calculator text-purple-500 ml-2'></i>", q_trans: "Result of \\( 1 - 0.4 \\) is...", opts: ["\\( 0.1 \\)", "\\( 0.5 \\)", "\\( 0.6 \\)", "\\( 0.8 \\)", "\\( 1.4 \\)"], ans: "\\( 0.6 \\)", exp: "1.0 - 0.4 = 0.6.", exp_trans: "1.0 - 0.4 = 0.6." },
+
+            // PROBLEM INTRODUCTION
+            "p-task1": { type: "single", q: "Cari pecahan yang terletak di antara \\( \\frac{1}{4} \\) dan \\( \\frac{1}{2} \\)! <i class='fas fa-magnifying-glass text-orange-500 ml-2'></i>", q_trans: "Find a fraction between \\( \\frac{1}{4} \\) and \\( \\frac{1}{2} \\)!", opts: ["\\( \\frac{1}{3} \\)", "\\( \\frac{1}{5} \\)", "\\( \\frac{3}{4} \\)", "\\( \\frac{2}{2} \\)", "\\( \\frac{1}{1} \\)"], ans: "\\( \\frac{1}{3} \\)", exp: "Samakan penyebut. 1/4 = 3/12, 1/2 = 6/12. Pecahan di antaranya 4/12 atau 5/12. 4/12 disederhanakan menjadi 1/3.", exp_trans: "Same denominator: 1/4 = 3/12, 1/2 = 6/12. Between them is 4/12 or 5/12. 4/12 simplifies to 1/3." },
+            "p-task2": { type: "complex", q: "Manakah bilangan rasional yang berada di antara 2 dan 3? <i class='fas fa-check-double text-orange-500 ml-2'></i>", q_trans: "Which rational numbers are between 2 and 3?", opts: ["\\( 2.1 \\)", "\\( 2.9 \\)", "\\( 2 \\frac{1}{2} \\)", "\\( 3.0 \\)", "\\( \\frac{5}{2} \\)"], ans: [0, 1, 2, 4], exp: "2.1, 2.9, 2.5, dan 5/2 (=2.5) semuanya ada di antara 2 dan 3.", exp_trans: "2.1, 2.9, 2.5, and 5/2 (=2.5) are all between 2 and 3." },
+            "p-task3": { type: "single", q: "Siswa diminta mencari 3 bilangan rasional di antara 1 dan 2. Berikut adalah jawaban Andi. Manakah jawaban yang SALAH? <i class='fas fa-user-graduate text-orange-500 ml-2'></i>", q_trans: "Find 3 rational numbers between 1 and 2. Here are Andi's answers. Which is WRONG?", opts: ["\\( 1.1 \\)", "\\( 1.5 \\)", "\\( 1.9 \\)", "\\( 1 \\frac{1}{2} \\)", "\\( 2.1 \\)"], ans: "\\( 2.1 \\)", exp: "2.1 lebih besar dari 2, jadi tidak berada di antara 1 dan 2.", exp_trans: "2.1 is greater than 2, so it's not between 1 and 2." },
+            "p-task4": { type: "single", q: "Ubah pecahan \\( \\frac{7}{2} \\) ke bentuk desimal! <i class='fas fa-calculator text-orange-500 ml-2'></i>", q_trans: "Convert fraction \\( \\frac{7}{2} \\) to decimal!", opts: ["\\( 2.5 \\)", "\\( 3.5 \\)", "\\( 4.5 \\)", "\\( 7.2 \\)", "\\( 0.72 \\)"], ans: "\\( 3.5 \\)", exp: "7 dibagi 2 = 3.5.", exp_trans: "7 divided by 2 = 3.5." },
+            "p-task5": { type: "tf_table", q: "Evaluasi cara mencari bilangan di antara! <i class='fas fa-clipboard-check text-orange-500 ml-2'></i>", q_trans: "Evaluate ways to find numbers in between!", opts: ["Untuk mencari di antara 1 dan 2, jumlahkan lalu bagi 2, dapat 1.5", "Pecahan \\( \\frac{2}{2} \\) berada di antara 1 dan 2", "Mengubah ke desimal membantu membandingkan pecahan", "Desimal 1.25 berada di antara 1 dan 1.5"], ans: ["B", "S", "B", "B"], exp: "1. B, (1+2)/2=1.5. 2. S, 2/2=1. 3. B. 4. B, 1 < 1.25 < 1.5.", exp_trans: "1. T. 2. F, 2/2=1. 3. T. 4. T." },
+            "p-task6": { type: "single", q: "Jarak rumah ke sekolah 1.2 km. Jarak rumah ke masjid 1.5 km. Jarak rumah ke pasar 1.8 km. Manakah yang paling dekat dengan rumah? <i class='fas fa-house text-orange-500 ml-2'></i>", q_trans: "Home to school 1.2 km. Home to mosque 1.5 km. Home to market 1.8 km. Which is closest to home?", opts: ["Sekolah", "Masjid", "Pasar", "Jaraknya sama", "Tidak bisa ditentukan"], ans: "Sekolah", exp: "Bilangan rasional bisa dibandingkan. 1.2 < 1.5 < 1.8. Semakin kecil jarak, semakin dekat.", exp_trans: "Rational numbers can be compared. 1.2 < 1.5 < 1.8. Smaller distance means closer." },
+            "p-task7": { type: "single", q: "Manakah pecahan yang sama dengan \\( 1.25 \\)? <i class='fas fa-equals text-orange-500 ml-2'></i>", q_trans: "Which fraction equals \\( 1.25 \\)?", opts: ["\\( 1 \\frac{1}{2} \\)", "\\( 1 \\frac{1}{3} \\)", "\\( 1 \\frac{1}{4} \\)", "\\( 1 \\frac{3}{4} \\)", "\\( 1 \\frac{1}{5} \\)"], ans: "\\( 1 \\frac{1}{4} \\)", exp: "0.25 sama dengan 1/4. Jadi 1.25 = 1 1/4.", exp_trans: "0.25 is 1/4. So 1.25 = 1 1/4." },
+            "p-task8": { type: "complex", q: "Pilih semua bilangan yang ada di antara 0 dan 1! <i class='fas fa-check-circle text-orange-500 ml-2'></i>", q_trans: "Select all numbers between 0 and 1!", opts: ["\\( 0.9 \\)", "\\( \\frac{1}{2} \\)", "\\( 1.1 \\)", "\\( \\frac{1}{4} \\)", "\\( 0 \\)"], ans: [0, 1, 3], exp: "0.9, 1/2, dan 1/4 ada di antara 0 dan 1. 1.1 lebih dari 1, dan 0 bukan 'di antara' melainkan batas.", exp_trans: "0.9, 1/2, and 1/4 are between 0 and 1. 1.1 is >1, and 0 is a boundary." },
+            "p-task9": { type: "single", q: "Ibu memberi Andi uang Rp 2.000. Andi membeli minuman seharga Rp 1.500. Berapa persen sisa uang Andi dari uang awalnya? <i class='fas fa-money-bill-trend-up text-orange-500 ml-2'></i>", q_trans: "Mother gives Rp 2,000. Andi buys a drink for Rp 1,500. What percentage of the initial money is left?", opts: ["\\( 10\\% \\)", "\\( 20\\% \\)", "\\( 25\\% \\)", "\\( 50\\% \\)", "\\( 75\\% \\)"], ans: "\\( 25\\% \\)", exp: "Sisa uang = 2000 - 1500 = 500. 500 dari 2000 = 500/2000 = 1/4 = 25%.", exp_trans: "Change = 2000 - 1500 = 500. 500 of 2000 = 500/2000 = 1/4 = 25%." },
+            "p-task10": { type: "single", q: "Pecahan \\( \\frac{9}{4} \\) diubah ke pecahan campuran adalah ... <i class='fas fa-shapes text-orange-500 ml-2'></i>", q_trans: "Fraction \\( \\frac{9}{4} \\) as a mixed fraction is...", opts: ["\\( 2 \\frac{1}{4} \\)", "\\( 1 \\frac{1}{4} \\)", "\\( 2 \\frac{1}{2} \\)", "\\( 1 \\frac{3}{4} \\)", "\\( 2 \\frac{3}{4} \\)"], ans: "\\( 2 \\frac{1}{4} \\)", exp: "9 dibagi 4 = 2 sisa 1. Maka 2 1/4.", exp_trans: "9 divided by 4 = 2 remainder 1. So 2 1/4." },
+		
+            // GUIDED PRACTICE
+            "g-task1": { type: "single", q: "Tentukan bilangan rasional yang berada tepat di tengah-tengah antara 4 dan 5! <i class='fas fa-bullseye text-blue-500 ml-2'></i>", q_trans: "Determine the rational number exactly in the middle between 4 and 5!", opts: ["\\( 4.1 \\)", "\\( 4.25 \\)", "\\( 4.5 \\)", "\\( 4.75 \\)", "\\( 5.0 \\)"], ans: "\\( 4.5 \\)", exp: "Tengah antara dua bilangan bulat berurutan adalah bilangan bulat pertama ditambah 0.5. 4 + 0.5 = 4.5.", exp_trans: "Middle between two consecutive integers is the first integer plus 0.5. 4 + 0.5 = 4.5." },
+            "g-task2": { type: "complex", q: "Manakah bilangan rasional yang berada di antara 0 dan 1? (Pilih semua yang benar) <i class='fas fa-magnifying-glass text-blue-500 ml-2'></i>", q_trans: "Which rational numbers are between 0 and 1? (Select all that apply)", opts: ["\\( \\frac{1}{2} \\)", "\\( 0.99 \\)", "\\( \\frac{1}{4} \\)", "\\( 1.5 \\)", "\\( -0.5 \\)"], ans: [0, 1, 2], exp: "1/2 (0.5), 0.99, dan 1/4 (0.25) semuanya lebih dari 0 dan kurang dari 1.", exp_trans: "1/2 (0.5), 0.99, and 1/4 (0.25) are all >0 and <1." },
+            "g-task3": { type: "fill", q: "Sebuah penggaris menunjukkan batas 2 cm dan 3 cm. Sebuah semut berada tepat di tengah-tengah antara kedua batas itu. Pada titik berapa semut itu berada? (Tulis dalam desimal) <i class='fas fa-ruler text-blue-500 ml-2'></i>", q_trans: "A ruler shows 2 cm and 3 cm marks. An ant is exactly in the middle. At what point is the ant? (Write in decimal)", ans: "2.5", exp: "Tengah antara 2 dan 3 adalah (2+3)/2 = 2.5 cm.", exp_trans: "Middle of 2 and 3 is (2+3)/2 = 2.5 cm." },
+            "g-task4": { type: "single", q: "Ibu membeli kain sepanjang 3 meter. Kain dipotong menjadi 2 bagian sama panjang. Berapakah panjang setiap kain dalam bentuk pecahan campuran? <i class='fas fa-scissors text-blue-500 ml-2'></i>", q_trans: "Mother bought 3 meters of cloth. Cut into 2 equal parts. What is the length of each cloth in mixed fraction?", opts: ["\\( 1 \\frac{1}{4} \\text{ m} \\)", "\\( 1 \\frac{1}{3} \\text{ m} \\)", "\\( 1 \\frac{1}{2} \\text{ m} \\)", "\\( 2 \\frac{1}{2} \\text{ m} \\)", "\\( 1.2 \\text{ m} \\)"], ans: "\\( 1 \\frac{1}{2} \\text{ m} \\)", exp: "3 meter dibagi 2 = 1.5 meter. 1.5 meter sama dengan 1 setengah meter atau \\( 1 \\frac{1}{2} \\) m.", exp_trans: "3 meters divided by 2 = 1.5 meters. 1.5 meters is 1 and a half or \\( 1 \\frac{1}{2} \\) m." },
+            "g-task5": { type: "tf_table", q: "Evaluasi pernyataan tentang pecahan campuran dan desimal! <i class='fas fa-clipboard-check text-blue-500 ml-2'></i>", q_trans: "Evaluate statements about mixed fractions and decimals!", opts: ["\\( 2 \\frac{1}{2} \\) sama dengan 2.5", "0.5 adalah setengah dari 2", "Bilangan di antara 7 dan 8 adalah 7.5 (jika tepat di tengah)", "\\( 1 \\frac{1}{4} \\) sama dengan 1.4"], ans: ["B", "S", "B", "S"], exp: "1. B. 2. S, 0.5 setengah dari 1. 3. B. 4. S, 1 1/4 = 1.25.", exp_trans: "1. T. 2. F, 0.5 is half of 1. 3. T. 4. F, 1 1/4 = 1.25." },
+            "g-task6": { type: "single", q: "Andi bersepeda sejauh \\( 1 \\frac{1}{4} \\) km, lalu berjalan kaki sejauh \\( 1 \\frac{1}{2} \\) km. Berapa total jarak yang ditempuh Andi? <i class='fas fa-person-biking text-blue-500 ml-2'></i>", q_trans: "Andi cycles \\( 1 \\frac{1}{4} \\) km, then walks \\( 1 \\frac{1}{2} \\) km. What is the total distance?", opts: ["\\( 2 \\frac{1}{4} \\text{ km} \\)", "\\( 2 \\frac{1}{3} \\text{ km} \\)", "\\( 2 \\frac{3}{4} \\text{ km} \\)", "\\( 3 \\text{ km} \\)", "\\( 2.5 \\text{ km} \\)"], ans: "\\( 2 \\frac{3}{4} \\text{ km} \\)", exp: "1 1/4 = 1.25. 1 1/2 = 1.5. 1.25 + 1.5 = 2.75 km. 2.75 = 2 3/4.", exp_trans: "1 1/4 = 1.25. 1 1/2 = 1.5. 1.25 + 1.5 = 2.75 km. 2.75 = 2 3/4." },
+            "g-task7": { type: "single", q: "Di antara bilangan berikut, manakah yang terletak di antara 5 dan 6? <i class='fas fa-arrows-left-right-to-line text-blue-500 ml-2'></i>", q_trans: "Which of the following numbers is between 5 and 6?", opts: ["\\( \\frac{9}{2} \\)", "\\( \\frac{11}{2} \\)", "\\( \\frac{13}{2} \\)", "\\( \\frac{10}{2} \\)", "\\( \\frac{14}{2} \\)"], ans: "\\( \\frac{11}{2} \\)", exp: "Ubah ke desimal: 9/2=4.5, 11/2=5.5, 13/2=6.5, 10/2=5, 14/2=7. Yang di antara 5 dan 6 adalah 5.5 (11/2).", exp_trans: "To decimal: 9/2=4.5, 11/2=5.5, 13/2=6.5, 10/2=5, 14/2=7. Between 5 and 6 is 5.5 (11/2)." },
+            "g-task8": { type: "complex", q: "Pilih semua bilangan yang setara dengan 1.25! <i class='fas fa-equals text-blue-500 ml-2'></i>", q_trans: "Select all numbers equivalent to 1.25!", opts: ["\\( 1 \\frac{1}{4} \\)", "\\( \\frac{5}{4} \\)", "\\( \\frac{125}{100} \\)", "\\( 1 \\frac{1}{5} \\)", "\\( 0.125 \\)"], ans: [0, 1, 2], exp: "1.25 = 1 1/4 = 5/4 = 125/100. 1 1/5 = 1.2, dan 0.125 bukan 1.25.", exp_trans: "1.25 = 1 1/4 = 5/4 = 125/100. 1 1/5 = 1.2, and 0.125 is not 1.25." },
+            "g-task9": { type: "single", q: "Ada 3 titik di antara 0 dan 1 pada garis bilangan, membaginya menjadi 4 bagian sama. Titik pertama (terdekat dengan 0) bernilai ... <i class='fas fa-stream text-blue-500 ml-2'></i>", q_trans: "There are 3 points between 0 and 1 on a number line, dividing it into 4 equal parts. The first point (closest to 0) is...", opts: ["\\( 0.1 \\)", "\\( 0.2 \\)", "\\( 0.25 \\)", "\\( 0.3 \\)", "\\( 0.5 \\)"], ans: "\\( 0.25 \\)", exp: "1 dibagi 4 bagian = 1/4 = 0.25. Jadi titik pertama adalah 0.25, kedua 0.5, ketiga 0.75.", exp_trans: "1 divided by 4 parts = 1/4 = 0.25. First point 0.25, second 0.5, third 0.75." },
+            "g-task10": { type: "fill", q: "Jarak rumah A ke B adalah 1.5 km. Jarak B ke C adalah 1.5 km. Berapa total jarak dari A ke C? (Dalam km) <i class='fas fa-route text-blue-500 ml-2'></i>", q_trans: "Distance A to B is 1.5 km. B to C is 1.5 km. Total distance A to C? (In km)", ans: "3", exp: "1.5 + 1.5 = 3.0 km. Dua bilangan rasional bisa dijumlahkan menjadi bilangan bulat.", exp_trans: "1.5 + 1.5 = 3.0 km. Two rationals can sum to an integer." },
+
+            // INDEPENDENT PRACTICE
+            "ind-task1": { type: "single", q: "Tinggi badan Andi 1.4 m dan tinggi badan Budi 1.6 m. Tinggi badan Citra berada di antara keduanya. Berapakah tinggi badan Citra? <i class='fas fa-ruler-vertical text-green-500 ml-2'></i>", q_trans: "Andi's height 1.4 m, Budi 1.6 m. Citra's height is between them. What is Citra's height?", opts: ["\\( 1.3 \\text{ m} \\)", "\\( 1.5 \\text{ m} \\)", "\\( 1.7 \\text{ m} \\)", "\\( 1.45 \\text{ m} \\)", "\\( 1.55 \\text{ m} \\)"], ans: "\\( 1.5 \\text{ m} \\)", exp: "1.5 berada tepat di tengah antara 1.4 dan 1.6. Pilihan 1.45 dan 1.55 juga di antara, tapi 1.5 adalah titik tengah pasti yang biasanya dicari. (Catatan: 1.45 dan 1.55 juga benar secara matematis, namun 1.5 adalah nilai tengahnya).", exp_trans: "1.5 is exactly between 1.4 and 1.6. 1.45 and 1.55 are also mathematically correct, but 1.5 is the midpoint." },
+            "ind-task2": { type: "complex", q: "Manakah pecahan yang bernilai antara 2 dan 3? <i class='fas fa-magnifying-glass text-green-500 ml-2'></i>", q_trans: "Which fractions have a value between 2 and 3?", opts: ["\\( \\frac{5}{2} \\)", "\\( \\frac{7}{3} \\)", "\\( \\frac{8}{4} \\)", "\\( \\frac{11}{4} \\)", "\\( \\frac{2}{3} \\)"], ans: [0, 1, 3], exp: "5/2=2.5, 7/3=2.33, 11/4=2.75. Semuanya antara 2 dan 3. 8/4=2 (bukan di antara), 2/3=0.66 (kurang dari 2).", exp_trans: "5/2=2.5, 7/3=2.33, 11/4=2.75. All between 2 and 3. 8/4=2 (not between), 2/3=0.66 (<2)." },
+            "ind-task3": { type: "single", q: "Suhu daging beku di freezer adalah -5°C. Daging dikeluarkan dan suhunya naik ke -4°C. Berapakah suhu daging saat melewati titik tengah kenaikan tersebut? <i class='fas fa-temperature-half text-green-500 ml-2'></i>", q_trans: "Frozen meat temp is -5°C. Taken out, rises to -4°C. What is the temp at the midpoint of this rise?", opts: ["\\( -4.5 ^\\circ \\text{C} \\)", "\\( -5.5 ^\\circ \\text{C} \\)", "\\( -4.2 ^\\circ \\text{C} \\)", "\\( -1 ^\\circ \\text{C} \\)", "\\( -0.5 ^\\circ \\text{C} \\)"], ans: "\\( -4.5 ^\\circ \\text{C} \\)", exp: "Antara -5 dan -4, titik tengahnya adalah -4.5. Bilangan rasional juga berlaku untuk bilangan negatif.", exp_trans: "Between -5 and -4, midpoint is -4.5. Rational numbers apply to negatives too." },
+            "ind-task4": { type: "fill", q: "Sebuah tali sepanjang 5 meter dipotong menjadi 4 bagian sama panjang. Berapakah panjang satu potong tali dalam bentuk desimal? (Tulis dengan koma, misal 1.5) <i class='fas fa-cut text-green-500 ml-2'></i>", q_trans: "A 5m rope is cut into 4 equal parts. Length of one part in decimal? (Use dot, e.g., 1.5)", ans: "1.25", exp: "5 dibagi 4 = 1.25 meter.", exp_trans: "5 divided by 4 = 1.25 meters." },
+            "ind-task5": { type: "tf_table", q: "Evaluasi pernyataan tentang pecahan dan posisi! <i class='fas fa-clipboard-check text-green-500 ml-2'></i>", q_trans: "Evaluate statements about fractions and position!", opts: ["\\( \\frac{3}{2} \\) berada di antara 1 dan 2", "Bilangan di antara 0 dan -1 adalah -0.5", "Tidak ada bilangan di antara 0.1 dan 0.2", "Pecahan \\( \\frac{5}{2} \\) sama dengan 2.5"], ans: ["B", "B", "S", "B"], exp: "1. B, 3/2=1.5. 2. B. 3. S, ada 0.11, 0.12, dst. 4. B, 5/2=2.5.", exp_trans: "1. T. 2. T. 3. F, infinite numbers. 4. T." },
+            "ind-task6": { type: "single", q: "Tabungan Andi Rp 3.000. Ia belanjakan Rp 1.000. Berapa persen sisa uang Andi? <i class='fas fa-money-bill-trend-up text-green-500 ml-2'></i>", q_trans: "Andi's savings Rp 3,000. Spent Rp 1,000. What percentage is left?", opts: ["\\( 50\\% \\)", "\\( 60\\% \\)", "\\( 66.7\\% \\)", "\\( 75\\% \\)", "\\( 100\\% \\)"], ans: "\\( 66.7\\% \\)", exp: "Sisa = 3000 - 1000 = 2000. 2000/3000 = 2/3 = 0.666... = 66.7%.", exp_trans: "Left = 2000. 2000/3000 = 2/3 = 0.666... = 66.7%." },
+            "ind-task7": { type: "single", q: "Jarak rumah ke kantor 2.5 km. Jarak kantor ke pasar 1.5 km. Jika Andi dari rumah ke kantor lalu ke pasar, total jaraknya ... <i class='fas fa-route text-green-500 ml-2'></i>", q_trans: "Home to office 2.5 km. Office to market 1.5 km. If Andi goes home to office then market, total distance...", opts: ["\\( 3 \\text{ km} \\)", "\\( 3.5 \\text{ km} \\)", "\\( 4 \\text{ km} \\)", "\\( 4.5 \\text{ km} \\)", "\\( 5 \\text{ km} \\)"], ans: "\\( 4 \\text{ km} \\)", exp: "2.5 + 1.5 = 4.0 km.", exp_trans: "2.5 + 1.5 = 4.0 km." },
+            "ind-task8": { type: "complex", q: "Pilih semua bilangan rasional yang terletak di antara 3 dan 4! <i class='fas fa-check-circle text-green-500 ml-2'></i>", q_trans: "Select all rational numbers between 3 and 4!", opts: ["\\( 3.25 \\)", "\\( \\frac{7}{2} \\)", "\\( 3 \\frac{3}{4} \\)", "\\( \\frac{12}{3} \\)", "\\( 4.1 \\)"], ans: [0, 1, 2], exp: "3.25, 7/2 (3.5), dan 3 3/4 (3.75) ada di antara 3 dan 4. 12/3 = 4. 4.1 > 4.", exp_trans: "3.25, 7/2 (3.5), and 3 3/4 (3.75) are between 3 and 4. 12/3 = 4. 4.1 > 4." },
+            "ind-task9": { type: "single", q: "Volume air di gelas A 200 ml, gelas B 300 ml. Air dituangkan ke dalam gelas C hingga penuh (250 ml). Jika air dari A dan B dicampur, lalu dituang ke C, berapa ml sisa air? <i class='fas fa-glass-water text-green-500 ml-2'></i>", q_trans: "Glass A 200ml, B 300ml. Poured into full Glass C (250ml). If A and B are mixed then poured to C, how much is left?", opts: ["\\( 200 \\text{ ml} \\)", "\\( 250 \\text{ ml} \\)", "\\( 300 \\text{ ml} \\)", "\\( 350 \\text{ ml} \\)", "\\( 500 \\text{ ml} \\)"], ans: "\\( 250 \\text{ ml} \\)", exp: "Total A+B = 500 ml. Dituang ke C (250 ml). Sisa = 500 - 250 = 250 ml.", exp_trans: "Total A+B = 500 ml. Pour to C (250 ml). Left = 500 - 250 = 250 ml." },
+            "ind-task10": { type: "fill", q: "Waktu menonton TV Andi dari jam 7 malam sampai jam 8 malam. Jika ditonton setengah jam saja, jam berapa Andi selesai menonton? (Tulis dalam format desimal, misal 7.5) <i class='fas fa-tv text-green-500 ml-2'></i>", q_trans: "Andi watches TV from 7 PM to 8 PM. If he watches for half an hour, what time does he finish? (Decimal format, e.g., 7.5)", ans: "7.5", exp: "Setengah jam dari jam 7 adalah 7 jam 30 menit, atau 7.5.", exp_trans: "Half an hour from 7 is 7:30, or 7.5." },
+
+            // TASK 1: Bilangan Rasional Dasar
+			"t1-task1": { type: "single", q: "Di antara bilangan berikut, manakah yang merupakan contoh bilangan rasional? <i class='fas fa-hashtag text-orange-500 ml-2'></i>", opts: ["\\( \\sqrt{2} \\)", "\\( 1.5 \\)", "\\( \\pi \\)", "\\( \\sqrt{5} \\)", "\\( 0.1010010001... \\)"], ans: "\\( 1.5 \\)", exp: "1.5 = 3/2. Bilangan rasional bisa ditulis sebagai pecahan a/b. \\( \\sqrt{2} \\), \\( \\pi \\), \\( \\sqrt{5} \\) adalah irasional.", exp_trans: "1.5 = 3/2. Rationals can be written as a/b. \\( \\sqrt{2} \\), \\( \\pi \\), \\( \\sqrt{5} \\) are irrational." },
+            "t1-task2": { type: "single", q: "Tentukan bilangan yang terletak di antara 8 dan 9! <i class='fas fa-arrows-left-right-to-line text-orange-500 ml-2'></i>", opts: ["\\( 7.5 \\)", "\\( 8.5 \\)", "\\( 9.5 \\)", "\\( 8 \\)", "\\( 9 \\)"], ans: "\\( 8.5 \\)", exp: "8.5 berada tepat di tengah antara 8 dan 9.", exp_trans: "8.5 is exactly between 8 and 9." },
+            "t1-task3": { type: "single", q: "Manakah pecahan yang bernilai di antara 0 dan 1? <i class='fas fa-list-ol text-orange-500 ml-2'></i>", opts: ["\\( \\frac{3}{2} \\)", "\\( \\frac{5}{4} \\)", "\\( \\frac{1}{2} \\)", "\\( \\frac{4}{3} \\)", "\\( \\frac{7}{3} \\)"], ans: "\\( \\frac{1}{2} \\)", exp: "1/2 = 0.5. Yang lain lebih dari 1 (3/2=1.5, 5/4=1.25, 4/3=1.33, 7/3=2.33).", exp_trans: "1/2 = 0.5. Others are >1." },
+            "t1-task4": { type: "single", q: "Suhu ruangan pagi 10°C, naik menjadi 11°C siang. Suhu mana yang TIDK mungkin terjadi pada saat transisi? <i class='fas fa-temperature-half text-orange-500 ml-2'></i>", opts: ["\\( 10.2 ^\\circ \\text{C} \\)", "\\( 10.5 ^\\circ \\text{C} \\)", "\\( 10.8 ^\\circ \\text{C} \\)", "\\( 11.1 ^\\circ \\text{C} \\)", "\\( 10.9 ^\\circ \\text{C} \\)"], ans: "\\( 11.1 ^\\circ \\text{C} \\)", exp: "Suhu naik dari 10 ke 11. 11.1 sudah lebih dari 11, jadi tidak mungkin dilewati saat naik menuju 11.", exp_trans: "Temp rises 10 to 11. 11.1 is >11, so it can't be passed on the way to 11." },
+			"t1-task5": { type: "single", q: "Sebatang permen sepanjang 2 cm. Jika dipotong menjadi 4 bagian, panjang masing-masing adalah ... <i class='fas fa-candy-cane text-orange-500 ml-2'></i>", q_trans: "A 2 cm long candy stick is cut into 4 pieces. What is the length of each piece?", opts: ["\\( 0.2 \\text{ cm} \\)", "\\( 0.4 \\text{ cm} \\)", "\\( 0.5 \\text{ cm} \\)", "\\( 0.8 \\text{ cm} \\)", "\\( 1 \\text{ cm} \\)"], ans: "\\( 0.5 \\text{ cm} \\)", exp: "2 / 4 = 0.5 cm.", exp_trans: "2 / 4 = 0.5 cm." },
+            "t1-task6": { type: "single", q: "Manakah bilangan desimal yang sama dengan \\( \\frac{1}{4} \\)? <i class='fas fa-percent text-orange-500 ml-2'></i>", opts: ["\\( 0.1 \\)", "\\( 0.2 \\)", "\\( 0.25 \\)", "\\( 0.4 \\)", "\\( 0.5 \\)"], ans: "\\( 0.25 \\)", exp: "1 dibagi 4 = 0.25.", exp_trans: "1 divided by 4 = 0.25." },
+            "t1-task7": { type: "single", q: "Andi makan \\( \\frac{1}{3} \\) pizza. Budi makan \\( \\frac{1}{2} \\) pizza. Siapa yang makan lebih banyak? <i class='fas fa-pizza-slice text-orange-500 ml-2'></i>", opts: ["Andi", "Budi", "Sama banyak", "Tidak bisa ditentukan", "Tergantung ukuran pizza"], ans: "Budi", exp: "1/2 (0.5) > 1/3 (0.333). Jadi Budi makan lebih banyak.", exp_trans: "1/2 (0.5) > 1/3 (0.333). Budi ate more." },
+            "t1-task8": { type: "single", q: "Berapakah nilai dari \\( 1 - \\frac{1}{2} \\)? <i class='fas fa-calculator text-orange-500 ml-2'></i>", opts: ["\\( 0 \\)", "\\( 0.25 \\)", "\\( 0.5 \\)", "\\( 0.75 \\)", "\\( 1.5 \\)"], ans: "\\( 0.5 \\)", exp: "1 - 0.5 = 0.5.", exp_trans: "1 - 0.5 = 0.5." },
+            "t1-task9": { type: "single", q: "Pecahan \\( \\frac{5}{2} \\) diubah ke bentuk desimal adalah ... <i class='fas fa-divide text-orange-500 ml-2'></i>", opts: ["\\( 0.4 \\)", "\\( 1.5 \\)", "\\( 2.5 \\)", "\\( 2.2 \\)", "\\( 5.2 \\)"], ans: "\\( 2.5 \\)", exp: "5 dibagi 2 = 2.5.", exp_trans: "5 divided by 2 = 2.5." },
+            "t1-task10": { type: "single", q: "Jarum jam menunjukkan angka 3. Jika jarum menit bergerak setengah lingkaran menuju angka 9, jarum jam akan menunjukkan pukul ... <i class='fas fa-clock text-orange-500 ml-2'></i>", opts: ["\\( 3:15 \\)", "\\( 3:30 \\)", "\\( 3:45 \\)", "\\( 4:00 \\)", "\\( 6:00 \\)"], ans: "\\( 3:30 \\)", exp: "Setengah jam dari pukul 3:00 adalah 3:30. 3:30 sama dengan 3.5 dalam bentuk desimal jam.", exp_trans: "Half an hour from 3:00 is 3:30. 3:30 is 3.5 in decimal hours." },
+
+            // TASK 2: Pecahan di Antara
+			"t2-task1": { type: "single", q: "Tentukan pecahan yang terletak di antara \\( \\frac{1}{4} \\) dan \\( \\frac{3}{4} \\)! <i class='fas fa-magnifying-glass text-orange-500 ml-2'></i>", opts: ["\\( \\frac{1}{5} \\)", "\\( \\frac{1}{2} \\)", "\\( \\frac{4}{5} \\)", "\\( \\frac{1}{1} \\)", "\\( \\frac{7}{8} \\)"], ans: "\\( \\frac{1}{2} \\)", exp: "1/4 = 0.25, 3/4 = 0.75. 1/2 (0.5) ada di antaranya. Opsi lain di luar rentang tersebut.", exp_trans: "1/4 = 0.25, 3/4 = 0.75. 1/2 (0.5) is between them. Other options are outside this range." },
+            "t2-task2": { type: "single", q: "Berapa desimal dari \\( \\frac{3}{4} \\)? <i class='fas fa-percent text-orange-500 ml-2'></i>", opts: ["\\( 0.3 \\)", "\\( 0.4 \\)", "\\( 0.34 \\)", "\\( 0.75 \\)", "\\( 0.7 \\)"], ans: "\\( 0.75 \\)", exp: "3 dibagi 4 = 0.75.", exp_trans: "3 divided by 4 = 0.75." },
+            "t2-task3": { type: "single", q: "Andi punya 1 liter jus. Ia meminum 0.25 liter. Berapa liter sisa jus? <i class='fas fa-mug-hot text-orange-500 ml-2'></i>", opts: ["\\( 0.25 \\text{ L} \\)", "\\( 0.5 \\text{ L} \\)", "\\( 0.75 \\text{ L} \\)", "\\( 1.25 \\text{ L} \\)", "\\( 0.1 \\text{ L} \\)"], ans: "\\( 0.75 \\text{ L} \\)", exp: "1 - 0.25 = 0.75 L. Sama dengan 3/4 L.", exp_trans: "1 - 0.25 = 0.75 L. Same as 3/4 L." },
+            "t2-task4": { type: "single", q: "Pecahan \\( \\frac{2}{4} \\) jika disederhanakan menjadi ... <i class='fas fa-broom text-orange-500 ml-2'></i>", opts: ["\\( \\frac{1}{2} \\)", "\\( \\frac{1}{4} \\)", "\\( \\frac{2}{2} \\)", "\\( \\frac{1}{3} \\)", "\\( \\frac{2}{3} \\)"], ans: "\\( \\frac{1}{2} \\)", exp: "Bagi atas dan bawah dengan 2. 2/2=1, 4/2=2. Hasilnya 1/2.", exp_trans: "Divide top and bottom by 2. Result 1/2." },
+            "t2-task5": { type: "single", q: "Manakah yang bernilai sama dengan 0.5? <i class='fas fa-equals text-orange-500 ml-2'></i>", opts: ["\\( \\frac{1}{4} \\)", "\\( \\frac{2}{3} \\)", "\\( \\frac{3}{6} \\)", "\\( \\frac{5}{8} \\)", "\\( \\frac{1}{5} \\)"], ans: "\\( \\frac{3}{6} \\)", exp: "3/6 disederhanakan menjadi 1/2, yaitu 0.5.", exp_trans: "3/6 simplifies to 1/2, which is 0.5." },
+            "t2-task6": { type: "single", q: "Tolong pilih pecahan yang lebih besar dari \\( \\frac{1}{2} \\) tapi lebih kecil dari 1! <i class='fas fa-less-than text-orange-500 ml-2'></i>", opts: ["\\( \\frac{1}{4} \\)", "\\( \\frac{2}{3} \\)", "\\( \\frac{1}{3} \\)", "\\( \\frac{4}{3} \\)", "\\( \\frac{5}{4} \\)"], ans: "\\( \\frac{2}{3} \\)", exp: "1/2 = 0.5, 1 = 1.0. 2/3 = 0.66. Jadi 0.5 < 0.66 < 1.0.", exp_trans: "1/2 = 0.5, 1 = 1.0. 2/3 = 0.66. So 0.5 < 0.66 < 1.0." },
+            "t2-task7": { type: "single", q: "Ibu memasak 1.5 kg ayam. Ayam dimasak 0.5 kg untuk goreng, sisanya untuk opor. Berapa kg ayam opor? <i class='fas fa-drumstick-bite text-orange-500 ml-2'></i>", opts: ["\\( 0.5 \\text{ kg} \\)", "\\( 1.0 \\text{ kg} \\)", "\\( 1.5 \\text{ kg} \\)", "\\( 2.0 \\text{ kg} \\)", "\\( 0.8 \\text{ kg} \\)"], ans: "\\( 1.0 \\text{ kg} \\)", exp: "1.5 - 0.5 = 1.0 kg.", exp_trans: "1.5 - 0.5 = 1.0 kg." },
+            "t2-task8": { type: "single", q: "Mira berlari 0.25 km,istirahat,lalu lari 0.75 km. Total jarak lari Mira? <i class='fas fa-person-running text-orange-500 ml-2'></i>", opts: ["\\( 0.25 \\text{ km} \\)", "\\( 0.5 \\text{ km} \\)", "\\( 0.75 \\text{ km} \\)", "\\( 1.0 \\text{ km} \\)", "\\( 1.25 \\text{ km} \\)"], ans: "\\( 1.0 \\text{ km} \\)", exp: "0.25 + 0.75 = 1.0 km.", exp_trans: "0.25 + 0.75 = 1.0 km." },
+            "t2-task9": { type: "single", q: "Di antara bilangan berikut, manakah yang ada di antara 0 dan 0.5? <i class='fas fa-magnifying-glass text-orange-500 ml-2'></i>", opts: ["\\( 0.6 \\)", "\\( 0.75 \\)", "\\( 0.25 \\)", "\\( 0.8 \\)", "\\( 1.0 \\)"], ans: "\\( 0.25 \\)", exp: "0.25 lebih dari 0, kurang dari 0.5.", exp_trans: "0.25 is >0 and <0.5." },
+            "t2-task10": { type: "single", q: "Pecahan \\( \\frac{4}{2} \\) sama dengan ... <i class='fas fa-equals text-orange-500 ml-2'></i>", opts: ["\\( 1 \\)", "\\( 1.5 \\)", "\\( 2 \\)", "\\( 2.5 \\)", "\\( 4 \\)"], ans: "\\( 2 \\)", exp: "4 dibagi 2 = 2.", exp_trans: "4 divided by 2 = 2." },
+
+            // TASK 3: Desimal di Antara
+            "t3-task1": { type: "single", q: "Tentukan bilangan desimal yang terletak di antara 1.1 dan 1.2! <i class='fas fa-magnifying-glass text-orange-500 ml-2'></i>", opts: ["\\( 1.0 \\)", "\\( 1.15 \\)", "\\( 1.2 \\)", "\\( 1.25 \\)", "\\( 1.3 \\)"], ans: "\\( 1.15 \\)", exp: "Tengah antara 1.1 dan 1.2 adalah 1.15.", exp_trans: "Middle of 1.1 and 1.2 is 1.15." },
+            "t3-task2": { type: "single", q: "Tinggi badan Andi 1.45 m. Tinggi badan Budi 1.50 m. Tinggi Citra 1.48 m. Urutan tinggi dari pendek ke tinggi adalah ... <i class='fas fa-ruler-vertical text-orange-500 ml-2'></i>", opts: ["Andi, Budi, Citra", "Andi, Citra, Budi", "Citra, Andi, Budi", "Budi, Citra, Andi", "Citra, Budi, Andi"], ans: "Andi, Citra, Budi", exp: "1.45 < 1.48 < 1.50. Jadi Andi, Citra, Budi.", exp_trans: "1.45 < 1.48 < 1.50. So Andi, Citra, Budi." },
+            "t3-task3": { type: "single", q: "Jarak A ke B 1.25 km. Jarak B ke C 1.45 km. Jarak A ke D 1.5 km. Manakah yang paling jauh dari A? <i class='fas fa-route text-orange-500 ml-2'></i>", opts: ["B", "C", "D", "Jarak B dan C sama", "Tidak bisa ditentukan"], ans: "D", exp: "Jarak A ke B = 1.25 km. Jarak A ke C = 1.45 km. Jarak A ke D = 1.5 km. Karena 1.5 > 1.45 > 1.25, maka D adalah yang paling jauh dari A.", exp_trans: "Distance A to B = 1.25 km. A to C = 1.45 km. A to D = 1.5 km. Since 1.5 > 1.45 > 1.25, D is the furthest from A." },
+            "t3-task4": { type: "single", q: "Manakah yang lebih besar: 0.3 atau 0.25? <i class='fas fa-greater-than text-orange-500 ml-2'></i>", opts: ["\\( 0.3 \\)", "\\( 0.25 \\)", "Sama besar", "Tidak bisa dibandingkan", "Tergantung konteks"], ans: "\\( 0.3 \\)", exp: "0.30 > 0.25. Tambahkan nol di belakang agar penyebutnya sama (persepuluhan).", exp_trans: "0.30 > 0.25. Add zero to match denominators (tenths)." },
+            "t3-task5": { type: "single", q: "Hasil dari \\( 0.5 + 0.25 \\) adalah ... <i class='fas fa-calculator text-orange-500 ml-2'></i>", opts: ["\\( 0.3 \\)", "\\( 0.5 \\)", "\\( 0.7 \\)", "\\( 0.75 \\)", "\\( 1.0 \\)"], ans: "\\( 0.75 \\)", exp: "0.50 + 0.25 = 0.75.", exp_trans: "0.50 + 0.25 = 0.75." },
+            "t3-task6": { type: "single", q: "Sebuah baju di diskon 25%. Jika harga awal Rp 10.000, berapa harga setelah diskon? <i class='fas fa-tag text-orange-500 ml-2'></i>", opts: ["\\( \\text{Rp } 2.500 \\)", "\\( \\text{Rp } 5.000 \\)", "\\( \\text{Rp } 7.500 \\)", "\\( \\text{Rp } 8.000 \\)", "\\( \\text{Rp } 9.750 \\)"], ans: "\\( \\text{Rp } 7.500 \\)", exp: "25% = 0.25. 10000 x 0.25 = 2500. 10000 - 2500 = 7500.", exp_trans: "25% = 0.25. 10000 x 0.25 = 2500. 10000 - 2500 = 7500." },
+            "t3-task7": { type: "single", q: "Manakah desimal yang berada di antara 0 dan 0.1? <i class='fas fa-magnifying-glass text-orange-500 ml-2'></i>", opts: ["\\( 0.05 \\)", "\\( 0.15 \\)", "\\( 0.2 \\)", "\\( 0.1 \\)", "\\( 0.5 \\)"], ans: "\\( 0.05 \\)", exp: "0.05 ada di tengah antara 0 dan 0.1.", exp_trans: "0.05 is between 0 and 0.1." },
+            "t3-task8": { type: "single", q: "Tentukan bilangan yang terletak di antara 2.5 dan 3.0! <i class='fas fa-magnifying-glass text-orange-500 ml-2'></i>", opts: ["\\( 2.0 \\)", "\\( 2.4 \\)", "\\( 2.75 \\)", "\\( 3.1 \\)", "\\( 3.5 \\)"], ans: "\\( 2.75 \\)", exp: "2.75 ada di antara 2.5 dan 3.0. (Tengahnya 2.75).", exp_trans: "2.75 is between 2.5 and 3.0. (Midpoint is 2.75)." },
+            "t3-task9": { type: "single", q: "Pecahan \\( \\frac{1}{5} \\) diubah ke desimal adalah ... <i class='fas fa-percent text-orange-500 ml-2'></i>", opts: ["\\( 0.1 \\)", "\\( 0.2 \\)", "\\( 0.5 \\)", "\\( 1.5 \\)", "\\( 5.0 \\)"], ans: "\\( 0.2 \\)", exp: "1 dibagi 5 = 0.2.", exp_trans: "1 divided by 5 = 0.2." },
+            "t3-task10": { type: "single", q: "Berat 1 apel 0.15 kg. Berat 2 apel adalah ... <i class='fas fa-apple-whole text-orange-500 ml-2'></i>", opts: ["\\( 0.15 \\text{ kg} \\)", "\\( 0.25 \\text{ kg} \\)", "\\( 0.30 \\text{ kg} \\)", "\\( 0.35 \\text{ kg} \\)", "\\( 2.15 \\text{ kg} \\)"], ans: "\\( 0.30 \\text{ kg} \\)", exp: "0.15 x 2 = 0.30 kg.", exp_trans: "0.15 x 2 = 0.30 kg." },
+
+            // TASK 4: Soal Cerita
+            "t4-task1": { type: "single", q: "Tabungan Andi Rp 5.500. Ia membeli buku seharga Rp 2.500. Sisa uang Andi adalah ... <i class='fas fa-money-bill-wave text-orange-500 ml-2'></i>", opts: ["\\( \\text{Rp } 2.000 \\)", "\\( \\text{Rp } 2.500 \\)", "\\( \\text{Rp } 3.000 \\)", "\\( \\text{Rp } 3.500 \\)", "\\( \\text{Rp } 8.000 \\)"], ans: "\\( \\text{Rp } 3.000 \\)", exp: "5500 - 2500 = 3000.", exp_trans: "5500 - 2500 = 3000." },
+            "t4-task2": { type: "single", q: "Air bak mandi 200 liter. Dipakai mandi 50.5 liter. Sisa air adalah ... <i class='fas fa-bath text-orange-500 ml-2'></i>", opts: ["\\( 149.5 \\text{ L} \\)", "\\( 150 \\text{ L} \\)", "\\( 150.5 \\text{ L} \\)", "\\( 250.5 \\text{ L} \\)", "\\( 255 \\text{ L} \\)"], ans: "\\( 149.5 \\text{ L} \\)", exp: "200 - 50.5 = 149.5 L.", exp_trans: "200 - 50.5 = 149.5 L." },
+            "t4-task3": { type: "single", q: "Jarak rumah-sekolah 1.2 km. Jarak rumah-toko 1.5 km. Andi dari sekolah ke rumah lalu ke toko. Jarak total yang ditempuh? <i class='fas fa-route text-orange-500 ml-2'></i>", opts: ["\\( 1.2 \\text{ km} \\)", "\\( 1.5 \\text{ km} \\)", "\\( 2.7 \\text{ km} \\)", "\\( 2.5 \\text{ km} \\)", "\\( 3.0 \\text{ km} \\)"], ans: "\\( 2.7 \\text{ km} \\)", exp: "Sekolah-rumah (1.2) + rumah-toko (1.5) = 2.7 km.", exp_trans: "School-home (1.2) + home-shop (1.5) = 2.7 km." },
+            "t4-task4": { type: "single", q: "Sebuah kue ulang tahun dipotong 8 sama besar. Andi makan 2 potong, Budi 1 potong. Bagian kue yang tersisa adalah ... <i class='fas fa-cake-candles text-orange-500 ml-2'></i>", opts: ["\\( \\frac{2}{8} \\)", "\\( \\frac{3}{8} \\)", "\\( \\frac{5}{8} \\)", "\\( \\frac{6}{8} \\)", "\\( \\frac{8}{8} \\)"], ans: "\\( \\frac{5}{8} \\)", exp: "Total dimakan = 3 potong (3/8). Sisa = 8/8 - 3/8 = 5/8.", exp_trans: "Total eaten = 3 pieces (3/8). Left = 8/8 - 3/8 = 5/8." },
+            "t4-task5": { type: "single", q: "Waktu tidur ideal 8 jam. Andi tidur pukul 21:00. Jam berapa Andi harus bangun? <i class='fas fa-bed text-orange-500 ml-2'></i>", opts: ["\\( 04:00 \\)", "\\( 05:00 \\)", "\\( 06:00 \\)", "\\( 07:00 \\)", "\\( 08:00 \\)"], ans: "\\( 05:00 \\)", exp: "21:00 + 8 jam = 05:00 pagi.", exp_trans: "21:00 + 8 hours = 05:00 AM." },
+            "t4-task6": { type: "single", q: "Suhu normal tubuh 36.5°C. Suhu Andi 37.5°C. Berapa kenaikan suhu Andi? <i class='fas fa-temperature-three-quarters text-orange-500 ml-2'></i>", opts: ["\\( 0.5 ^\\circ \\text{C} \\)", "\\( 1.0 ^\\circ \\text{C} \\)", "\\( 1.5 ^\\circ \\text{C} \\)", "\\( 2.0 ^\\circ \\text{C} \\)", "\\( 3.5 ^\\circ \\text{C} \\)"], ans: "\\( 1.0 ^\\circ \\text{C} \\)", exp: "37.5 - 36.5 = 1.0°C.", exp_trans: "37.5 - 36.5 = 1.0°C." },
+            "t4-task7": { type: "single", q: "Andi bersepeda 15 menit, lari 10 menit. Waktu total olahraga Andi adalah ... <i class='fas fa-stopwatch text-orange-500 ml-2'></i>", opts: ["\\( 0.25 \\text{ jam} \\)", "\\( 0.4 \\text{ jam} \\)", "\\( 0.5 \\text{ jam} \\)", "\\( 0.75 \\text{ jam} \\)", "\\( 1 \\text{ jam} \\)"], ans: "\\( 0.4 \\text{ jam} \\)", exp: "15 + 10 = 25 menit. 25 / 60 = 5/12 jam ~ 0.416 jam. Paling mendekati 0.4 jam.", exp_trans: "15 + 10 = 25 mins. 25 / 60 = 5/12 hour ~ 0.416 hour. Closest is 0.4 hour." },
+            "t4-task8": { type: "single", q: "Harga 1 kg apel Rp 15.000. Ibu membeli 1.5 kg. Berapa harga totalnya? <i class='fas fa-apple-whole text-orange-500 ml-2'></i>", opts: ["\\( \\text{Rp } 15.000 \\)", "\\( \\text{Rp } 20.000 \\)", "\\( \\text{Rp } 22.500 \\)", "\\( \\text{Rp } 25.000 \\)", "\\( \\text{Rp } 30.000 \\)"], ans: "\\( \\text{Rp } 22.500 \\)", exp: "15000 x 1.5 = 22500.", exp_trans: "15000 x 1.5 = 22500." },
+            "t4-task9": { type: "single", q: "Sebuah tali sepanjang 10 m dipotong setiap 2.5 m. Berapa potong tali yang dihasilkan? <i class='fas fa-cut text-orange-500 ml-2'></i>", opts: ["\\( 2 \\text{ potong} \\)", "\\( 3 \\text{ potong} \\)", "\\( 4 \\text{ potong} \\)", "\\( 5 \\text{ potong} \\)", "\\( 6 \\text{ potong} \\)"], ans: "\\( 4 \\text{ potong} \\)", exp: "10 / 2.5 = 4 potong.", exp_trans: "10 / 2.5 = 4 pieces." },
+            "t4-task10": { type: "single", q: "Sebuah aqua gelas 220 ml. Galon berisi 5 liter. Berapa gelas kira-kira yang bisa diisi dari galon tersebut? <i class='fas fa-glass-water text-orange-500 ml-2'></i>", opts: ["\\( 10 \\text{ gelas} \\)", "\\( 15 \\text{ gelas} \\)", "\\( 20 \\text{ gelas} \\)", "\\( 22 \\text{ gelas} \\)", "\\( 25 \\text{ gelas} \\)"], ans: "\\( 22 \\text{ gelas} \\)", exp: "5 liter = 5000 ml. 5000 / 220 = 22.7. Jadi bisa isi 22 gelas penuh.", exp_trans: "5 liters = 5000 ml. 5000 / 220 = 22.7. So 22 full glasses." },
+
+            // TASK 5: Kombinasi Mastery
+            "t5-task1": { type: "single", q: "Pecahan \\( \\frac{1}{3} \\) diubah ke desimal adalah ... <i class='fas fa-percent text-orange-500 ml-2'></i>", opts: ["\\( 0.1 \\)", "\\( 0.3 \\)", "\\( 0.33 \\)", "\\( 0.5 \\)", "\\( 3.3 \\)"], ans: "\\( 0.33 \\)", exp: "1 dibagi 3 = 0.333... Dibulatkan dua desimal menjadi 0.33.", exp_trans: "1 divided by 3 = 0.333... Rounded to two decimals is 0.33." },
+            "t5-task2": { type: "single", q: "Manakah yang lebih besar: \\( \\frac{3}{4} \\) atau \\( \\frac{2}{3} \\)? <i class='fas fa-greater-than text-orange-500 ml-2'></i>", opts: ["\\( \\frac{3}{4} \\)", "\\( \\frac{2}{3} \\)", "Sama besar", "Tidak bisa dibandingkan", "Keduanya 0"], ans: "\\( \\frac{3}{4} \\)", exp: "3/4 = 0.75, 2/3 = 0.66. 0.75 > 0.66.", exp_trans: "3/4 = 0.75, 2/3 = 0.66. 0.75 > 0.66." },
+            "t5-task3": { type: "single", q: "Hasil dari \\( 2.5 \\times 2 \\) adalah ... <i class='fas fa-calculator text-orange-500 ml-2'></i>", opts: ["\\( 4.5 \\)", "\\( 5.0 \\)", "\\( 5.5 \\)", "\\( 2.7 \\)", "\\( 7.5 \\)"], ans: "\\( 5.0 \\)", exp: "2.5 x 2 = 5.0.", exp_trans: "2.5 x 2 = 5.0." },
+            "t5-task4": { type: "single", q: "Sebuah lingkaran dibagi 8 bagian. 3 bagian diarsir. Berapa bagian yang TIDAK diarsir (dalam pecahan)? <i class='fas fa-circle-half-stroke text-orange-500 ml-2'></i>", opts: ["\\( \\frac{3}{8} \\)", "\\( \\frac{5}{8} \\)", "\\( \\frac{8}{8} \\)", "\\( \\frac{3}{5} \\)", "\\( \\frac{8}{3} \\)"], ans: "\\( \\frac{5}{8} \\)", exp: "Total 8. Diarsir 3. Tidak diarsir 8 - 3 = 5. Jadi 5/8.", exp_trans: "Total 8. Shaded 3. Unshaded 8 - 3 = 5. So 5/8." },
+            "t5-task5": { type: "single", q: "Andi lari 0.5 km dalam 3 menit. Jika kecepatannya konstan, berapa km jarak yang ditempuh dalam 6 menit? <i class='fas fa-person-running text-orange-500 ml-2'></i>", opts: ["\\( 1.0 \\text{ km} \\)", "\\( 1.5 \\text{ km} \\)", "\\( 2.0 \\text{ km} \\)", "\\( 2.5 \\text{ km} \\)", "\\( 3.0 \\text{ km} \\)"], ans: "\\( 1.0 \\text{ km} \\)", exp: "Waktu 6 menit adalah 2x dari 3 menit. Jadi jarak = 0.5 x 2 = 1.0 km.", exp_trans: "6 mins is 2x of 3 mins. Distance = 0.5 x 2 = 1.0 km." },
+            "t5-task6": { type: "single", q: "Harga 1 buah pensil Rp 1.250. Berapa harga 4 buah pensil? <i class='fas fa-pen text-orange-500 ml-2'></i>", opts: ["\\( \\text{Rp } 4.000 \\)", "\\( \\text{Rp } 4.500 \\)", "\\( \\text{Rp } 5.000 \\)", "\\( \\text{Rp } 5.500 \\)", "\\( \\text{Rp } 6.000 \\)"], ans: "\\( \\text{Rp } 5.000 \\)", exp: "1250 x 4 = 5000.", exp_trans: "1250 x 4 = 5000." },
+            "t5-task7": { type: "single", q: "Tinggi pohon 1.2 m. Setahun bertambah 0.5 m. Berapa tinggi pohon di tahun ke-3? <i class='fas fa-tree text-orange-500 ml-2'></i>", opts: ["\\( 1.7 \\text{ m} \\)", "\\( 2.2 \\text{ m} \\)", "\\( 2.7 \\text{ m} \\)", "\\( 3.2 \\text{ m} \\)", "\\( 4.2 \\text{ m} \\)"], ans: "\\( 2.7 \\text{ m} \\)", exp: "Tahun 1: 1.2 + 0.5 = 1.7 m. Tahun 2: 1.7 + 0.5 = 2.2 m. Tahun 3: 2.2 + 0.5 = 2.7 m.", exp_trans: "Year 1: 1.2 + 0.5 = 1.7 m. Year 2: 1.7 + 0.5 = 2.2 m. Year 3: 2.2 + 0.5 = 2.7 m." },
+            "t5-task8": { type: "single", q: "Pecahan \\( \\frac{2}{5} \\) sama dengan ... <i class='fas fa-equals text-orange-500 ml-2'></i>", opts: ["\\( 0.2 \\)", "\\( 0.4 \\)", "\\( 0.5 \\)", "\\( 2.5 \\)", "\\( 5.2 \\)"], ans: "\\( 0.4 \\)", exp: "2 dibagi 5 = 0.4.", exp_trans: "2 divided by 5 = 0.4." },
+            "t5-task9": { type: "single", q: "Manakah bilangan rasional yang ada di antara 0.5 dan 0.75? <i class='fas fa-magnifying-glass text-orange-500 ml-2'></i>", opts: ["\\( 0.25 \\)", "\\( 0.6 \\)", "\\( 0.8 \\)", "\\( 1.0 \\)", "\\( 0.4 \\)"], ans: "\\( 0.6 \\)", exp: "0.5 < 0.6 < 0.75.", exp_trans: "0.5 < 0.6 < 0.75." },
+            "t5-task10": { type: "single", q: "Hasil dari \\( 1.5 \\div 3 \\) adalah ... <i class='fas fa-divide text-orange-500 ml-2'></i>", opts: ["\\( 0.2 \\)", "\\( 0.5 \\)", "\\( 1.2 \\)", "\\( 3.5 \\)", "\\( 4.5 \\)"], ans: "\\( 0.5 \\)", exp: "1.5 dibagi 3 = 0.5. (Karena 3 x 0.5 = 1.5).", exp_trans: "1.5 divided by 3 = 0.5. (Since 3 x 0.5 = 1.5)." }
+        });
+        
+        // ====== JAVASCRIPT LOGIC ======
+        let currentPage = 1;
+        let currentTaskSection = ""; 
+
+        function openModal() {
+            const modal = document.getElementById('classRulesModal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+        function closeModal() {
+            const modal = document.getElementById('classRulesModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        function showSection(sectionId) {
+            document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
+            document.getElementById(sectionId).classList.add('active');
+            
+            document.querySelectorAll('.sidebar-item').forEach(item => {
+                item.classList.remove('bg-indigo-100', 'text-indigo-800', 'font-bold', 'bg-orange-100', 'text-orange-800');
+            });
+            const activeLink = document.querySelector(`.sidebar-item[data-section="${sectionId}"]`);
+            if (activeLink) {
+                if(sectionId.startsWith('task')) {
+                    activeLink.classList.add('bg-orange-100', 'text-orange-800', 'font-bold');
+                } else {
+                    activeLink.classList.add('bg-indigo-100', 'text-indigo-800', 'font-bold');
+                }
+            }
+            currentPage = 1;
+            currentTaskSection = sectionId;
+            
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            const firstPage = document.querySelector(`#${sectionId} .page[data-page="1"]`);
+            if(firstPage) firstPage.classList.add('active');
+            
+            renderMath();
+            renderPagination(sectionId, currentPage);
+            document.getElementById('contentScrollArea').scrollTo(0, 0);
+        }
+
+        function changePage(direction) {
+            const activeSection = document.querySelector('.content-section.active');
+            if(!activeSection) return;
+            const pages = activeSection.querySelectorAll('.page');
+            let newPage = currentPage + direction;
+            if(newPage >= 1 && newPage <= pages.length) {
+                pages[currentPage - 1].classList.remove('active');
+                pages[newPage - 1].classList.add('active');
+                currentPage = newPage;
+                renderMath();
+                renderPagination(currentTaskSection, currentPage);
+                document.getElementById('contentScrollArea').scrollTo(0, 0);
+            }
+        }
+
+        function goToPage(pageNum) {
+            const activeSection = document.querySelector('.content-section.active');
+            if(!activeSection) return;
+            const pages = activeSection.querySelectorAll('.page');
+            if(pageNum >= 1 && pageNum <= pages.length) {
+                pages[currentPage - 1].classList.remove('active');
+                pages[pageNum - 1].classList.add('active');
+                currentPage = pageNum;
+                renderMath();
+                renderPagination(currentTaskSection, currentPage);
+                document.getElementById('contentScrollArea').scrollTo(0, 0);
+            }
+        }
+        function renderPagination(sectionId, pageNum) {
+            const activeSection = document.getElementById(sectionId);
+            if (!activeSection) return;
+            const pages = activeSection.querySelectorAll('.page');
+            const totalPages = pages.length;
+            let html = '';
+            const isMainTask = sectionId.startsWith('t');
+            const theoryPages = [1, 5, 9]; 
+            
+            html += `<button onclick="goToPage(${pageNum - 1})" class="px-3 py-1.5 rounded-md text-sm bg-gray-200 hover:bg-gray-300 text-gray-700 ${pageNum === 1 ? 'opacity-50 cursor-not-allowed' : ''}" ${pageNum === 1 ? 'disabled' : ''}><i class="fas fa-chevron-left"></i> Prev</button>`;
+            
+            for (let i = 1; i <= totalPages; i++) {
+                let btnColor = 'bg-gray-100 hover:bg-gray-200 text-gray-700';
+                if (!isMainTask && theoryPages.includes(i)) {
+                    btnColor = 'bg-indigo-100 hover:bg-indigo-200 text-indigo-800'; 
+                } else {
+                    btnColor = 'bg-orange-100 hover:bg-orange-200 text-orange-800'; 
+                }
+                if (i === pageNum) {
+                    if (!isMainTask && theoryPages.includes(i)) {
+                        btnColor = 'bg-indigo-600 text-white shadow-md'; 
+                    } else {
+                        btnColor = 'bg-orange-500 text-white shadow-md'; 
+                    }
+                }
+                html += `<button onclick="goToPage(${i})" class="w-9 h-9 rounded-md text-sm font-semibold transition-all ${btnColor}">${i}</button>`;
+            }
+            
+            html += `<button onclick="goToPage(${pageNum + 1})" class="px-3 py-1.5 rounded-md text-sm bg-gray-200 hover:bg-gray-300 text-gray-700 ${pageNum === totalPages ? 'opacity-50 cursor-not-allowed' : ''}" ${pageNum === totalPages ? 'disabled' : ''}>Next <i class="fas fa-chevron-right"></i></button>`;
+            document.getElementById('paginationBar').innerHTML = html;
+        }
+
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+        let studentAnswers = {};
+
+        function renderTasks() {
+            document.querySelectorAll('[data-task-id]').forEach(div => {
+                const taskId = div.getAttribute('data-task-id');
+                renderSingleTask(taskId, div);
+            });
+            renderMath();
+        }
+        
+        function renderSingleTask(taskId, div) {
+            const data = questions[taskId];
+            if(!data) return;
+
+            const isMainTask = taskId.startsWith('t');
+            const taskNum = isMainTask ? taskId[1] : 0;
+            let taskType = data.type || 'single';
+            
+            let questionHTML = `
+                <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-orange-500">
+                    <div class="flex justify-between items-center mb-4 no-print">
+                        <h2 class="text-xl font-bold text-orange-600">
+                            ${isMainTask ? `Task ${taskNum}` : 'Latihan'} 
+                            ${taskType === 'complex' ? '<span class="text-sm bg-purple-200 text-purple-800 px-2 py-1 rounded ml-2">PG Kompleks</span>' : ''}
+                            ${taskType === 'fill' ? '<span class="text-sm bg-blue-200 text-blue-800 px-2 py-1 rounded ml-2">Isian Singkat</span>' : ''}
+                            ${taskType === 'tf_table' ? '<span class="text-sm bg-teal-200 text-teal-800 px-2 py-1 rounded ml-2">Tabel Benar/Salah</span>' : ''}
+                            <span class="translation text-gray-500 text-sm">Exercise</span>
+                        </h2>
+                        <div class="flex gap-2">
+                            <button onclick="resetTask('${taskId}')" class="text-sm bg-gray-200 hover:bg-gray-300 px-3 py-1 rounded">
+                                <i class="fas fa-redo"></i> Reset
+                            </button>
+                            ${isMainTask ? `<button onclick="printTask(${taskNum})" class="text-sm bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded">
+                                <i class="fas fa-print"></i> Print
+                            </button>` : ''}
+                        </div>
+                    </div>
+                    <div class="mb-6 flex gap-4 items-start">
+                        <div class="bg-orange-100 p-3 rounded-full shrink-0">
+                            <i class="fas fa-question text-orange-500 text-xl"></i>
+                        </div>
+                        <div class="flex-1">
+                            <p class="text-lg">${data.q}</p>
+                            <p class="translation">${data.q_trans}</p>
+                        </div>
+                    </div>
+            `;
+
+            if (taskType === 'single') {
+                const shuffledOpts = shuffleArray([...data.opts]);
+                questionHTML += `
+                    <div id="options-${taskId}" class="space-y-3">
+                        ${shuffledOpts.map((opt, i) => `
+                            <button onclick="checkAnswer('${taskId}', this.getAttribute('data-opt'), 'single')" 
+                                    class="option-btn w-full text-left p-3 border-2 border-gray-200 rounded hover:border-orange-500 flex items-center gap-3" 
+                                    data-opt="${opt}">
+                                <span class="w-6 h-6 flex items-center justify-center bg-gray-100 rounded-full font-bold shrink-0">${String.fromCharCode(65 + i)}</span>
+                                <span class="katex">${opt}</span>
+                            </button>
+                        `).join('')}
+                    </div>
+                `;
+            } else if (taskType === 'complex') {
+                questionHTML += `
+                    <p class="text-sm text-gray-600 mb-3">*Pilih semua pernyataan yang benar. <span class="translation">*Select all correct statements.</span></p>
+                    <div id="options-${taskId}" class="space-y-3">
+                        ${data.opts.map((opt, i) => `
+                            <label class="option-btn w-full text-left p-3 border-2 border-gray-200 rounded hover:border-purple-500 flex items-center gap-3 cursor-pointer">
+                                <input type="checkbox" class="w-5 h-5 complex-checkbox shrink-0" data-opt-index="${i}">
+                                <span class="katex">${opt}</span>
+                            </label>
+                        `).join('')}
+                    </div>
+                    <button onclick="checkAnswer('${taskId}', null, 'complex')" class="mt-4 bg-purple-500 hover:bg-purple-600 text-white px-4 py-2 rounded font-bold">Submit Jawaban</button>
+                `;
+            } else if (taskType === 'fill') {
+                questionHTML += `
+                    <div class="flex gap-2 items-center mt-2">
+                        <input type="text" id="input-${taskId}" class="border-2 border-gray-200 rounded p-2 w-32 text-lg text-center focus:border-orange-500 outline-none" placeholder="Jawaban...">
+                        <button onclick="checkAnswer('${taskId}', null, 'fill')" class="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded font-bold">Submit</button>
+                    </div>
+                `;
+            } else if (taskType === 'tf_table') {
+                questionHTML += `
+                    <p class="text-sm text-gray-600 mb-3">*Tentukan Benar atau Salah untuk setiap pernyataan. <span class="translation">*Determine True or False for each statement.</span></p>
+                    <div id="options-${taskId}" class="overflow-x-auto">
+                        <table class="w-full border-collapse border border-gray-300 text-sm">
+                            <thead>
+                                <tr class="bg-gray-100">
+                                    <th class="border border-gray-300 p-2 w-10">No.</th>
+                                    <th class="border border-gray-300 p-2 text-left">Pernyataan <span class="translation text-xs">Statement</span></th>
+                                    <th class="border border-gray-300 p-2 w-20">Benar <span class="translation text-xs block">True</span></th>
+                                    <th class="border border-gray-300 p-2 w-20">Salah <span class="translation text-xs block">False</span></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${data.opts.map((opt, i) => `
+                                    <tr>
+                                        <td class="border border-gray-300 p-2 text-center font-bold">${i + 1}</td>
+                                        <td class="border border-gray-300 p-2"><span class="katex">${opt}</span></td>
+                                        <td class="border border-gray-300 p-2 text-center">
+                                            <input type="radio" name="tf-${taskId}-${i}" value="B" class="tf-radio w-5 h-5 cursor-pointer">
+                                        </td>
+                                        <td class="border border-gray-300 p-2 text-center">
+                                            <input type="radio" name="tf-${taskId}-${i}" value="S" class="tf-radio w-5 h-5 cursor-pointer">
+                                        </td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                    <button onclick="checkAnswer('${taskId}', null, 'tf_table')" class="mt-4 bg-teal-500 hover:bg-teal-600 text-white px-4 py-2 rounded font-bold">Submit Jawaban</button>
+                `;
+            }
+
+            questionHTML += `
+                    <div id="result-${taskId}" class="mt-4 hidden p-4 rounded"></div>
+
+                    <div class="mt-4 no-print">
+                        <button onclick="toggleCollapse('${taskId}')" id="collapse-btn-${taskId}" class="hidden text-blue-600 underline">
+                            Tampilkan Penjelasan <span class="translation text-gray-500 text-xs" style="display: inline-block; margin-left: 4px;">Show Explanation</span>
+                        </button>
+                        <div id="collapse-${taskId}" class="collapse-content w-full">
+                            <h3 class="font-bold text-blue-800">Penjelasan: <span class="translation text-gray-500 text-sm">Explanation:</span></h3>
+                            <p class="mt-2">${data.exp}</p>
+                            <p class="translation">${data.exp_trans}</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+            div.innerHTML = questionHTML;
+        }
+
+        function checkAnswer(taskId, selectedOpt, type) {
+            const data = questions[taskId];
+            const resultDiv = document.getElementById(`result-${taskId}`);
+            const collapseBtn = document.getElementById(`collapse-btn-${taskId}`);
+            let isCorrect = false;
+            let correctAnsText = '';
+
+            if (type === 'single') {
+                const buttons = document.querySelectorAll(`#options-${taskId} button`);
+                buttons.forEach(btn => {
+                    btn.disabled = true;
+                    btn.classList.add('opacity-70', 'cursor-not-allowed');
+                    if(btn.getAttribute('data-opt') === data.ans) {
+                        btn.classList.remove('border-gray-200', 'hover:border-orange-500');
+                        btn.classList.add('border-green-500', 'bg-green-50');
+                    } else if (btn.getAttribute('data-opt') === selectedOpt) {
+                        btn.classList.remove('border-gray-200', 'hover:border-orange-500');
+                        btn.classList.add('border-red-500', 'bg-red-50');
+                    }
+                });
+                isCorrect = (selectedOpt === data.ans);
+                correctAnsText = data.ans;
+                studentAnswers[taskId] = selectedOpt; 
+            } 
+            else if (type === 'complex') {
+                const checkboxes = document.querySelectorAll(`#options-${taskId} input[type="checkbox"]`);
+                let selectedAns = [];
+                checkboxes.forEach((cb, i) => {
+                    if (cb.checked) selectedAns.push(i);
+                    cb.disabled = true;
+                });
+                const correctAnsStr = [...data.ans].sort().join(',');
+                const selectedAnsStr = [...selectedAns].sort().join(',');
+                isCorrect = (correctAnsStr === selectedAnsStr);
+                
+                let correctComplexText = [];
+                data.ans.forEach(i => correctComplexText.push(data.opts[i]));
+                correctAnsText = correctComplexText.join(', ');
+
+                checkboxes.forEach((cb, i) => {
+                    if(data.ans.includes(i)) {
+                        cb.parentElement.classList.remove('border-gray-200', 'hover:border-purple-500');
+                        cb.parentElement.classList.add('border-green-500', 'bg-green-50');
+                    } else if (cb.checked) {
+                        cb.parentElement.classList.remove('border-gray-200', 'hover:border-purple-500');
+                        cb.parentElement.classList.add('border-red-500', 'bg-red-50');
+                    }
+                });
+                studentAnswers[taskId] = selectedAns;
+            } 
+            else if (type === 'fill') {
+                const inputField = document.getElementById(`input-${taskId}`);
+                let userVal = inputField.value.trim().toLowerCase().replace(/\s/g, '');
+                let correctAns = data.ans.toString().toLowerCase().replace(/\s/g, '');
+                inputField.disabled = true;
+                isCorrect = (userVal === correctAns);
+                if(!isCorrect) inputField.classList.add('border-red-500', 'bg-red-50');
+                else inputField.classList.add('border-green-500', 'bg-green-50');
+                correctAnsText = data.ans;
+                studentAnswers[taskId] = userVal;
+            }
+            else if (type === 'tf_table') {
+                const rows = document.querySelectorAll(`#options-${taskId} tbody tr`);
+                let userAns = [];
+                let allFilled = true;
+
+                rows.forEach((row, i) => {
+                    const radios = row.querySelectorAll('input[type="radio"]');
+                    let rowVal = null;
+                    radios.forEach(r => {
+                        r.disabled = true;
+                        if (r.checked) rowVal = r.value;
+                    });
+                    if (rowVal === null) allFilled = false;
+                    userAns.push(rowVal);
+                });
+
+                if (!allFilled) {
+                    alert("Harap isi semua pernyataan terlebih dahulu! / Please answer all statements first!");
+                    rows.forEach((row, i) => {
+                        let radios = row.querySelectorAll('input[type="radio"]');
+                        radios.forEach(r => r.disabled = false);
+                    });
+                    return;
+                }
+
+                let correctCount = 0;
+                let correctTFText = [];
+                rows.forEach((row, i) => {
+                    const userVal = userAns[i];
+                    const correctVal = data.ans[i];
+                    correctTFText.push(`${i+1}. ${correctVal}`);
+                    if (userVal === correctVal) {
+                        correctCount++;
+                        row.classList.add('bg-green-50');
+                    } else {
+                        row.classList.add('bg-red-50');
+                    }
+                });
+
+                isCorrect = (correctCount === data.ans.length);
+                correctAnsText = correctTFText.join(' | ');
+                studentAnswers[taskId] = userAns;
+            }
+
+            if(isCorrect) {
+                resultDiv.innerHTML = `<p class="text-green-600 font-bold"><i class="fas fa-check-circle"></i> Benar! <span class="translation text-gray-600 font-normal" style="display: inline-block; margin-left: 4px;">Correct!</span></p>`;
+                resultDiv.className = "mt-4 p-4 rounded bg-green-50 border border-green-200";
+            } else {
+                resultDiv.innerHTML = `<p class="text-red-600 font-bold"><i class="fas fa-times-circle"></i> Salah! Jawaban yang benar adalah: ${correctAnsText}. <span class="translation text-gray-600 font-normal" style="display: inline-block; margin-left: 4px;">Wrong! The correct answer is: ${correctAnsText}.</span></p>`;
+                resultDiv.className = "mt-4 p-4 rounded bg-red-50 border border-red-200";
+            }
+            resultDiv.classList.remove('hidden');
+            collapseBtn.classList.remove('hidden');
+            
+            const collapseContent = document.getElementById(`collapse-${taskId}`);
+            collapseContent.classList.add('open');
+            collapseBtn.innerHTML = 'Sembunyikan Penjelasan <span class="translation text-gray-500 text-xs" style="display: inline-block; margin-left: 4px;">Hide Explanation</span>';
+            
+            renderMath();
+        }
+
+        function resetTask(taskId) {
+            delete studentAnswers[taskId];
+            const taskDiv = document.querySelector(`[data-task-id="${taskId}"]`);
+            if(taskDiv) {
+                renderSingleTask(taskId, taskDiv);
+                renderMath();
+            }
+        }
+
+        function printTask(taskNum) {
+            let score = 0;
+            let tableBody = '';
+            for(let i=1; i<=10; i++) {
+                const taskId = `t${taskNum}-task${i}`;
+                const data = questions[taskId];
+                if(!data) continue;
+                
+                let studentAns = studentAnswers[taskId] || 'Tidak Dijawab';
+                let correctAns = data.ans;
+                
+                let sAnsStr = '';
+                let cAnsStr = '';
+                let isCorrect = false;
+                
+                if (data.type === 'complex') {
+                    let sArr = Array.isArray(studentAns) ? studentAns : [];
+                    let cArr = Array.isArray(correctAns) ? correctAns : [];
+                    sAnsStr = sArr.length > 0 ? sArr.slice().sort().map(idx => data.opts[idx]).join(', ') : 'Tidak Dijawab';
+                    cAnsStr = cArr.length > 0 ? cArr.slice().sort().map(idx => data.opts[idx]).join(', ') : 'Tidak Dijawab';
+                    isCorrect = (sArr.length > 0 && sArr.slice().sort().join(',') === cArr.slice().sort().join(','));
+                } else if (data.type === 'tf_table') {
+                    let sArr = Array.isArray(studentAns) ? studentAns : [];
+                    let cArr = Array.isArray(correctAns) ? correctAns : [];
+                    sAnsStr = sArr.length > 0 ? sArr.join(' | ') : 'Tidak Dijawab';
+                    cAnsStr = cArr.join(' | ');
+                    isCorrect = (sArr.length > 0 && sArr.join(',') === cArr.join(','));
+                } else {
+                    sAnsStr = studentAns || 'Tidak Dijawab';
+                    cAnsStr = correctAns;
+                    isCorrect = (sAnsStr === cAnsStr);
+                }
+                
+                let note = '❌';
+                if(isCorrect) { score++; note = '✔️'; }
+                
+                let qText = data.q.replace(/<[^>]+>/g, '');
+                if (data.type === 'tf_table') {
+                    qText += " | Statements: " + data.opts.map((opt, idx) => `${idx+1}. ${opt}`).join(" ; ");
+                }
+                
+                tableBody += `<tr>
+                    <td class="border border-black p-1 text-center">${i}</td>
+                    <td class="border border-black p-1">${qText}</td>
+                    <td class="border border-black p-1">${sAnsStr}</td>
+                    <td class="border border-black p-1">${cAnsStr}</td>
+                    <td class="border border-black p-1 text-center">${note}</td>
+                </tr>`;
+            }
+            document.getElementById('printTableBody').innerHTML = tableBody;
+            document.getElementById('printTaskNum').innerText = taskNum;
+            document.getElementById('printScore').innerText = score;
+            
+            renderMathInElement(document.getElementById('printArea'), {
+                delimiters: [
+                    {left: '\\(', right: '\\)', display: false},
+                    {left: '\\[', right: '\\]', display: true}
+                ]
+            });
+            window.print();
+        }
+
+        function toggleCollapse(taskId) {
+            const content = document.getElementById(`collapse-${taskId}`);
+            const btn = document.getElementById(`collapse-btn-${taskId}`);
+            content.classList.toggle('open');
+            if(content.classList.contains('open')) {
+                btn.innerHTML = 'Sembunyikan Penjelasan <span class="translation text-gray-500 text-xs" style="display: inline-block; margin-left: 4px;">Hide Explanation</span>';
+            } else {
+                btn.innerHTML = 'Tampilkan Penjelasan <span class="translation text-gray-500 text-xs">Show Explanation</span>';
+            }
+        }
+
+        function renderMath() {
+            if (typeof renderMathInElement === 'undefined') return;
+            
+            const target = document.querySelector('.content-section.active') || document.body;
+            try {
+                renderMathInElement(target, {
+                    delimiters: [
+                        {left: '\\(', right: '\\)', display: false},
+                        {left: '\\[', right: '\\]', display: true}
+                    ],
+                    throwOnError: false
+                });
+            } catch(e) {
+                console.error("KaTeX rendering error:", e);
+            }
+        }
+
+        window.onload = () => {
+            renderTasks();
+            setTimeout(() => {
+                showSection('warmup');
+                renderMath();
+            }, 100);
+        };
+    </script>
+</body>
+</html>
