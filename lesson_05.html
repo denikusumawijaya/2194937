@@ -1,0 +1,1260 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Math Tutoring by Deni - Bilangan Rasional: Membandingkan Bilangan Rasional</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { font-family: 'Segoe UI', Arial, Helvetica, sans-serif; }
+        .prompt-box { max-width: 650px; margin-left: auto; margin-right: auto; display: flex; flex-direction: column; align-items: center; text-align: left; }
+        .prompt-box p { width: 100%; }
+        .prompt-box img { width: 100%; height: auto; max-width: 300px; display: block; margin-top: 0.5rem; }
+        .translation { font-style: italic; font-size: 0.85rem; color: #6b7280; margin-top: 0.25rem; display: block; }
+        .content-section { display: none; }
+        .content-section.active { display: block; }
+        .page { display: none; }
+        .page.active { display: block; }
+        .option-btn { transition: all 0.2s; }
+        .option-btn:hover { transform: translateX(5px); }
+        .collapse-content { max-height: 0; overflow: hidden; transition: max-height 0.4s ease-in-out, padding 0.4s, border 0.4s, background 0.4s; padding: 0; border: 0; background: transparent; }
+        .collapse-content.open { max-height: 2000px; padding: 1.5rem; border: 1px solid #bfdbfe; background: #eff6ff; border-radius: 0.5rem; margin-top: 1rem; }
+        @media print {
+            body * { visibility: hidden; }
+            #printArea, #printArea * { visibility: visible; }
+            #printArea { display: block !important; position: absolute; left: 0; top: 0; width: 100%; padding: 10px; box-sizing: border-box; }
+            .no-print { display: none !important; }
+            #printArea table { table-layout: fixed; width: 100%; font-size: 9px; }
+            #printArea td, #printArea th { word-wrap: break-word; padding: 2px !important; }
+            @page { size: A4; margin: 5mm; }
+        }
+    </style>
+</head>
+<body class="bg-gray-100 flex flex-col h-screen overflow-hidden">
+    <svg width="0" height="0" style="position: absolute;">
+        <defs>
+            <marker id="arr1" markerWidth="10" markerHeight="10" refX="0" refY="3" orient="auto" markerUnits="strokeWidth">
+                <path d="M0,0 L0,6 L9,3 z" fill="#333" />
+            </marker>
+        </defs>
+    </svg>
+
+    <!-- Header -->
+    <header class="bg-indigo-600 text-white p-4 flex justify-between items-center shadow-md no-print shrink-0 z-50">
+        <div>
+            <h1 class="text-xl font-bold">Math Tutoring by Deni</h1>
+            <p class="text-sm">Topic: Bilangan Rasional: Membandingkan Bilangan Rasional</p>
+        </div>
+        <div>
+            <button onclick="openModal()" class="bg-yellow-400 hover:bg-yellow-500 text-indigo-900 font-bold py-2 px-4 rounded flex items-center gap-2">
+                <i class="fas fa-gavel"></i> Class Rules
+            </button>
+        </div>
+    </header>
+
+    <!-- Modal Class Rules -->
+    <div id="classRulesModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50 no-print">
+        <div class="bg-white rounded-lg p-6 w-80 max-w-sm">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-xl font-bold text-indigo-600">Class Rules <br><span class="translation text-gray-500">Aturan Kelas</span></h2>
+                <button onclick="closeModal()" class="text-gray-500 hover:text-red-500"><i class="fas fa-times text-xl"></i></button>
+            </div>
+            <ul class="space-y-3 text-gray-700">
+                <li class="flex items-start gap-2">
+                    <i class="fas fa-comments text-indigo-500 mt-1"></i>
+                    <div>Berbicara secara bergantian.</div>
+                </li>
+                <li class="flex items-start gap-2">
+                    <i class="fas fa-door-open text-indigo-500 mt-1"></i>
+                    <div>Meminta izin jika ingin meninggalkan kelas.</div>
+                </li>
+                <li class="flex items-start gap-2">
+                    <i class="fas fa-video text-indigo-500 mt-1"></i>
+                    <div>Menyalakan kamera dan microphone jika diperlukan.</div>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Main Layout -->
+    <div class="flex flex-1 overflow-hidden">
+        <!-- Sidebar -->
+        <aside class="w-64 bg-white shadow-lg no-print border-r border-gray-200 flex flex-col">
+            <div class="p-4 bg-indigo-600 text-white">
+                <h3 class="font-bold text-lg flex items-center gap-2"><i class="fas fa-book-open"></i> Class Agenda</h3>
+                <p class="text-xs text-indigo-200 mt-1">Pilih topik untuk navigasi</p>
+            </div>
+            <nav class="flex-1 overflow-y-auto p-2">
+                <ul class="space-y-1">
+                    <li><a href="javascript:void(0)" onclick="showSection('warmup')" class="sidebar-item block px-4 py-2 rounded-lg hover:bg-indigo-50 hover:text-indigo-800 transition-colors cursor-pointer" data-section="warmup"><div class="font-semibold text-sm text-gray-800">Spiral Review Warm-up</div><div class="text-xs text-gray-500 flex items-center gap-1 mt-1"><i class="far fa-clock"></i> 00:00 - 00:10</div></a></li>
+                    <li><a href="javascript:void(0)" onclick="showSection('intro')" class="sidebar-item block px-4 py-2 rounded-lg hover:bg-indigo-50 hover:text-indigo-800 transition-colors cursor-pointer" data-section="intro"><div class="font-semibold text-sm text-gray-800">Introduction & Real-World</div><div class="text-xs text-gray-500 flex items-center gap-1 mt-1"><i class="far fa-clock"></i> 00:10 - 00:15</div></a></li>
+                    <li><a href="javascript:void(0)" onclick="showSection('review')" class="sidebar-item block px-4 py-2 rounded-lg hover:bg-indigo-50 hover:text-indigo-800 transition-colors cursor-pointer" data-section="review"><div class="font-semibold text-sm text-gray-800">Review of Prior Knowledge</div><div class="text-xs text-gray-500 flex items-center gap-1 mt-1"><i class="far fa-clock"></i> 00:15 - 00:20</div></a></li>
+                    <li><a href="javascript:void(0)" onclick="showSection('problem')" class="sidebar-item block px-4 py-2 rounded-lg hover:bg-indigo-50 hover:text-indigo-800 transition-colors cursor-pointer" data-section="problem"><div class="font-semibold text-sm text-gray-800">Problem Introduction</div><div class="text-xs text-gray-500 flex items-center gap-1 mt-1"><i class="far fa-clock"></i> 00:20 - 00:30</div></a></li>
+                    <li><a href="javascript:void(0)" onclick="showSection('guided')" class="sidebar-item block px-4 py-2 rounded-lg hover:bg-indigo-50 hover:text-indigo-800 transition-colors cursor-pointer" data-section="guided"><div class="font-semibold text-sm text-gray-800">Guided Practice</div><div class="text-xs text-gray-500 flex items-center gap-1 mt-1"><i class="far fa-clock"></i> 00:30 - 00:45</div></a></li>
+                    <li><a href="javascript:void(0)" onclick="showSection('independent')" class="sidebar-item block px-4 py-2 rounded-lg hover:bg-indigo-50 hover:text-indigo-800 transition-colors cursor-pointer" data-section="independent"><div class="font-semibold text-sm text-gray-800">Independent Practice</div><div class="text-xs text-gray-500 flex items-center gap-1 mt-1"><i class="far fa-clock"></i> 00:45 - 00:55</div></a></li>
+                    <li><a href="javascript:void(0)" onclick="showSection('consolidation')" class="sidebar-item block px-4 py-2 rounded-lg hover:bg-indigo-50 hover:text-indigo-800 transition-colors cursor-pointer" data-section="consolidation"><div class="font-semibold text-sm text-gray-800">Consolidation & Reflection</div><div class="text-xs text-gray-500 flex items-center gap-1 mt-1"><i class="far fa-clock"></i> 00:55 - 01:00</div></a></li>
+                    <hr class="my-3 border-gray-200">
+                    <li><a href="javascript:void(0)" onclick="showSection('task1')" class="sidebar-item block px-4 py-2 rounded-lg hover:bg-orange-50 hover:text-orange-800 transition-colors cursor-pointer" data-section="task1"><div class="font-bold text-sm text-indigo-800 flex items-center gap-2"><i class="fas fa-clipboard-list text-xs"></i> Task 1</div><div class="text-xs text-gray-500 mt-1">10 Soal Cerita</div></a></li>
+                    <li><a href="javascript:void(0)" onclick="showSection('task2')" class="sidebar-item block px-4 py-2 rounded-lg hover:bg-orange-50 hover:text-orange-800 transition-colors cursor-pointer" data-section="task2"><div class="font-bold text-sm text-indigo-800 flex items-center gap-2"><i class="fas fa-clipboard-list text-xs"></i> Task 2</div><div class="text-xs text-gray-500 mt-1">10 Soal Cerita</div></a></li>
+                    <li><a href="javascript:void(0)" onclick="showSection('task3')" class="sidebar-item block px-4 py-2 rounded-lg hover:bg-orange-50 hover:text-orange-800 transition-colors cursor-pointer" data-section="task3"><div class="font-bold text-sm text-indigo-800 flex items-center gap-2"><i class="fas fa-clipboard-list text-xs"></i> Task 3</div><div class="text-xs text-gray-500 mt-1">10 Soal Cerita</div></a></li>
+                    <li><a href="javascript:void(0)" onclick="showSection('task4')" class="sidebar-item block px-4 py-2 rounded-lg hover:bg-orange-50 hover:text-orange-800 transition-colors cursor-pointer" data-section="task4"><div class="font-bold text-sm text-indigo-800 flex items-center gap-2"><i class="fas fa-clipboard-list text-xs"></i> Task 4</div><div class="text-xs text-gray-500 mt-1">10 Soal Cerita</div></a></li>
+                    <li><a href="javascript:void(0)" onclick="showSection('task5')" class="sidebar-item block px-4 py-2 rounded-lg hover:bg-orange-50 hover:text-orange-800 transition-colors cursor-pointer" data-section="task5"><div class="font-bold text-sm text-indigo-800 flex items-center gap-2"><i class="fas fa-clipboard-list text-xs"></i> Task 5</div><div class="text-xs text-gray-500 mt-1">10 Soal Cerita</div></a></li>
+                </ul>
+            </nav>
+            <div class="p-4 bg-gray-50 border-t border-gray-200 text-center">
+                <p class="text-xs text-gray-500 font-medium">Math Tutoring System</p>
+                <p class="text-xs text-gray-400">by Deni</p>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 flex flex-col overflow-hidden">
+            <div id="contentScrollArea" class="flex-1 overflow-y-auto p-6">
+
+            <!-- ========================================== -->
+            <!-- SECTION: SPIRAL REVIEW WARM-UP             -->
+            <!-- ========================================== -->
+            <div id="warmup" class="content-section active">
+                <!-- PAGE 1: THEORY 1 -->
+                <div class="page active" data-page="1">
+                    <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-indigo-500">
+                        <h2 class="text-2xl font-bold text-indigo-600 mb-2">Review: Bilangan Bulat & Posisinya <i class="fas fa-map-marked-alt text-indigo-400 ml-2"></i></h2>
+                        <div class="flex gap-4 my-4 items-center">
+                            <div class="bg-indigo-50 p-4 rounded flex justify-center shrink-0">
+                                <svg width="200" height="100" viewBox="0 0 200 100">
+                                    <line x1="10" y1="50" x2="190" y2="50" stroke="#6366f1" stroke-width="2"/>
+                                    <polygon points="190,50 180,45 180,55" fill="#6366f1"/>
+                                    <circle cx="50" cy="50" r="4" fill="#ef4444"/><text x="50" y="75" font-size="12" text-anchor="middle" fill="#333">-2</text>
+                                    <circle cx="100" cy="50" r="4" fill="#10b981"/><text x="100" y="75" font-size="12" text-anchor="middle" fill="#333">0</text>
+                                    <circle cx="150" cy="50" r="4" fill="#f59e0b"/><text x="150" y="75" font-size="12" text-anchor="middle" fill="#333">3</text>
+                                </svg>
+                            </div>
+                            <div>
+                                <p>Bilangan bulat terdiri dari bilangan positif, nol, dan bilangan negatif. Di garis bilangan, semakin ke kanan nilainya semakin besar, dan semakin ke kiri nilainya semakin kecil. <span class="translation">Contoh: 3 berada di sebelah kanan 0, sedangkan -2 berada di sebelah kiri 0. Artinya 3 > -2.</span></p>
+                            </div>
+                        </div>
+                        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mt-4">
+                            <p class="font-bold text-yellow-800"><i class="fas fa-lightbulb mr-1"></i> Rumus To The Point</p>
+                            <p class="mt-1 font-bold">Kanan = Lebih Besar (>), Kiri = Lebih Kecil (<)</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="page" data-page="2" data-task-id="w-task1"></div>
+                <div class="page" data-page="3" data-task-id="w-task2"></div>
+                <div class="page" data-page="4" data-task-id="w-task3"></div>
+
+                <!-- PAGE 5: THEORY 2 -->
+                <div class="page" data-page="5">
+                    <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-green-500">
+                        <h2 class="text-2xl font-bold text-green-600 mb-2">Review: Faktor Bilangan <i class="fas fa-divide text-green-400 ml-2"></i></h2>
+                        <div class="flex gap-4 my-4 items-center">
+                            <div class="bg-green-50 p-4 rounded flex justify-center shrink-0">
+                                <svg width="180" height="140" viewBox="0 0 180 140">
+                                    <circle cx="60" cy="70" r="40" fill="#10b981" fill-opacity="0.2" stroke="#10b981" stroke-width="2"/>
+                                    <text x="60" y="75" font-size="20" text-anchor="middle" fill="#333">12</text>
+                                    <path d="M 60 30 L 30 10" stroke="#333" stroke-width="1"/><text x="20" y="10" font-size="14" fill="#ef4444">1</text>
+                                    <path d="M 60 30 L 90 10" stroke="#333" stroke-width="1"/><text x="100" y="10" font-size="14" fill="#ef4444">2</text>
+                                    <path d="M 60 110 L 30 130" stroke="#333" stroke-width="1"/><text x="20" y="135" font-size="14" fill="#ef4444">3</text>
+                                    <path d="M 60 110 L 90 130" stroke="#333" stroke-width="1"/><text x="100" y="135" font-size="14" fill="#ef4444">4</text>
+                                </svg>
+                            </div>
+                            <div>
+                                <p>Faktor adalah bilangan yang bisa membagi habis suatu angka. <span class="translation">Contoh: Faktor dari 12 adalah 1, 2, 3, 4, 6, dan 12 karena semua angka itu bisa membagi 12 tanpa sisa.</span></p>
+                            </div>
+                        </div>
+                        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mt-4">
+                            <p class="font-bold text-yellow-800"><i class="fas fa-lightbulb mr-1"></i> Rumus To The Point</p>
+                            <p class="mt-1 font-bold">Faktor = Pembagi habis tanpa sisa.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="page" data-page="6" data-task-id="w-task4"></div>
+                <div class="page" data-page="7" data-task-id="w-task5"></div>
+                <div class="page" data-page="8" data-task-id="w-task6"></div>
+
+                <!-- PAGE 9: THEORY 3 -->
+                <div class="page" data-page="9">
+                    <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-purple-500">
+                        <h2 class="text-2xl font-bold text-purple-600 mb-2">Review: Di Antara Dua Bilangan Bulat <i class="fas fa-search-plus text-purple-400 ml-2"></i></h2>
+                        <div class="flex gap-4 my-4 items-center">
+                            <div class="bg-purple-50 p-4 rounded flex justify-center shrink-0">
+                                <svg width="200" height="120" viewBox="0 0 200 120">
+                                    <line x1="10" y1="60" x2="190" y2="60" stroke="#8b5cf6" stroke-width="2"/>
+                                    <circle cx="70" cy="60" r="4" fill="#333"/><text x="70" y="85" font-size="14" text-anchor="middle" fill="#333">0</text>
+                                    <circle cx="140" cy="60" r="4" fill="#333"/><text x="140" y="85" font-size="14" text-anchor="middle" fill="#333">1</text>
+                                    <circle cx="105" cy="60" r="6" fill="#ef4444"/>
+                                    <text x="105" y="40" font-size="14" text-anchor="middle" fill="#ef4444">1/2</text>
+                                </svg>
+                            </div>
+                            <div>
+                                <p>Di antara dua bilangan bulat, masih ada bilangan lain, yaitu bilangan rasional (pecahan). <span class="translation">Contoh: Di antara 0 dan 1 ada pecahan 1/2, 1/3, 1/4, dan seterusnya.</span></p>
+                            </div>
+                        </div>
+                        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mt-4">
+                            <p class="font-bold text-yellow-800"><i class="fas fa-lightbulb mr-1"></i> Rumus To The Point</p>
+                            <p class="mt-1 font-bold">Pecahan = Bagian dari bilangan bulat.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="page" data-page="10" data-task-id="w-task7"></div>
+                <div class="page" data-page="11" data-task-id="w-task8"></div>
+                <div class="page" data-page="12" data-task-id="w-task9"></div>
+                <div class="page" data-page="13" data-task-id="w-task10"></div>
+            </div>
+
+            <!-- ========================================== -->
+            <!-- SECTION: INTRODUCTION & REAL-WORLD         -->
+            <!-- ========================================== -->
+            <div id="intro" class="content-section">
+                <!-- PAGE 1: THEORY 1 -->
+                <div class="page active" data-page="1">
+                    <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-indigo-500">
+                        <h2 class="text-2xl font-bold text-indigo-600 mb-2">Pecahan di Dunia Nyata: Makanan <i class="fas fa-pizza-slice text-indigo-400 ml-2"></i></h2>
+                        <div class="flex gap-4 my-4 items-center">
+                            <div class="bg-indigo-50 p-4 rounded flex justify-center shrink-0">
+                                <svg width="180" height="140" viewBox="0 0 180 140">
+                                    <circle cx="90" cy="70" r="50" fill="#f59e0b" stroke="#333" stroke-width="2"/>
+                                    <path d="M 90 70 L 90 20 A 50 50 0 0 1 133.3 45 Z" fill="#ef4444" stroke="#333"/>
+                                    <path d="M 90 70 L 90 20 A 50 50 0 0 1 133.3 45 Z" fill="#ef4444" stroke="#333"/>
+                                    <path d="M 90 70 L 133.3 45 A 50 50 0 0 1 133.3 95 Z" fill="#10b981" stroke="#333"/>
+                                    <path d="M 90 70 L 133.3 95 A 50 50 0 0 1 90 120 Z" fill="#8b5cf6" stroke="#333"/>
+                                    <text x="90" y="105" font-size="12" text-anchor="middle" fill="white">1/4</text>
+                                </svg>
+                            </div>
+                            <div>
+                                <p>Saat kita membagi pizza, kita membuat pecahan. Jika 1 pizza dipotong jadi 4 bagian sama besar, 1 potong sama dengan 1/4. <span class="translation">Kalau kita punya 2 potong, berarti kita punya 2/4 bagian pizza.</span></p>
+                            </div>
+                        </div>
+                        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mt-4">
+                            <p class="font-bold text-yellow-800"><i class="fas fa-lightbulb mr-1"></i> Rumus To The Point</p>
+                            <p class="mt-1 font-bold">Pembilang (atas) = Jumlah potong yang diambil. Penyebut (bawah) = Total potong.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="page" data-page="2" data-task-id="i-task1"></div>
+                <div class="page" data-page="3" data-task-id="i-task2"></div>
+                <div class="page" data-page="4" data-task-id="i-task3"></div>
+
+                <!-- PAGE 5: THEORY 2 -->
+                <div class="page" data-page="5">
+                    <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-green-500">
+                        <h2 class="text-2xl font-bold text-green-600 mb-2">Uang sebagai Pecahan <i class="fas fa-money-bill-wave text-green-400 ml-2"></i></h2>
+                        <div class="flex gap-4 my-4 items-center">
+                            <div class="bg-green-50 p-4 rounded flex justify-center shrink-0">
+                                <svg width="180" height="140" viewBox="0 0 180 140">
+                                    <rect x="30" y="40" width="60" height="30" fill="#10b981" rx="3"/>
+                                    <text x="60" y="60" font-size="12" text-anchor="middle" fill="white">Rp 500</text>
+                                    <rect x="100" y="30" width="70" height="40" fill="#10b981" rx="3"/>
+                                    <text x="135" y="55" font-size="14" text-anchor="middle" fill="white">Rp 1000</text>
+                                    <text x="90" y="110" font-size="12" text-anchor="middle" fill="#333">Rp 500 = 1/2 dari Rp 1000</text>
+                                </svg>
+                            </div>
+                            <div>
+                                <p>Uang juga bisa dilihat sebagai pecahan. Uang Rp 500 adalah setengah (1/2) dari Rp 1.000. <span class="translation">Jadi, nilai uang bisa dibandingkan menggunakan pecahan.</span></p>
+                            </div>
+                        </div>
+                        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mt-4">
+                            <p class="font-bold text-yellow-800"><i class="fas fa-lightbulb mr-1"></i> Rumus To The Point</p>
+                            <p class="mt-1 font-bold">Setengah (1/2) = 50%, Seperempat (1/4) = 25%.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="page" data-page="6" data-task-id="i-task4"></div>
+                <div class="page" data-page="7" data-task-id="i-task5"></div>
+                <div class="page" data-page="8" data-task-id="i-task6"></div>
+
+                <!-- PAGE 9: THEORY 3 -->
+                <div class="page" data-page="9">
+                    <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-purple-500">
+                        <h2 class="text-2xl font-bold text-purple-600 mb-2">Membandingkan Kuantitas <i class="fas fa-balance-scale-right text-purple-400 ml-2"></i></h2>
+                        <div class="flex gap-4 my-4 items-center">
+                            <div class="bg-purple-50 p-4 rounded flex justify-center shrink-0">
+                                <svg width="180" height="140" viewBox="0 0 180 140">
+                                    <rect x="30" y="80" width="40" height="40" fill="#f59e0b" stroke="#333"/>
+                                    <text x="50" y="70" font-size="14" text-anchor="middle" fill="#333">3/4</text>
+                                    <rect x="110" y="90" width="40" height="30" fill="#ef4444" stroke="#333"/>
+                                    <text x="130" y="80" font-size="14" text-anchor="middle" fill="#333">1/2</text>
+                                    <text x="90" y="130" font-size="12" text-anchor="middle" fill="#8b5cf6">3/4 > 1/2</text>
+                                </svg>
+                            </div>
+                            <div>
+                                <p>Ketika kita membandingkan dua pecahan, kita melihat mana yang lebih besar atau lebih kecil. <span class="translation">3/4 bagian kue lebih besar dari 1/2 bagian kue. Jadi 3/4 > 1/2.</span></p>
+                            </div>
+                        </div>
+                        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mt-4">
+                            <p class="font-bold text-yellow-800"><i class="fas fa-lightbulb mr-1"></i> Rumus To The Point</p>
+                            <p class="mt-1 font-bold">Membandingkan = Melihat mana yang lebih banyak (nilai lebih besar).</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="page" data-page="10" data-task-id="i-task7"></div>
+                <div class="page" data-page="11" data-task-id="i-task8"></div>
+                <div class="page" data-page="12" data-task-id="i-task9"></div>
+                <div class="page" data-page="13" data-task-id="i-task10"></div>
+            </div>
+
+            <!-- ========================================== -->
+            <!-- SECTION: REVIEW OF PRIOR KNOWLEDGE         -->
+            <!-- ========================================== -->
+            <div id="review" class="content-section">
+                <!-- PAGE 1: THEORY 1 -->
+                <div class="page active" data-page="1">
+                    <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-indigo-500">
+                        <h2 class="text-2xl font-bold text-indigo-600 mb-2">Unsur Pecahan: Pembilang & Penyebut <i class="fas fa-layer-group text-indigo-400 ml-2"></i></h2>
+                        <div class="flex gap-4 my-4 items-center">
+                            <div class="bg-indigo-50 p-4 rounded flex justify-center shrink-0">
+                                <svg width="180" height="140" viewBox="0 0 180 140">
+                                    <text x="90" y="60" font-size="40" text-anchor="middle" fill="#ef4444" font-weight="bold">3</text>
+                                    <rect x="50" y="68" width="80" height="4" fill="#333"/>
+                                    <text x="90" y="110" font-size="40" text-anchor="middle" fill="#10b981" font-weight="bold">4</text>
+                                    <text x="150" y="60" font-size="12" text-anchor="middle" fill="#ef4444">Pembilang</text>
+                                    <text x="150" y="110" font-size="12" text-anchor="middle" fill="#10b981">Penyebut</text>
+                                </svg>
+                            </div>
+                            <div>
+                                <p>Angka di atas disebut Pembilang (jumlah potongan yang kita punya). Angka di bawah disebut Penyebut (total potongan). <span class="translation">Pada 3/4, 3 adalah pembilang, dan 4 adalah penyebut.</span></p>
+                            </div>
+                        </div>
+                        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mt-4">
+                            <p class="font-bold text-yellow-800"><i class="fas fa-lightbulb mr-1"></i> Rumus To The Point</p>
+                            <p class="mt-1 font-bold">Atas = Pembilang, Bawah = Penyebut.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="page" data-page="2" data-task-id="r-task1"></div>
+                <div class="page" data-page="3" data-task-id="r-task2"></div>
+                <div class="page" data-page="4" data-task-id="r-task3"></div>
+
+                <!-- PAGE 5: THEORY 2 -->
+                <div class="page" data-page="5">
+                    <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-green-500">
+                        <h2 class="text-2xl font-bold text-green-600 mb-2">Pecahan Senilai <i class="fas fa-equals text-green-400 ml-2"></i></h2>
+                        <div class="flex gap-4 my-4 items-center">
+                            <div class="bg-green-50 p-4 rounded flex justify-center shrink-0">
+                                <svg width="180" height="140" viewBox="0 0 180 140">
+                                    <rect x="20" y="50" width="40" height="40" fill="#10b981" stroke="#333"/>
+                                    <rect x="60" y="50" width="40" height="40" fill="#10b981" stroke="#333"/>
+                                    <text x="100" y="70" font-size="12" text-anchor="middle" fill="#333">2/4</text>
+                                    <text x="120" y="70" font-size="14" text-anchor="middle" fill="#333">=</text>
+                                    <rect x="130" y="50" width="80" height="40" fill="#f59e0b" stroke="#333"/>
+                                    <text x="170" y="70" font-size="12" text-anchor="middle" fill="#333">1/2</text>
+                                </svg>
+                            </div>
+                            <div>
+                                <p>Pecahan senilai adalah pecahan yang nilainya sama walau angkanya berbeda. <span class="translation">2/4 bisa disederhanakan menjadi 1/2. Cara mencari pecahan senilai: kalikan atau bagi pembilang dan penyebut dengan angka yang sama.</span></p>
+                            </div>
+                        </div>
+                        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mt-4">
+                            <p class="font-bold text-yellow-800"><i class="fas fa-lightbulb mr-1"></i> Rumus To The Point</p>
+                            <p class="mt-1 font-bold">Senilai = Angka beda, ukuran sama. Contoh: 1/2 = 2/4 = 3/6.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="page" data-page="6" data-task-id="r-task4"></div>
+                <div class="page" data-page="7" data-task-id="r-task5"></div>
+                <div class="page" data-page="8" data-task-id="r-task6"></div>
+
+                <!-- PAGE 9: THEORY 3 -->
+                <div class="page" data-page="9">
+                    <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-purple-500">
+                        <h2 class="text-2xl font-bold text-purple-600 mb-2">Pecahan vs Desimal <i class="fas fa-exchange-alt text-purple-400 ml-2"></i></h2>
+                        <div class="flex gap-4 my-4 items-center">
+                            <div class="bg-purple-50 p-4 rounded flex justify-center shrink-0">
+                                <svg width="180" height="140" viewBox="0 0 180 140">
+                                    <text x="40" y="60" font-size="20" text-anchor="middle" fill="#8b5cf6">1/2</text>
+                                    <path d="M 60 60 L 100 60" stroke="#333" stroke-width="2" marker-end="url(#arr1)"/>
+                                    <text x="140" y="60" font-size="20" text-anchor="middle" fill="#ef4444">0.5</text>
+                                    <text x="90" y="110" font-size="14" text-anchor="middle" fill="#333">1 dibagi 2 = 0.5</text>
+                                </svg>
+                            </div>
+                            <div>
+                                <p>Pecahan bisa ditulis dalam bentuk desimal dengan cara membagi pembilang dengan penyebut. <span class="translation">1/2 sama dengan 1 dibagi 2, yaitu 0.5. Bentuk desimal sangat berguna untuk membandingkan pecahan dengan mudah!</span></p>
+                            </div>
+                        </div>
+                        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mt-4">
+                            <p class="font-bold text-yellow-800"><i class="fas fa-lightbulb mr-1"></i> Rumus To The Point</p>
+                            <p class="mt-1 font-bold">Pecahan ke Desimal = Pembilang dibagi Penyebut.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="page" data-page="10" data-task-id="r-task7"></div>
+                <div class="page" data-page="11" data-task-id="r-task8"></div>
+                <div class="page" data-page="12" data-task-id="r-task9"></div>
+                <div class="page" data-page="13" data-task-id="r-task10"></div>
+			</div>
+
+	
+            <!-- ========================================== -->
+            <!-- SECTION: PROBLEM INTRODUCTION              -->
+            <!-- ========================================== -->
+            <div id="problem" class="content-section">
+                <!-- PAGE 1: THEORY 1 -->
+                <div class="page active" data-page="1">
+                    <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-indigo-500">
+                        <h2 class="text-2xl font-bold text-indigo-600 mb-2">Membandingkan: Penyebut Sama <i class="fas fa-equals text-indigo-400 ml-2"></i></h2>
+                        <div class="flex gap-4 my-4 items-center">
+                            <div class="bg-indigo-50 p-4 rounded flex justify-center shrink-0">
+                                <svg width="180" height="140" viewBox="0 0 180 140">
+                                    <rect x="20" y="50" width="60" height="60" fill="#6366f1" stroke="#333"/>
+                                    <rect x="20" y="50" width="20" height="60" fill="#ef4444" stroke="#333"/>
+                                    <text x="50" y="40" font-size="14" text-anchor="middle" fill="#ef4444">1/5</text>
+                                    
+                                    <rect x="100" y="50" width="60" height="60" fill="#6366f1" stroke="#333"/>
+                                    <rect x="100" y="50" width="40" height="60" fill="#10b981" stroke="#333"/>
+                                    <text x="130" y="40" font-size="14" text-anchor="middle" fill="#10b981">3/5</text>
+                                </svg>
+                            </div>
+                            <div>
+                                <p>Jika penyebut (angka bawah) sama, kita tinggal membandingkan pembilang (angka atas). Semakin besar pembilangnya, semakin besar nilai pecahannya. <span class="translation">Contoh: 3/5 lebih besar dari 1/5 karena 3 lebih besar dari 1.</span></p>
+                            </div>
+                        </div>
+                        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mt-4">
+                            <p class="font-bold text-yellow-800"><i class="fas fa-lightbulb mr-1"></i> Rumus To The Point</p>
+                            <p class="mt-1 font-bold">Penyebut sama = Bandingkan pembilangnya saja.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="page" data-page="2" data-task-id="p-task1"></div>
+                <div class="page" data-page="3" data-task-id="p-task2"></div>
+                <div class="page" data-page="4" data-task-id="p-task3"></div>
+
+                <!-- PAGE 5: THEORY 2 -->
+                <div class="page" data-page="5">
+                    <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-green-500">
+                        <h2 class="text-2xl font-bold text-green-600 mb-2">Membandingkan: Pembilang Sama <i class="fas fa-pizza-slice text-green-400 ml-2"></i></h2>
+                        <div class="flex gap-4 my-4 items-center">
+                            <div class="bg-green-50 p-4 rounded flex justify-center shrink-0">
+                                <svg width="180" height="140" viewBox="0 0 180 140">
+                                    <circle cx="50" cy="70" r="40" fill="#f59e0b" stroke="#333"/>
+                                    <path d="M 50 70 L 50 30 A 40 40 0 0 1 90 70 Z" fill="#ef4444" stroke="#333"/>
+                                    <text x="50" y="125" font-size="14" text-anchor="middle" fill="#333">1/2</text>
+                                    
+                                    <circle cx="130" cy="70" r="40" fill="#f59e0b" stroke="#333"/>
+                                    <path d="M 130 70 L 130 30 A 40 40 0 0 1 152 34 Z" fill="#10b981" stroke="#333"/>
+                                    <text x="130" y="125" font-size="14" text-anchor="middle" fill="#333">1/4</text>
+                                </svg>
+                            </div>
+                            <div>
+                                <p>Jika pembilang sama, penyebut yang lebih kecil menunjukkan nilai yang lebih besar. <span class="translation">Bayangkan pizza: 1 potong dari 2 potong (1/2) lebih besar dari 1 potong dari 4 potong (1/4).</span></p>
+                            </div>
+                        </div>
+                        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mt-4">
+                            <p class="font-bold text-yellow-800"><i class="fas fa-lightbulb mr-1"></i> Rumus To The Point</p>
+                            <p class="mt-1 font-bold">Pembilang sama = Penyebut kecil = Nilai besar.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="page" data-page="6" data-task-id="p-task4"></div>
+                <div class="page" data-page="7" data-task-id="p-task5"></div>
+                <div class="page" data-page="8" data-task-id="p-task6"></div>
+
+                <!-- PAGE 9: THEORY 3 -->
+                <div class="page" data-page="9">
+                    <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-purple-500">
+                        <h2 class="text-2xl font-bold text-purple-600 mb-2">Membandingkan: Penyebut Berbeda <i class="fas fa-random text-purple-400 ml-2"></i></h2>
+                        <div class="flex gap-4 my-4 items-center">
+                            <div class="bg-purple-50 p-4 rounded flex justify-center shrink-0">
+                                <svg width="200" height="140" viewBox="0 0 200 140">
+                                    <text x="50" y="60" font-size="16" text-anchor="middle" fill="#8b5cf6">1/2</text>
+                                    <text x="150" y="60" font-size="16" text-anchor="middle" fill="#8b5cf6">1/3</text>
+                                    <text x="100" y="60" font-size="14" text-anchor="middle" fill="#333">vs</text>
+                                    <path d="M 70 80 L 130 80" stroke="#333" stroke-width="2" marker-end="url(#arr1)"/>
+                                    <text x="100" y="120" font-size="16" text-anchor="middle" fill="#ef4444">3/6 vs 2/6</text>
+                                </svg>
+                            </div>
+                            <div>
+                                <p>Jika penyebutnya berbeda, kita samakan dulu penyebutnya menggunakan KPK (Kelipatan Persekutuan Terkecil). Setelah sama, bandingkan pembilangnya. <span class="translation">1/2 dan 1/3. KPK dari 2 dan 3 adalah 6. 1/2 jadi 3/6, 1/3 jadi 2/6. Karena 3/6 > 2/6, maka 1/2 > 1/3.</span></p>
+                            </div>
+                        </div>
+                        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mt-4">
+                            <p class="font-bold text-yellow-800"><i class="fas fa-lightbulb mr-1"></i> Rumus To The Point</p>
+                            <p class="mt-1 font-bold">Penyebut beda = Cari KPK, kalikan pembilang & penyebut, lalu bandingkan!</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="page" data-page="10" data-task-id="p-task7"></div>
+                <div class="page" data-page="11" data-task-id="p-task8"></div>
+                <div class="page" data-page="12" data-task-id="p-task9"></div>
+                <div class="page" data-page="13" data-task-id="p-task10"></div>
+            </div>
+
+            <!-- ========================================== -->
+            <!-- SECTION: GUIDED PRACTICE                   -->
+            <!-- ========================================== -->
+            <div id="guided" class="content-section">
+                <!-- PAGE 1: THEORY 1 -->
+                <div class="page active" data-page="1">
+                    <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-indigo-500">
+                        <h2 class="text-2xl font-bold text-indigo-600 mb-2">Mengurutkan Pecahan di Garis Bilangan <i class="fas fa-sort-numeric-down text-indigo-400 ml-2"></i></h2>
+                        <div class="flex gap-4 my-4 items-center">
+                            <div class="bg-indigo-50 p-4 rounded flex justify-center shrink-0">
+                                <svg width="200" height="100" viewBox="0 0 200 100">
+                                    <line x1="10" y1="50" x2="190" y2="50" stroke="#6366f1" stroke-width="2"/>
+                                    <polygon points="190,50 180,45 180,55" fill="#6366f1"/>
+                                    <circle cx="40" cy="50" r="4" fill="#ef4444"/><text x="40" y="75" font-size="12" text-anchor="middle" fill="#333">0</text>
+                                    <circle cx="80" cy="50" r="4" fill="#f59e0b"/><text x="80" y="40" font-size="10" text-anchor="middle" fill="#333">1/4</text>
+                                    <circle cx="120" cy="50" r="4" fill="#10b981"/><text x="120" y="40" font-size="10" text-anchor="middle" fill="#333">1/2</text>
+                                    <circle cx="160" cy="50" r="4" fill="#8b5cf6"/><text x="160" y="40" font-size="10" text-anchor="middle" fill="#333">3/4</text>
+                                    <circle cx="190" cy="50" r="4" fill="#333"/><text x="190" y="75" font-size="12" text-anchor="middle" fill="#333">1</text>
+                                </svg>
+                            </div>
+                            <div>
+                                <p>Untuk mengurutkan pecahan, letakkan saja di garis bilangan. Semakin ke kanan, semakin besar nilainya. <span class="translation">Urutan dari terkecil ke terbesar: 0, 1/4, 1/2, 3/4, 1.</span></p>
+                            </div>
+                        </div>
+                        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mt-4">
+                            <p class="font-bold text-yellow-800"><i class="fas fa-lightbulb mr-1"></i> Rumus To The Point</p>
+                            <p class="mt-1 font-bold">Urutkan = Letakkan di garis bilangan, kiri kecil kanan besar.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="page" data-page="2" data-task-id="g-task1"></div>
+                <div class="page" data-page="3" data-task-id="g-task2"></div>
+                <div class="page" data-page="4" data-task-id="g-task3"></div>
+
+                <!-- PAGE 5: THEORY 2 -->
+                <div class="page" data-page="5">
+                    <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-green-500">
+                        <h2 class="text-2xl font-bold text-green-600 mb-2">Pecahan di Antara Dua Pecahan <i class="fas fa-search text-green-400 ml-2"></i></h2>
+                        <div class="flex gap-4 my-4 items-center">
+                            <div class="bg-green-50 p-4 rounded flex justify-center shrink-0">
+                                <svg width="200" height="100" viewBox="0 0 200 100">
+                                    <line x1="10" y1="50" x2="190" y2="50" stroke="#6366f1" stroke-width="2"/>
+                                    <circle cx="60" cy="50" r="4" fill="#ef4444"/><text x="60" y="75" font-size="12" text-anchor="middle" fill="#333">1/4</text>
+                                    <circle cx="140" cy="50" r="4" fill="#ef4444"/><text x="140" y="75" font-size="12" text-anchor="middle" fill="#333">3/4</text>
+                                    <circle cx="100" cy="50" r="6" fill="#10b981"/><text x="100" y="40" font-size="12" text-anchor="middle" fill="#10b981">1/2</text>
+                                </svg>
+                            </div>
+                            <div>
+                                <p>Di antara dua pecahan pasti ada pecahan lain. Jika kita punya 1/4 dan 3/4, di tengah-tengahnya ada 2/4 yang nilainya sama dengan 1/2. <span class="translation">Caranya bisa dengan menjumlahkan keduanya lalu dibagi dua, atau menyamakan penyebut terlebih dahulu untuk melihat angkanya.</span></p>
+                            </div>
+                        </div>
+                        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mt-4">
+                            <p class="font-bold text-yellow-800"><i class="fas fa-lightbulb mr-1"></i> Rumus To The Point</p>
+                            <p class="mt-1 font-bold">Pecahan di tengah = (Pecahan 1 + Pecahan 2) dibagi 2.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="page" data-page="6" data-task-id="g-task4"></div>
+                <div class="page" data-page="7" data-task-id="g-task5"></div>
+                <div class="page" data-page="8" data-task-id="g-task6"></div>
+
+                <!-- PAGE 9: THEORY 3 -->
+                <div class="page" data-page="9">
+                    <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-purple-500">
+                        <h2 class="text-2xl font-bold text-purple-600 mb-2">Bentuk Desimal & Persen <i class="fas fa-percentage text-purple-400 ml-2"></i></h2>
+                        <div class="flex gap-4 my-4 items-center">
+                            <div class="bg-purple-50 p-4 rounded flex justify-center shrink-0">
+                                <svg width="180" height="140" viewBox="0 0 180 140">
+                                    <text x="40" y="40" font-size="14" text-anchor="middle" fill="#8b5cf6">1/4</text>
+                                    <text x="90" y="40" font-size="14" text-anchor="middle" fill="#333">=</text>
+                                    <text x="140" y="40" font-size="14" text-anchor="middle" fill="#10b981">25%</text>
+                                    <text x="40" y="90" font-size="14" text-anchor="middle" fill="#8b5cf6">1/2</text>
+                                    <text x="90" y="90" font-size="14" text-anchor="middle" fill="#333">=</text>
+                                    <text x="140" y="90" font-size="14" text-anchor="middle" fill="#10b981">50%</text>
+                                </svg>
+                            </div>
+                            <div>
+                                <p>Mengubah pecahan ke persen sangat mudah, kalikan saja dengan 100%. <span class="translation">1/4 x 100% = 25%. 1/2 x 100% = 50%. Bentuk persen sering digunakan untuk membandingkan diskon atau nilai ujian.</span></p>
+                            </div>
+                        </div>
+                        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mt-4">
+                            <p class="font-bold text-yellow-800"><i class="fas fa-lightbulb mr-1"></i> Rumus To The Point</p>
+                            <p class="mt-1 font-bold">Persen = Pecahan x 100%.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="page" data-page="10" data-task-id="g-task7"></div>
+                <div class="page" data-page="11" data-task-id="g-task8"></div>
+                <div class="page" data-page="12" data-task-id="g-task9"></div>
+                <div class="page" data-page="13" data-task-id="g-task10"></div>
+            </div>
+
+            <!-- ========================================== -->
+            <!-- SECTION: INDEPENDENT PRACTICE              -->
+            <!-- ========================================== -->
+            <div id="independent" class="content-section">
+                <!-- PAGE 1: THEORY 1 -->
+                <div class="page active" data-page="1">
+                    <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-indigo-500">
+                        <h2 class="text-2xl font-bold text-indigo-600 mb-2">Membandingkan Waktu <i class="fas fa-stopwatch text-indigo-400 ml-2"></i></h2>
+                        <div class="flex gap-4 my-4 items-center">
+                            <div class="bg-indigo-50 p-4 rounded flex justify-center shrink-0">
+                                <svg width="180" height="140" viewBox="0 0 180 140">
+                                    <circle cx="90" cy="70" r="50" fill="#fff" stroke="#6366f1" stroke-width="4"/>
+                                    <line x1="90" y1="70" x2="90" y2="40" stroke="#333" stroke-width="3"/>
+                                    <line x1="90" y1="70" x2="110" y2="70" stroke="#333" stroke-width="3"/>
+                                    <text x="90" y="125" font-size="14" text-anchor="middle" fill="#333">Waktu = Pecahan Jam</text>
+                                </svg>
+                            </div>
+                            <div>
+                                <p>Waktu sering diukur dalam pecahan. Setengah jam adalah 1/2 jam. Seperempat jam adalah 1/4 jam. <span class="translation">1/2 jam (30 menit) lebih lama dari 1/4 jam (15 menit). Membandingkan pecahan membantu kita menentukan mana yang lebih cepat atau lebih lama.</span></p>
+                            </div>
+                        </div>
+                        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mt-4">
+                            <p class="font-bold text-yellow-800"><i class="fas fa-lightbulb mr-1"></i> Rumus To The Point</p>
+                            <p class="mt-1 font-bold">1/2 jam = 30 menit, 1/4 jam = 15 menit.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="page" data-page="2" data-task-id="ind-task1"></div>
+                <div class="page" data-page="3" data-task-id="ind-task2"></div>
+                <div class="page" data-page="4" data-task-id="ind-task3"></div>
+
+                <!-- PAGE 5: THEORY 2 -->
+                <div class="page" data-page="5">
+                    <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-green-500">
+                        <h2 class="text-2xl font-bold text-green-600 mb-2">Membandingkan Kapasitas <i class="fas fa-glass-water text-green-400 ml-2"></i></h2>
+                        <div class="flex gap-4 my-4 items-center">
+                            <div class="bg-green-50 p-4 rounded flex justify-center shrink-0">
+                                <svg width="180" height="140" viewBox="0 0 180 140">
+                                    <path d="M 60 30 L 60 110 Q 60 120 70 120 L 90 120 Q 100 120 100 110 L 100 30 Z" fill="#10b981" stroke="#333"/>
+                                    <rect x="60" y="30" width="40" height="45" fill="#3b82f6" fill-opacity="0.5"/>
+                                    <text x="80" y="60" font-size="12" text-anchor="middle" fill="#fff">3/4</text>
+                                </svg>
+                            </div>
+                            <div>
+                                <p>Saat mengisi air ke gelas, kita menggunakan pecahan untuk melihat berapa penuh gelas tersebut. Jika gelas terisi 3/4, berarti lebih penuh dari gelas yang terisi 1/2. <span class="translation">Kapasitas max adalah 1 (gelas penuh).</span></p>
+                            </div>
+                        </div>
+                        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mt-4">
+                            <p class="font-bold text-yellow-800"><i class="fas fa-lightbulb mr-1"></i> Rumus To The Point</p>
+                            <p class="mt-1 font-bold">1 = Penuh. 3/4 = Hampir Penuh. 1/2 = Setengah. 1/4 = Sedikit.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="page" data-page="6" data-task-id="ind-task4"></div>
+                <div class="page" data-page="7" data-task-id="ind-task5"></div>
+                <div class="page" data-page="8" data-task-id="ind-task6"></div>
+
+                <!-- PAGE 9: THEORY 3 -->
+                <div class="page" data-page="9">
+                    <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-purple-500">
+                        <h2 class="text-2xl font-bold text-purple-600 mb-2">Membandingkan Jarak & Kecepatan <i class="fas fa-route text-purple-400 ml-2"></i></h2>
+                        <div class="flex gap-4 my-4 items-center">
+                            <div class="bg-purple-50 p-4 rounded flex justify-center shrink-0">
+                                <svg width="180" height="140" viewBox="0 0 180 140">
+                                    <rect x="20" y="110" width="140" height="5" fill="#8b5cf6"/>
+                                    <circle cx="40" cy="100" r="10" fill="#ef4444"/>
+                                    <text x="40" y="130" font-size="10" text-anchor="middle" fill="#333">Start</text>
+                                    <circle cx="140" cy="100" r="10" fill="#10b981"/>
+                                    <text x="140" y="130" font-size="10" text-anchor="middle" fill="#333">Finish</text>
+                                    <text x="90" y="80" font-size="12" text-anchor="middle" fill="#8b5cf6">3/4 Jalur</text>
+                                </svg>
+                            </div>
+                            <div>
+                                <p>Jarak tempuh bisa dinyatakan dalam pecahan. Jika seseorang sudah menempuh 3/4 perjalanan, berarti ia lebih dekat ke garis finish dibandingkan orang yang baru menempuh 1/2 perjalanan. <span class="translation">Semakin besar pecahan jaraknya, semakin jauh ia telah berjalan.</span></p>
+                            </div>
+                        </div>
+                        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mt-4">
+                            <p class="font-bold text-yellow-800"><i class="fas fa-lightbulb mr-1"></i> Rumus To The Point</p>
+                            <p class="mt-1 font-bold">Bandingkan pecahan untuk tahu siapa yang paling jauh/dekat.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="page" data-page="10" data-task-id="ind-task7"></div>
+                <div class="page" data-page="11" data-task-id="ind-task8"></div>
+                <div class="page" data-page="12" data-task-id="ind-task9"></div>
+                <div class="page" data-page="13" data-task-id="ind-task10"></div>
+            </div>
+            
+            <!-- ========================================== -->
+            <!-- SECTION: CONSOLIDATION & REFLECTION        -->
+            <!-- ========================================== -->
+            <div id="consolidation" class="content-section">
+                 <div class="bg-white p-6 rounded-lg shadow-md text-center">
+                    <h2 class="text-2xl font-bold text-gray-800">Consolidation & Reflection</h2>
+                    <p class="translation">Konsolidasi & Refleksi</p>
+                    <p>Kerja bagus! Kamu telah menyelesaikan materi Bilangan Rasional: Membandingkan Bilangan Rasional. Teruslah berlatih agar semakin mahir membandingkan pecahan, desimal, maupun persen.</p>
+                    <p class="mt-2">Untuk menguji pemahamanmu lebih lanjut, silakan kerjakan Task 1 hingga Task 5.</p>
+                    <a href="https://learn.algonova.id" target="_blank" class="mt-4 inline-block bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-6 rounded">
+                        Pergi ke learn.algonova.id <span class="translation text-sm italic">Go to learn.algonova.id</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- ========================================== -->
+            <!-- TASK SECTIONS WRAPPERS                     -->
+            <!-- ========================================== -->
+            <div id="task1" class="content-section">
+                <div class="page active" data-page="1"><div data-task-id="t1-task1"></div></div>
+                <div class="page" data-page="2"><div data-task-id="t1-task2"></div></div>
+                <div class="page" data-page="3"><div data-task-id="t1-task3"></div></div>
+                <div class="page" data-page="4"><div data-task-id="t1-task4"></div></div>
+                <div class="page" data-page="5"><div data-task-id="t1-task5"></div></div>
+                <div class="page" data-page="6"><div data-task-id="t1-task6"></div></div>
+                <div class="page" data-page="7"><div data-task-id="t1-task7"></div></div>
+                <div class="page" data-page="8"><div data-task-id="t1-task8"></div></div>
+                <div class="page" data-page="9"><div data-task-id="t1-task9"></div></div>
+                <div class="page" data-page="10"><div data-task-id="t1-task10"></div></div>
+            </div>
+            <div id="task2" class="content-section">
+                <div class="page active" data-page="1"><div data-task-id="t2-task1"></div></div>
+                <div class="page" data-page="2"><div data-task-id="t2-task2"></div></div>
+                <div class="page" data-page="3"><div data-task-id="t2-task3"></div></div>
+                <div class="page" data-page="4"><div data-task-id="t2-task4"></div></div>
+                <div class="page" data-page="5"><div data-task-id="t2-task5"></div></div>
+                <div class="page" data-page="6"><div data-task-id="t2-task6"></div></div>
+                <div class="page" data-page="7"><div data-task-id="t2-task7"></div></div>
+                <div class="page" data-page="8"><div data-task-id="t2-task8"></div></div>
+                <div class="page" data-page="9"><div data-task-id="t2-task9"></div></div>
+                <div class="page" data-page="10"><div data-task-id="t2-task10"></div></div>
+            </div>
+            <div id="task3" class="content-section">
+                <div class="page active" data-page="1"><div data-task-id="t3-task1"></div></div>
+                <div class="page" data-page="2"><div data-task-id="t3-task2"></div></div>
+                <div class="page" data-page="3"><div data-task-id="t3-task3"></div></div>
+                <div class="page" data-page="4"><div data-task-id="t3-task4"></div></div>
+                <div class="page" data-page="5"><div data-task-id="t3-task5"></div></div>
+                <div class="page" data-page="6"><div data-task-id="t3-task6"></div></div>
+                <div class="page" data-page="7"><div data-task-id="t3-task7"></div></div>
+                <div class="page" data-page="8"><div data-task-id="t3-task8"></div></div>
+                <div class="page" data-page="9"><div data-task-id="t3-task9"></div></div>
+                <div class="page" data-page="10"><div data-task-id="t3-task10"></div></div>
+            </div>
+            <div id="task4" class="content-section">
+                <div class="page active" data-page="1"><div data-task-id="t4-task1"></div></div>
+                <div class="page" data-page="2"><div data-task-id="t4-task2"></div></div>
+                <div class="page" data-page="3"><div data-task-id="t4-task3"></div></div>
+                <div class="page" data-page="4"><div data-task-id="t4-task4"></div></div>
+                <div class="page" data-page="5"><div data-task-id="t4-task5"></div></div>
+                <div class="page" data-page="6"><div data-task-id="t4-task6"></div></div>
+                <div class="page" data-page="7"><div data-task-id="t4-task7"></div></div>
+                <div class="page" data-page="8"><div data-task-id="t4-task8"></div></div>
+                <div class="page" data-page="9"><div data-task-id="t4-task9"></div></div>
+                <div class="page" data-page="10"><div data-task-id="t4-task10"></div></div>
+            </div>
+            <div id="task5" class="content-section">
+                <div class="page active" data-page="1"><div data-task-id="t5-task1"></div></div>
+                <div class="page" data-page="2"><div data-task-id="t5-task2"></div></div>
+                <div class="page" data-page="3"><div data-task-id="t5-task3"></div></div>
+                <div class="page" data-page="4"><div data-task-id="t5-task4"></div></div>
+                <div class="page" data-page="5"><div data-task-id="t5-task5"></div></div>
+                <div class="page" data-page="6"><div data-task-id="t5-task6"></div></div>
+                <div class="page" data-page="7"><div data-task-id="t5-task7"></div></div>
+                <div class="page" data-page="8"><div data-task-id="t5-task8"></div></div>
+                <div class="page" data-page="9"><div data-task-id="t5-task9"></div></div>
+                <div class="page" data-page="10"><div data-task-id="t5-task10"></div></div>
+            </div>
+
+            </div> <!-- Penutup #contentScrollArea -->
+            
+            <div id="paginationBar" class="shrink-0 bg-white p-3 border-t border-gray-200 flex justify-center items-center gap-1 no-print z-40 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)]"></div>
+        </main>
+    </div>
+    
+    <!-- Print Area -->
+    <div id="printArea" class="hidden p-8">
+        <div class="text-center border-b-2 border-black pb-4 mb-4">
+            <h1 class="text-xl font-bold">Math Tutoring by Deni</h1>
+            <p>Topic: Bilangan Rasional: Membandingkan Bilangan Rasional</p>
+            <div class="flex justify-around mt-4 text-sm">
+                <p>Name: ..............................</p>
+                <p>Date: ..............................</p>
+                <p>Task: <span id="printTaskNum">1</span></p>
+                <p>Score: <span id="printScore">0</span>/10</p>
+            </div>
+        </div>
+        <table class="w-full border-collapse border border-black text-sm">
+            <thead>
+                <tr class="bg-gray-200">
+                    <th class="border border-black p-1">No.</th>
+                    <th class="border border-black p-1">Question</th>
+                    <th class="border border-black p-1">Student Answer</th>
+                    <th class="border border-black p-1">Correct Answer</th>
+                    <th class="border border-black p-1">Note (❌/✔️)</th>
+                </tr>
+            </thead>
+            <tbody id="printTableBody"></tbody>
+        </table>
+        <div class="mt-8 text-right">
+            <p>Checked by,</p>
+            <br><br>
+            <p class="font-bold">Deni</p>
+        </div>
+    </div>
+    
+    <script>
+        const questions = {};
+        // Bank soal akan diisi pada Bagian 3
+        
+        // ====== JAVASCRIPT LOGIC ======
+        let currentPage = 1;
+        let currentTaskSection = ""; 
+        let studentAnswers = {};
+        
+        function openModal() {
+            const modal = document.getElementById('classRulesModal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+        function closeModal() {
+            const modal = document.getElementById('classRulesModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+        
+        function showSection(sectionId) {
+            document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
+            document.getElementById(sectionId).classList.add('active');
+            
+            document.querySelectorAll('.sidebar-item').forEach(item => {
+                item.classList.remove('bg-indigo-100', 'text-indigo-800', 'font-bold', 'bg-orange-100', 'text-orange-800');
+            });
+            const activeLink = document.querySelector(`.sidebar-item[data-section="${sectionId}"]`);
+            if (activeLink) {
+                if(sectionId.startsWith('task')) {
+                    activeLink.classList.add('bg-orange-100', 'text-orange-800', 'font-bold');
+                } else {
+                    activeLink.classList.add('bg-indigo-100', 'text-indigo-800', 'font-bold');
+                }
+            }
+            
+            currentPage = 1;
+            currentTaskSection = sectionId;
+            
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            const firstPage = document.querySelector(`#${sectionId} .page[data-page="1"]`);
+            if(firstPage) firstPage.classList.add('active');
+            
+            renderMath();
+            renderPagination(sectionId, currentPage);
+            document.getElementById('contentScrollArea').scrollTo(0, 0);
+        }
+        function changePage(direction) {
+            const activeSection = document.querySelector('.content-section.active');
+            if(!activeSection) return;
+            const pages = activeSection.querySelectorAll('.page');
+            let newPage = currentPage + direction;
+            if(newPage >= 1 && newPage <= pages.length) {
+                pages[currentPage - 1].classList.remove('active');
+                pages[newPage - 1].classList.add('active');
+                currentPage = newPage;
+                renderMath();
+                renderPagination(currentTaskSection, currentPage);
+                document.getElementById('contentScrollArea').scrollTo(0, 0);
+            }
+        }
+
+        function goToPage(pageNum) {
+            const activeSection = document.querySelector('.content-section.active');
+            if(!activeSection) return;
+            const pages = activeSection.querySelectorAll('.page');
+            if(pageNum >= 1 && pageNum <= pages.length) {
+                pages[currentPage - 1].classList.remove('active');
+                pages[pageNum - 1].classList.add('active');
+                currentPage = pageNum;
+                renderMath();
+                renderPagination(currentTaskSection, currentPage);
+                document.getElementById('contentScrollArea').scrollTo(0, 0);
+            }
+        }
+        function renderPagination(sectionId, pageNum) {
+            const activeSection = document.getElementById(sectionId);
+            if (!activeSection) return;
+            const pages = activeSection.querySelectorAll('.page');
+            const totalPages = pages.length;
+            let html = '';
+            const isMainTask = sectionId.startsWith('t');
+            const theoryPages = [1, 5, 9]; 
+            
+            html += `<button onclick="goToPage(${pageNum - 1})" class="px-3 py-1.5 rounded-md text-sm bg-gray-200 hover:bg-gray-300 text-gray-700 ${pageNum === 1 ? 'opacity-50 cursor-not-allowed' : ''}" ${pageNum === 1 ? 'disabled' : ''}><i class="fas fa-chevron-left"></i> Prev</button>`;
+            
+            for (let i = 1; i <= totalPages; i++) {
+                let btnColor = 'bg-gray-100 hover:bg-gray-200 text-gray-700';
+                if (!isMainTask && theoryPages.includes(i)) {
+                    btnColor = 'bg-indigo-100 hover:bg-indigo-200 text-indigo-800'; 
+                } else {
+                    btnColor = 'bg-orange-100 hover:bg-orange-200 text-orange-800'; 
+                }
+                if (i === pageNum) {
+                    if (!isMainTask && theoryPages.includes(i)) {
+                        btnColor = 'bg-indigo-600 text-white shadow-md'; 
+                    } else {
+                        btnColor = 'bg-orange-500 text-white shadow-md'; 
+                    }
+                }
+                html += `<button onclick="goToPage(${i})" class="w-9 h-9 rounded-md text-sm font-semibold transition-all ${btnColor}">${i}</button>`;
+            }
+            
+            html += `<button onclick="goToPage(${pageNum + 1})" class="px-3 py-1.5 rounded-md text-sm bg-gray-200 hover:bg-gray-300 text-gray-700 ${pageNum === totalPages ? 'opacity-50 cursor-not-allowed' : ''}" ${pageNum === totalPages ? 'disabled' : ''}>Next <i class="fas fa-chevron-right"></i></button>`;
+            document.getElementById('paginationBar').innerHTML = html;
+        }
+
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        function renderTasks() {
+            document.querySelectorAll('[data-task-id]').forEach(div => {
+                const taskId = div.getAttribute('data-task-id');
+                renderSingleTask(taskId, div);
+            });
+            renderMath();
+        }
+        
+        function renderSingleTask(taskId, div) {
+            const data = questions[taskId];
+            if(!data) return;
+
+            const isMainTask = taskId.startsWith('t');
+            const taskNum = isMainTask ? taskId[1] : 0;
+            const taskType = data.type || 'single';
+            
+            let questionHTML = `
+                <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-orange-500">
+                    <div class="flex justify-between items-center mb-4 no-print">
+                        <h2 class="text-xl font-bold text-orange-600">
+                            ${isMainTask ? `Task ${taskNum}` : 'Latihan Soal'} 
+                            <span class="text-sm bg-gray-200 text-gray-800 px-2 py-1 rounded ml-2">Pilihan Ganda</span>
+                        </h2>
+                        <div class="flex gap-2">
+                            <button onclick="resetTask('${taskId}')" class="text-sm bg-gray-200 hover:bg-gray-300 px-3 py-1 rounded">
+                                <i class="fas fa-redo"></i> Reset
+                            </button>
+                            ${isMainTask ? `<button onclick="printTask(${taskNum})" class="text-sm bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded">
+                                <i class="fas fa-print"></i> Print
+                            </button>` : ''}
+                        </div>
+                    </div>
+                    <div class="mb-6 flex gap-4 items-start">
+                        <div class="bg-orange-100 p-3 rounded-full shrink-0">
+                            <i class="fas fa-question text-orange-500 text-xl"></i>
+                        </div>
+                        <div class="flex-1">
+                            <p class="text-lg">${data.q}</p>
+                        </div>
+                    </div>
+            `;
+
+            if (taskType === 'single') {
+                const shuffledOpts = shuffleArray([...data.opts]);
+                questionHTML += `
+                    <div id="options-${taskId}" class="space-y-3">
+                        ${shuffledOpts.map((opt, i) => `
+                            <button onclick="checkAnswer('${taskId}', this.getAttribute('data-opt'), 'single')" 
+                                    class="option-btn w-full text-left p-3 border-2 border-gray-200 rounded hover:border-orange-500 flex items-center gap-3" 
+                                    data-opt="${opt}">
+                                <span class="w-6 h-6 flex items-center justify-center bg-gray-100 rounded-full font-bold shrink-0">${String.fromCharCode(65 + i)}</span>
+                                <span class="katex">${opt}</span>
+                            </button>
+                        `).join('')}
+                    </div>
+                `;
+            }
+
+            questionHTML += `
+                    <div id="result-${taskId}" class="mt-4 hidden p-4 rounded"></div>
+
+                    <div class="mt-4 no-print">
+                        <button onclick="toggleCollapse('${taskId}')" id="collapse-btn-${taskId}" class="hidden text-blue-600 underline">
+                            Tampilkan Penjelasan
+                        </button>
+                        <div id="collapse-${taskId}" class="collapse-content w-full">
+                            <h3 class="font-bold text-blue-800">Penjelasan:</h3>
+                            <p class="mt-2">${data.exp}</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+            div.innerHTML = questionHTML;
+        }
+
+        function checkAnswer(taskId, selectedOpt, type) {
+            const data = questions[taskId];
+            const resultDiv = document.getElementById(`result-${taskId}`);
+            const collapseBtn = document.getElementById(`collapse-btn-${taskId}`);
+            let isCorrect = false;
+            let correctAnsText = '';
+
+            if (type === 'single') {
+                const buttons = document.querySelectorAll(`#options-${taskId} button`);
+                buttons.forEach(btn => {
+                    btn.disabled = true;
+                    btn.classList.add('opacity-70', 'cursor-not-allowed');
+                    if(btn.getAttribute('data-opt') === data.ans) {
+                        btn.classList.remove('border-gray-200', 'hover:border-orange-500');
+                        btn.classList.add('border-green-500', 'bg-green-50');
+                    } else if (btn.getAttribute('data-opt') === selectedOpt) {
+                        btn.classList.remove('border-gray-200', 'hover:border-orange-500');
+                        btn.classList.add('border-red-500', 'bg-red-50');
+                    }
+                });
+                isCorrect = (selectedOpt === data.ans);
+                correctAnsText = data.ans;
+                studentAnswers[taskId] = selectedOpt; 
+            }
+
+            if(isCorrect) {
+                resultDiv.innerHTML = `<p class="text-green-600 font-bold"><i class="fas fa-check-circle"></i> Benar!</p>`;
+                resultDiv.className = "mt-4 p-4 rounded bg-green-50 border border-green-200";
+            } else {
+                resultDiv.innerHTML = `<p class="text-red-600 font-bold"><i class="fas fa-times-circle"></i> Salah! Jawaban yang benar: ${correctAnsText}.</p>`;
+                resultDiv.className = "mt-4 p-4 rounded bg-red-50 border border-red-200";
+            }
+            resultDiv.classList.remove('hidden');
+            collapseBtn.classList.remove('hidden');
+            
+            const collapseContent = document.getElementById(`collapse-${taskId}`);
+            collapseContent.classList.add('open');
+            collapseBtn.innerHTML = 'Sembunyikan Penjelasan';
+            
+            renderMath();
+        }
+
+        function resetTask(taskId) {
+            delete studentAnswers[taskId];
+            const taskDiv = document.querySelector(`[data-task-id="${taskId}"]`);
+            if(taskDiv) {
+                renderSingleTask(taskId, taskDiv);
+                renderMath();
+            }
+        }
+
+        function printTask(taskNum) {
+            let score = 0;
+            let tableBody = '';
+            for(let i=1; i<=10; i++) {
+                const taskId = `t${taskNum}-task${i}`;
+                const data = questions[taskId];
+                if(!data) continue;
+                
+                let studentAns = studentAnswers[taskId] || 'Tidak Dijawab';
+                let correctAns = data.ans;
+                
+                let sAnsStr = '';
+                let cAnsStr = '';
+                let isCorrect = false;
+                const normalize = (str) => str.toString().toLowerCase().replace(/rp/g, '').replace(/rb/g, '').replace(/[\s.,]/g, '');
+                
+                sAnsStr = studentAns || 'Tidak Dijawab';
+                cAnsStr = correctAns;
+                let userValNorm = normalize(studentAns || '');
+                let correctAnsNorm = normalize(correctAns);
+                isCorrect = (userValNorm === correctAnsNorm);
+                
+                let note = '❌';
+                if(isCorrect) { score++; note = '✔️'; }
+                
+                let qText = data.q.replace(/<[^>]+>/g, '');
+                
+                tableBody += `<tr>
+                    <td class="border border-black p-1 text-center">${i}</td>
+                    <td class="border border-black p-1">${qText}</td>
+                    <td class="border border-black p-1">${sAnsStr}</td>
+                    <td class="border border-black p-1">${cAnsStr}</td>
+                    <td class="border border-black p-1 text-center">${note}</td>
+                </tr>`;
+            }
+            document.getElementById('printTableBody').innerHTML = tableBody;
+            document.getElementById('printTaskNum').innerText = taskNum;
+            document.getElementById('printScore').innerText = score;
+            
+            renderMathInElement(document.getElementById('printArea'), {
+                delimiters: [
+                    {left: '\\(', right: '\\)', display: false},
+                    {left: '\\[', right: '\\]', display: true}
+                ]
+            });
+            setTimeout(() => {
+                window.print();
+            }, 500);
+        }
+
+        function toggleCollapse(taskId) {
+            const content = document.getElementById(`collapse-${taskId}`);
+            const btn = document.getElementById(`collapse-btn-${taskId}`);
+            content.classList.toggle('open');
+            if(content.classList.contains('open')) {
+                btn.innerHTML = 'Sembunyikan Penjelasan';
+            } else {
+                btn.innerHTML = 'Tampilkan Penjelasan';
+            }
+        }
+
+        function renderMath() {
+            if (typeof renderMathInElement === 'undefined') return;
+            
+            const target = document.querySelector('.content-section.active') || document.body;
+            try {
+                renderMathInElement(target, {
+                    delimiters: [
+                        {left: '$', right: '$', display: false}, 
+                        {left: '\\(', right: '\\)', display: false},
+                        {left: '\\[', right: '\\]', display: true}
+                    ],
+                    throwOnError: false
+                });
+            } catch(e) {
+                console.error("KaTeX rendering error:", e);
+            }
+        }
+        
+        window.onload = () => {
+            renderTasks();
+            setTimeout(() => {
+                showSection('warmup');
+                renderMath();
+            }, 100);
+        };
+		
+        Object.assign(questions, {
+            // ==========================================
+            // SECTION 1: SPIRAL REVIEW WARM-UP (w-task)
+            // ==========================================
+            "w-task1": { type: "single", q: "Di garis bilangan, 🐢 Kura-kura berada di angka -3 dan 🐰 Kelinci berada di angka 2. Siapakah yang berada di sebelah kanan?", opts: ["\\( \\text{🐇 Kelinci} \\)", "\\( \\text{🐢 Kura-kura} \\)", "\\( \\text{Keduanya di kanan} \\)", "\\( \\text{Keduanya di kiri} \\)", "\\( \\text{Posisinya sama} \\)"], ans: "\\( \\text{🐇 Kelinci} \\)", exp: "Di garis bilangan, semakin ke kanan nilainya semakin besar. Karena 2 berada di sebelah kanan -3, maka Kelinci yang berada di angka 2 ada di sebelah kanan Kura-kura." },
+            "w-task2": { type: "single", q: "Suhu di Ruang Makan 🌡️ adalah 5 derajat, sedangkan suhu di Ruang Penyimpanan 🧊 adalah -5 derajat. Ruangan mana yang lebih dingin?", opts: ["\\( \\text{Ruang Makan} \\)", "\\( \\text{Ruang Penyimpanan} \\)", "\\( \\text{Suhunya sama} \\)", "\\( \\text{Tidak bisa ditentukan} \\)", "\\( \\text{Keduanya panas} \\)"], ans: "\\( \\text{Ruang Penyimpanan} \\)", exp: "Bilangan negatif (-5) berarti lebih dingin dari bilangan positif (5). Jadi, Ruang Penyimpanan suhunya lebih rendah dan lebih dingin." },
+            "w-task3": { type: "single", q: "Ibu memberi kakak 💵 Rp 10.000 dan adik Rp 10.000. Lalu adik beli jajan 🍬 Rp 3.000. Berapa sisa uang adik sekarang?", opts: ["\\( \\text{Rp 13.000} \\)", "\\( \\text{Rp 7.000} \\)", "\\( \\text{Rp 10.000} \\)", "\\( \\text{Rp 3.000} \\)", "\\( \\text{Rp 20.000} \\)"], ans: "\\( \\text{Rp 7.000} \\)", exp: "Uang adik awalnya Rp 10.000. Karena beli jajan, uangnya berkurang: Rp 10.000 - Rp 3.000 = Rp 7.000." },
+            "w-task4": { type: "single", q: "Ada 12 buah apel 🍎. Ibu ingin membaginya rata ke dalam 3 keranjang 🧺. Berapa apel di setiap keranjang?", opts: ["\\( 3 \\text{ apel} \\)", "\\( 4 \\text{ apel} \\)", "\\( 6 \\text{ apel} \\)", "\\( 12 \\text{ apel} \\)", "\\( 2 \\text{ apel} \\)"], ans: "\\( 4 \\text{ apel} \\)", exp: "Membagi rata sama dengan membagi bilangan. 12 apel dibagi 3 keranjang adalah 12 / 3 = 4 apel per keranjang. Ini berarti 3 adalah salah satu faktor dari 12." },
+            "w-task5": { type: "single", q: "Faktor dari 10 adalah bilangan yang bisa membagi 10 dengan habis. Manakah di bawah ini yang BUKAN faktor dari 10?", opts: ["\\( 1 \\)", "\\( 2 \\)", "\\( 3 \\)", "\\( 5 \\)", "\\( 10 \\)"], ans: "\\( 3 \\)", exp: "10 dibagi 1 = 10, dibagi 2 = 5, dibagi 5 = 2, dibagi 10 = 1. Semuanya habis. Tapi 10 dibagi 3 ada sisanya (3 x 3 = 9, sisa 1). Jadi 3 bukan faktor 10." },
+            "w-task6": { type: "single", q: "Faktor dari 18 adalah 1, 2, 3, 6, 9, 18. Berapakah bilangan yang sama-sama menjadi faktor dari 12 dan 18 (Faktor Persekutuan)?", opts: ["\\( 1, 2, 3 \\)", "\\( 4, 6, 12 \\)", "\\( 9, 18 \\)", "\\( 12 \\)", "\\( 1, 2, 3, 6 \\)"], ans: "\\( 1, 2, 3, 6 \\)", exp: "Faktor 12: 1, 2, 3, 4, 6, 12. Faktor 18: 1, 2, 3, 6, 9, 18. Bilangan yang muncul di keduanya adalah 1, 2, 3, dan 6." },
+            "w-task7": { type: "single", q: "Di antara angka 0 dan 1, ada bilangan pecahan. Pecahan manakah yang berada di antara 0 dan 1?", opts: ["\\( \\frac{1}{2} \\)", "\\( -\\frac{1}{2} \\)", "\\( 2 \\)", "\\( \\frac{5}{4} \\)", "\\( 1 \\)"], ans: "\\( \\frac{1}{2} \\)", exp: "1/2 berarti setengah bagian. Jika 1 pizza dipotong 2, 1 potong berada di tengah antara 0 (kosong) dan 1 (penuh). Jadi 1/2 ada di antara 0 dan 1." },
+            "w-task8": { type: "single", q: "Ukuran sebuah payung 🌂 bisa menampung 1 liter air. Jika hanya terisi 0.5 liter, berapa bentuk pecahannya?", opts: ["\\( \\frac{1}{2} \\)", "\\( \\frac{1}{4} \\)", "\\( \\frac{3}{4} \\)", "\\( \\frac{1}{1} \\)", "\\( \\frac{2}{1} \\)"], ans: "\\( \\frac{1}{2} \\)", exp: "0.5 sama dengan 5/10, jika disederhanakan (dibagi 5) menjadi 1/2. Jadi setengah penuh sama dengan 1/2." },
+            "w-task9": { type: "single", q: "Ada 4 anak 👦👧👦👧 yang mau naik seesaw (jangkar). Berat mereka harus seimbang. Jika 2 anak di kiri, berapa anak di kanan agar seimbang?", opts: ["\\( 1 \\text{ anak} \\)", "\\( 2 \\text{ anak} \\)", "\\( 3 \\text{ anak} \\)", "\\( 4 \\text{ anak} \\)", "\\( \\frac{1}{2} \\text{ anak} \\)"], ans: "\\( 2 \\text{ anak} \\)", exp: "Agar seimbang, sisi kiri dan kanan harus sama. 2 anak di kiri = 2 anak di kanan. Pecahan 2/4 sama dengan 1/2 bagian dari total anak." },
+            "w-task10": { type: "single", q: "Sepuluh tahun yang lalu, umur pohon 🌳 adalah 0 tahun. Sekarang pohon berumur 10 tahun. Berapa umur pohon dalam bentuk pecahan dari 20 tahun?", opts: ["\\( \\frac{1}{4} \\)", "\\( \\frac{1}{2} \\)", "\\( \\frac{3}{4} \\)", "\\( \\frac{1}{10} \\)", "\\( \\frac{1}{1} \\)"], ans: "\\( \\frac{1}{2} \\)", exp: "Umur pohon sekarang 10. Dibandingkan dengan 20 tahun, 10 dari 20 adalah 10/20. Jika disederhanakan (dibagi 10), menjadi 1/2." },
+
+            // ==========================================
+            // SECTION 2: INTRODUCTION & REAL-WORLD (i-task)
+            // ==========================================
+            "i-task1": { type: "single", q: "Pizza 🍕 dipotong menjadi 8 slice sama rata. Budi makan 3 slice. Berapa pecahan pizza yang Budi makan?", opts: ["\\( \\frac{3}{8} \\)", "\\( \\frac{8}{3} \\)", "\\( \\frac{3}{5} \\)", "\\( \\frac{5}{8} \\)", "\\( \\frac{8}{5} \\)"], ans: "\\( \\frac{3}{8} \\)", exp: "Total potong = penyebut = 8. Potong yang dimakan = pembilang = 3. Jadi Budi makan 3 dari 8 bagian, ditulis 3/8." },
+            "i-task2": { type: "single", q: "Botol air 🍼 berkapasitas 1 liter. Sisi terisi air sebanyak 250 ml (perempat liter). Berapa pecahan air di dalam botol?", opts: ["\\( \\frac{1}{4} \\)", "\\( \\frac{1}{2} \\)", "\\( \\frac{3}{4} \\)", "\\( \\frac{1}{1} \\)", "\\( \\frac{1}{3} \\)"], ans: "\\( \\frac{1}{4} \\)", exp: "1 liter = 1000 ml. 250 ml adalah 250/1000. Disederhanakan (dibagi 250) menjadi 1/4. Jadi botol terisi seperempat." },
+            "i-task3": { type: "single", q: "Tali sepanjang 1 meter dipotong menjadi 5 bagian sama panjang. Ari mengambil 2 potong. Berapa pecahan tali yang diambil Ari?", opts: ["\\( \\frac{1}{5} \\)", "\\( \\frac{2}{5} \\)", "\\( \\frac{5}{2} \\)", "\\( \\frac{2}{3} \\)", "\\( \\frac{3}{5} \\)"], ans: "\\( \\frac{2}{5} \\)", exp: "Tali dipotong jadi 5 bagian (penyebut 5). Ari mengambil 2 bagian (pembilang 2). Jadi Ari mengambil 2/5 bagian tali." },
+            "i-task4": { type: "single", q: "Andi punya uang 💵 Rp 1.000.000. Ia menyimpan 1/4 bagian di bank 🏦. Berapa rupiah yang Andi simpan?", opts: ["\\( \\text{Rp 250.000} \\)", "\\( \\text{Rp 400.000} \\)", "\\( \\text{Rp 500.000} \\)", "\\( \\text{Rp 750.000} \\)", "\\( \\text{Rp 1.000.000} \\)"], ans: "\\( \\text{Rp 250.000} \\)", exp: "1/4 dari 1.000.000 adalah 1.000.000 dibagi 4. 1.000.000 / 4 = 250.000. Jadi Andi menyimpan Rp 250.000." },
+            "i-task5": { type: "single", q: "Baterai HP 📱 saat ini menyala 50%. Jika dinyatakan dalam pecahan, berapa baterai yang tersisa?", opts: ["\\( \\frac{1}{4} \\)", "\\( \\frac{1}{2} \\)", "\\( \\frac{1}{3} \\)", "\\( \\frac{3}{4} \\)", "\\( \\frac{2}{3} \\)"], ans: "\\( \\frac{1}{2} \\)", exp: "50% artinya setengah dari total. Setengah dalam pecahan adalah 1/2. Jadi baterai tersisa 1/2 bagian." },
+            "i-task6": { type: "single", q: "Kucing 🐱 makan 1/2 mangkok makanan, Anjing 🐶 makan 1/3 mangkok makanan. Siapa yang makan lebih banyak?", opts: ["\\( \\text{Kucing} \\)", "\\( \\text{Anjing} \\)", "\\( \\text{Sama banyak} \\)", "\\( \\text{Tidak bisa diketahui} \\)", "\\( \\text{Anjing makan 2x} \\)"], ans: "\\( \\text{Kucing} \\)", exp: "1/2 sama dengan 3/6 (dikalikan 3). 1/3 sama dengan 2/6 (dikalikan 2). Karena 3/6 > 2/6, maka makanan kucing (1/2) lebih banyak dari anjing (1/3)." },
+            "i-task7": { type: "single", q: "Kue 🥧 dibagi untuk 2 orang. Kakak dapat 3/4 bagian, Adik dapat 1/4 bagian. Pernyataan mana yang benar?", opts: ["\\( \\text{Kakak dapat lebih banyak} \\)", "\\( \\text{Adik dapat lebih banyak} \\)", "\\( \\text{Kakak dan adik sama} \\)", "\\( \\text{Adik tidak dapat} \\)", "\\( \\text{Kakak dapat 3x lipat} \\)"], ans: "\\( \\text{Kakak dapat lebih banyak} \\)", exp: "Penyebutnya sama (4). Bandingkan pembilangnya: 3 > 1. Maka 3/4 lebih besar dari 1/4. Kakak dapat bagian yang lebih besar." },
+            "i-task8": { type: "single", q: "Waktu ⏰ untuk mengerjakan soal adalah 1/2 jam. Dari 60 menit, berapa menit waktu yang diberikan?", opts: ["\\( 15 \\text{ menit} \\)", "\\( 20 \\text{ menit} \\)", "\\( 30 \\text{ menit} \\)", "\\( 45 \\text{ menit} \\)", "\\( 60 \\text{ menit} \\)"], ans: "\\( 30 \\text{ menit} \\)", exp: "1 jam = 60 menit. 1/2 jam berarti 60 menit dibagi 2. 60 / 2 = 30 menit." },
+            "i-task9": { type: "single", q: "Tabung 🛢️ berisi air 3/4 penuh. Dari 4 liter kapasitas, berapa liter air di dalam tabung?", opts: ["\\( 1 \\text{ liter} \\)", "\\( 2 \\text{ liter} \\)", "\\( 3 \\text{ liter} \\)", "\\( 4 \\text{ liter} \\)", "\\( \\frac{3}{4} \\text{ liter} \\)"], ans: "\\( 3 \\text{ liter} \\)", exp: "Kapasitas total 4 liter. Terisi 3/4 bagian. 4 liter x (3/4) = 12/4 = 3 liter. Jadi tabung berisi 3 liter." },
+            "i-task10": { type: "single", q: "Anak ayam 🐥 berjumlah 10. 1/2 dari mereka berwarna kuning, sisanya putih. Berapa anak ayam yang berwarna putih?", opts: ["\\( 2 \\text{ ekor} \\)", "\\( 3 \\text{ ekor} \\)", "\\( 4 \\text{ ekor} \\)", "\\( 5 \\text{ ekor} \\)", "\\( 6 \\text{ ekor} \\)"], ans: "\\( 5 \\text{ ekor} \\)", exp: "Jika 1/2 berwarna kuning, berarti 1/2 yang lain berwarna putih. 10 anak ayam x 1/2 = 5 ekor yang putih." },
+
+            // ==========================================
+            // SECTION 3: REVIEW OF PRIOR KNOWLEDGE (r-task)
+            // ==========================================
+            "r-task1": { type: "single", q: "Pada pecahan 5/8 🍕, angka 5 disebut pembilang. Apa arti dari angka 5 tersebut?", opts: ["\\( \\text{Total potong pizza} \\)", "\\( \\text{Potong yang diambil} \\)", "\\( \\text{Sisa pizza} \\)", "\\( \\text{Orang yang makan} \\)", "\\( \\text{Harga pizza} \\)"], ans: "\\( \\text{Potong yang diambil} \\)", exp: "Pembilang (atas) menunjukkan jumlah bagian yang kita punya atau ambil. Jadi 5 berarti 5 potong pizza yang kita ambil." },
+            "r-task2": { type: "single", q: "Pada pecahan 5/8 🍕, angka 8 disebut penyebut. Apa arti dari angka 8 tersebut?", opts: ["\\( \\text{Potong yang diambil} \\)", "\\( \\text{Total potong pizza} \\)", "\\( \\text{Sisa pizza} \\)", "\\( \\text{Ukuran pizza} \\)", "\\( \\text{Jumlah orang} \\)"], ans: "\\( \\text{Total potong pizza} \\)", exp: "Penyebut (bawah) menunjukkan total jumlah potongan yang sama besar dari satu benda utuh. Jadi 8 berarti pizza dipotong jadi 8 bagian." },
+            "r-task3": { type: "single", q: "Manakah pecahan yang TIDAK senilai dengan 1/2?", opts: ["\\( \\frac{2}{4} \\)", "\\( \\frac{3}{6} \\)", "\\( \\frac{4}{7} \\)", "\\( \\frac{5}{10} \\)", "\\( \\frac{6}{12} \\)"], ans: "\\( \\frac{4}{7} \\)", exp: "Pecahan senilai 1/2 adalah 2/4, 3/6, 5/10, 6/12. 4/7 tidak sama dengan 1/2 karena jika disamakan penyebutnya tidak menghasilkan 1/2. Jadi 4/7 bukan pecahan senilai." },
+            "r-task4": { type: "single", q: "Apakah 2/4 sama dengan 1/2?", opts: ["\\( \\text{Sama, karena 2 dibagi 2 adalah 1, dan 4 dibagi 2 adalah 2} \\)", "\\( \\text{Beda, karena angkanya berbeda} \\)", "\\( \\text{Sama, karena 2+4 = 6} \\)", "\\( \\text{Beda, karena penyebut lebih besar} \\)", "\\( \\text{Tidak bisa dibandingkan} \\)"], ans: "\\( \\text{Sama, karena 2 dibagi 2 adalah 1, dan 4 dibagi 2 adalah 2} \\)", exp: "Pecahan senilai didapat dengan menyederhanakan pecahan. 2/4 dibagi 2 (pembilang dan penyebut) menjadi 1/2. Jadi nilainya sama." },
+            "r-task5": { type: "single", q: "Bentuk desimal dari 1/4 adalah...", opts: ["\\( 0.1 \\)", "\\( 0.2 \\)", "\\( 0.25 \\)", "\\( 0.4 \\)", "\\( 0.5 \\)"], ans: "\\( 0.25 \\)", exp: "Untuk mengubah pecahan ke desimal, bagi pembilang dengan penyebut. 1 dibagi 4 = 0.25. Jadi 1/4 = 0.25." },
+            "r-task6": { type: "single", q: "Bentuk desimal dari 3/4 adalah...", opts: ["\\( 0.25 \\)", "\\( 0.34 \\)", "\\( 0.5 \\)", "\\( 0.75 \\)", "\\( 0.8 \\)"], ans: "\\( 0.75 \\)", exp: "3 dibagi 4 sama dengan 0.75. (Atau bayangkan 1/4 = 0.25, jadi 3/4 = 3 x 0.25 = 0.75)." },
+            "r-task7": { type: "single", q: "Jika 1/2 = 0.5, dan 1/4 = 0.25. Pecahan manakah yang lebih besar?", opts: ["\\( \\frac{1}{4} \\)", "\\( \\frac{1}{2} \\)", "\\( \\text{Sama besar} \\)", "\\( \\text{Tidak tahu} \\)", "\\( \\text{Keduanya 1} \\)"], ans: "\\( \\frac{1}{2} \\)", exp: "0.5 lebih besar dari 0.25 (karena 5 lebih besar dari 2 di belakang koma untuk angka desimal yang posisinya sama). Jadi 1/2 lebih besar dari 1/4." },
+            "r-task8": { type: "single", q: "Di kelas ada 20 siswa 👨‍👩‍👧‍👦. 1/4 dari mereka memakai kacamata 🤓. Berapa siswa yang memakai kacamata?", opts: ["\\( 4 \\text{ siswa} \\)", "\\( 5 \\text{ siswa} \\)", "\\( 10 \\text{ siswa} \\)", "\\( 15 \\text{ siswa} \\)", "\\( 20 \\text{ siswa} \\)"], ans: "\\( 5 \\text{ siswa} \\)", exp: "1/4 dari 20 berarti 20 dibagi 4. 20 / 4 = 5. Jadi ada 5 siswa yang memakai kacamata." },
+            "r-task9": { type: "single", q: "Tolong pilih pecahan yang paling kecil dari pecahan berikut: 1/2, 1/4, 3/4, 1/1?", opts: ["\\( \\frac{1}{2} \\)", "\\( \\frac{1}{4} \\)", "\\( \\frac{3}{4} \\)", "\\( \\frac{1}{1} \\)", "\\( \\text{Semuanya sama} \\)"], ans: "\\( \\frac{1}{4} \\)", exp: "Ubah ke desimal: 1/2=0.5, 1/4=0.25, 3/4=0.75, 1/1=1. Angka paling kecil adalah 0.25. Jadi 1/4 adalah pecahan terkecil." },
+            "r-task10": { type: "single", q: "Jarak rumah ke sekolah 🏫 adalah 1 km. Andi sudah bersepeda 🚲 menempuh 0.5 km. Berapa pecahan jarak yang sudah Andi tempuh?", opts: ["\\( \\frac{1}{4} \\)", "\\( \\frac{1}{2} \\)", "\\( \\frac{3}{4} \\)", "\\( \\frac{1}{1} \\)", "\\( \\frac{1}{5} \\)"], ans: "\\( \\frac{1}{2} \\)", exp: "0.5 sama dengan 5/10. Jika disederhanakan (dibagi 5) menjadi 1/2. Jadi Andi sudah menempuh 1/2 km." },
+
+            // ==========================================
+            // SECTION 4: PROBLEM INTRODUCTION (p-task)
+            // ==========================================
+            "p-task1": { type: "single", q: "Dua gelas berisi jus 🥤. Gelas A terisi 3/5, Gelas B terisi 2/5. Mana yang lebih banyak jusnya?", opts: ["\\( \\text{Gelas A} \\)", "\\( \\text{Gelas B} \\)", "\\( \\text{Sama banyak} \\)", "\\( \\text{Tidak bisa} \\)", "\\( \\text{Gelas B lebih penuh} \\)"], ans: "\\( \\text{Gelas A} \\)", exp: "Penyebut sama (5). Bandingkan pembilang: 3 > 2. Maka 3/5 > 2/5. Gelas A lebih banyak jusnya." },
+            "p-task2": { type: "single", q: "Dua pizza 🍕 dipotong 8 bagian. Pizza A diambil 6 slice (6/8), Pizza B diambil 7 slice (7/8). Pizza mana yang sisanya lebih banyak?", opts: ["\\( \\text{Pizza A} \\)", "\\( \\text{Pizza B} \\)", "\\( \\text{Sisa sama} \\)", "\\( \\text{Pizza A habis} \\)", "\\( \\text{Tidak bisa ditentukan} \\)"], ans: "\\( \\text{Pizza A} \\)", exp: "Pizza B diambil 7/8, sisa 1/8. Pizza A diambil 6/8, sisa 2/8. Karena 2/8 > 1/8, maka sisa pizza A lebih banyak." },
+            "p-task3": { type: "single", q: "Ujang makan kue 🍪 3/8, Usep makan 1/8. Jika dibandingkan, siapa yang makan lebih sedikit?", opts: ["\\( \\text{Ujang} \\)", "\\( \\text{Usep} \\)", "\\( \\text{Sama} \\)", "\\( \\text{Tidak ada yang makan} \\)", "\\( \\text{Usep makan 3x} \\)"], ans: "\\( \\text{Usep} \\)", exp: "Penyebut sama. 1/8 lebih kecil dari 3/8. Jadi Usep makan lebih sedikit kuenya." },
+            "p-task4": { type: "single", q: "Ada 2 buah kue 🎂. Kue A dipotong jadi 2, Kue B dipotong jadi 4. Kamu ambil 1 potong dari masing-masing kue (1/2 dan 1/4). Potong kue mana yang lebih besar?", opts: ["\\( \\text{Kue A } (\\frac{1}{2}) \\)", "\\( \\text{Kue B } (\\frac{1}{4}) \\)", "\\( \\text{Sama besar} \\)", "\\( \\text{Kue B} \\)", "\\( \\text{Tidak bisa} \\)"], ans: "\\( \\text{Kue A } (\\frac{1}{2}) \\)", exp: "Pembilang sama (1). Penyebut lebih kecil berarti potongan lebih besar. Karena 2 < 4, maka 1/2 > 1/4. Potong kue A lebih besar." },
+            "p-task5": { type: "single", q: "Balon 🎹 A terisi helium 3/4, Balon B terisi 3/5. Balon mana yang heliumnya lebih banyak?", opts: ["\\( \\text{Balon A} \\)", "\\( \\text{Balon B} \\)", "\\( \\text{Sama} \\)", "\\( \\text{Balon B lebih penuh} \\)", "\\( \\text{Tidak tahu} \\)"], ans: "\\( \\text{Balon A} \\)", exp: "Pembilang sama (3). Penyebut 4 < 5, maka 3/4 > 3/5. Balon A heliumnya lebih banyak." },
+            "p-task6": { type: "single", q: "Donat 🍩 A ditaburi keju 2/3, Donut B ditaburi keju 2/5. Donut mana yang kejunya lebih sedikit?", opts: ["\\( \\text{Donut A} \\)", "\\( \\text{Donut B} \\)", "\\( \\text{Sama} \\)", "\\( \\text{Donut A kurang keju} \\)", "\\( \\text{Tidak ada} \\)"], ans: "\\( \\text{Donut B} \\)", exp: "Pembilang sama (2). 5 > 3, jadi 2/5 lebih kecil dari 2/3. Donut B kejunya lebih sedikit." },
+            "p-task7": { type: "single", q: "Gelas A terisi air 🚰 1/2, Gelas B terisi 1/3. Jika kamu sangat haus, gelas mana yang mau kamu minum?", opts: ["\\( \\text{Gelas A} \\)", "\\( \\text{Gelas B} \\)", "\\( \\text{Sama saja} \\)", "\\( \\text{Gelas B lebih banyak} \\)", "\\( \\text{Gelas A lebih sedikit} \\)"], ans: "\\( \\text{Gelas A} \\)", exp: "Samakan penyebut. KPK 2 dan 3 adalah 6. 1/2 jadi 3/6. 1/3 jadi 2/6. 3/6 > 2/6. Gelas A airnya lebih banyak." },
+            "p-task8": { type: "single", q: "Botol sirup 🍾 A sisa 2/3, Botol B sisa 3/4. Botol mana yang sisanya lebih sedikit?", opts: ["\\( \\text{Botol A} \\)", "\\( \\text{Botol B} \\)", "\\( \\text{Sama} \\)", "\\( \\text{Tidak bisa} \\)", "\\( \\text{Botol B hampir habis} \\)"], ans: "\\( \\text{Botol A} \\)", exp: "KPK 3 dan 4 adalah 12. 2/3 = 8/12. 3/4 = 9/12. Karena 8/12 < 9/12, maka 2/3 < 3/4. Botol A sisanya lebih sedikit." },
+            "p-task9": { type: "single", q: "Ibu membuat 2/5 kg gula di toples A, dan 3/10 kg gula di toples B. Toples mana yang gulanya lebih berat?", opts: ["\\( \\text{Toples A} \\)", "\\( \\text{Toples B} \\)", "\\( \\text{Sama berat} \\)", "\\( \\text{Tidak ada gula} \\)", "\\( \\text{Toples B lebih berat} \\)"], ans: "\\( \\text{Toples A} \\)", exp: "KPK 5 dan 10 adalah 10. 2/5 = 4/10. Bandingkan 4/10 dengan 3/10. 4 > 3, jadi 4/10 > 3/10. Toples A lebih berat." },
+            "p-task10": { type: "single", q: "Baterai senter 🔦 A menyala 5/6 jam, Baterai B menyala 7/12 jam. Baterai mana yang lebih tahan lama?", opts: ["\\( \\text{Baterai A} \\)", "\\( \\text{Baterai B} \\)", "\\( \\text{Sama} \\)", "\\( \\text{Baterai B lebih tahan} \\)", "\\( \\text{Baterai A lebih cepat} \\)"], ans: "\\( \\text{Baterai A} \\)", exp: "KPK 6 dan 12 adalah 12. 5/6 = 10/12. Bandingkan 10/12 dengan 7/12. 10 > 7, jadi 10/12 > 7/12. Baterai A lebih tahan lama." },
+
+            // ==========================================
+            // SECTION 5: GUIDED PRACTICE (g-task)
+            // ==========================================
+            "g-task1": { type: "single", q: "Urutkan dari yang TERKECIL ke TERBESAR: 1/4, 1/2, 3/4 📏", opts: ["\\( \\frac{1}{4}, \\frac{1}{2}, \\frac{3}{4} \\)", "\\( \\frac{1}{2}, \\frac{1}{4}, \\frac{3}{4} \\)", "\\( \\frac{3}{4}, \\frac{1}{2}, \\frac{1}{4} \\)", "\\( \\frac{1}{4}, \\frac{3}{4}, \\frac{1}{2} \\)", "\\( \\frac{3}{4}, \\frac{1}{4}, \\frac{1}{2} \\)"], ans: "\\( \\frac{1}{4}, \\frac{1}{2}, \\frac{3}{4} \\)", exp: "Penyebut sama. Bandingkan pembilang: 1 < 2 < 3. Jadi urutannya 1/4, lalu 1/2 (atau 2/4), lalu 3/4." },
+            "g-task2": { type: "single", q: "Urutkan dari yang TERBESAR ke TERKECIL: 2/3, 1/3, 5/6 📉", opts: ["\\( \\frac{5}{6}, \\frac{2}{3}, \\frac{1}{3} \\)", "\\( \\frac{1}{3}, \\frac{2}{3}, \\frac{5}{6} \\)", "\\( \\frac{2}{3}, \\frac{5}{6}, \\frac{1}{3} \\)", "\\( \\frac{5}{6}, \\frac{1}{3}, \\frac{2}{3} \\)", "\\( \\frac{2}{3}, \\frac{1}{3}, \\frac{5}{6} \\)"], ans: "\\( \\frac{5}{6}, \\frac{2}{3}, \\frac{1}{3} \\)", exp: "Samakan penyebut ke 6. 2/3 = 4/6, 1/3 = 2/6, 5/6 = 5/6. Urutkan pembilang dari besar: 5, 4, 2. Jadi 5/6, 2/3, 1/3." },
+            "g-task3": { type: "single", q: "Manakah pecahan yang berada di antara 1/4 dan 3/4? 🔍", opts: ["\\( \\frac{1}{2} \\)", "\\( \\frac{1}{8} \\)", "\\( \\frac{4}{4} \\)", "\\( \\frac{2}{8} \\)", "\\( \\frac{0}{4} \\)"], ans: "\\( \\frac{1}{2} \\)", exp: "Jika penyebut disamakan ke 4, 1/2 adalah 2/4. Angka 2 ada di antara 1 (pada 1/4) dan 3 (pada 3/4). Jadi 2/4 atau 1/2 berada di tengahnya." },
+            "g-task4": { type: "single", q: "Di antara 1/3 dan 2/3, terdapat pecahan...", opts: ["\\( \\frac{1}{2} \\)", "\\( \\frac{3}{3} \\)", "\\( \\frac{1}{6} \\)", "\\( \\frac{0}{3} \\)", "\\( \\frac{2}{6} \\)"], ans: "\\( \\frac{1}{2} \\)", exp: "Samakan penyebut ke 6. 1/3 = 2/6, 2/3 = 4/6. Di antara 2 dan 4 ada 3. Jadi pecahannya 3/6, yang sama dengan 1/2." },
+            "g-task5": { type: "single", q: "Diskon 🏷️ di toko A adalah 1/4 (25%), di toko B 40%. Diskon mana yang lebih besar?", opts: ["\\( \\text{Toko A} \\)", "\\( \\text{Toko B} \\)", "\\( \\text{Sama besar} \\)", "\\( \\text{Toko A lebih murah} \\)", "\\( \\text{Tidak bisa} \\)"], ans: "\\( \\text{Toko B} \\)", exp: "Ubah ke persen: 1/4 = 25%. 25% lebih kecil dari 40%. Jadi diskon toko B lebih besar." },
+            "g-task6": { type: "single", q: "Siswa 🧑‍🎓 dapat nilai matematika 80%. Jika dinyatakan dalam pecahan, berapa bentuk sederhananya?", opts: ["\\( \\frac{80}{100} \\)", "\\( \\frac{8}{10} \\)", "\\( \\frac{4}{5} \\)", "\\( \\frac{2}{5} \\)", "\\( \\frac{80}{10} \\)"], ans: "\\( \\frac{4}{5} \\)", exp: "80% = 80/100. Sederhanakan dengan membagi 20: 80/20 = 4, 100/20 = 5. Jadi 4/5." },
+            "g-task7": { type: "single", q: "Tabung 🛢️ minyak A terisi 0.75, tabung B terisi 3/5. Tabung mana yang lebih penuh?", opts: ["\\( \\text{Tabung A} \\)", "\\( \\text{Tabung B} \\)", "\\( \\text{Sama penuh} \\)", "\\( \\text{Tabung B lebih penuh} \\)", "\\( \\text{Tabung A kosong} \\)"], ans: "\\( \\text{Tabung A} \\)", exp: "Ubah pecahan ke desimal. 3/5 = 6/10 = 0.6. Bandingkan: 0.75 > 0.6. Jadi tabung A lebih penuh." },
+            "g-task8": { type: "single", q: "Jarum jam ⏰ berputar 1/2 lingkaran. Berapa persen dari putaran penuh (360 derajat)?", opts: ["\\( 25\\% \\)", "\\( 50\\% \\)", "\\( 75\\% \\)", "\\( 100\\% \\)", "\\( 30\\% \\)"], ans: "\\( 50\\% \\)", exp: "Putaran penuh = 1. 1/2 dari 1 adalah setengah. Setengah dalam persen adalah 50%." },
+            "g-task9": { type: "single", q: "Ada 3 batang kawat 🪝 sepanjang 2/3 m, 3/4 m, dan 5/6 m. Urutkan dari terpendek ke terpanjang!", opts: ["\\( \\frac{2}{3}, \\frac{3}{4}, \\frac{5}{6} \\)", "\\( \\frac{5}{6}, \\frac{3}{4}, \\frac{2}{3} \\)", "\\( \\frac{3}{4}, \\frac{2}{3}, \\frac{5}{6} \\)", "\\( \\frac{2}{3}, \\frac{5}{6}, \\frac{3}{4} \\)", "\\( \\frac{3}{4}, \\frac{5}{6}, \\frac{2}{3} \\)"], ans: "\\( \\frac{2}{3}, \\frac{3}{4}, \\frac{5}{6} \\)", exp: "KPK 3, 4, 6 adalah 12. 2/3=8/12, 3/4=9/12, 5/6=10/12. Urutan pembilang: 8, 9, 10. Jadi 2/3, 3/4, 5/6." },
+            "g-task10": { type: "single", q: "Seorang pelari 🏃 menempuh 2/5 jalur di menit pertama, dan 1/2 jalur di menit kedua. Pada menit mana ia menempuh jarak lebih jauh?", opts: ["\\( \\text{Menit pertama} \\)", "\\( \\text{Menit kedua} \\)", "\\( \\text{Jarak sama} \\)", "\\( \\text{Berhenti} \\)", "\\( \\text{Menit pertama lebih jauh} \\)"], ans: "\\( \\text{Menit kedua} \\)", exp: "KPK 5 dan 2 adalah 10. 2/5 = 4/10. 1/2 = 5/10. Karena 5/10 > 4/10, maka di menit kedua ia menempuh jarak lebih jauh." },
+
+            // ==========================================
+            // SECTION 6: INDEPENDENT PRACTICE (ind-task)
+            // ==========================================
+            "ind-task1": { type: "single", q: "Doni belajar 📚 selama 1/2 jam, Rian belajar 3/4 jam. Siapa yang belajar lebih lama dan berapa selisihnya?", opts: ["\\( \\text{Rian, } \\frac{1}{4} \\text{ jam} \\)", "\\( \\text{Doni, } \\frac{1}{4} \\text{ jam} \\)", "\\( \\text{Rian, } \\frac{1}{2} \\text{ jam} \\)", "\\( \\text{Sama lama} \\)", "\\( \\text{Doni, } \\frac{3}{4} \\text{ jam} \\)"], ans: "\\( \\text{Rian, } \\frac{1}{4} \\text{ jam} \\)", exp: "KPK 2 dan 4 adalah 4. 1/2 = 2/4. 3/4 - 2/4 = 1/4. Rian belajar lebih lama dengan selisih 1/4 jam (15 menit)." },
+            "ind-task2": { type: "single", q: "Botol 🍶 X terisi 2/5 liter, Botol Y terisi 1/3 liter. Mana yang lebih banyak airnya?", opts: ["\\( \\text{Botol X} \\)", "\\( \\text{Botol Y} \\)", "\\( \\text{Sama banyak} \\)", "\\( \\text{Tidak yakin} \\)", "\\( \\text{Botol Y lebih banyak} \\)"], ans: "\\( \\text{Botol X} \\)", exp: "KPK 5 dan 3 adalah 15. 2/5 = 6/15. 1/3 = 5/15. Karena 6/15 > 5/15, maka Botol X lebih banyak." },
+            "ind-task3": { type: "single", q: "Tangki air 🚛 besar berkapasitas 5000 liter. Terisi 3/4 penuh. Berapa liter air di dalam tangki?", opts: ["\\( 1250 \\text{ liter} \\)", "\\( 2500 \\text{ liter} \\)", "\\( 3750 \\text{ liter} \\)", "\\( 4000 \\text{ liter} \\)", "\\( 5000 \\text{ liter} \\)"], ans: "\\( 3750 \\text{ liter} \\)", exp: "3/4 dari 5000 = (3 x 5000) / 4 = 15000 / 4 = 3750. Jadi tangki berisi 3750 liter air." },
+            "ind-task4": { type: "single", q: "Gelas 🥛 A terisi 1/2 bagian susu coklat 🍫, gelas B terisi 1/3 bagian susu putih 🥛. Gelas mana yang lebih sedikit susunya?", opts: ["\\( \\text{Gelas A} \\)", "\\( \\text{Gelas B} \\)", "\\( \\text{Sama sedikit} \\)", "\\( \\text{Gelas B lebih sedikit} \\)", "\\( \\text{Gelas A lebih sedikit} \\)"], ans: "\\( \\text{Gelas B} \\)", exp: "KPK 2 dan 3 adalah 6. 1/2 = 3/6, 1/3 = 2/6. 2/6 lebih kecil dari 3/6. Jadi susu di gelas B lebih sedikit." },
+            "ind-task5": { type: "single", q: "Sepeda motor 🏍️ A melaju dengan kecepatan 3/5 kecepatan asli. Motor B melaju 4/7 kecepatan asli. Mana yang lebih cepat?", opts: ["\\( \\text{Motor A} \\)", "\\( \\text{Motor B} \\)", "\\( \\text{Kecepatan sama} \\)", "\\( \\text{Motor A lebih pelan} \\)", "\\( \\text{Motor B berhenti} \\)"], ans: "\\( \\text{Motor A} \\)", exp: "KPK 5 dan 7 adalah 35. 3/5 = 21/35. 4/7 = 20/35. Karena 21/35 > 20/35, maka Motor A lebih cepat." },
+            "ind-task6": { type: "single", q: "Sebuah pipa 🧰 panjangnya 4 meter. Pipa A sepanjang 3/4 meter, Pipa B sepanjang 5/8 meter. Pipa mana yang lebih panjang?", opts: ["\\( \\text{Pipa A} \\)", "\\( \\text{Pipa B} \\)", "\\( \\text{Sama panjang} \\)", "\\( \\text{Tidak tahu} \\)", "\\( \\text{Pipa B lebih pendek} \\)"], ans: "\\( \\text{Pipa A} \\)", exp: "KPK 4 dan 8 adalah 8. 3/4 = 6/8. 5/8 = 5/8. Karena 6/8 > 5/8, maka Pipa A lebih panjang." },
+            "ind-task7": { type: "single", q: "Tabung gas 🛢️ A berisi 2/3, Tabung B berisi 75%. Tabung mana yang isinya lebih banyak?", opts: ["\\( \\text{Tabung A} \\)", "\\( \\text{Tabung B} \\)", "\\( \\text{Sama banyak} \\)", "\\( \\text{Tabung A lebih sedikit} \\)", "\\( \\text{Tabung B kosong} \\)"], ans: "\\( \\text{Tabung B} \\)", exp: "Ubah 2/3 ke persen, yaitu ~66.7%. Karena 75% > 66.7%, maka Tabung B isinya lebih banyak." },
+            "ind-task8": { type: "single", q: "Pita 🎀 sepanjang 1 meter. Andi pakai 1/4 m, Budi pakai 0.5 m. Siapa yang sisa pitanya lebih banyak jika diberi pita masing-masing 1m?", opts: ["\\( \\text{Andi} \\)", "\\( \\text{Budi} \\)", "\\( \\text{Sama banyak} \\)", "\\( \\text{Tidak tahu} \\)", "\\( \\text{Budi sisa lebih banyak} \\)"], ans: "\\( \\text{Andi} \\)", exp: "Andi pakai 1/4 m (0.25 m), Budi pakai 0.5 m. Karena Andi lebih sedikit memakai, sisa pitanya lebih banyak." },
+            "ind-task9": { type: "single", q: "Sebuah perjalanan 🗺️ total 12 km. Jika sudah ditempuh 7/12 bagian, berapa km lagi yang harus ditempuh?", opts: ["\\( 5 \\text{ km} \\)", "\\( 7 \\text{ km} \\)", "\\( 12 \\text{ km} \\)", "\\( 1 \\text{ km} \\)", "\\( \\frac{5}{12} \\text{ km} \\)"], ans: "\\( 5 \\text{ km} \\)", exp: "Sisa perjalanan = 12/12 - 7/12 = 5/12. 5/12 dari 12 km = (5 x 12) / 12 = 5 km. Jadi sisa 5 km." },
+            "ind-task10": { type: "single", q: "Nilai ulangan 💯 Tono 85, Ujang 90. Jika maksimal nilai 100, pecahan sederhana dari nilai Ujang adalah...", opts: ["\\( \\frac{85}{100} \\)", "\\( \\frac{90}{100} \\)", "\\( \\frac{9}{10} \\)", "\\( \\frac{17}{20} \\)", "\\( \\frac{95}{100} \\)"], ans: "\\( \\frac{9}{10} \\)", exp: "Nilai Ujang 90 dari 100 = 90/100. Jika disederhanakan dibagi 10 menjadi 9/10. Jadi pecahannya 9/10." },
+
+            // ==========================================
+            // SECTION 7: TASK 1 - 5 (Mixed Story Problems)
+            // ==========================================
+            // TASK 1: Pembandingan Dasar & Kehidupan Sehari-hari
+            "t1-task1": { type: "single", q: "Ada 2 buah apel 🍏 yang sama besar. Apel A dipotong jadi 4, Apel B dipotong jadi 8. Jika kamu makan 1 potong dari masing-masing, potong mana yang lebih besar?", opts: ["\\( \\text{Apel A } (\\frac{1}{4}) \\)", "\\( \\text{Apel B } (\\frac{1}{8}) \\)", "\\( \\text{Sama besar} \\)", "\\( \\text{Apel B lebih kecil} \\)", "\\( \\text{Apel A lebih kecil} \\)"], ans: "\\( \\text{Apel A } (\\frac{1}{4}) \\)", exp: "Pembilang sama (1). Penyebut 4 < 8, maka 1/4 > 1/8. Potongan apel A lebih besar." },
+            "t1-task2": { type: "single", q: "Sisa kue 🥮 di toples A adalah 3/10, toples B 1/2. Toples mana yang sisa kuenya lebih sedikit?", opts: ["\\( \\text{Toples A} \\)", "\\( \\text{Toples B} \\)", "\\( \\text{Sama} \\)", "\\( \\text{Toples A lebih banyak} \\)", "\\( \\text{Tidak tahu} \\)"], ans: "\\( \\text{Toples A} \\)", exp: "KPK 10 dan 2 adalah 10. 3/10 tetap. 1/2 jadi 5/10. Karena 3/10 < 5/10, maka sisa toples A lebih sedikit." },
+            "t1-task3": { type: "single", q: "Ibu membeli 2 buah semangka 🍉. Semangka A ditakar 3/4 kg, semangka B 5/6 kg. Semangka mana yang lebih ringan?", opts: ["\\( \\text{Semangka A} \\)", "\\( \\text{Semangka B} \\)", "\\( \\text{Sama ringan} \\)", "\\( \\text{Semangka B lebih berat} \\)", "\\( \\text{Semangka A lebih berat} \\)"], ans: "\\( \\text{Semangka A} \\)", exp: "KPK 4 dan 6 adalah 12. 3/4 = 9/12. 5/6 = 10/12. Karena 9/12 < 10/12, semangka A lebih ringan." },
+            "t1-task4": { type: "single", q: "Budi mengerjakan PR 📝 selama 1/3 jam, Andi selama 0.25 jam. Siapa yang lebih lama mengerjakan PR?", opts: ["\\( \\text{Budi} \\)", "\\( \\text{Andi} \\)", "\\( \\text{Sama lama} \\)", "\\( \\text{Andi lebih lama} \\)", "\\( \\text{Tidak bisa} \\)"], ans: "\\( \\text{Budi} \\)", exp: "Ubah 0.25 ke pecahan = 1/4. KPK 3 dan 4 adalah 12. 1/3 = 4/12. 1/4 = 3/12. 4/12 > 3/12. Budi lebih lama." },
+            "t1-task5": { type: "single", q: "Gelas 🥤 A terisi sirup 2/3, Gelas B terisi 3/5. Gelas mana yang sirupnya lebih banyak?", opts: ["\\( \\text{Gelas A} \\)", "\\( \\text{Gelas B} \\)", "\\( \\text{Sama banyak} \\)", "\\( \\text{Gelas B lebih penuh} \\)", "\\( \\text{Gelas A kosong} \\)"], ans: "\\( \\text{Gelas A} \\)", exp: "KPK 3 dan 5 adalah 15. 2/3 = 10/15. 3/5 = 9/15. 10/15 > 9/15. Gelas A lebih banyak." },
+            "t1-task6": { type: "single", q: "Kakak menabung 💰 3/4 dari uang sakunya. Adik menabung 2/3. Siapa yang menabung lebih banyak?", opts: ["\\( \\text{Kakak} \\)", "\\( \\text{Adik} \\)", "\\( \\text{Sama banyak} \\)", "\\( \\text{Adik menabung lebih} \\)", "\\( \\text{Tidak tahu} \\)"], ans: "\\( \\text{Kakak} \\)", exp: "KPK 4 dan 3 adalah 12. 3/4 = 9/12. 2/3 = 8/12. 9/12 > 8/12. Kakak menabung lebih banyak." },
+            "t1-task7": { type: "single", q: "Tanki 🛢️ A berisi 0.8 liter, Tanki B berisi 3/4 liter. Tanki mana yang lebih banyak airnya?", opts: ["\\( \\text{Tanki A} \\)", "\\( \\text{Tanki B} \\)", "\\( \\text{Sama} \\)", "\\( \\text{Tanki A lebih sedikit} \\)", "\\( \\text{Tanki B lebih sedikit} \\)"], ans: "\\( \\text{Tanki A} \\)", exp: "Ubah 3/4 ke desimal = 0.75. Bandingkan 0.8 dengan 0.75. 0.8 lebih besar. Jadi Tanki A lebih banyak." },
+            "t1-task8": { type: "single", q: "Panjang papan 🪵 tulis 3 meter. Sisa papan yang belum dipakai adalah 1/4 m. Berapa meter papan yang sudah dipakai?", opts: ["\\( 2 \\frac{3}{4} \\text{ m} \\)", "\\( 2 \\frac{1}{4} \\text{ m} \\)", "\\( 3 \\text{ m} \\)", "\\( \\frac{1}{4} \\text{ m} \\)", "\\( 1 \\text{ m} \\)"], ans: "\\( 2 \\frac{3}{4} \\text{ m} \\)", exp: "Total 3 m = 12/4 m. Sisa 1/4 m. Terpakai = 12/4 - 1/4 = 11/4 m = 2 3/4 m." },
+            "t1-task9": { type: "single", q: "Nilai ulangan 💯 Sinta 80/100, Wati 85/100. Siapa yang pecahan nilainya lebih kecil?", opts: ["\\( \\text{Sinta} \\)", "\\( \\text{Wati} \\)", "\\( \\text{Sama} \\)", "\\( \\text{Wati lebih kecil} \\)", "\\( \\text{Tidak ada} \\)"], ans: "\\( \\text{Sinta} \\)", exp: "80/100 dibandingkan 85/100. Penyebut sama, bandingkan pembilang. 80 < 85. Jadi nilai Sinta lebih kecil." },
+            "t1-task10": { type: "single", q: "Baterai 📱 tablet Andi 45%, Baterai Budi 1/2. Siapa yang baterainya lebih penuh?", opts: ["\\( \\text{Andi} \\)", "\\( \\text{Budi} \\)", "\\( \\text{Sama} \\)", "\\( \\text{Andi lebih penuh} \\)", "\\( \\text{Tidak tahu} \\)"], ans: "\\( \\text{Budi} \\)", exp: "Ubah 1/2 ke persen = 50%. Bandingkan 45% dengan 50%. 50 > 45. Jadi Budi lebih penuh." },
+
+            // TASK 2: Pecahan Campuran & Senilai
+            "t2-task1": { type: "single", q: "Ibu membeli 2 1/2 kg gula 🍚. Bibi membeli 2 3/4 kg gula. Siapa yang belanja gulanya lebih berat?", opts: ["\\( \\text{Ibu} \\)", "\\( \\text{Bibi} \\)", "\\( \\text{Sama berat} \\)", "\\( \\text{Ibu lebih berat} \\)", "\\( \\text{Tidak bisa} \\)"], ans: "\\( \\text{Bibi} \\)", exp: "Bandingkan bagian bulat dulu, sama-sama 2. Lalu bandingkan pecahannya: 1/2 dan 3/4. KPK 4. 1/2 = 2/4. 2/4 < 3/4. Jadi Bibi lebih berat." },
+            "t2-task2": { type: "single", q: "Sepeda 🚲 merah melaju 1 1/4 km, sepeda biru 1 1/3 km. Sepeda mana yang melaju lebih jauh?", opts: ["\\( \\text{Sepeda Merah} \\)", "\\( \\text{Sepeda Biru} \\)", "\\( \\text{Sama jauh} \\)", "\\( \\text{Sepeda Merah lebih jauh} \\)", "\\( \\text{Sepeda Biru lebih dekat} \\)"], ans: "\\( \\text{Sepeda Biru} \\)", exp: "Bagian bulat 1, sama. Pecahan: 1/4 dan 1/3. KPK 12. 1/4 = 3/12, 1/3 = 4/12. 4/12 > 3/12. Jadi Sepeda Biru lebih jauh." },
+            "t2-task3": { type: "single", q: "Kue 🥧 A sisa 2/6, Kue B sisa 1/3. Mana yang sisanya lebih banyak?", opts: ["\\( \\text{Kue A} \\)", "\\( \\text{Kue B} \\)", "\\( \\text{Sisa sama} \\)", "\\( \\text{Kue B lebih banyak} \\)", "\\( \\text{Kue A lebih sedikit} \\)"], ans: "\\( \\text{Sisa sama} \\)", exp: "Sederhanakan 2/6, dibagi 2 menjadi 1/3. Jadi 2/6 senilai dengan 1/3. Sisa kue A dan B sama banyak." },
+            "t2-task4": { type: "single", q: "Uang 💵 Andi Rp 100.000. Dia beli buku 📖 Rp 25.000. Pecahan uang yang terpakai adalah...", opts: ["\\( \\frac{1}{2} \\)", "\\( \\frac{1}{4} \\)", "\\( \\frac{1}{3} \\)", "\\( \\frac{3}{4} \\)", "\\( \\frac{2}{5} \\)"], ans: "\\( \\frac{1}{4} \\)", exp: "25.000 dari 100.000 = 25/100. Sederhanakan dibagi 25 menjadi 1/4. Jadi terpakai 1/4 bagian." },
+            "t2-task5": { type: "single", q: "Sebuah tali ⛓️ dipotong jadi 12 bagian. 4 bagian dipakai untuk ikat paket. Pecahan sederhana dari tali yang terpakai adalah...", opts: ["\\( \\frac{4}{12} \\)", "\\( \\frac{1}{3} \\)", "\\( \\frac{1}{4} \\)", "\\( \\frac{3}{4} \\)", "\\( \\frac{2}{3} \\)"], ans: "\\( \\frac{1}{3} \\)", exp: "4 dari 12 adalah 4/12. Sederhanakan dibagi 4 (pembilang dan penyebut) menjadi 1/3." },
+            "t2-task6": { type: "single", q: "Gelas 🥃 berkapasitas 200 ml. Terisi 50 ml air 🚰. Pecahan sederhana air di dalam gelas adalah...", opts: ["\\( \\frac{1}{2} \\)", "\\( \\frac{1}{4} \\)", "\\( \\frac{1}{3} \\)", "\\( \\frac{2}{3} \\)", "\\( \\frac{1}{5} \\)"], ans: "\\( \\frac{1}{4} \\)", exp: "50 dari 200 = 50/200. Sederhanakan dibagi 50 menjadi 1/4. Jadi gelas terisi 1/4 bagian." },
+            "t2-task7": { type: "single", q: "Lapangan 🏟️ bulu tangkis dipakai 40 menit dari 1 jam (60 menit). Pecahan sederhana waktu pemakaian adalah...", opts: ["\\( \\frac{40}{60} \\)", "\\( \\frac{2}{3} \\)", "\\( \\frac{1}{2} \\)", "\\( \\frac{3}{4} \\)", "\\( \\frac{1}{3} \\)"], ans: "\\( \\frac{2}{3} \\)", exp: "40 dari 60 = 40/60. Sederhanakan dibagi 20 menjadi 2/3. Jadi dipakai 2/3 jam." },
+            "t2-task8": { type: "single", q: "Donat 🍩 ditaburi meses. Kakak makan 1/8 bagian, adik makan 1/4 bagian. Siapa yang makan lebih banyak meses?", opts: ["\\( \\text{Kakak} \\)", "\\( \\text{Adik} \\)", "\\( \\text{Sama banyak} \\)", "\\( \\text{Kakak lebih banyak} \\)", "\\( \\text{Tidak ada} \\)"], ans: "\\( \\text{Adik} \\)", exp: "KPK 8 dan 4 adalah 8. 1/8 tetap, 1/4 jadi 2/8. 2/8 > 1/8. Adik makan lebih banyak." },
+            "t2-task9": { type: "single", q: "Balon 🎈 A terisi 3/5 gas helium, Balon B 6/10. Mana yang lebih ringan jika bobot balon sama?", opts: ["\\( \\text{Balon A} \\)", "\\( \\text{Balon B} \\)", "\\( \\text{Bobot sama} \\)", "\\( \\text{Balon A lebih ringan} \\)", "\\( \\text{Balon B lebih ringan} \\)"], ans: "\\( \\text{Bobot sama} \\)", exp: "3/5 jika disamakan penyebut ke 10 adalah 6/10. Jadi 3/5 = 6/10. Karena isinya sama, bobot keduanya sama." },
+            "t2-task10": { type: "single", q: "Mangkok 🥣 A berisi 5/8 sup, Mangkok B 10/16. Mana yang supnya lebih sedikit?", opts: ["\\( \\text{Mangkok A} \\)", "\\( \\text{Mangkok B} \\)", "\\( \\text{Supnya sama} \\)", "\\( \\text{Mangkok B lebih sedikit} \\)", "\\( \\text{Mangkok A lebih sedikit} \\)"], ans: "\\( \\text{Supnya sama} \\)", exp: "5/8 jika dikalikan 2 jadi 10/16. Jadi pecahannya senilai, jumlah sup di mangkok A dan B sama banyak." },
+
+            // TASK 3: Desimal & Persen dalam Membandingkan
+            "t3-task1": { type: "single", q: "Diskon 🏷️ Toko A 0.25, Toko B 30%. Diskon mana yang lebih besar?", opts: ["\\( \\text{Toko A} \\)", "\\( \\text{Toko B} \\)", "\\( \\text{Diskon sama} \\)", "\\( \\text{Toko A lebih besar} \\)", "\\( \\text{Tidak ada} \\)"], ans: "\\( \\text{Toko B} \\)", exp: "Ubah 0.25 ke persen = 25%. Bandingkan 25% dengan 30%. 30 > 25. Diskon Toko B lebih besar." },
+            "t3-task2": { type: "single", q: "Baterai 🔋 kamera A 0.75, kamera B 70%. Kamera mana yang siap dipakai lebih lama?", opts: ["\\( \\text{Kamera A} \\)", "\\( \\text{Kamera B} \\)", "\\( \\text{Sama lama} \\)", "\\( \\text{Kamera B lebih lama} \\)", "\\( \\text{Kamera A lebih cepat} \\)"], ans: "\\( \\text{Kamera A} \\)", exp: "0.75 = 75%. Karena 75% > 70%, maka Kamera A baterainya lebih penuh dan bisa dipakai lebih lama." },
+            "t3-task3": { type: "single", q: "Gelas 🧉 A berisi 0.5 liter, Gelas B berisi 1/4 liter. Gelas mana yang isinya lebih sedikit?", opts: ["\\( \\text{Gelas A} \\)", "\\( \\text{Gelas B} \\)", "\\( \\text{Isi sama} \\)", "\\( \\text{Gelas A lebih sedikit} \\)", "\\( \\text{Gelas B lebih banyak} \\)"], ans: "\\( \\text{Gelas B} \\)", exp: "0.5 liter = 1/2 = 2/4. 1/4 lebih kecil dari 2/4. Jadi Gelas B isinya lebih sedikit." },
+            "t3-task4": { type: "single", q: "Tabung ⛽ bensin X terisi 3/5, Tabung Y 0.4. Mana yang lebih penuh?", opts: ["\\( \\text{Tabung X} \\)", "\\( \\text{Tabung Y} \\)", "\\( \\text{Sama penuh} \\)", "\\( \\text{Tabung Y lebih penuh} \\)", "\\( \\text{Tabung X kosong} \\)"], ans: "\\( \\text{Tabung X} \\)", exp: "Ubah 3/5 ke desimal: 3 dibagi 5 = 0.6. Bandingkan 0.6 dengan 0.4. 0.6 > 0.4. Jadi Tabung X lebih penuh." },
+            "t3-task5": { type: "single", q: "Nilai ulangan 💯 Andi 0.8, Budi 85%. Siapa yang nilainya lebih tinggi?", opts: ["\\( \\text{Andi} \\)", "\\( \\text{Budi} \\)", "\\( \\text{Nilai sama} \\)", "\\( \\text{Andi lebih tinggi} \\)", "\\( \\text{Budi lebih rendah} \\)"], ans: "\\( \\text{Budi} \\)", exp: "0.8 = 80%. Karena 85% > 80%, maka nilai Budi lebih tinggi." },
+            "t3-task6": { type: "single", q: "Waktu ⏱️ tempuh pelari A 0.25 jam, pelari B 1/3 jam. Siapa yang berlari lebih cepat (waktu lebih sedikit)?", opts: ["\\( \\text{Pelari A} \\)", "\\( \\text{Pelari B} \\)", "\\( \\text{Sama cepat} \\)", "\\( \\text{Pelari B lebih cepat} \\)", "\\( \\text{Tidak tahu} \\)"], ans: "\\( \\text{Pelari A} \\)", exp: "Ubah 1/3 ke desimal = 0.33. 0.25 < 0.33. Waktu Pelari A lebih sedikit, jadi dia lebih cepat." },
+            "t3-task7": { type: "single", q: "Ukuran TV 📺 A 0.5 meter, TV B 60 cm. Mana yang lebih besar?", opts: ["\\( \\text{TV A} \\)", "\\( \\text{TV B} \\)", "\\( \\text{Sama besar} \\)", "\\( \\text{TV A lebih besar} \\)", "\\( \\text{TV B lebih kecil} \\)"], ans: "\\( \\text{TV B} \\)", exp: "0.5 meter = 50 cm. Karena 60 cm > 50 cm, maka TV B lebih besar." },
+            "t3-task8": { type: "single", q: "Botol 🧴 sampo A berisi 3/4, Botol B berisi 0.8. Mana yang sisa shampo nya lebih banyak?", opts: ["\\( \\text{Botol A} \\)", "\\( \\text{Botol B} \\)", "\\( \\text{Sama banyak} \\)", "\\( \\text{Botol A lebih banyak} \\)", "\\( \\text{Botol B kosong} \\)"], ans: "\\( \\text{Botol B} \\)", exp: "3/4 = 0.75. Bandingkan 0.75 dengan 0.8. 0.8 > 0.75. Jadi sisa shampo botol B lebih banyak." },
+            "t3-task9": { type: "single", q: "Diskon 🏪 Mall A 50%, Mall B 0.45. Jika kamu mau beli baju 🧥 murah, mall mana yang harus kamu pilih?", opts: ["\\( \\text{Mall A} \\)", "\\( \\text{Mall B} \\)", "\\( \\text{Sama murah} \\)", "\\( \\text{Mall B lebih murah} \\)", "\\( \\text{Tidak tahu} \\)"], ans: "\\( \\text{Mall A} \\)", exp: "0.45 = 45%. 50% > 45%. Diskon Mall A lebih besar, jadi harganya akan lebih murah. Pilih Mall A." },
+            "t3-task10": { type: "single", q: "Anak ayam 🐥 di kandang A 2/5 bagian dari total, kandang B 40% dari total. Kandang mana yang isinya lebih padat (jika ukuran sama)?", opts: ["\\( \\text{Kandang A} \\)", "\\( \\text{Kandang B} \\)", "\\( \\text{Sama padat} \\)", "\\( \\text{Kandang A lebih padat} \\)", "\\( \\text{Kandang B lebih padat} \\)"], ans: "\\( \\text{Sama padat} \\)", exp: "2/5 ubah ke persen, 2 dibagi 5 = 0.4 = 40%. Karena 40% = 40%, maka keduanya sama padat." },
+
+            // TASK 4: Pemecahan Masalah Lanjutan
+            "t4-task1": { type: "single", q: "Ari makan 2/8 pizza 🍕, Ira makan 1/4 pizza. Siapa yang makan lebih banyak?", opts: ["\\( \\text{Ari} \\)", "\\( \\text{Ira} \\)", "\\( \\text{Sama banyak} \\)", "\\( \\text{Ari lebih banyak} \\)", "\\( \\text{Ira lebih sedikit} \\)"], ans: "\\( \\text{Sama banyak} \\)", exp: "Sederhanakan 2/8 menjadi 1/4. Jadi 2/8 senilai dengan 1/4. Ira dan Ari makan jumlah yang sama banyak." },
+            "t4-task2": { type: "single", q: "Botol 🍼 A terisi 0.75 liter, Botol B terisi 3/5 liter. Botol mana yang airnya lebih sedikit?", opts: ["\\( \\text{Botol A} \\)", "\\( \\text{Botol B} \\)", "\\( \\text{Sama sedikit} \\)", "\\( \\text{Botol A lebih sedikit} \\)", "\\( \\text{Botol B lebih banyak} \\)"], ans: "\\( \\text{Botol B} \\)", exp: "3/5 = 0.6. 0.75 > 0.6. Karena Botol B (0.6) isinya lebih sedikit dari Botol A (0.75)." },
+            "t4-task3": { type: "single", q: "Suhu ❄️ di kota A 1/2 derajat, kota B 0.4 derajat. Kota mana yang lebih dingin?", opts: ["\\( \\text{Kota A} \\)", "\\( \\text{Kota B} \\)", "\\( \\text{Sama dingin} \\)", "\\( \\text{Kota A lebih dingin} \\)", "\\( \\text{Kota B lebih panas} \\)"], ans: "\\( \\text{Kota B} \\)", exp: "1/2 = 0.5. Suhu lebih dingin jika angkanya lebih kecil. Karena 0.4 < 0.5, Kota B lebih dingin." },
+            "t4-task4": { type: "single", q: "Tali ⛓️ merah panjangnya 3/4 m, tali biru 0.8 m. Mula-mula, tali mana yang lebih panjang?", opts: ["\\( \\text{Tali Merah} \\)", "\\( \\text{Tali Biru} \\)", "\\( \\text{Sama panjang} \\)", "\\( \\text{Tali Merah lebih panjang} \\)", "\\( \\text{Tali Biru lebih pendek} \\)"], ans: "\\( \\text{Tali Biru} \\)", exp: "3/4 = 0.75. Panjang awal Tali Biru 0.8, Tali Merah 0.75. Karena 0.8 > 0.75, Tali Biru mula-mula lebih panjang." },
+            "t4-task5": { type: "single", q: "Tangki 🛢️ A 0.6 penuh, Tangki B 2/3 penuh. Tangki mana yang bahan bakarnya lebih sedikit?", opts: ["\\( \\text{Tangki A} \\)", "\\( \\text{Tangki B} \\)", "\\( \\text{Sama} \\)", "\\( \\text{Tangki A lebih penuh} \\)", "\\( \\text{Tangki B lebih sedikit} \\)"], ans: "\\( \\text{Tangki A} \\)", exp: "0.6 = 6/10 = 18/30. 2/3 = 20/30. 18/30 < 20/30. Karena Tangki A lebih sedikit dari Tangki B, bahan bakarnya lebih sedikit." },
+            "t4-task6": { type: "single", q: "Sari menabung 💰 1/4 uangnya, Dini menabung 20%. Jika uang awal sama, siapa yang menabung lebih besar?", opts: ["\\( \\text{Sari} \\)", "\\( \\text{Dini} \\)", "\\( \\text{Sama besar} \\)", "\\( \\text{Dini lebih besar} \\)", "\\( \\text{Sari lebih kecil} \\)"], ans: "\\( \\text{Sari} \\)", exp: "1/4 = 25%. Karena 25% > 20%, maka Sari menabung lebih besar nilainya." },
+            "t4-task7": { type: "single", q: "Ketinggian air 🚰 di kolam A 3/4 m, kolam B 0.7 m. Kolam mana yang airnya lebih dalam?", opts: ["\\( \\text{Kolam A} \\)", "\\( \\text{Kolam B} \\)", "\\( \\text{Sama dalam} \\)", "\\( \\text{Kolam B lebih dalam} \\)", "\\( \\text{Kolam A lebih dangkal} \\)"], ans: "\\( \\text{Kolam A} \\)", exp: "3/4 = 0.75. 0.75 > 0.7. Jadi ketinggian air di kolam A lebih dalam." },
+            "t4-task8": { type: "single", q: "Permen 🍬 di kantong A 2/5, kantong B 30%. Kantong mana yang permennya lebih sedikit?", opts: ["\\( \\text{Kantong A} \\)", "\\( \\text{Kantong B} \\)", "\\( \\text{Sama} \\)", "\\( \\text{Kantong A lebih sedikit} \\)", "\\( \\text{Kantong B lebih banyak} \\)"], ans: "\\( \\text{Kantong B} \\)", exp: "2/5 = 40%. 30% < 40%. Karena 30% lebih kecil, kantong B permennya lebih sedikit." },
+            "t4-task9": { type: "single", q: "Jarak 🗺️ kota A ke B 1.5 km, kota C ke D 1 1/2 km. Jalan mana yang lebih dekat?", opts: ["\\( \\text{A ke B} \\)", "\\( \\text{C ke D} \\)", "\\( \\text{Sama dekat} \\)", "\\( \\text{A ke B lebih dekat} \\)", "\\( \\text{C ke D lebih jauh} \\)"], ans: "\\( \\text{Sama dekat} \\)", exp: "1 1/2 = 1.5. Jadi jaraknya sama, yaitu 1.5 km. Keduanya sama dekat." },
+            "t4-task10": { type: "single", q: "Sebuah baju 🧥 diskon 40%, celana 👖 diskon 0.5. Mana yang diskonnya lebih kecil?", opts: ["\\( \\text{Baju} \\)", "\\( \\text{Celana} \\)", "\\( \\text{Sama} \\)", "\\( \\text{Celana lebih kecil} \\)", "\\( \\text{Baju lebih besar} \\)"], ans: "\\( \\text{Baju} \\)", exp: "0.5 = 50%. 40% < 50%. Karena 40% lebih kecil dari 50%, maka diskon baju lebih kecil." },
+
+            // TASK 5: Konsolidasi & Pemecahan Masalah Kompleks
+            "t5-task1": { type: "single", q: "Pipa 🧰 A 4/5 m, Pipa B 0.9 m, Pipa C 85 cm. Urutkan dari terpendek ke terpanjang!", opts: ["\\( \\text{Pipa A, Pipa C, Pipa B} \\)", "\\( \\text{Pipa B, Pipa C, Pipa A} \\)", "\\( \\text{Pipa A, Pipa B, Pipa C} \\)", "\\( \\text{Pipa C, Pipa A, Pipa B} \\)", "\\( \\text{Pipa C, Pipa B, Pipa A} \\)"], ans: "\\( \\text{Pipa A, Pipa C, Pipa B} \\)", exp: "Ubah ke cm. A: 4/5 m = 80 cm. B: 0.9 m = 90 cm. C: 85 cm. Urutkan: 80, 85, 90. Jadi A, C, B." },
+            "t5-task2": { type: "single", q: "Ada 3 tangki 🛢️ bensin. A terisi 1/2, B 45%, C 0.6. Urutkan dari yang paling penuh ke paling kosong!", opts: ["\\( \\text{C, A, B} \\)", "\\( \\text{A, B, C} \\)", "\\( \\text{B, A, C} \\)", "\\( \\text{C, B, A} \\)", "\\( \\text{B, C, A} \\)"], ans: "\\( \\text{C, A, B} \\)", exp: "A: 1/2 = 50%. B: 45%. C: 0.6 = 60%. Urutan penuh: 60%, 50%, 45%. Jadi C, A, B." },
+            "t5-task3": { type: "single", q: "Budi makan 🍕 1/4 pizza. Sisa pizzanya dibagi rata untuk Andi dan Susi. Bagian Andi adalah...", opts: ["\\( \\frac{1}{4} \\)", "\\( \\frac{3}{8} \\)", "\\( \\frac{1}{2} \\)", "\\( \\frac{1}{3} \\)", "\\( \\frac{3}{4} \\)"], ans: "\\( \\frac{3}{8} \\)", exp: "Total pizza 1. Budi makan 1/4, sisa 3/4. Sisa 3/4 dibagi 2 orang. (3/4) / 2 = 3/8. Jadi Andi dapat 3/8 bagian." },
+            "t5-task4": { type: "single", q: "Tabung 🛢️ X 0.6 liter, Y 3/5 liter, Z 600 ml. Urutkan dari paling sedikit ke paling banyak isinya!", opts: ["\\( \\text{X, Y, Z} \\)", "\\( \\text{Z, Y, X} \\)", "\\( \\text{Sama banyak} \\)", "\\( \\text{Y, X, Z} \\)", "\\( \\text{X, Z, Y} \\)"], ans: "\\( \\text{Sama banyak} \\)", exp: "Ubah semua ke desimal/ml. X: 0.6. Y: 3/5 = 0.6. Z: 600 ml = 0.6 liter. Semuanya 0.6. Jadi isinya sama banyak." },
+            "t5-task5": { type: "single", q: "Uang 💵 Andi Rp 50.000. Dia beli jajan 🍭 1/5 bagian. Lalu sisa uangnya dipakai beli buku 📖 1/4 dari sisa. Berapa sisa uang Andi sekarang?", opts: ["\\( \\text{Rp 10.000} \\)", "\\( \\text{Rp 20.000} \\)", "\\( \\text{Rp 30.000} \\)", "\\( \\text{Rp 40.000} \\)", "\\( \\text{Rp 25.000} \\)"], ans: "\\( \\text{Rp 30.000} \\)", exp: "Jajan: 1/5 x 50.000 = 10.000. Sisa 40.000. Buku: 1/4 x 40.000 = 10.000. Sisa akhir = 40.000 - 10.000 = 30.000." },
+            "t5-task6": { type: "single", q: "Jarum jam ⏰ berputar 1/2 dari setengah lingkaran. Berapa derajat putaran jarum tersebut?", opts: ["\\( 45^\\circ \\)", "\\( 90^\\circ \\)", "\\( 180^\\circ \\)", "\\( 360^\\circ \\)", "\\( 60^\\circ \\)"], ans: "\\( 90^\\circ \\)", exp: "Setengah lingkaran = 180 derajat. 1/2 dari 180 = 180 / 2 = 90 derajat. Jadi putarannya 90 derajat." },
+            "t5-task7": { type: "single", q: "Andi belajar 📖 0.25 jam, Budi 1/3 jam, Cindi 15 menit. Siapa yang belajar paling lama?", opts: ["\\( \\text{Andi} \\)", "\\( \\text{Budi} \\)", "\\( \\text{Cindi} \\)", "\\( \\text{Sama lama} \\)", "\\( \\text{Tidak ada} \\)"], ans: "\\( \\text{Budi} \\)", exp: "Ubah ke menit. Andi: 0.25 jam = 1/4 jam = 15 mnt. Budi: 1/3 jam = 20 mnt. Cindi: 15 mnt. Karena 20 mnt > 15 mnt, Budi paling lama." },
+            "t5-task8": { type: "single", q: "Tabung 🛢️ X 4/5, Y 75%, Z 0.8. Pernyataan mana yang benar?", opts: ["\\( \\text{X dan Z sama} \\)", "\\( \\text{X, Y, Z sama} \\)", "\\( \\text{Y paling besar} \\)", "\\( \\text{Z paling kecil} \\)", "\\( \\text{Y dan Z sama} \\)"], ans: "\\( \\text{X dan Z sama} \\)", exp: "X: 4/5 = 0.8 = 80%. Y: 75%. Z: 0.8 = 80%. Jadi X dan Z sama besar (80%), sedangkan Y lebih kecil (75%)." },
+            "t5-task9": { type: "single", q: "Budi memesan kue 🎂 1 1/2 kg. Kuenya dipotong jadi 8 bagian sama rata. Berapa gram 1 potong kue?", opts: ["\\( 150 \\text{ gram} \\)", "\\( 187.5 \\text{ gram} \\)", "\\( 200 \\text{ gram} \\)", "\\( 250 \\text{ gram} \\)", "\\( 125 \\text{ gram} \\)"], ans: "\\( 187.5 \\text{ gram} \\)", exp: "1 1/2 kg = 1.5 kg = 1500 gram. Dibagi 8 potong = 1500 / 8 = 187.5 gram. Jadi 1 potong 187.5 gram." },
+            "t5-task10": { type: "single", q: "Dari uang Rp 100.000, Andi beli 🎧 40%. Lalu sisa uangnya beli 📱 case 25% dari sisa. Berapa sisa uang Andi sekarang?", opts: ["\\( \\text{Rp 60.000} \\)", "\\( \\text{Rp 45.000} \\)", "\\( \\text{Rp 35.000} \\)", "\\( \\text{Rp 25.000} \\)", "\\( \\text{Rp 15.000} \\)"], ans: "\\( \\text{Rp 45.000} \\)", exp: "Belanja 🎧: 40% x 100.000 = 40.000. Sisa 60.000. Belanja 📱 case: 25% x 60.000 = 15.000. Sisa akhir: 60.000 - 15.000 = 45.000." }
+        });
+        
+    </script>
+</body>
+</html>
