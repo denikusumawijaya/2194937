@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lesson Brief — Bilangan Rasional (Tutor Cheat Sheet)</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<style>
+:root{
+  --navy:#1e3a5f; --blue:#2f6fb0; --lightblue:#eaf3fb; --accent:#f2a154; --green:#3aa76d;
+  --red:#d9534f; --gray:#6b7280; --bg:#f3f5f8; --card:#fff; --radius:12px;
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;font-family:'Segoe UI',Tahoma,Arial,sans-serif;background:var(--bg);color:#1f2937;}
+body{min-width:1024px;}
+.wrap{display:flex;}
+nav.toc{
+  position:sticky;top:0;align-self:flex-start;height:100vh;overflow-y:auto;width:250px;background:var(--navy);
+  color:#fff;padding:18px 14px;flex-shrink:0;
+}
+nav.toc h2{font-size:1.05em;margin-top:0;color:#fff;}
+nav.toc a{display:block;color:#cfe2f3;text-decoration:none;padding:7px 8px;border-radius:8px;font-size:.88em;margin-bottom:3px;}
+nav.toc a:hover, nav.toc a.active{background:rgba(255,255,255,.12);color:#fff;}
+nav.toc .dur{float:right;color:#f2a154;font-weight:700;font-size:.85em;}
+main{flex:1;padding:26px 40px 100px;max-width:1000px;}
+.topbar{position:sticky;top:0;z-index:20;background:linear-gradient(90deg,var(--navy),var(--blue));color:#fff;padding:14px 40px;margin:-26px -40px 22px;display:flex;justify-content:space-between;align-items:center;}
+.topbar h1{font-size:1.15em;margin:0;}
+.topbar .total-dur{background:var(--accent);color:#3a2200;font-weight:700;padding:6px 14px;border-radius:20px;}
+h2.stage-title{color:var(--navy);border-bottom:3px solid var(--accent);padding-bottom:6px;margin-top:44px;display:flex;justify-content:space-between;align-items:center;}
+.dur-badge{background:var(--blue);color:#fff;font-weight:700;padding:5px 14px;border-radius:16px;font-size:.85em;white-space:nowrap;}
+.card{background:var(--card);border:1px solid #e2e8f0;border-radius:var(--radius);padding:16px 20px;margin-bottom:14px;box-shadow:0 1px 3px rgba(20,40,80,.06);}
+.card h3{margin-top:0;color:var(--navy);font-size:1em;}
+.checklist{list-style:none;padding:0;margin:0;}
+.checklist li{padding:6px 0 6px 28px;position:relative;}
+.checklist li::before{content:"☐";position:absolute;left:0;color:var(--blue);font-size:1.1em;}
+.script{background:#f7f9fc;border-left:4px solid var(--blue);padding:10px 14px;border-radius:8px;margin:8px 0;font-style:italic;}
+.script b{font-style:normal;color:var(--navy);}
+.warn{background:#fff4e8;border-left:4px solid var(--accent);padding:10px 14px;border-radius:8px;margin:8px 0;}
+.critical{background:#fdecec;border-left:4px solid var(--red);padding:10px 14px;border-radius:8px;margin:8px 0;}
+.tag{display:inline-block;background:var(--lightblue);color:var(--navy);border-radius:12px;padding:2px 10px;font-size:.78em;font-weight:700;margin-right:6px;}
+table{width:100%;border-collapse:collapse;margin:10px 0;}
+th,td{border:1px solid #e2e8f0;padding:8px 10px;text-align:left;font-size:.92em;vertical-align:top;}
+th{background:var(--lightblue);color:var(--navy);}
+.qc-map{font-size:.85em;color:var(--gray);}
+.small{font-size:.85em;color:var(--gray);}
+.hint-bank li{margin-bottom:8px;}
+.top-btn{position:fixed;bottom:24px;right:30px;background:var(--navy);color:#fff;border:none;border-radius:50%;width:46px;height:46px;font-size:1.2em;cursor:pointer;box-shadow:0 3px 10px rgba(0,0,0,.25);}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+<nav class="toc" id="toc">
+  <h2>Lesson Brief</h2>
+  <div class="small" style="color:#cfe2f3;margin-bottom:14px">Bilangan Rasional — Private, 60 menit</div>
+  <a href="#pre">0. Pra-Kelas <span class="dur">-10:00–00:00</span></a>
+  <a href="#s1">1. Pembukaan <span class="dur">00:00–05:00</span></a>
+  <a href="#s2">2. Koneksi & Review <span class="dur">05:00–12:00</span></a>
+  <a href="#s3">3. Eksplorasi Konsep <span class="dur">12:00–28:00</span></a>
+  <a href="#s4">4. Latihan Terbimbing <span class="dur">28:00–40:00</span></a>
+  <a href="#s5">5. Latihan Mandiri <span class="dur">40:00–52:00</span></a>
+  <a href="#s6">6. Refleksi & Penutup <span class="dur">52:00–60:00</span></a>
+  <a href="#backup">Bank Soal Cadangan</a>
+  <a href="#personalisasi">Log Personalisasi (≥5)</a>
+  <a href="#feedback">Bank Kalimat Feedback</a>
+</nav>
+
+<main>
+<div class="topbar">
+  <h1>📋 Lesson Brief — Bilangan Rasional & Operasi Hitung Bilangan Rasional</h1>
+  <div class="total-dur">Total: 60:00</div>
+</div>
+
+<p class="small">Kelas: <b>Private</b> · Durasi: <b>60 menit</b> · Kurikulum: <b>Merdeka Kelas 7 SMP</b> · Catatan siswa: <b>tipe ADHD, sulit diajak bicara panjang, butuh banyak visual/infografis, instruksi singkat & konkret</b>. Dokumen ini HANYA untuk tutor (tampilkan di monitor extend). Jangan ditampilkan ke siswa.</p>
+
+<h2 class="stage-title" id="pre">0. Persiapan Pra-Kelas <span class="dur-badge">Selesai ≥3 menit sebelum jadwal</span></h2>
+<div class="card">
+  <h3>Checklist Teknis (wajib 0 gangguan teknis)</h3>
+  <ul class="checklist">
+    <li>Cek audio: nyalakan mic, bicara tes 1 kalimat, pastikan tidak ada noise/echo.</li>
+    <li>Cek video: nyalakan kamera, pastikan wajah terlihat jelas, tidak backlight.</li>
+    <li>Atur pencahayaan: sumber cahaya di depan wajah, bukan dari belakang. Nyalakan lampu tambahan jika perlu.</li>
+    <li>Buka file <code>Lesson_Material_Bilangan_Rasional.html</code> di browser, cek semua 7 bagian bisa dibuka dan KaTeX (rumus) tampil dengan benar.</li>
+    <li>Siapkan kertas coret-coret / whiteboard kecil untuk bantu visual jika siswa butuh.</li>
+    <li>Siapkan soal cadangan (lihat bagian "Bank Soal Cadangan" di bawah) — sudah dibuka di tab terpisah.</li>
+    <li>Rapikan background di belakang kamera. Pastikan tidak berantakan.</li>
+    <li>Cek penampilan: pakaian rapi, wajah terlihat siap mengajar.</li>
+    <li>Buka dokumen brief ini di monitor extend / layar kedua.</li>
+  </ul>
+  <div class="warn"><b>Ingat:</b> Hadir dan siap minimal <b>3 menit sebelum jadwal</b>. Saat siswa masuk, langsung sapa dengan nama, senyum, dan kontak mata ke kamera.</div>
+</div>
+
+<h2 class="stage-title" id="s1">1. Pembukaan & Rapport <span class="dur-badge">00:00–05:00 (5 menit)</span></h2>
+<div class="card">
+  <h3>Tujuan tahap ini</h3>
+  <p>Memberi kesan pertama yang sangat positif, membangun rapport, dan menyampaikan aturan kelas secara singkat (siswa ADHD → gunakan kalimat pendek, langsung ke poin, jangan basa-basi panjang).</p>
+  <h3>Script</h3>
+  <div class="script">"Halo [Nama Siswa]! Apa kabar hari ini? Yuk kita mulai kelas Matematika kita." (tunggu respons singkat, jangan paksa ngobrol panjang jika siswa terlihat tidak nyaman)</div>
+  <div class="script">"Sebelum mulai, ada 3 aturan kelas kita: bicara bergantian, minta izin kalau mau keluar sebentar, nyalakan mic/kamera kalau diminta. Oke, siap?" (tampilkan halaman 1 Lesson Material sambil bicara)</div>
+  <h3>Tindakan tutor (checklist)</h3>
+  <ul class="checklist">
+    <li>Tampilkan wajah dengan senyum dan nada suara hangat sejak detik pertama.</li>
+    <li>Sebut nama siswa secara personal minimal 1x di 1 menit pertama.</li>
+    <li>Buka halaman 1 (Pembukaan) di Lesson Material — biarkan siswa melihat infografis topik.</li>
+    <li>Jangan memaksa siswa banyak bicara di awal — cukup 1-2 pertanyaan ringan ("Gimana harimu?").</li>
+    <li>Tutup tahap ini dengan bridging: <span class="script" style="display:inline">"Oke, sekarang kita lanjut ke materi yang sudah kamu pelajari sebelumnya ya."</span></li>
+  </ul>
+  <p class="qc-map">QC terkait: kehadiran ≥3 menit sebelum jadwal, penampilan profesional, kesan pertama positif, sapaan personal.</p>
+</div>
+
+<h2 class="stage-title" id="s2">2. Koneksi & Review <span class="dur-badge">05:00–12:00 (7 menit)</span></h2>
+<div class="card">
+  <h3>Tujuan tahap ini</h3>
+  <p>Menghubungkan topik ke minat siswa (real-life connection) dan mereview materi sebelumnya (Bilangan Bulat & Membandingkan Bilangan Rasional) melalui soal review interaktif di halaman 2 Lesson Material.</p>
+  <div class="warn"><b>Bank soal:</b> halaman 2 Lesson Material berisi <b>10 soal review</b> (R1–R10, semua tipe: True/False, Isian, Pilihan Ganda, Checkbox, Pairing, Sorting, Drag & Drop) sebagai bank pilihan — dalam alokasi 7 menit, tutor hanya perlu memakai <b>2–3 soal</b> (syarat QC minimal ≥2 soal interaktif), dipilih berdasarkan performa siswa di sesi sebelumnya. Sisa soal otomatis jadi cadangan tanpa perlu disiapkan manual.</div>
+  <h3>Koneksi nyata yang dipakai</h3>
+  <div class="script">"Kamu suka main game kan? Coba bayangkan waktu main game kamu itu 1½ jam. Nah, angka 1½ itu namanya bilangan rasional, sama seperti kalau kita bagi pizza jadi ¾ bagian."</div>
+  <p class="small">Ganti contoh dengan minat spesifik siswa (game, olahraga, dll) jika sudah tahu dari sesi sebelumnya — ini adalah <b>penyesuaian personalisasi #1</b> (catat di Log Personalisasi).</p>
+  <h3>Rekomendasi Urutan Pakai (pilih 2–3 dari 10 soal di halaman 2)</h3>
+  <table>
+    <tr><th>Soal</th><th>Tipe</th><th>Cara tutor merespons</th></tr>
+    <tr><td>R1: (-8)+5 = -3 (Benar/Salah)</td><td>True/False</td><td>Minta siswa jawab lisan dulu sebelum klik jawaban di layar. Jika salah, gambarkan garis bilangan sederhana di kertas/whiteboard. <b>(pakai selalu — pemanasan)</b></td></tr>
+    <tr><td>R2: Urutkan 1/2, 0, -3/4</td><td>Isian</td><td>Bantu dengan visual garis bilangan: negatif di kiri, 0 di tengah, positif di kanan. <b>(pakai selalu)</b></td></tr>
+    <tr><td>R5 / R6: Bandingkan bilangan negatif</td><td>True/False, Radio</td><td>Pakai jika siswa masih ragu soal urutan bilangan negatif setelah R1–R2. Gunakan garis bilangan sebagai bantuan visual.</td></tr>
+    <tr><td>R3, R4, R7–R10</td><td>Radio, Checkbox, Pairing, Sorting, Drag&Drop</td><td>Cadangan — pakai jika waktu masih tersisa atau siswa ingin tantangan tambahan.</td></tr>
+  </table>
+  <h3>Identifikasi pemahaman secara spesifik</h3>
+  <p>Setelah 2 soal review, catat secara spesifik: <i>"Siswa sudah paham urutan bilangan negatif-nol-positif, TAPI masih ragu saat membandingkan pecahan negatif."</i> (sesuaikan dengan respons nyata siswa). Gunakan catatan ini untuk memilih level soal di tahap 4 & 5.</p>
+  <div class="warn">Bridging ke tahap 3: <span class="script" style="display:inline">"Nah sekarang kita akan belajar cara MENGHITUNG dengan bilangan-bilangan seperti itu, bukan cuma membandingkan."</span></div>
+  <p class="qc-map">QC terkait: koneksi nyata sesuai minat, ≥2 soal tinjauan interaktif, identifikasi pemahaman spesifik.</p>
+</div>
+
+<h2 class="stage-title" id="s3">3. Eksplorasi Konsep Baru <span class="dur-badge">12:00–28:00 (16 menit)</span></h2>
+<div class="card">
+  <h3>Tujuan tahap ini</h3>
+  <p>Mengajarkan definisi bilangan rasional dan 3 rumus operasi hitung (tambah/kurang, kali, bagi) dengan <b>thinking aloud</b> konsisten, membahas <b>miskonsepsi</b>, dan menampilkan banyak infografis (sesuai catatan siswa ADHD).</p>
+
+  <h3>Thinking aloud — gunakan kalimat ini saat menjelaskan tiap rumus</h3>
+  <div class="script"><b>Saat definisi:</b> "Coba aku pikirkan ya... bilangan rasional itu artinya bisa ditulis sebagai pecahan a per b. Jadi kalau aku lihat angka 0.5, aku mikir: 'oh ini kan sama dengan 1/2', berarti dia bilangan rasional."</div>
+  <div class="script"><b>Saat rumus penjumlahan:</b> "Aku mau jumlahkan 1/2 dan 1/3. Aku tidak bisa langsung jumlahkan pembilangnya karena penyebutnya beda. Jadi langkah pertama aku pikirkan: berapa KPK dari 2 dan 3? ..."</div>
+
+  <h3>⚠️ Miskonsepsi wajib ditampilkan (SPESIFIK — jangan diimprovisasi)</h3>
+  <div class="critical">
+    <b>Soal demo miskonsepsi (soal tambahan dari tutor, BUKAN dari Lesson Material):</b> Tuliskan di kertas/whiteboard: <b>3/5 − 1/4</b>.<br><br>
+    <b>Langkah mana yang sengaja salah:</b> Pada saat mengurangkan, tutor SENGAJA langsung mengurangkan pembilang dan penyebut tanpa menyamakan penyebut dulu, sehingga menuliskan hasil salah: <b>3/5 − 1/4 = 2/1 = 2</b> (salah karena penyebut tidak disamakan).<br><br>
+    <b>Script tutor:</b> <i>"Coba lihat, kalau aku kerjakan seperti ini: 3 dikurang 1 sama dengan 2, 5 dikurang 4 sama dengan 1, jadi 2/1 = 2. Ini KELIHATANNYA benar, tapi sebenarnya ini kesalahan yang sering dilakukan banyak siswa. Kenapa salah? Karena penyebutnya BEDA (5 dan 4), jadi kita tidak bisa langsung mengurangkan pembilang dan penyebutnya begitu saja."</i><br><br>
+    <b>Cara menghindarinya (sampaikan setelah demo salah):</b> <i>"Aturannya: SEBELUM menjumlah atau mengurangkan pecahan, penyebut HARUS disamakan dulu pakai KPK. Baru kerjakan lagi yang benar: KPK dari 5 dan 4 adalah 20. 3/5 = 12/20, 1/4 = 5/20. Jadi 12/20 − 5/20 = 7/20."</i>
+    <br><br><span class="small">Tampilkan koreksi ini di kertas/whiteboard, bukan di Lesson Material (Lesson Material tidak berisi contoh salah ini — ini murni untuk didemonstrasikan langsung oleh tutor).</span>
+  </div>
+
+  <h3>Alur penyampaian teori (ikuti urutan Lesson Material halaman 3)</h3>
+  <ol>
+    <li>Tunjukkan definisi bilangan rasional + infografis 3 bentuk (pecahan/desimal/bulat) — <span class="small">±2 menit</span></li>
+    <li>Tunjukkan 3 rumus (tambah-kurang, kali, bagi) satu per satu, thinking aloud tiap rumus — <span class="small">±4 menit</span></li>
+    <li>Contoh langkah-demi-langkah (3/4 − 1/6) — klik tombol step 1→4 SATU PER SATU, jangan buka semua sekaligus. Tanyakan ke siswa dulu "menurutmu langkah selanjutnya apa?" sebelum klik next step — <span class="small">±3 menit</span></li>
+    <li>Demo miskonsepsi di kertas/whiteboard (lihat kotak merah di atas) — <span class="small">±3 menit</span></li>
+    <li>Studi Kasus C1 & C2 (radio button + pairing) — <span class="small">±4 menit</span></li>
+  </ol>
+  <div class="warn"><b>Bank soal:</b> halaman 3 Lesson Material menyediakan <b>10 soal konsep</b> (C1–C10, mencakup semua tipe). Untuk alokasi 16 menit ini, cukup pakai <b>C1 dan C2</b> saja (sudah dipetakan di alur di atas). C3–C10 adalah cadangan: pakai jika siswa perlu pengulangan konsep sebelum lanjut ke tahap 4, atau sebagai variasi latihan tambahan di pertemuan berikutnya.</div>
+
+  <h3>Personalisasi #2 & #3 di tahap ini</h3>
+  <ul class="checklist">
+    <li>Jika siswa merespons lambat di soal C1, tampilkan infografis pizza/kue tambahan sebagai bantuan visual (gambar di kertas).</li>
+    <li>Jika siswa terlihat sangat cepat paham, langsung tawarkan soal tambahan dari Bank Soal Cadangan (lihat bawah) sebagai tantangan ekstra.</li>
+  </ul>
+  <p class="qc-map">QC terkait: soal menantang, thinking aloud konsisten, koneksi prosedur→konsep, miskonsepsi dibahas + cara menghindari, siswa menemukan konsep dengan bimbingan.</p>
+</div>
+
+<h2 class="stage-title" id="s4">4. Latihan Terbimbing <span class="dur-badge">28:00–40:00 (12 menit)</span></h2>
+<div class="card">
+  <h3>Tujuan tahap ini</h3>
+  <p>Tutor bertanya terbuka (≥5 pertanyaan) agar siswa berpikir kritis dan menjelaskan reasoning-nya sendiri. Berikan HINT, jangan berikan jawaban langsung.</p>
+
+  <h3>Bank 5 Pertanyaan Terbuka Wajib (gunakan sepanjang tahap ini, boleh diulang variasinya)</h3>
+  <ol class="hint-bank">
+    <li>"Menurutmu, kenapa kita harus menyamakan penyebut dulu sebelum menjumlahkan pecahan?"</li>
+    <li>"Kalau kamu lihat soal 3/4 − 1/6 ini, langkah apa yang menurutmu harus dilakukan pertama?"</li>
+    <li>"Coba jelaskan dengan kata-katamu sendiri, apa bedanya mengalikan pecahan dengan menjumlahkan pecahan?"</li>
+    <li>"Kenapa saat membagi pecahan kita harus 'membalik' pecahan kedua? Menurutmu itu masuk akal tidak?"</li>
+    <li>"Kalau hasil perkalian dua pecahan itu negatif, menurutmu kenapa bisa begitu?"</li>
+  </ol>
+
+  <h3>Soal Terbimbing yang Dipakai (dari 10 soal G1–G10 di Lesson Material halaman 4)</h3>
+  <table>
+    <tr><th>Soal</th><th>Tipe</th><th>Hint yang boleh diberikan (BUKAN jawaban)</th></tr>
+    <tr><td>G1: Pernyataan benar tentang penjumlahan pecahan</td><td>Checkbox</td><td>"Coba ingat lagi rumus di halaman 3 — apa syarat penyebutnya?"</td></tr>
+    <tr><td>G2: Urutkan langkah 3/4 − 1/6</td><td>Sorting</td><td>"Langkah pertama itu selalu tentang mencari... apa?"</td></tr>
+    <tr><td>G3: Lengkapi pembagian 3/4 ÷ 2/3</td><td>Drag & Drop</td><td>"Kalau membagi, pecahan kedua itu di-apakan dulu?"</td></tr>
+  </table>
+  <div class="warn">G4–G10 (soal cerita, radio, sorting, pairing, drag&drop tambahan) adalah <b>cadangan</b> dalam bank yang sama — pakai jika G1–G3 selesai lebih cepat dari 12 menit, atau sebagai pengganti jika siswa kesulitan dengan salah satu dari G1–G3.</div>
+
+  <div class="warn"><b>Aturan hint:</b> Beri jeda 5-10 detik setelah bertanya. Jika siswa diam >10 detik, berikan hint level 1 (pertanyaan pengarah) dulu sebelum hint level 2 (petunjuk langsung), dan JANGAN langsung memberi jawaban akhir.</div>
+
+  <h3>Error analysis</h3>
+  <p>Jika siswa menjawab salah di G1/G2/G3, minta siswa jelaskan alasan jawabannya SEBELUM dikoreksi: <i>"Menurutmu kenapa jawaban itu yang benar?"</i> — baru setelah itu tutor membahas letak kesalahannya bersama siswa.</p>
+  <p class="qc-map">QC terkait: ≥5 pertanyaan terbuka, 2–3 soal, siswa menjelaskan reasoning mandiri, hint bukan jawaban langsung.</p>
+</div>
+
+<h2 class="stage-title" id="s5">5. Latihan Mandiri <span class="dur-badge">40:00–52:00 (12 menit)</span></h2>
+<div class="card">
+  <h3>Tujuan tahap ini</h3>
+  <p>Siswa mengerjakan soal utama secara mandiri dengan pengecekan tutor minimal 4 kali, feedback spesifik pada proses berpikir (bukan hanya benar/salah).</p>
+  <h3>Soal yang Dipakai (dari 10 soal I1–I10 di Lesson Material halaman 5)</h3>
+  <table>
+    <tr><th>Soal</th><th>Tipe</th><th>Peran</th></tr>
+    <tr><td>I1: (-2/3) × (3/4)</td><td>Radio, dengan step-by-step</td><td>Soal utama</td></tr>
+    <tr><td>I2: Soal cerita kue 3/4 × 2/3</td><td>Isian</td><td>Soal pengayaan (untuk siswa yang selesai cepat)</td></tr>
+    <tr><td>I3: 0.75 = 3/4?</td><td>Benar/Salah</td><td>Soal pendukung (untuk siswa yang butuh penguatan dasar)</td></tr>
+  </table>
+  <div class="warn">I4–I10 (soal utama, pengayaan, dan pendukung tambahan dengan tipe checkbox/sorting/pairing/drag&drop) tersedia sebagai <b>cadangan</b> — pakai sesuai kecepatan siswa: jika I1 selesai cepat, lanjut ke I4 atau I9 (utama tambahan); jika I3 masih dibutuhkan berulang, pakai I10 (pendukung/pengayaan konsep serupa) sebagai variasi.</div>
+  <h3>Jadwal pengecekan (≥4 kali, checklist waktunya)</h3>
+  <ul class="checklist">
+    <li>Cek #1 (± menit ke-41): "Gimana, sudah mulai dari mana?"</li>
+    <li>Cek #2 (± menit ke-44): "Sejauh ini gimana, ada bagian yang bikin bingung?"</li>
+    <li>Cek #3 (± menit ke-47): Tinjau langkah kerja siswa di kertas/layar, beri feedback spesifik pada proses (bukan hanya "benar/salah").</li>
+    <li>Cek #4 (± menit ke-50): Konfirmasi jawaban akhir sebelum submit, minta siswa jelaskan alasan jawabannya.</li>
+  </ul>
+  <h3>Pilihan level berdasarkan performa (personalisasi #4 & #5)</h3>
+  <ul class="checklist">
+    <li>Jika di tahap 4 siswa masih kesulitan → prioritaskan I3 (soal pendukung) dulu sebelum I1.</li>
+    <li>Jika di tahap 4 siswa lancar → langsung ke I1, lalu tawarkan I2 (pengayaan) sebagai tantangan tambahan.</li>
+  </ul>
+  <p class="qc-map">QC terkait: lingkungan suportif, pengecekan ≥4x, soal utama+pengayaan, feedback spesifik pada proses, siswa menyelesaikan mandiri.</p>
+</div>
+
+<h2 class="stage-title" id="s6">6. Refleksi & Penutup <span class="dur-badge">52:00–60:00 (8 menit)</span></h2>
+<div class="card">
+  <h3>3 Pertanyaan Refleksi Wajib (persis seperti di Lesson Material halaman 6)</h3>
+  <ol class="hint-bank">
+    <li>"Apa hal baru yang kamu pelajari hari ini?"</li>
+    <li>"Bagian mana yang menurutmu paling menantang?"</li>
+    <li>"Coba jelaskan dengan kalimatmu sendiri: bagaimana cara menjumlahkan dua pecahan berbeda penyebut?"</li>
+  </ol>
+  <h3>Exit Ticket</h3>
+  <p>Minta siswa jawab langsung soal Exit Ticket di halaman 6 Lesson Material. Tunggu sampai selesai — jangan lanjut sebelum siswa submit jawaban.</p>
+  <h3>Penguatan positif & follow-up (script)</h3>
+  <div class="script">"Kerja bagus hari ini, [Nama Siswa]! Kamu sudah bisa [sebutkan 1 pencapaian spesifik siswa, misal: 'menjumlahkan pecahan beda penyebut sendiri']. Nanti di rumah, coba kerjakan 10 soal tugas di halaman terakhir ya. Kalau ada yang bingung, catat saja, kita bahas di pertemuan berikutnya."</div>
+  <h3>Key takeaways (sampaikan sebelum menutup)</h3>
+  <ul class="checklist">
+    <li>Bilangan rasional = bentuk pecahan a/b.</li>
+    <li>Tambah/kurang: samakan penyebut dulu.</li>
+    <li>Kali: pembilang×pembilang, penyebut×penyebut.</li>
+    <li>Bagi: kalikan dengan kebalikan pecahan kedua.</li>
+  </ul>
+  <h3>Penutup</h3>
+  <div class="script">"Sampai jumpa di kelas berikutnya! Kerja bagus hari ini!"</div>
+  <p class="qc-map">QC terkait: refleksi dua arah, ≥3 pertanyaan refleksi, exit ticket + review, key takeaways, follow-up practice, penguatan positif.</p>
+</div>
+
+<h2 class="stage-title" id="backup">🗂️ Bank Soal Cadangan <span class="dur-badge">Siapkan sebelum kelas</span></h2>
+<div class="card">
+  <p class="small">Catatan: setiap bagian di Lesson Material (Review, Konsep, Terbimbing, Mandiri) SUDAH punya bank 10 soal sendiri (lihat tabel "Bank soal" di tiap tahap di atas) — jadi kebutuhan soal cadangan biasa cukup diambil dari sana, tanpa perlu ditulis manual. Bank di bawah ini HANYA untuk kondisi ekstra: siswa sudah menghabiskan seluruh bank 10 soal di satu bagian, atau butuh 1 variasi lagi yang benar-benar baru (misalnya untuk pertemuan susulan). Soal ini TIDAK ada di Lesson Material — tutor menuliskannya langsung di kertas/whiteboard.</p>
+  <table>
+    <tr><th>#</th><th>Soal cadangan</th><th>Jawaban & cara singkat</th><th>Dipakai untuk</th></tr>
+    <tr><td>B1</td><td>Hitung $\dfrac{2}{3}+\dfrac{1}{6}$</td><td>KPK=6 → 4/6+1/6=5/6</td><td>Pengganti C1 jika siswa masih bingung</td></tr>
+    <tr><td>B2</td><td>Hitung $\dfrac{5}{6} \times \dfrac{3}{5}$</td><td>15/30 = 1/2</td><td>Tantangan tambahan tahap 3 (siswa cepat paham)</td></tr>
+    <tr><td>B3</td><td>Hitung $\dfrac{7}{8} \div \dfrac{1}{4}$</td><td>7/8 × 4/1 = 28/8 = 3½</td><td>Tantangan tambahan tahap 4</td></tr>
+    <tr><td>B4</td><td>Hitung $-\dfrac{3}{5} - \dfrac{1}{10}$</td><td>KPK=10 → -6/10-1/10=-7/10</td><td>Pengganti I1 jika siswa butuh versi lebih mudah (support)</td></tr>
+    <tr><td>B5</td><td>Soal cerita: Andi punya 3/4 liter jus, diminum 1/2-nya. Sisa jus?</td><td>3/4 × 1/2 = 3/8 liter sisa</td><td>Pengganti I2 (pengayaan) jika I2 sudah dikerjakan cepat</td></tr>
+  </table>
+</div>
+
+<h2 class="stage-title" id="personalisasi">🎯 Log Personalisasi (checklist ≥5 penyesuaian wajib tercapai)</h2>
+<div class="card">
+  <ul class="checklist">
+    <li>#1 — Contoh koneksi disesuaikan dengan minat spesifik siswa (tahap 2).</li>
+    <li>#2 — Bantuan visual tambahan (gambar pizza/kue) jika siswa lambat merespons (tahap 3).</li>
+    <li>#3 — Soal tambahan dari Bank Cadangan jika siswa cepat paham (tahap 3).</li>
+    <li>#4 — Urutan soal disesuaikan berdasarkan performa di tahap 4 (support dulu vs. utama dulu) (tahap 5).</li>
+    <li>#5 — Kecepatan bicara & jeda disesuaikan real-time — perlambat & beri jeda lebih panjang jika siswa terlihat overload (sepanjang sesi, khusus untuk siswa ADHD).</li>
+  </ul>
+  <div class="warn">Catatan khusus siswa ADHD: pecah instruksi jadi kalimat pendek, hindari basa-basi panjang, beri jeda visual (biarkan siswa melihat infografis dulu sebelum bicara lagi), dan jangan memaksa siswa menjawab verbal panjang — cukup jawaban singkat + klik di layar.</div>
+</div>
+
+<h2 class="stage-title" id="feedback">💬 Bank Kalimat Feedback (gunakan sepanjang sesi)</h2>
+<div class="card">
+  <h3>Feedback pada proses (bukan hanya hasil)</h3>
+  <ul class="checklist">
+    <li>"Cara kamu mencari KPK tadi udah tepat banget, lanjutkan!"</li>
+    <li>"Aku suka cara kamu coba dulu sebelum nanya — itu proses berpikir yang bagus."</li>
+    <li>"Hampir benar! Coba cek lagi bagian penyebutnya, ada yang bisa diperbaiki nggak?"</li>
+  </ul>
+  <h3>Penguatan positif (natural, sering, spesifik)</h3>
+  <ul class="checklist">
+    <li>"Keren, kamu berani coba meskipun belum yakin — itu penting banget."</li>
+    <li>"Progress kamu dari soal pertama ke soal ini kelihatan banget!"</li>
+  </ul>
+  <h3>Menciptakan suasana aman</h3>
+  <ul class="checklist">
+    <li>"Nggak apa-apa kalau salah, itu bagian dari belajar. Yuk kita cari tahu bareng di mana letak salahnya."</li>
+  </ul>
+</div>
+
+</main>
+</div>
+
+<button class="top-btn" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Ke atas">↑</button>
+
+<script>
+window.addEventListener('load', ()=>{ if(window.renderMathInElement) renderMathInElement(document.body,{delimiters:[{left:"$$",right:"$$",display:true},{left:"$",right:"$",display:false}]}); });
+const links=document.querySelectorAll('nav.toc a');
+const sections=[...links].map(l=>document.querySelector(l.getAttribute('href')));
+window.addEventListener('scroll',()=>{
+  let idx=0;
+  sections.forEach((s,i)=>{ if(s && s.getBoundingClientRect().top < 120) idx=i; });
+  links.forEach((l,i)=>l.classList.toggle('active', i===idx));
+});
+</script>
+</body>
+</html>
