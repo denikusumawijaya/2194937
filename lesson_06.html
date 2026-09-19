@@ -1,0 +1,1043 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bilangan Rasional & Operasi Hitung Bilangan Rasional</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<style>
+:root{
+  --navy:#1e3a5f; --blue:#2f6fb0; --lightblue:#eaf3fb; --accent:#f2a154; --green:#3aa76d;
+  --red:#d9534f; --gray:#6b7280; --bg:#f6f8fb; --card:#ffffff; --radius:14px;
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;font-family:'Segoe UI',Tahoma,Arial,sans-serif;background:var(--bg);color:#1f2937;}
+body{min-width:1024px;}
+.en{display:block;font-style:italic;color:var(--gray);font-size:0.78em;margin-top:2px;font-weight:400;}
+.id{font-weight:600;}
+header.topbar{
+  position:sticky;top:0;z-index:50;background:linear-gradient(90deg,var(--navy),var(--blue));
+  color:#fff;display:flex;justify-content:space-between;align-items:flex-start;padding:14px 26px;
+  box-shadow:0 2px 8px rgba(0,0,0,.15);
+}
+.brand{line-height:1.35;}
+.brand .l1{font-size:1.15em;font-weight:700;}
+.brand .l3{font-size:0.95em;margin-top:4px;}
+.brand .en{color:#cfe2f3;}
+.header-right{display:flex;flex-direction:column;align-items:flex-end;gap:8px;}
+.duration-badge{
+  background:var(--accent);color:#3a2200;font-weight:700;padding:6px 14px;border-radius:20px;font-size:0.95em;
+  box-shadow:0 2px 4px rgba(0,0,0,.15);
+}
+.duration-badge .en{color:#3a2200;opacity:.75;}
+.rules-btn{
+  background:#fff;color:var(--navy);border:none;border-radius:8px;padding:7px 14px;font-weight:700;
+  cursor:pointer;font-size:0.9em;
+}
+.rules-btn:hover{background:#eaf3fb;}
+main{max-width:1200px;margin:0 auto;padding:22px 26px 90px;}
+.section-title{font-size:1.6em;color:var(--navy);font-weight:800;margin-bottom:2px;}
+.section-title .en{font-size:0.55em;}
+.progress-dots{display:flex;gap:6px;margin:10px 0 20px;}
+.progress-dots span{width:26px;height:6px;border-radius:4px;background:#d7e2ee;}
+.progress-dots span.active{background:var(--blue);}
+.card{background:var(--card);border-radius:var(--radius);padding:20px 24px;margin-bottom:18px;box-shadow:0 1px 4px rgba(20,40,80,.08);border:1px solid #e6ecf3;}
+.card h3{margin-top:0;color:var(--navy);}
+.card h3 .en{font-size:.6em;}
+.formula-box{background:var(--lightblue);border-left:5px solid var(--blue);border-radius:10px;padding:14px 18px;margin:12px 0;}
+.infografis{display:flex;gap:16px;flex-wrap:wrap;margin:14px 0;}
+.info-chip{flex:1;min-width:200px;background:#fff;border:2px solid #dbe7f3;border-radius:12px;padding:12px 14px;display:flex;gap:10px;align-items:center;}
+.info-chip svg{flex-shrink:0;}
+.info-chip .txt{font-size:0.92em;}
+.step-nav{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0 8px;}
+.step-num-btn{
+  width:38px;height:38px;border-radius:50%;border:2px solid var(--blue);background:#fff;color:var(--blue);
+  font-weight:700;cursor:pointer;font-size:1em;
+}
+.step-num-btn.done{background:var(--blue);color:#fff;}
+.step-num-btn.current{outline:3px solid var(--accent);}
+.step-panel{display:none;background:#fdf6ec;border:1px dashed var(--accent);border-radius:10px;padding:14px 18px;margin-top:8px;}
+.step-panel.show{display:block;}
+.example-box{background:#f3fbf6;border:1px solid #cdeedd;border-radius:12px;padding:16px;margin:14px 0;}
+.qbank{margin-top:6px;}
+.qhead{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;}
+.qcounter{font-weight:700;color:var(--navy);background:#eef3fa;padding:4px 12px;border-radius:16px;font-size:.9em;}
+.opt{
+  display:flex;align-items:center;gap:10px;padding:10px 14px;border:2px solid #dfe6ee;border-radius:10px;
+  margin:8px 0;cursor:pointer;background:#fff;transition:.15s;
+}
+.opt:hover{border-color:var(--blue);}
+.opt.selected{border-color:var(--blue);background:var(--lightblue);}
+.opt.correct{border-color:var(--green)!important;background:#e9f9ef!important;}
+.opt.wrong{border-color:var(--red)!important;background:#fdecec!important;}
+input[type=text].blank{border:none;border-bottom:2px solid var(--blue);font-size:1em;width:110px;text-align:center;background:transparent;font-family:inherit;}
+.pair-wrap{display:flex;gap:40px;}
+.pair-col{flex:1;display:flex;flex-direction:column;gap:10px;}
+.pair-item{padding:10px 12px;border:2px solid #dfe6ee;border-radius:10px;cursor:pointer;background:#fff;text-align:center;}
+.pair-item.selected{border-color:var(--accent);background:#fff5e9;}
+.pair-item.matched{border-color:var(--green);background:#e9f9ef;}
+.sort-list{list-style:none;padding:0;margin:0;}
+.sort-item{background:#fff;border:2px solid #dfe6ee;border-radius:10px;padding:10px 14px;margin:8px 0;display:flex;align-items:center;gap:12px;}
+.sort-item .arrows{display:flex;flex-direction:column;gap:2px;}
+.sort-item button{border:none;background:var(--lightblue);border-radius:6px;cursor:pointer;padding:2px 8px;color:var(--navy);font-weight:700;}
+.dnd-area{display:flex;gap:26px;flex-wrap:wrap;align-items:flex-start;}
+.dnd-tiles{display:flex;gap:10px;flex-wrap:wrap;}
+.dnd-tile{padding:10px 16px;border:2px solid var(--blue);border-radius:10px;background:#fff;cursor:grab;font-weight:700;color:var(--navy);}
+.dnd-tile.placed{opacity:.35;cursor:default;}
+.dnd-tile.selected{outline:3px solid var(--accent);}
+.dnd-slot{min-width:40px;min-height:34px;border:2px dashed var(--blue);border-radius:8px;display:inline-flex;align-items:center;justify-content:center;background:#f5f9fd;font-weight:700;color:var(--navy);}
+.frac{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;margin:0 4px;font-size:1.1em;}
+.frac .fn{padding-bottom:2px;border-bottom:2px solid #1f2937;display:flex;align-items:center;justify-content:center;min-width:28px;}
+.frac .fd{padding-top:2px;display:flex;align-items:center;justify-content:center;min-width:28px;}
+.eq-line{font-size:1.15em;display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+.btn{
+  border:none;border-radius:10px;padding:11px 20px;font-weight:700;cursor:pointer;font-size:0.95em;
+  display:flex;flex-direction:column;align-items:center;line-height:1.25;
+}
+.btn .en{font-size:.7em;margin-top:1px;}
+.btn-primary{background:var(--blue);color:#fff;}
+.btn-primary:hover{background:var(--navy);}
+.btn-secondary{background:#e7edf5;color:var(--navy);}
+.btn-secondary:hover{background:#d7e2ee;}
+.btn-success{background:var(--green);color:#fff;}
+.btn[disabled]{opacity:.45;cursor:not-allowed;}
+.feedback{margin-top:14px;border-radius:10px;padding:14px 16px;display:none;}
+.feedback.ok{background:#e9f9ef;border:1px solid #b6e5c9;display:block;}
+.feedback.no{background:#fdecec;border:1px solid #f3bcbc;display:block;}
+.feedback .exp{margin-top:10px;}
+.qz-nav{display:flex;justify-content:space-between;margin-top:14px;}
+footer.navbar{
+  position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid #e2e8f0;
+  display:flex;justify-content:space-between;align-items:center;padding:12px 26px;box-shadow:0 -2px 8px rgba(0,0,0,.06);z-index:40;
+}
+.page-indicator{font-weight:700;color:var(--navy);}
+.page-indicator .en{display:inline;margin-left:6px;font-size:.85em;}
+.modal-bg{display:none;position:fixed;inset:0;background:rgba(15,30,50,.55);z-index:100;align-items:center;justify-content:center;}
+.modal-bg.show{display:flex;}
+.modal-box{background:#fff;border-radius:16px;padding:26px 28px;max-width:520px;width:90%;}
+.modal-box h2{color:var(--navy);margin-top:0;}
+.modal-box ul{padding-left:20px;}
+.modal-box li{margin-bottom:12px;}
+.close-modal{margin-top:10px;}
+.page{display:none;}
+.page.active{display:block;}
+.hw-list{list-style:none;padding:0;}
+.hw-list li{background:#fff;border:1px solid #e2e8f0;border-radius:10px;padding:12px 16px;margin-bottom:10px;}
+.hw-num{display:inline-block;background:var(--navy);color:#fff;border-radius:50%;width:26px;height:26px;text-align:center;line-height:26px;font-weight:700;margin-right:8px;font-size:.85em;}
+@media (min-width:1600px){ main{max-width:1300px;} }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand">
+    <div class="l1">Math Tutoring</div>
+    <div class="l1">by Deni</div>
+    <div class="l3"><span class="id">Topic: Bilangan Rasional & Operasi Hitung Bilangan Rasional</span>
+      <span class="en">Topic: Rational Numbers & Arithmetic Operations on Rational Numbers</span></div>
+  </div>
+  <div class="header-right">
+    <button class="rules-btn" onclick="document.getElementById('rulesModal').classList.add('show')">
+      📋 Class Rules / Aturan Kelas
+    </button>
+    <div class="duration-badge" id="topDuration">00:00–05:00<span class="en">Section duration</span></div>
+  </div>
+</header>
+
+<main>
+
+<!-- ================= PAGE 1 ================= -->
+<section class="page active" id="page1" data-duration="00:00–05:00">
+  <div class="section-title">1. Pembukaan & Perkenalan<span class="en">Opening & Introduction</span></div>
+  <div class="progress-dots" id="dots"></div>
+
+  <div class="card">
+    <h3>Selamat Datang! <span class="en">Welcome!</span></h3>
+    <p class="id">Hari ini kita akan belajar tentang <b>Bilangan Rasional</b> dan <b>Operasi Hitung Bilangan Rasional</b>.
+    <span class="en">Today we will learn about Rational Numbers and Arithmetic Operations on Rational Numbers.</span></p>
+
+    <div class="infografis">
+      <div class="info-chip">
+        <svg width="46" height="46" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="11" stroke="#2f6fb0" stroke-width="2"/><text x="12" y="16" font-size="10" text-anchor="middle" fill="#2f6fb0" font-weight="700">a/b</text></svg>
+        <div class="txt"><span class="id">Bilangan Rasional: bentuk pecahan a/b</span><span class="en">Rational number: fraction form a/b</span></div>
+      </div>
+      <div class="info-chip">
+        <svg width="46" height="46" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="5" stroke="#3aa76d" stroke-width="2"/><path d="M7 12h10M12 7v10" stroke="#3aa76d" stroke-width="2"/></svg>
+        <div class="txt"><span class="id">Operasi: tambah, kurang, kali, bagi</span><span class="en">Operations: add, subtract, multiply, divide</span></div>
+      </div>
+      <div class="info-chip">
+        <svg width="46" height="46" viewBox="0 0 24 24" fill="none"><path d="M4 12l5 5L20 6" stroke="#f2a154" stroke-width="3" fill="none"/></svg>
+        <div class="txt"><span class="id">Target: kamu bisa hitung sendiri dengan percaya diri!</span><span class="en">Goal: you can calculate confidently on your own!</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>Apa yang Sudah Kamu Pelajari? <span class="en">What Have You Learned Before?</span></h3>
+    <div class="infografis">
+      <div class="info-chip">
+        <svg width="40" height="40" viewBox="0 0 24 24"><rect x="1" y="1" width="22" height="22" rx="4" fill="#eaf3fb"/><text x="12" y="16" font-size="12" text-anchor="middle" fill="#1e3a5f" font-weight="700">ℤ</text></svg>
+        <div class="txt"><span class="id">Bilangan Bulat: memahami, operasi hitung, faktor</span><span class="en">Integers: understanding, operations, factors</span></div>
+      </div>
+      <div class="info-chip">
+        <svg width="40" height="40" viewBox="0 0 24 24"><rect x="1" y="1" width="22" height="22" rx="4" fill="#f3fbf6"/><text x="12" y="16" font-size="10" text-anchor="middle" fill="#3aa76d" font-weight="700">&lt; &gt;</text></svg>
+        <div class="txt"><span class="id">Membandingkan Bilangan Rasional</span><span class="en">Comparing rational numbers</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= PAGE 2 ================= -->
+<section class="page" id="page2" data-duration="05:00–12:00">
+  <div class="section-title">2. Koneksi & Review<span class="en">Connection & Review</span></div>
+  <div class="progress-dots"></div>
+
+  <div class="card">
+    <h3>Koneksi ke Kehidupan Sehari-hari <span class="en">Connection to Daily Life</span></h3>
+    <p class="id">Bayangkan kamu membagi <b>pizza</b> menjadi beberapa potong, atau mengukur <b>waktu bermain game</b> dalam bentuk jam (misalnya 1½ jam). Semua itu memakai bilangan rasional!
+    <span class="en">Imagine sharing a pizza into slices, or measuring your gaming time in hours (e.g. 1½ hours). All of that uses rational numbers!</span></p>
+    <div class="infografis">
+      <div class="info-chip">
+        <svg width="44" height="44" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="#fff5e9" stroke="#f2a154" stroke-width="2"/><path d="M12 12L12 2A10 10 0 0 1 20 17z" fill="#f2a154"/></svg>
+        <div class="txt"><span class="id">¾ pizza dimakan</span><span class="en">¾ of a pizza eaten</span></div>
+      </div>
+      <div class="info-chip">
+        <svg width="44" height="44" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" stroke="#2f6fb0" stroke-width="2" fill="none"/><path d="M12 12L12 5M12 12L17 14" stroke="#2f6fb0" stroke-width="2"/></svg>
+        <div class="txt"><span class="id">1½ jam bermain game</span><span class="en">1½ hours of gaming</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>Yuk, Review Dulu! <span class="en">Let's Review First!</span></h3>
+    <div id="quiz-review"></div>
+  </div>
+</section>
+
+<!-- ================= PAGE 3 ================= -->
+<section class="page" id="page3" data-duration="12:00–28:00">
+  <div class="section-title">3. Eksplorasi Konsep Baru<span class="en">New Concept Exploration</span></div>
+  <div class="progress-dots"></div>
+
+  <div class="card">
+    <h3>Apa itu Bilangan Rasional? <span class="id"></span><span class="en">What is a Rational Number?</span></h3>
+    <div class="formula-box">
+      <p class="id" style="margin:0 0 6px">Bilangan rasional adalah bilangan yang dapat ditulis sebagai <span id="def1"></span>, dengan a dan b bilangan bulat, dan b ≠ 0.
+      <span class="en">A rational number is a number that can be written as a fraction, where a and b are integers and b ≠ 0.</span></p>
+    </div>
+    <div class="infografis">
+      <div class="info-chip"><svg width="38" height="38"><circle cx="19" cy="19" r="16" fill="#eaf3fb"/></svg><div class="txt"><span class="id">Pecahan: ½, ¾, -⅔</span><span class="en">Fractions: ½, ¾, -⅔</span></div></div>
+      <div class="info-chip"><svg width="38" height="38"><circle cx="19" cy="19" r="16" fill="#f3fbf6"/></svg><div class="txt"><span class="id">Desimal: 0.5, 1.25</span><span class="en">Decimals: 0.5, 1.25</span></div></div>
+      <div class="info-chip"><svg width="38" height="38"><circle cx="19" cy="19" r="16" fill="#fff5e9"/></svg><div class="txt"><span class="id">Bilangan bulat: -3, 0, 7</span><span class="en">Integers: -3, 0, 7</span></div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>Rumus Operasi Hitung <span class="en">Arithmetic Operation Formulas</span></h3>
+
+    <div class="formula-box">
+      <p class="id" style="margin:0"><b>Penjumlahan & Pengurangan</b> <span class="en">(Addition & Subtraction)</span> — samakan penyebut dahulu:</p>
+      <p id="f-add" style="text-align:center;margin:8px 0"></p>
+    </div>
+    <div class="formula-box">
+      <p class="id" style="margin:0"><b>Perkalian</b> <span class="en">(Multiplication)</span> — kalikan pembilang dengan pembilang, penyebut dengan penyebut:</p>
+      <p id="f-mul" style="text-align:center;margin:8px 0"></p>
+    </div>
+    <div class="formula-box">
+      <p class="id" style="margin:0"><b>Pembagian</b> <span class="en">(Division)</span> — kalikan dengan kebalikan (invers) pecahan kedua:</p>
+      <p id="f-div" style="text-align:center;margin:8px 0"></p>
+    </div>
+  </div>
+
+  <div class="card example-box">
+    <h3>Contoh Langkah demi Langkah <span class="en">Worked Example, Step by Step</span></h3>
+    <p class="id">Hitunglah <span id="ex-title"></span>. <span class="en">Calculate the given expression.</span></p>
+    <p class="id" style="font-size:.9em;color:var(--gray)">Klik tombol angka untuk melihat langkah satu per satu (jangan buru-buru!).
+    <span class="en">Click the numbered buttons to see each step one at a time (no rush!)</span></p>
+    <div class="step-nav" id="ex1-nav"></div>
+    <div id="ex1-panels"></div>
+  </div>
+
+  <div class="card">
+    <h3>Studi Kasus <span class="en">Case Studies</span></h3>
+    <div id="quiz-concept"></div>
+  </div>
+</section>
+
+<!-- ================= PAGE 4 ================= -->
+<section class="page" id="page4" data-duration="28:00–40:00">
+  <div class="section-title">4. Latihan Terbimbing<span class="en">Guided Practice</span></div>
+  <div class="progress-dots"></div>
+
+  <div class="card example-box">
+    <h3>Ayo Pikirkan Bersama <span class="en">Let's Think It Through Together</span></h3>
+    <p class="id">Sebelum mengerjakan, coba jelaskan dengan kata-katamu sendiri: mengapa penyebut pecahan harus disamakan sebelum dijumlahkan?
+    <span class="en">Before solving, try to explain in your own words: why must denominators be equalized before adding fractions?</span></p>
+  </div>
+
+  <div class="card">
+    <h3>Studi Kasus <span class="en">Case Studies</span></h3>
+    <div id="quiz-guided"></div>
+  </div>
+</section>
+
+<!-- ================= PAGE 5 ================= -->
+<section class="page" id="page5" data-duration="40:00–52:00">
+  <div class="section-title">5. Latihan Mandiri<span class="en">Independent Practice</span></div>
+  <div class="progress-dots"></div>
+
+  <div class="card">
+    <p class="id">Sekarang giliranmu mencoba sendiri! Kerjakan soal utama, lalu lanjut ke soal pengayaan.
+    <span class="en">Now it's your turn to try on your own! Do the main problem, then move on to the enrichment problem.</span></p>
+    <div id="quiz-independent"></div>
+  </div>
+</section>
+
+<!-- ================= PAGE 6 ================= -->
+<section class="page" id="page6" data-duration="52:00–60:00">
+  <div class="section-title">6. Refleksi & Penutup<span class="en">Reflection & Closing</span></div>
+  <div class="progress-dots"></div>
+
+  <div class="card">
+    <h3>Refleksi <span class="en">Reflection</span></h3>
+    <p class="id">1. Apa hal baru yang kamu pelajari hari ini? <span class="en">What new thing did you learn today?</span></p>
+    <p class="id">2. Bagian mana yang menurutmu paling menantang? <span class="en">Which part did you find most challenging?</span></p>
+    <p class="id">3. Coba jelaskan dengan kalimatmu sendiri: bagaimana cara menjumlahkan dua pecahan berbeda penyebut?
+    <span class="en">Explain in your own words: how do you add two fractions with different denominators?</span></p>
+    <textarea rows="3" style="width:100%;border-radius:10px;border:1px solid #dbe7f3;padding:10px;font-family:inherit" placeholder="Tulis di sini... / Write here..."></textarea>
+  </div>
+
+  <div class="card">
+    <h3>Exit Ticket</h3>
+    <div id="quiz-exit"></div>
+  </div>
+
+  <div class="card">
+    <h3>Rangkuman <span class="en">Summary</span></h3>
+    <ul>
+      <li class="id">Bilangan rasional = bentuk pecahan a/b. <span class="en">Rational number = fraction form a/b.</span></li>
+      <li class="id">Tambah/kurang: samakan penyebut. <span class="en">Add/subtract: equalize denominators.</span></li>
+      <li class="id">Kali: pembilang×pembilang, penyebut×penyebut. <span class="en">Multiply: numerator×numerator, denominator×denominator.</span></li>
+      <li class="id">Bagi: kalikan dengan kebalikan. <span class="en">Divide: multiply by the reciprocal.</span></li>
+    </ul>
+    <p class="id">Kerja bagus hari ini! Lanjutkan latihan di rumah ya. <span class="en">Great work today! Keep practicing at home.</span></p>
+  </div>
+</section>
+
+<!-- ================= PAGE 7 : HOMEWORK ================= -->
+<section class="page" id="page7" data-duration="Tugas Rumah">
+  <div class="section-title">7. Tugas Rumah<span class="en">Homework</span></div>
+  <div class="progress-dots"></div>
+  <div class="card">
+    <p class="id">Kerjakan 10 soal berikut di rumah. Tuliskan langkah pengerjaanmu.
+    <span class="en">Complete the following 10 problems at home. Write down your working steps.</span></p>
+    <ol class="hw-list" id="hwList" style="padding-left:0"></ol>
+  </div>
+</section>
+
+</main>
+
+<footer class="navbar">
+  <button class="btn btn-secondary" id="prevBtn" onclick="changePage(-1)">⟵ <span>Sebelumnya<span class="en">Previous</span></span></button>
+  <div class="page-indicator" id="pageIndicator"></div>
+  <button class="btn btn-primary" id="nextBtn" onclick="changePage(1)">Selanjutnya<span class="en">Next</span> ⟶</button>
+</footer>
+
+<div class="modal-bg" id="rulesModal">
+  <div class="modal-box">
+    <h2>Aturan Kelas <span class="en">Class Rules</span></h2>
+    <div class="duration-badge" style="margin-bottom:14px;display:inline-block">00:00–60:00<span class="en">Applies throughout the session</span></div>
+    <ul>
+      <li class="id">Berbicara secara bergantian.<span class="en">Take turns speaking.</span></li>
+      <li class="id">Meminta izin jika ingin meninggalkan kelas.<span class="en">Ask permission before leaving class.</span></li>
+      <li class="id">Menyalakan microphone dan camera jika diperlukan.<span class="en">Turn on your microphone and camera when needed.</span></li>
+    </ul>
+    <button class="btn btn-primary close-modal" onclick="document.getElementById('rulesModal').classList.remove('show')">Tutup<span class="en">Close</span></button>
+  </div>
+</div>
+
+<script>
+/* ================= KaTeX render ================= */
+function renderMath(){
+  if(window.renderMathInElement){
+    renderMathInElement(document.body,{delimiters:[
+      {left:"$$",right:"$$",display:true},{left:"$",right:"$",display:false}
+    ]});
+  }
+}
+
+/* ================= Page navigation ================= */
+const pages=["page1","page2","page3","page4","page5","page6","page7"];
+const pageNamesID=["Pembukaan","Koneksi & Review","Eksplorasi Konsep","Latihan Terbimbing","Latihan Mandiri","Refleksi & Penutup","Tugas Rumah"];
+const pageNamesEN=["Opening","Connection & Review","Concept Exploration","Guided Practice","Independent Practice","Reflection & Closing","Homework"];
+let cur=0;
+function renderDots(){
+  document.querySelectorAll('.progress-dots').forEach(el=>{
+    el.innerHTML="";
+    pages.forEach((p,i)=>{
+      const s=document.createElement('span');
+      if(i===cur)s.className='active';
+      el.appendChild(s);
+    });
+  });
+}
+function showPage(){
+  pages.forEach((id,i)=>document.getElementById(id).classList.toggle('active',i===cur));
+  document.getElementById('pageIndicator').innerHTML =
+    `Bagian ${cur+1} / 7 — ${pageNamesID[cur]}<span class="en">Section ${cur+1} / 7 — ${pageNamesEN[cur]}</span>`;
+  document.getElementById('topDuration').innerHTML =
+    document.getElementById(pages[cur]).dataset.duration + '<span class="en">Section duration</span>';
+  document.getElementById('prevBtn').disabled = cur===0;
+  document.getElementById('nextBtn').disabled = cur===pages.length-1;
+  renderDots();
+  window.scrollTo({top:0,behavior:'instant'});
+}
+function changePage(d){
+  cur=Math.max(0,Math.min(pages.length-1,cur+d));
+  showPage();
+}
+
+/* ================= Static formulas ================= */
+document.getElementById('def1').innerHTML = "$\\dfrac{a}{b}$";
+document.getElementById('f-add').innerHTML = "$$\\dfrac{a}{b} + \\dfrac{c}{d} = \\dfrac{ad+bc}{bd} \\qquad \\dfrac{a}{b} - \\dfrac{c}{d} = \\dfrac{ad-bc}{bd}$$";
+document.getElementById('f-mul').innerHTML = "$$\\dfrac{a}{b} \\times \\dfrac{c}{d} = \\dfrac{a\\times c}{b\\times d}$$";
+document.getElementById('f-div').innerHTML = "$$\\dfrac{a}{b} \\div \\dfrac{c}{d} = \\dfrac{a}{b} \\times \\dfrac{d}{c} = \\dfrac{a\\times d}{b\\times c}$$";
+document.getElementById('ex-title').innerHTML = "$\\dfrac{3}{4} - \\dfrac{1}{6}$";
+
+/* ================= Step-by-step worked example ================= */
+const steps1 = [
+  {id:"<b>Langkah 1:</b> Cari KPK dari penyebut 4 dan 6, yaitu 12.", en:"Step 1: Find the LCM of the denominators 4 and 6, which is 12.", eq:"$\\text{KPK}(4,6)=12$"},
+  {id:"<b>Langkah 2:</b> Ubah kedua pecahan menjadi berpenyebut 12.", en:"Step 2: Convert both fractions to have a denominator of 12.", eq:"$$\\dfrac{3}{4}=\\dfrac{9}{12} \\qquad \\dfrac{1}{6}=\\dfrac{2}{12}$$"},
+  {id:"<b>Langkah 3:</b> Kurangkan pembilangnya.", en:"Step 3: Subtract the numerators.", eq:"$$\\dfrac{9}{12}-\\dfrac{2}{12}=\\dfrac{9-2}{12}=\\dfrac{7}{12}$$"},
+  {id:"<b>Langkah 4:</b> Tulis hasil akhir (sudah paling sederhana).", en:"Step 4: Write the final result (already fully simplified).", eq:"$$\\dfrac{3}{4}-\\dfrac{1}{6}=\\dfrac{7}{12}$$"}
+];
+function buildSteps(navId,panelId,list){
+  const nav=document.getElementById(navId), panels=document.getElementById(panelId);
+  list.forEach((s,i)=>{
+    const b=document.createElement('button');
+    b.className='step-num-btn'; b.textContent=i+1;
+    b.onclick=()=>{
+      document.querySelectorAll('#'+navId+' .step-num-btn').forEach(x=>x.classList.remove('current'));
+      b.classList.add('current'); b.classList.add('done');
+      document.querySelectorAll('#'+panelId+' .step-panel').forEach(p=>p.classList.remove('show'));
+      document.getElementById(panelId+'-'+i).classList.add('show');
+    };
+    nav.appendChild(b);
+    const p=document.createElement('div'); p.className='step-panel'; p.id=panelId+'-'+i;
+    p.innerHTML=`<p class="id">${s.id}</p><p class="en">${s.en}</p><div>${s.eq}</div>`;
+    panels.appendChild(p);
+  });
+}
+buildSteps('ex1-nav','ex1-panels',steps1);
+
+/* ================= Quiz engine ================= */
+function stepsHTML(uid,list){
+  let nav=`<div class="step-nav" id="${uid}-nav"></div><div id="${uid}-panels"></div>`;
+  return nav;
+}
+function mountSteps(uid,list){ if(list) buildSteps(uid+'-nav', uid+'-panels', list); }
+
+function renderQuestion(container,q,idx,total){
+  const wrap=document.createElement('div');
+  wrap.className='question-block';
+  wrap.style.display = idx===0?'block':'none';
+  wrap.dataset.idx=idx;
+
+  let body = `<div class="qhead"><span class="qcounter">Soal ${idx+1} / ${total}<span class="en" style="display:block">Question ${idx+1} / ${total}</span></span>
+    <span style="font-size:.85em;color:var(--gray)" class="id">${q.typeLabelID}<span class="en">${q.typeLabelEN}</span></span></div>`;
+  body += `<p class="id" style="font-size:1.05em">${q.promptID}</p><p class="en">${q.promptEN}</p>`;
+  if(q.svg) body += `<div style="margin:10px 0">${q.svg}</div>`;
+  body += `<div class="answer-area"></div>`;
+  body += `<div style="margin-top:14px"><button class="btn btn-primary submit-btn">Kirim Jawaban<span class="en">Submit Answer</span></button></div>`;
+  body += `<div class="feedback"><div class="fb-title"></div><div class="exp"></div></div>`;
+  wrap.innerHTML = body;
+  container.appendChild(wrap);
+
+  const area = wrap.querySelector('.answer-area');
+
+  if(q.type==='radio' || q.type==='truefalse'){
+    q.options.forEach((opt,i)=>{
+      const d=document.createElement('div'); d.className='opt';
+      d.innerHTML=`<span class="id">${opt.id}</span><span class="en" style="margin-left:auto">${opt.en}</span>`;
+      d.onclick=()=>{ area.querySelectorAll('.opt').forEach(o=>o.classList.remove('selected')); d.classList.add('selected'); wrap.dataset.sel=i; };
+      area.appendChild(d);
+    });
+  } else if(q.type==='checkbox'){
+    q.options.forEach((opt,i)=>{
+      const d=document.createElement('div'); d.className='opt';
+      d.innerHTML=`<input type="checkbox" data-i="${i}"><span class="id">${opt.id}</span><span class="en" style="margin-left:auto">${opt.en}</span>`;
+      d.onclick=(e)=>{ if(e.target.tagName!=='INPUT'){ d.querySelector('input').checked=!d.querySelector('input').checked; } d.classList.toggle('selected', d.querySelector('input').checked); };
+      area.appendChild(d);
+    });
+  } else if(q.type==='fillblank'){
+    const p=document.createElement('div');
+    let bi=0;
+    p.innerHTML = q.template.map(part=>{
+      if(part==='__'){ const html=`<input type="text" class="blank" data-b="${bi}">`; bi++; return html; }
+      return `<span>${part}</span>`;
+    }).join(' ');
+    area.appendChild(p);
+    setTimeout(renderMath,50);
+  } else if(q.type==='sorting'){
+    const ul=document.createElement('ul'); ul.className='sort-list';
+    let order = q.items.map((t,i)=>i);
+    function draw(){
+      ul.innerHTML='';
+      order.forEach((origIdx,pos)=>{
+        const li=document.createElement('li'); li.className='sort-item';
+        li.innerHTML=`<b>${pos+1}.</b> <span style="flex:1"><span class="id">${q.items[origIdx].id}</span><br><span class="en">${q.items[origIdx].en}</span></span>
+          <span class="arrows"><button data-dir="-1">▲</button><button data-dir="1">▼</button></span>`;
+        li.querySelectorAll('button').forEach(btn=>{
+          btn.onclick=()=>{
+            const dir=parseInt(btn.dataset.dir);
+            const newPos=pos+dir;
+            if(newPos<0||newPos>=order.length) return;
+            [order[pos],order[newPos]]=[order[newPos],order[pos]];
+            draw();
+          };
+        });
+        ul.appendChild(li);
+      });
+    }
+    draw();
+    area.appendChild(ul);
+    wrap._getOrder = ()=>order;
+  } else if(q.type==='pairing'){
+    const div=document.createElement('div'); div.className='pair-wrap';
+    const left=document.createElement('div'); left.className='pair-col';
+    const right=document.createElement('div'); right.className='pair-col';
+    const pairs={};
+    let selLeft=null;
+    const rightShuffled = q.pairs.map((p,i)=>({...p,origIdx:i})).sort(()=>Math.random()-0.5);
+    q.pairs.forEach((p,i)=>{
+      const l=document.createElement('div'); l.className='pair-item';
+      l.innerHTML=`<span class="id">${p.leftID}</span><br><span class="en">${p.leftEN}</span>`;
+      l.dataset.i=i;
+      l.onclick=()=>{
+        left.querySelectorAll('.pair-item').forEach(x=>x.classList.remove('selected'));
+        if(l.classList.contains('matched'))return;
+        l.classList.add('selected'); selLeft=i;
+      };
+      left.appendChild(l);
+    });
+    rightShuffled.forEach(p=>{
+      const r=document.createElement('div'); r.className='pair-item';
+      r.innerHTML=`<span class="id">${p.rightID}</span><br><span class="en">${p.rightEN}</span>`;
+      r.dataset.i=p.origIdx;
+      r.onclick=()=>{
+        if(r.classList.contains('matched'))return;
+        if(selLeft===null)return;
+        pairs[selLeft]=parseInt(r.dataset.i);
+        left.querySelector(`.pair-item[data-i="${selLeft}"]`).classList.add('matched');
+        left.querySelector(`.pair-item[data-i="${selLeft}"]`).classList.remove('selected');
+        r.classList.add('matched');
+        selLeft=null;
+      };
+      right.appendChild(r);
+    });
+    div.appendChild(left); div.appendChild(right);
+    area.appendChild(div);
+    wrap._getPairs=()=>pairs;
+  } else if(q.type==='dragdrop'){
+    const div=document.createElement('div'); div.className='dnd-area';
+    const tilesWrap=document.createElement('div'); tilesWrap.className='dnd-tiles';
+    const eqWrap=document.createElement('div'); eqWrap.className='eq-line';
+    let selectedTile=null;
+    const placements={};
+    q.tiles.forEach((t,i)=>{
+      const tile=document.createElement('div'); tile.className='dnd-tile'; tile.draggable=true;
+      tile.textContent=t; tile.dataset.i=i;
+      tile.ondragstart=(e)=>{ e.dataTransfer.setData('text/plain',i); };
+      tile.onclick=()=>{
+        if(tile.classList.contains('placed'))return;
+        document.querySelectorAll('.dnd-tile').forEach(x=>x.classList.remove('selected'));
+        tile.classList.add('selected'); selectedTile=i;
+      };
+      tilesWrap.appendChild(tile);
+    });
+    eqWrap.innerHTML = q.eqHTML;
+    eqWrap.querySelectorAll('.dnd-slot').forEach(slot=>{
+      slot.ondragover=(e)=>e.preventDefault();
+      slot.ondrop=(e)=>{
+        e.preventDefault();
+        const ti=e.dataTransfer.getData('text/plain');
+        place(slot, ti);
+      };
+      slot.onclick=()=>{ if(selectedTile!==null) place(slot, selectedTile); };
+    });
+    function place(slot, tileIdx){
+      tileIdx = parseInt(tileIdx);
+      const tileEl = tilesWrap.querySelector(`.dnd-tile[data-i="${tileIdx}"]`);
+      if(!tileEl || tileEl.classList.contains('placed')) return;
+      slot.textContent = q.tiles[tileIdx];
+      slot.dataset.filled = tileIdx;
+      tileEl.classList.add('placed');
+      placements[slot.dataset.slot]=tileIdx;
+      selectedTile=null;
+    }
+    div.appendChild(tilesWrap); div.appendChild(eqWrap);
+    area.appendChild(div);
+    setTimeout(renderMath,50);
+    wrap._getPlacements=()=>placements;
+  }
+
+  const submitBtn = wrap.querySelector('.submit-btn');
+  submitBtn.onclick=()=>{
+    let isCorrect=false;
+    if(q.type==='radio'||q.type==='truefalse'){
+      isCorrect = wrap.dataset.sel!==undefined && parseInt(wrap.dataset.sel)===q.correctIdx;
+      area.querySelectorAll('.opt').forEach((o,i)=>{
+        if(i===q.correctIdx)o.classList.add('correct');
+        else if(i===parseInt(wrap.dataset.sel))o.classList.add('wrong');
+      });
+    } else if(q.type==='checkbox'){
+      const checked=[...area.querySelectorAll('input[type=checkbox]')].map(c=>c.checked);
+      isCorrect = JSON.stringify(checked)===JSON.stringify(q.correctSet);
+      area.querySelectorAll('.opt').forEach((o,i)=>{
+        if(q.correctSet[i]) o.classList.add('correct'); else if(checked[i]) o.classList.add('wrong');
+      });
+    } else if(q.type==='fillblank'){
+      const inputs=[...area.querySelectorAll('.blank')];
+      const vals=inputs.map(i=>i.value.trim().replace(/\s+/g,''));
+      isCorrect = vals.length===q.answers.length && vals.every((v,i)=> q.answers[i].some(a=>a.replace(/\s+/g,'')===v));
+      inputs.forEach((inp,i)=>{ inp.style.borderColor = (q.answers[i].some(a=>a.replace(/\s+/g,'')===vals[i])) ? 'var(--green)' : 'var(--red)'; });
+    } else if(q.type==='sorting'){
+      const order=wrap._getOrder();
+      isCorrect = JSON.stringify(order)===JSON.stringify(q.correctOrder);
+    } else if(q.type==='pairing'){
+      const pairs=wrap._getPairs();
+      isCorrect = q.pairs.every((p,i)=> pairs[i]===i);
+    } else if(q.type==='dragdrop'){
+      const pl=wrap._getPlacements();
+      isCorrect = Object.keys(q.correctPlacement).every(slotIdx => pl[slotIdx]===q.correctPlacement[slotIdx]);
+    }
+    const fb=wrap.querySelector('.feedback');
+    fb.classList.remove('ok','no');
+    fb.classList.add(isCorrect?'ok':'no');
+    fb.querySelector('.fb-title').innerHTML = isCorrect
+      ? `<b class="id">✅ Benar! Kerja bagus.</b><span class="en">Correct! Great job.</span>`
+      : `<b class="id">❌ Belum tepat, yuk lihat penjelasannya.</b><span class="en">Not quite, let's look at the explanation.</span>`;
+    let expHtml = `<p class="id">${q.explanationID}</p><p class="en">${q.explanationEN}</p>`;
+    fb.querySelector('.exp').innerHTML = expHtml;
+    if(q.stepsList){
+      const uid='fb-'+Math.random().toString(36).slice(2,8);
+      fb.querySelector('.exp').innerHTML += stepsHTML(uid);
+      mountSteps(uid,q.stepsList);
+    }
+    submitBtn.disabled=true;
+    setTimeout(renderMath,50);
+  };
+}
+
+function buildQuizBank(containerId, list){
+  const container = document.getElementById(containerId);
+  list.forEach((q,i)=>renderQuestion(container,q,i,list.length));
+  // pagination
+  const navDiv=document.createElement('div'); navDiv.className='qz-nav';
+  navDiv.innerHTML = `<button class="btn btn-secondary" data-act="prev">⟵ <span>Soal Sebelumnya<span class="en">Previous</span></span></button>
+    <button class="btn btn-secondary" data-act="next"><span>Soal Berikutnya<span class="en">Next</span></span> ⟶</button>`;
+  container.appendChild(navDiv);
+  let idx=0;
+  const blocks=[...container.querySelectorAll('.question-block')];
+  navDiv.querySelector('[data-act=prev]').onclick=()=>{ if(idx>0){blocks[idx].style.display='none'; idx--; blocks[idx].style.display='block';} };
+  navDiv.querySelector('[data-act=next]').onclick=()=>{ if(idx<blocks.length-1){blocks[idx].style.display='none'; idx++; blocks[idx].style.display='block';} };
+}
+
+/* ================= QUESTION DATA ================= */
+const reviewQs = [
+  { type:'truefalse', typeLabelID:'Benar / Salah', typeLabelEN:'True / False',
+    promptID:'Hasil dari $(-8) + 5$ adalah $-3$.', promptEN:'The result of (-8) + 5 is -3.',
+    options:[{id:'Benar',en:'True'},{id:'Salah',en:'False'}], correctIdx:0,
+    explanationID:'$(-8)+5 = -(8-5) = -3$. Karena 8 lebih besar, hasilnya negatif.',
+    explanationEN:'(-8)+5 = -(8-5) = -3. Since 8 is larger, the result is negative.' },
+  { type:'fillblank', typeLabelID:'Isian', typeLabelEN:'Fill in the blank',
+    promptID:'Urutkan bilangan berikut dari yang terkecil ke terbesar: $\\dfrac{1}{2},\\ 0,\\ -\\dfrac{3}{4}$ →',
+    promptEN:'Order the following numbers from smallest to largest: 1/2, 0, -3/4 →',
+    template:['__',',','__',',','__'],
+    answers:[['-3/4','-¾'],['0'],['1/2','½']],
+    explanationID:'Bilangan negatif selalu lebih kecil dari 0, dan 0 lebih kecil dari bilangan positif. Urutannya: $-\\dfrac{3}{4}, 0, \\dfrac{1}{2}$.',
+    explanationEN:'Negative numbers are always less than 0, and 0 is less than positive numbers. Order: -3/4, 0, 1/2.' },
+  { type:'radio', typeLabelID:'Pilihan Ganda', typeLabelEN:'Multiple Choice',
+    promptID:'Hasil dari $(-12) - (-5)$ adalah...', promptEN:'The result of (-12) - (-5) is...',
+    options:[{id:'$-7$',en:'-7'},{id:'$7$',en:'7'},{id:'$-17$',en:'-17'},{id:'$17$',en:'17'}], correctIdx:0,
+    explanationID:'Mengurangi bilangan negatif sama dengan menjumlahkan lawannya: $-12-(-5) = -12+5 = -7$.',
+    explanationEN:'Subtracting a negative is the same as adding its opposite: -12-(-5) = -12+5 = -7.',
+    stepsList:[
+      {id:'Langkah 1: Ubah pengurangan menjadi penjumlahan dengan lawan bilangan.', en:'Step 1: Change subtraction into addition of the opposite.', eq:'$-12-(-5) = -12+5$'},
+      {id:'Langkah 2: Hitung hasilnya.', en:'Step 2: Calculate the result.', eq:'$-12+5=-7$'}
+    ]},
+  { type:'checkbox', typeLabelID:'Kotak Centang', typeLabelEN:'Checkbox',
+    promptID:'Manakah bilangan berikut yang termasuk bilangan rasional? (pilih semua yang benar)',
+    promptEN:'Which of the following are rational numbers? (select all that apply)',
+    options:[
+      {id:'$\\dfrac12$',en:'1/2'},
+      {id:'$-5$ (bilangan bulat)',en:'-5 (an integer)'},
+      {id:'$0.1010010001\\ldots$ (tidak berulang & tidak berhenti)',en:'0.1010010001... (non-repeating, non-terminating)'},
+      {id:'$\\dfrac{2}{0}$ (tidak terdefinisi)',en:'2/0 (undefined)'}
+    ],
+    correctSet:[true,true,false,false],
+    explanationID:'1/2 dan -5 dapat ditulis sebagai a/b (b≠0), jadi rasional. Desimal yang tidak berulang & tidak berhenti BUKAN rasional, dan pembagian dengan 0 tidak terdefinisi.',
+    explanationEN:'1/2 and -5 can be written as a/b (b≠0), so they are rational. A non-repeating, non-terminating decimal is NOT rational, and division by 0 is undefined.' },
+  { type:'truefalse', typeLabelID:'Benar / Salah', typeLabelEN:'True / False',
+    promptID:'$-\\dfrac34 < -\\dfrac12$', promptEN:'-3/4 < -1/2',
+    options:[{id:'Benar',en:'True'},{id:'Salah',en:'False'}], correctIdx:0,
+    explanationID:'$-\\dfrac34=-0.75$ dan $-\\dfrac12=-0.5$. Karena $-0.75$ lebih ke kiri pada garis bilangan, maka $-0.75 < -0.5$, jadi pernyataan ini benar.',
+    explanationEN:'-3/4=-0.75 and -1/2=-0.5. Since -0.75 is further left on the number line, -0.75 < -0.5, so the statement is true.' },
+  { type:'radio', typeLabelID:'Pilihan Ganda', typeLabelEN:'Multiple Choice',
+    promptID:'Manakah bilangan yang paling BESAR di antara berikut?', promptEN:'Which number is the LARGEST among the following?',
+    options:[{id:'$-2$',en:'-2'},{id:'$-\\dfrac12$',en:'-1/2'},{id:'$0$',en:'0'},{id:'$\\dfrac34$',en:'3/4'}], correctIdx:3,
+    explanationID:'Pada garis bilangan, semakin ke kanan semakin besar. Urutan dari kecil ke besar: $-2, -\\dfrac12, 0, \\dfrac34$. Jadi yang terbesar adalah $\\dfrac34$.',
+    explanationEN:'On a number line, further right means larger. Order from small to large: -2, -1/2, 0, 3/4. So the largest is 3/4.' },
+  { type:'pairing', typeLabelID:'Memasangkan', typeLabelEN:'Pairing',
+    promptID:'Pasangkan operasi bilangan bulat dengan hasilnya.', promptEN:'Match each integer operation with its result.',
+    pairs:[
+      {leftID:'$(-6)+9$', leftEN:'(-6)+9', rightID:'$3$', rightEN:'3'},
+      {leftID:'$(-4)\\times(-3)$', leftEN:'(-4)×(-3)', rightID:'$12$', rightEN:'12'},
+      {leftID:'$15 \\div (-3)$', leftEN:'15÷(-3)', rightID:'$-5$', rightEN:'-5'},
+      {leftID:'$(-7)-(-9)$', leftEN:'(-7)-(-9)', rightID:'$2$', rightEN:'2'}
+    ],
+    explanationID:'Ingat aturan tanda: (+)+(+)/(+)+(-) ikuti aturan penjumlahan biasa; (-)×(-) = (+); (+)÷(-) = (-); mengurangi bilangan negatif = menjumlahkan lawannya.',
+    explanationEN:'Remember the sign rules: (-)×(-) = (+); (+)÷(-) = (-); subtracting a negative equals adding its opposite.' },
+  { type:'sorting', typeLabelID:'Mengurutkan', typeLabelEN:'Sorting',
+    promptID:'Urutkan bilangan berikut dari yang TERKECIL ke yang TERBESAR.', promptEN:'Order the following numbers from SMALLEST to LARGEST.',
+    items:[
+      {id:'$0.5$', en:'0.5'},
+      {id:'$-2.5$', en:'-2.5'},
+      {id:'$2$', en:'2'},
+      {id:'$-1$', en:'-1'}
+    ],
+    correctOrder:[1,3,0,2],
+    explanationID:'Urutan dari terkecil: $-2.5, -1, 0.5, 2$. Semakin negatif suatu bilangan, semakin kecil nilainya.',
+    explanationEN:'Order from smallest: -2.5, -1, 0.5, 2. The more negative a number is, the smaller its value.' },
+  { type:'fillblank', typeLabelID:'Isian', typeLabelEN:'Fill in the blank',
+    promptID:'Ubahlah $0.6$ menjadi pecahan paling sederhana: __',
+    promptEN:'Convert 0.6 into its simplest fraction form: __',
+    template:['__'], answers:[['3/5']],
+    explanationID:'$0.6 = \\dfrac{6}{10}$, disederhanakan dengan membagi pembilang & penyebut dengan 2, menjadi $\\dfrac{3}{5}$.',
+    explanationEN:'0.6 = 6/10, simplified by dividing numerator & denominator by 2, giving 3/5.' },
+  { type:'dragdrop', typeLabelID:'Seret & Lepas', typeLabelEN:'Drag and Drop',
+    promptID:'Seret tanda yang tepat (< atau >) untuk melengkapi perbandingan berikut.',
+    promptEN:'Drag the correct sign (< or >) to complete the comparison.',
+    tiles:['<','>'],
+    eqHTML:'<span class="frac"><span class="fn">-3</span><span class="fd">4</span></span> &nbsp;<span class="dnd-slot" data-slot="0"></span>&nbsp; <span class="frac"><span class="fn">-1</span><span class="fd">2</span></span>',
+    correctPlacement:{0:0},
+    explanationID:'$-\\dfrac34=-0.75$ dan $-\\dfrac12=-0.5$. Karena $-0.75$ lebih kecil, tandanya adalah "<".',
+    explanationEN:'-3/4=-0.75 and -1/2=-0.5. Since -0.75 is smaller, the sign is "<".' }
+];
+
+const conceptQs = [
+  { type:'radio', typeLabelID:'Pilihan Ganda', typeLabelEN:'Multiple Choice',
+    promptID:'Berapakah hasil dari $\\dfrac{1}{2} + \\dfrac{1}{3}$?', promptEN:'What is the result of 1/2 + 1/3?',
+    options:[{id:'$\\dfrac{5}{6}$',en:'5/6'},{id:'$\\dfrac{2}{5}$',en:'2/5'},{id:'$\\dfrac{1}{6}$',en:'1/6'},{id:'$\\dfrac{5}{5}$',en:'5/5'}],
+    correctIdx:0,
+    explanationID:'KPK dari 2 dan 3 adalah 6. $\\dfrac{1}{2}=\\dfrac{3}{6}$, $\\dfrac{1}{3}=\\dfrac{2}{6}$, jadi $\\dfrac{3}{6}+\\dfrac{2}{6}=\\dfrac{5}{6}$.',
+    explanationEN:'LCM of 2 and 3 is 6. 1/2=3/6, 1/3=2/6, so 3/6+2/6=5/6.',
+    stepsList:[
+      {id:'Langkah 1: Cari KPK penyebut (2 dan 3) = 6.', en:'Step 1: Find LCM of denominators (2 and 3) = 6.', eq:'$\\text{KPK}(2,3)=6$'},
+      {id:'Langkah 2: Ubah kedua pecahan ke penyebut 6.', en:'Step 2: Convert both fractions to denominator 6.', eq:'$$\\dfrac12=\\dfrac36,\\ \\dfrac13=\\dfrac26$$'},
+      {id:'Langkah 3: Jumlahkan pembilang.', en:'Step 3: Add the numerators.', eq:'$$\\dfrac36+\\dfrac26=\\dfrac56$$'}
+    ]},
+  { type:'pairing', typeLabelID:'Memasangkan', typeLabelEN:'Pairing',
+    promptID:'Pasangkan setiap ekspresi dengan jenis operasinya.', promptEN:'Match each expression with its operation type.',
+    pairs:[
+      {leftID:'$\\dfrac12+\\dfrac14$', leftEN:'1/2 + 1/4', rightID:'Penjumlahan pecahan beda penyebut', rightEN:'Addition of unlike fractions'},
+      {leftID:'$\\dfrac23 \\times \\dfrac34$', leftEN:'2/3 × 3/4', rightID:'Perkalian pecahan', rightEN:'Multiplication of fractions'},
+      {leftID:'$-0.5-0.25$', leftEN:'-0.5 - 0.25', rightID:'Pengurangan desimal', rightEN:'Subtraction of decimals'},
+      {leftID:'$\\dfrac34 \\div \\dfrac12$', leftEN:'3/4 ÷ 1/2', rightID:'Pembagian pecahan (kali kebalikan)', rightEN:'Division of fractions (multiply by reciprocal)'}
+    ],
+    explanationID:'Kenali kata kunci operasi dari simbolnya: "+"=penjumlahan, "×"=perkalian, "−"=pengurangan, "÷"=pembagian (dikerjakan dengan mengalikan kebalikan).',
+    explanationEN:'Identify the operation from its symbol: "+"=addition, "×"=multiplication, "−"=subtraction, "÷"=division (solved by multiplying the reciprocal).' },
+  { type:'truefalse', typeLabelID:'Benar / Salah', typeLabelEN:'True / False',
+    promptID:'Untuk mengurangkan dua pecahan, penyebutnya harus disamakan terlebih dahulu.',
+    promptEN:'To subtract two fractions, their denominators must be equalized first.',
+    options:[{id:'Benar',en:'True'},{id:'Salah',en:'False'}], correctIdx:0,
+    explanationID:'Benar. Seperti penjumlahan, pengurangan pecahan juga memerlukan penyebut yang sama sebelum pembilangnya dikurangkan.',
+    explanationEN:'True. Like addition, subtracting fractions also requires equal denominators before subtracting the numerators.' },
+  { type:'fillblank', typeLabelID:'Isian', typeLabelEN:'Fill in the blank',
+    promptID:'Hitunglah $\\dfrac{2}{5} - \\dfrac{1}{10} = $ __',
+    promptEN:'Calculate 2/5 - 1/10 = __',
+    template:['__'], answers:[['3/10']],
+    explanationID:'KPK dari 5 dan 10 adalah 10. $\\dfrac25=\\dfrac{4}{10}$, jadi $\\dfrac{4}{10}-\\dfrac{1}{10}=\\dfrac{3}{10}$.',
+    explanationEN:'LCM of 5 and 10 is 10. 2/5=4/10, so 4/10-1/10=3/10.' },
+  { type:'checkbox', typeLabelID:'Kotak Centang', typeLabelEN:'Checkbox',
+    promptID:'Manakah langkah yang BENAR untuk mengalikan dua pecahan? (pilih semua yang benar)',
+    promptEN:'Which steps are CORRECT for multiplying two fractions? (select all that apply)',
+    options:[
+      {id:'Kalikan pembilang dengan pembilang.',en:'Multiply numerator by numerator.'},
+      {id:'Samakan penyebut terlebih dahulu.',en:'Equalize the denominators first.'},
+      {id:'Kalikan penyebut dengan penyebut.',en:'Multiply denominator by denominator.'},
+      {id:'Sederhanakan hasil akhir jika memungkinkan.',en:'Simplify the final result if possible.'}
+    ],
+    correctSet:[true,false,true,true],
+    explanationID:'Perkalian pecahan TIDAK memerlukan penyebut yang sama. Cukup kalikan pembilang×pembilang dan penyebut×penyebut, lalu sederhanakan.',
+    explanationEN:'Multiplying fractions does NOT require equal denominators. Just multiply numerator×numerator and denominator×denominator, then simplify.' },
+  { type:'radio', typeLabelID:'Pilihan Ganda', typeLabelEN:'Multiple Choice',
+    promptID:'Hasil dari $\\dfrac34 \\times \\dfrac23$ adalah...', promptEN:'The result of 3/4 × 2/3 is...',
+    options:[{id:'$\\dfrac12$',en:'1/2'},{id:'$\\dfrac57$',en:'5/7'},{id:'$\\dfrac37$',en:'3/7'},{id:'$\\dfrac{9}{12}$',en:'9/12'}],
+    correctIdx:0,
+    explanationID:'$\\dfrac34 \\times \\dfrac23 = \\dfrac{3\\times2}{4\\times3} = \\dfrac{6}{12} = \\dfrac12$.',
+    explanationEN:'3/4 × 2/3 = (3×2)/(4×3) = 6/12 = 1/2.' },
+  { type:'sorting', typeLabelID:'Mengurutkan', typeLabelEN:'Sorting',
+    promptID:'Urutkan langkah-langkah menghitung $\\dfrac56 \\div \\dfrac13$ dari pertama hingga terakhir.',
+    promptEN:'Order the steps to compute 5/6 ÷ 1/3 from first to last.',
+    items:[
+      {id:'Ubah tanda bagi menjadi kali.', en:'Change the division sign to multiplication.'},
+      {id:'Kalikan: $\\dfrac56 \\times \\dfrac31 = \\dfrac{15}{6} = \\dfrac52$.', en:'Multiply: 5/6 × 3/1 = 15/6 = 5/2.'},
+      {id:'Balik (invers) pecahan kedua: $\\dfrac13 \\to \\dfrac31$.', en:'Flip (invert) the second fraction: 1/3 → 3/1.'},
+      {id:'Tulis hasil akhir: $\\dfrac52$.', en:'Write the final result: 5/2.'}
+    ],
+    correctOrder:[2,0,1,3],
+    explanationID:'Urutan benar: (1) balik pecahan kedua, (2) ubah bagi jadi kali, (3) kalikan, (4) tulis hasil akhir.',
+    explanationEN:'Correct order: (1) flip the second fraction, (2) change division to multiplication, (3) multiply, (4) write the final result.' },
+  { type:'dragdrop', typeLabelID:'Seret & Lepas', typeLabelEN:'Drag and Drop',
+    promptID:'Seret angka yang tepat untuk melengkapi pembagian $\\dfrac45 \\div \\dfrac25$ (ubah menjadi perkalian dengan kebalikan).',
+    promptEN:'Drag the correct numbers to complete 4/5 ÷ 2/5 (rewrite as multiplication by the reciprocal).',
+    tiles:['5','2','4','3'],
+    eqHTML:'<span class="frac"><span class="fn">4</span><span class="fd">5</span></span> &divide; <span class="frac"><span class="fn">2</span><span class="fd">5</span></span> &nbsp;=&nbsp; <span class="frac"><span class="fn">4</span><span class="fd">5</span></span> &times; <span class="frac"><span class="fn"><span class="dnd-slot" data-slot="0"></span></span><span class="fd"><span class="dnd-slot" data-slot="1"></span></span></span>',
+    correctPlacement:{0:0,1:1},
+    explanationID:'Kebalikan dari $\\dfrac25$ adalah $\\dfrac52$. Jadi $\\dfrac45 \\div \\dfrac25 = \\dfrac45 \\times \\dfrac52 = \\dfrac{20}{10} = 2$.',
+    explanationEN:'The reciprocal of 2/5 is 5/2. So 4/5 ÷ 2/5 = 4/5 × 5/2 = 20/10 = 2.' },
+  { type:'fillblank', typeLabelID:'Isian', typeLabelEN:'Fill in the blank',
+    promptID:'Sebuah pita panjangnya $\\dfrac34$ meter, dipotong lagi menjadi $\\dfrac12$-nya. Panjang potongan tersebut = __ meter.',
+    promptEN:'A ribbon is 3/4 meter long, then cut to 1/2 of that. The length of the cut piece = __ meters.',
+    template:['__'], answers:[['3/8']],
+    explanationID:'$\\dfrac34 \\times \\dfrac12 = \\dfrac{3}{8}$ meter.',
+    explanationEN:'3/4 × 1/2 = 3/8 meters.' },
+  { type:'truefalse', typeLabelID:'Benar / Salah', typeLabelEN:'True / False',
+    promptID:'$\\left(-\\dfrac12\\right) \\times \\left(-\\dfrac12\\right)$ hasilnya positif.',
+    promptEN:'(-1/2) × (-1/2) results in a positive number.',
+    options:[{id:'Benar',en:'True'},{id:'Salah',en:'False'}], correctIdx:0,
+    explanationID:'Benar. Negatif × negatif = positif, hasilnya $\\dfrac14$.',
+    explanationEN:'True. Negative × negative = positive, the result is 1/4.' }
+];
+
+const guidedQs = [
+  { type:'checkbox', typeLabelID:'Kotak Centang', typeLabelEN:'Checkbox',
+    promptID:'Manakah pernyataan berikut yang BENAR tentang penjumlahan pecahan? (pilih semua yang benar)',
+    promptEN:'Which of the following statements about adding fractions are TRUE? (select all that apply)',
+    options:[
+      {id:'Penyebut harus disamakan dahulu.',en:'Denominators must be equalized first.'},
+      {id:'Pembilang dan penyebut dijumlahkan langsung.',en:'Numerators and denominators are added directly.'},
+      {id:'KPK dapat digunakan untuk menyamakan penyebut.',en:'LCM can be used to equalize denominators.'},
+      {id:'Hasil penjumlahan pecahan selalu bilangan bulat.',en:'The sum of two fractions is always a whole number.'}
+    ],
+    correctSet:[true,false,true,false],
+    explanationID:'Untuk menjumlahkan pecahan, penyebut harus sama (bisa memakai KPK). Pembilang dan penyebut TIDAK dijumlahkan langsung, dan hasilnya tidak selalu bilangan bulat.',
+    explanationEN:'To add fractions, denominators must be equal (LCM can help). Numerators and denominators are NOT added directly, and the result is not always a whole number.' },
+  { type:'sorting', typeLabelID:'Mengurutkan', typeLabelEN:'Sorting',
+    promptID:'Urutkan langkah-langkah penyelesaian $\\dfrac34 - \\dfrac16$ dari pertama hingga terakhir.',
+    promptEN:'Order the steps to solve 3/4 - 1/6 from first to last.',
+    items:[
+      {id:'Tulis hasil akhir: 7/12.', en:'Write the final answer: 7/12.'},
+      {id:'Tentukan KPK penyebut 4 dan 6, yaitu 12.', en:'Find the LCM of 4 and 6, which is 12.'},
+      {id:'Kurangkan pembilang: 9 − 2 = 7.', en:'Subtract the numerators: 9 − 2 = 7.'},
+      {id:'Ubah pecahan ke penyebut 12: 9/12 dan 2/12.', en:'Convert fractions to denominator 12: 9/12 and 2/12.'}
+    ],
+    correctOrder:[1,3,2,0],
+    explanationID:'Urutan benar: (1) cari KPK, (2) ubah penyebut, (3) kurangkan pembilang, (4) tulis hasil akhir.',
+    explanationEN:'Correct order: (1) find LCM, (2) convert denominators, (3) subtract numerators, (4) write final answer.' },
+  { type:'dragdrop', typeLabelID:'Seret & Lepas', typeLabelEN:'Drag and Drop',
+    promptID:'Seret angka yang tepat untuk melengkapi pembagian $\\dfrac34 \\div \\dfrac23$ (ubah menjadi perkalian dengan kebalikan).',
+    promptEN:'Drag the correct numbers to complete 3/4 ÷ 2/3 (rewrite as multiplication by the reciprocal).',
+    tiles:['3','2','4','1'],
+    eqHTML:'<span class="frac"><span class="fn">3</span><span class="fd">4</span></span> &divide; <span class="frac"><span class="fn">2</span><span class="fd">3</span></span> &nbsp;=&nbsp; <span class="frac"><span class="fn">3</span><span class="fd">4</span></span> &times; <span class="frac"><span class="fn"><span class="dnd-slot" data-slot="0"></span></span><span class="fd"><span class="dnd-slot" data-slot="1"></span></span></span>',
+    correctPlacement:{0:0,1:1},
+    explanationID:'Kebalikan (invers) dari $\\dfrac23$ adalah $\\dfrac32$. Jadi pembagian menjadi $\\dfrac34 \\times \\dfrac32 = \\dfrac{9}{8}$.',
+    explanationEN:'The reciprocal of 2/3 is 3/2. So the division becomes 3/4 × 3/2 = 9/8.',
+    stepsList:[
+      {id:'Langkah 1: Tukar posisi pembilang & penyebut pecahan kedua (2/3 → 3/2).', en:'Step 1: Flip the numerator and denominator of the second fraction (2/3 → 3/2).', eq:'$\\dfrac23 \\to \\dfrac32$'},
+      {id:'Langkah 2: Ubah tanda bagi menjadi kali.', en:'Step 2: Change division to multiplication.', eq:'$\\dfrac34 \\div \\dfrac23 = \\dfrac34 \\times \\dfrac32$'},
+      {id:'Langkah 3: Kalikan pembilang dan penyebut.', en:'Step 3: Multiply numerators and denominators.', eq:'$\\dfrac34 \\times \\dfrac32 = \\dfrac{9}{8}$'}
+    ]},
+  { type:'radio', typeLabelID:'Pilihan Ganda', typeLabelEN:'Multiple Choice',
+    promptID:'Sinta punya $\\dfrac34$ kg gula, dipakai $\\dfrac13$ kg untuk membuat kue. Operasi apa yang tepat untuk mencari sisa gula?',
+    promptEN:'Sinta has 3/4 kg of sugar, and uses 1/3 kg to bake a cake. What operation finds the remaining sugar?',
+    options:[{id:'Penjumlahan',en:'Addition'},{id:'Pengurangan',en:'Subtraction'},{id:'Perkalian',en:'Multiplication'},{id:'Pembagian',en:'Division'}],
+    correctIdx:1,
+    explanationID:'Kata "sisa" menunjukkan operasi PENGURANGAN: jumlah awal dikurangi jumlah yang dipakai.',
+    explanationEN:'The word "remaining" indicates SUBTRACTION: the initial amount minus the amount used.' },
+  { type:'fillblank', typeLabelID:'Isian', typeLabelEN:'Fill in the blank',
+    promptID:'Lanjutan soal Sinta: sisa gula = __ kg.', promptEN:'Continuing the Sinta problem: the remaining sugar = __ kg.',
+    template:['__'], answers:[['5/12']],
+    explanationID:'$\\dfrac34-\\dfrac13$: KPK(4,3)=12, jadi $\\dfrac{9}{12}-\\dfrac{4}{12}=\\dfrac{5}{12}$ kg.',
+    explanationEN:'3/4-1/3: LCM(4,3)=12, so 9/12-4/12=5/12 kg.' },
+  { type:'truefalse', typeLabelID:'Benar / Salah', typeLabelEN:'True / False',
+    promptID:'Untuk menyelesaikan soal cerita pembagian pecahan, kita bisa mengubahnya menjadi perkalian dengan kebalikan.',
+    promptEN:'To solve a word problem involving fraction division, we can rewrite it as multiplication by the reciprocal.',
+    options:[{id:'Benar',en:'True'},{id:'Salah',en:'False'}], correctIdx:0,
+    explanationID:'Benar, ini adalah strategi umum: ubah pembagian pecahan menjadi perkalian dengan kebalikan pecahan kedua.',
+    explanationEN:'True, this is a common strategy: rewrite fraction division as multiplication by the reciprocal of the second fraction.' },
+  { type:'pairing', typeLabelID:'Memasangkan', typeLabelEN:'Pairing',
+    promptID:'Pasangkan situasi cerita dengan operasi yang tepat.', promptEN:'Match each story situation with the correct operation.',
+    pairs:[
+      {leftID:'Membagi rata kue untuk beberapa orang', leftEN:'Sharing a cake equally among people', rightID:'Pembagian', rightEN:'Division'},
+      {leftID:'Menggabungkan dua bagian pecahan', leftEN:'Combining two fraction parts', rightID:'Penjumlahan', rightEN:'Addition'},
+      {leftID:'Mengambil sebagian dari sebagian', leftEN:'Taking a part of a part', rightID:'Perkalian', rightEN:'Multiplication'},
+      {leftID:'Selisih antara dua ukuran', leftEN:'The difference between two measurements', rightID:'Pengurangan', rightEN:'Subtraction'}
+    ],
+    explanationID:'Kata kunci cerita membantu menentukan operasi: "membagi rata"→bagi, "menggabungkan"→tambah, "sebagian dari"→kali, "selisih"→kurang.',
+    explanationEN:'Keywords in the story help determine the operation: "share equally"→divide, "combine"→add, "part of"→multiply, "difference"→subtract.' },
+  { type:'radio', typeLabelID:'Pilihan Ganda', typeLabelEN:'Multiple Choice',
+    promptID:'Hasil dari $2\\dfrac12 - \\dfrac34$ adalah...', promptEN:'The result of 2½ - 3/4 is...',
+    options:[{id:'$\\dfrac74$',en:'7/4'},{id:'$\\dfrac54$',en:'5/4'},{id:'$\\dfrac94$',en:'9/4'},{id:'$\\dfrac32$',en:'3/2'}],
+    correctIdx:0,
+    explanationID:'$2\\dfrac12=\\dfrac52$. $\\dfrac52-\\dfrac34$: KPK(2,4)=4, jadi $\\dfrac{10}{4}-\\dfrac34=\\dfrac74$.',
+    explanationEN:'2½=5/2. 5/2-3/4: LCM(2,4)=4, so 10/4-3/4=7/4.',
+    stepsList:[
+      {id:'Langkah 1: Ubah bilangan campuran menjadi pecahan biasa.', en:'Step 1: Convert the mixed number to an improper fraction.', eq:'$2\\dfrac12 = \\dfrac52$'},
+      {id:'Langkah 2: Samakan penyebut (KPK dari 2 dan 4 adalah 4).', en:'Step 2: Equalize denominators (LCM of 2 and 4 is 4).', eq:'$\\dfrac52=\\dfrac{10}{4}$'},
+      {id:'Langkah 3: Kurangkan pembilang.', en:'Step 3: Subtract the numerators.', eq:'$\\dfrac{10}{4}-\\dfrac34=\\dfrac74$'}
+    ]},
+  { type:'sorting', typeLabelID:'Mengurutkan', typeLabelEN:'Sorting',
+    promptID:'Urutkan langkah umum menyelesaikan soal cerita bilangan rasional.', promptEN:'Order the general steps for solving a rational-number word problem.',
+    items:[
+      {id:'Hitung sesuai rumus operasi yang dipilih.', en:'Calculate using the chosen operation formula.'},
+      {id:'Tentukan operasi yang tepat dari soal cerita.', en:'Determine the correct operation from the word problem.'},
+      {id:'Tulis kesimpulan dengan satuan yang sesuai.', en:'Write the conclusion with the appropriate unit.'},
+      {id:'Ubah bilangan campuran ke pecahan biasa jika perlu.', en:'Convert mixed numbers to improper fractions if needed.'}
+    ],
+    correctOrder:[1,3,0,2],
+    explanationID:'Urutan benar: (1) tentukan operasi, (2) ubah bentuk bilangan jika perlu, (3) hitung, (4) tulis kesimpulan.',
+    explanationEN:'Correct order: (1) determine the operation, (2) convert number forms if needed, (3) calculate, (4) write the conclusion.' },
+  { type:'dragdrop', typeLabelID:'Seret & Lepas', typeLabelEN:'Drag and Drop',
+    promptID:'Budi punya $\\dfrac56$ liter cat, dipakai $\\dfrac12$-nya untuk mengecat pagar. Seret angka untuk melengkapi: cat yang dipakai $= \\dfrac56 \\times \\dfrac12 = \\dfrac{\\_\\_}{\\_\\_}$ liter.',
+    promptEN:'Budi has 5/6 liter of paint and uses 1/2 of it. Drag the numbers to complete: paint used = 5/6 × 1/2 = __/__ liters.',
+    tiles:['5','12','6','2'],
+    eqHTML:'<span class="frac"><span class="fn">5</span><span class="fd">6</span></span> &times; <span class="frac"><span class="fn">1</span><span class="fd">2</span></span> &nbsp;=&nbsp; <span class="frac"><span class="fn"><span class="dnd-slot" data-slot="0"></span></span><span class="fd"><span class="dnd-slot" data-slot="1"></span></span></span>',
+    correctPlacement:{0:0,1:1},
+    explanationID:'$\\dfrac56 \\times \\dfrac12 = \\dfrac{5\\times1}{6\\times2} = \\dfrac{5}{12}$ liter.',
+    explanationEN:'5/6 × 1/2 = (5×1)/(6×2) = 5/12 liters.' }
+];
+
+const independentQs = [
+  { type:'radio', typeLabelID:'Soal Utama — Pilihan Ganda', typeLabelEN:'Main Problem — Multiple Choice',
+    promptID:'Hasil dari $\\left(-\\dfrac23\\right) \\times \\dfrac34$ adalah...', promptEN:'The result of (-2/3) × (3/4) is...',
+    options:[{id:'$-\\dfrac12$',en:'-1/2'},{id:'$\\dfrac12$',en:'1/2'},{id:'$-\\dfrac27$',en:'-2/7'},{id:'$\\dfrac{6}{12}$',en:'6/12'}],
+    correctIdx:0,
+    explanationID:'$-\\dfrac23 \\times \\dfrac34 = -\\dfrac{2\\times3}{3\\times4} = -\\dfrac{6}{12} = -\\dfrac12$ (negatif × positif = negatif).',
+    explanationEN:'-2/3 × 3/4 = -(2×3)/(3×4) = -6/12 = -1/2 (negative × positive = negative).',
+    stepsList:[
+      {id:'Langkah 1: Kalikan pembilang dengan pembilang, penyebut dengan penyebut.', en:'Step 1: Multiply numerator by numerator, denominator by denominator.', eq:'$\\dfrac{2\\times3}{3\\times4}=\\dfrac{6}{12}$'},
+      {id:'Langkah 2: Sederhanakan pecahan.', en:'Step 2: Simplify the fraction.', eq:'$\\dfrac{6}{12}=\\dfrac12$'},
+      {id:'Langkah 3: Tentukan tanda hasil (negatif × positif = negatif).', en:'Step 3: Determine the sign (negative × positive = negative).', eq:'$-\\dfrac12$'}
+    ]},
+  { type:'fillblank', typeLabelID:'Soal Pengayaan — Isian', typeLabelEN:'Enrichment Problem — Fill in the blank',
+    promptID:'Sebuah kue dipotong menjadi $\\dfrac34$ bagian, lalu $\\dfrac23$ dari potongan tersebut dimakan. Bagian kue yang dimakan = __ dari keseluruhan kue.',
+    promptEN:'A cake is cut into 3/4 portion, then 2/3 of that portion is eaten. The eaten part = __ of the whole cake.',
+    template:['__'], answers:[['1/2','½']],
+    explanationID:'$\\dfrac34 \\times \\dfrac23 = \\dfrac{6}{12} = \\dfrac12$.',
+    explanationEN:'3/4 × 2/3 = 6/12 = 1/2.' },
+  { type:'truefalse', typeLabelID:'Soal Pendukung — Benar/Salah', typeLabelEN:'Support Problem — True/False',
+    promptID:'$0.75$ sama nilainya dengan $\\dfrac34$.', promptEN:'0.75 has the same value as 3/4.',
+    options:[{id:'Benar',en:'True'},{id:'Salah',en:'False'}], correctIdx:0,
+    explanationID:'$\\dfrac34 = 3 \\div 4 = 0.75$. Jadi keduanya sama nilainya.',
+    explanationEN:'3/4 = 3 ÷ 4 = 0.75. So both have the same value.' },
+  { type:'radio', typeLabelID:'Soal Utama — Pilihan Ganda', typeLabelEN:'Main Problem — Multiple Choice',
+    promptID:'Hasil dari $\\dfrac78 \\div \\dfrac14$ adalah...', promptEN:'The result of 7/8 ÷ 1/4 is...',
+    options:[{id:'$\\dfrac72$',en:'7/2'},{id:'$\\dfrac{7}{32}$',en:'7/32'},{id:'$\\dfrac27$',en:'2/7'},{id:'$\\dfrac47$',en:'4/7'}],
+    correctIdx:0,
+    explanationID:'$\\dfrac78 \\div \\dfrac14 = \\dfrac78 \\times \\dfrac41 = \\dfrac{28}{8} = \\dfrac72$.',
+    explanationEN:'7/8 ÷ 1/4 = 7/8 × 4/1 = 28/8 = 7/2.',
+    stepsList:[
+      {id:'Langkah 1: Balik pecahan kedua dan ubah bagi menjadi kali.', en:'Step 1: Flip the second fraction and change division to multiplication.', eq:'$\\dfrac78 \\div \\dfrac14 = \\dfrac78 \\times \\dfrac41$'},
+      {id:'Langkah 2: Kalikan dan sederhanakan.', en:'Step 2: Multiply and simplify.', eq:'$\\dfrac{28}{8} = \\dfrac72$'}
+    ]},
+  { type:'fillblank', typeLabelID:'Soal Utama — Isian', typeLabelEN:'Main Problem — Fill in the blank',
+    promptID:'Hitunglah $-\\dfrac56 + \\dfrac13 = $ __', promptEN:'Calculate -5/6 + 1/3 = __',
+    template:['__'], answers:[['-1/2']],
+    explanationID:'$\\dfrac13=\\dfrac26$, jadi $-\\dfrac56+\\dfrac26=-\\dfrac36=-\\dfrac12$.',
+    explanationEN:'1/3=2/6, so -5/6+2/6=-3/6=-1/2.' },
+  { type:'checkbox', typeLabelID:'Soal Pengayaan — Kotak Centang', typeLabelEN:'Enrichment — Checkbox',
+    promptID:'Manakah pernyataan berikut yang BENAR tentang pembagian pecahan? (pilih semua yang benar)',
+    promptEN:'Which statements about dividing fractions are TRUE? (select all that apply)',
+    options:[
+      {id:'Membagi pecahan sama dengan mengalikan dengan kebalikannya.',en:'Dividing fractions is the same as multiplying by the reciprocal.'},
+      {id:'Hasil pembagian pecahan selalu lebih kecil dari bilangan yang dibagi.',en:'The result of dividing fractions is always smaller than the dividend.'},
+      {id:'Pecahan kedua harus dibalik sebelum dikalikan.',en:'The second fraction must be flipped before multiplying.'},
+      {id:'Pembagian pecahan tidak pernah menghasilkan bilangan bulat.',en:'Dividing fractions never produces a whole number.'}
+    ],
+    correctSet:[true,false,true,false],
+    explanationID:'Pernyataan 2 dan 4 SALAH: hasil bisa lebih besar (misalnya membagi dengan pecahan < 1), dan hasilnya bisa bilangan bulat (misalnya 4/5 ÷ 2/5 = 2).',
+    explanationEN:'Statements 2 and 4 are FALSE: the result can be larger (e.g. dividing by a fraction < 1), and it can be a whole number (e.g. 4/5 ÷ 2/5 = 2).' },
+  { type:'sorting', typeLabelID:'Soal Utama — Mengurutkan', typeLabelEN:'Main Problem — Sorting',
+    promptID:'Urutkan langkah menyelesaikan $\\dfrac23 - \\left(-\\dfrac16\\right)$ dari pertama hingga terakhir.',
+    promptEN:'Order the steps to solve 2/3 - (-1/6) from first to last.',
+    items:[
+      {id:'Tulis hasil akhir: $\\dfrac56$.', en:'Write the final result: 5/6.'},
+      {id:'Ubah pengurangan menjadi penjumlahan dengan lawan: $\\dfrac23+\\dfrac16$.', en:'Change subtraction to addition of the opposite: 2/3+1/6.'},
+      {id:'Jumlahkan pembilang: $4+1=5$.', en:'Add the numerators: 4+1=5.'},
+      {id:'Samakan penyebut menjadi 6: $\\dfrac46+\\dfrac16$.', en:'Equalize denominators to 6: 4/6+1/6.'}
+    ],
+    correctOrder:[1,3,2,0],
+    explanationID:'Urutan benar: (1) ubah jadi penjumlahan lawan, (2) samakan penyebut, (3) jumlahkan pembilang, (4) tulis hasil akhir.',
+    explanationEN:'Correct order: (1) change to addition of the opposite, (2) equalize denominators, (3) add numerators, (4) write final result.' },
+  { type:'pairing', typeLabelID:'Soal Pengayaan — Memasangkan', typeLabelEN:'Enrichment — Pairing',
+    promptID:'Pasangkan pecahan berikut dengan bentuk paling sederhananya.', promptEN:'Match each fraction with its simplest form.',
+    pairs:[
+      {leftID:'$\\dfrac68$', leftEN:'6/8', rightID:'$\\dfrac34$', rightEN:'3/4'},
+      {leftID:'$\\dfrac{10}{15}$', leftEN:'10/15', rightID:'$\\dfrac23$', rightEN:'2/3'},
+      {leftID:'$-\\dfrac{4}{16}$', leftEN:'-4/16', rightID:'$-\\dfrac14$', rightEN:'-1/4'},
+      {leftID:'$\\dfrac{5}{20}$', leftEN:'5/20', rightID:'$\\dfrac14$', rightEN:'1/4'}
+    ],
+    explanationID:'Sederhanakan tiap pecahan dengan membagi pembilang dan penyebut dengan FPB-nya.',
+    explanationEN:'Simplify each fraction by dividing the numerator and denominator by their GCF.' },
+  { type:'dragdrop', typeLabelID:'Soal Utama — Seret & Lepas', typeLabelEN:'Main Problem — Drag and Drop',
+    promptID:'Seret angka untuk melengkapi $\\dfrac35 \\times \\dfrac23 = \\dfrac{\\_\\_}{\\_\\_}$ (sebelum disederhanakan).',
+    promptEN:'Drag the numbers to complete 3/5 × 2/3 = __/__ (before simplifying).',
+    tiles:['6','15','3','5'],
+    eqHTML:'<span class="frac"><span class="fn">3</span><span class="fd">5</span></span> &times; <span class="frac"><span class="fn">2</span><span class="fd">3</span></span> &nbsp;=&nbsp; <span class="frac"><span class="fn"><span class="dnd-slot" data-slot="0"></span></span><span class="fd"><span class="dnd-slot" data-slot="1"></span></span></span>',
+    correctPlacement:{0:0,1:1},
+    explanationID:'$3\\times2=6$ dan $5\\times3=15$, jadi hasilnya $\\dfrac{6}{15}$ (dapat disederhanakan menjadi $\\dfrac25$).',
+    explanationEN:'3×2=6 and 5×3=15, so the result is 6/15 (which simplifies to 2/5).' },
+  { type:'truefalse', typeLabelID:'Soal Pengayaan — Benar/Salah', typeLabelEN:'Enrichment — True/False',
+    promptID:'Sebuah tali panjang $\\dfrac78$ m dipotong-potong menjadi bagian $\\dfrac14$ m. Banyak potongan yang dihasilkan adalah bilangan BULAT.',
+    promptEN:'A rope of 7/8 m is cut into pieces of 1/4 m each. The number of pieces produced is a WHOLE number.',
+    options:[{id:'Benar',en:'True'},{id:'Salah',en:'False'}], correctIdx:1,
+    explanationID:'$\\dfrac78 \\div \\dfrac14 = \\dfrac78 \\times \\dfrac41 = \\dfrac{28}{8} = 3\\dfrac12$. Karena hasilnya $3\\dfrac12$ (bukan bilangan bulat), pernyataan ini SALAH.',
+    explanationEN:'7/8 ÷ 1/4 = 7/8 × 4/1 = 28/8 = 3½. Since the result is 3½ (not a whole number), the statement is FALSE.' }
+];
+
+const exitQs = [
+  { type:'radio', typeLabelID:'Exit Ticket', typeLabelEN:'Exit Ticket',
+    promptID:'Manakah langkah PERTAMA saat menjumlahkan dua pecahan dengan penyebut berbeda?',
+    promptEN:'Which is the FIRST step when adding two fractions with different denominators?',
+    options:[{id:'Menyamakan penyebut',en:'Equalizing the denominators'},{id:'Menjumlahkan pembilang langsung',en:'Adding numerators directly'},{id:'Mengalikan kedua pecahan',en:'Multiplying both fractions'},{id:'Menyederhanakan hasil',en:'Simplifying the result'}],
+    correctIdx:0,
+    explanationID:'Langkah pertama selalu menyamakan penyebut (misalnya dengan KPK), baru kemudian menjumlahkan pembilang.',
+    explanationEN:'The first step is always equalizing the denominators (e.g. using the LCM), then adding the numerators.' }
+];
+
+buildQuizBank('quiz-review', reviewQs);
+buildQuizBank('quiz-concept', conceptQs);
+buildQuizBank('quiz-guided', guidedQs);
+buildQuizBank('quiz-independent', independentQs);
+buildQuizBank('quiz-exit', exitQs);
+
+/* ================= Homework ================= */
+const hw = [
+  {id:'Hitunglah $\\dfrac25 + \\dfrac13$.', en:'Calculate 2/5 + 1/3.'},
+  {id:'Hitunglah $\\dfrac56 - \\dfrac14$.', en:'Calculate 5/6 - 1/4.'},
+  {id:'Hitunglah $\\dfrac34 \\times \\dfrac25$.', en:'Calculate 3/4 × 2/5.'},
+  {id:'Hitunglah $\\dfrac58 \\div \\dfrac34$.', en:'Calculate 5/8 ÷ 3/4.'},
+  {id:'Hitunglah $-\\dfrac13 + \\dfrac16$.', en:'Calculate -1/3 + 1/6.'},
+  {id:'Ubahlah $0.6$ menjadi bentuk pecahan paling sederhana.', en:'Convert 0.6 into its simplest fraction form.'},
+  {id:'Hitunglah $1\\dfrac12 - \\dfrac34$ (nyatakan sebagai pecahan biasa).', en:'Calculate 1½ - 3/4 (express as a simple fraction).'},
+  {id:'Sebuah botol berisi $\\dfrac34$ liter air. Jika $\\dfrac13$ bagian diminum, berapa liter air yang tersisa?', en:'A bottle contains 3/4 liter of water. If 1/3 of it is drunk, how much water remains?'},
+  {id:'Hitunglah $\\left(-\\dfrac23\\right) \\times \\left(-\\dfrac34\\right)$.', en:'Calculate (-2/3) × (-3/4).'},
+  {id:'Susi memiliki $\\dfrac56$ meter kain, dibagi rata untuk 2 baju. Berapa meter kain untuk setiap baju?', en:'Susi has 5/6 meter of fabric, split evenly for 2 shirts. How many meters per shirt?'}
+];
+const hwList=document.getElementById('hwList');
+hw.forEach((h,i)=>{
+  const li=document.createElement('li');
+  li.innerHTML=`<span class="hw-num">${i+1}</span><span class="id">${h.id}</span><br><span class="en" style="margin-left:34px">${h.en}</span>`;
+  hwList.appendChild(li);
+});
+
+/* ================= init ================= */
+showPage();
+window.addEventListener('load', renderMath);
+</script>
+</body>
+</html>
