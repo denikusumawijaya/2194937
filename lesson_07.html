@@ -1,0 +1,1873 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Math Tutoring by Deni - Rasio: Konsep Rasio</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--primary:#2563eb;--primary-dark:#1e40af;--secondary:#f59e0b;--success:#10b981;--danger:#ef4444;--bg:#f8fafc;--card:#fff;--text:#1e293b;--muted:#64748b;--border:#e2e8f0}
+body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;min-height:100vh}
+.tr{font-style:italic;font-size:.82em;color:var(--muted);display:block;margin-top:2px}
+header{background:var(--primary);color:#fff;padding:10px 20px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 2px 8px rgba(0,0,0,.12);position:sticky;top:0;z-index:100;flex-wrap:wrap;gap:8px}
+header .brand{font-weight:700;font-size:1.05em}
+header .topic{font-size:.88em;text-align:center;flex:1}
+header .topic .tr{color:rgba(255,255,255,.85)}
+header button{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);color:#fff;padding:8px 14px;border-radius:6px;cursor:pointer;font-size:.85em;white-space:nowrap}
+header button:hover{background:rgba(255,255,255,.25)}
+.main-container{display:grid;grid-template-columns:220px 1fr;min-height:calc(100vh - 52px)}
+.sidebar{background:var(--card);border-right:1px solid var(--border);padding:14px;overflow-y:auto;position:sticky;top:52px;height:calc(100vh - 52px)}
+.sidebar h3{font-size:.72em;color:var(--muted);text-transform:uppercase;margin-bottom:8px;letter-spacing:1px}
+.nav-link{display:block;padding:8px 10px;border-radius:6px;cursor:pointer;margin-bottom:3px;font-size:.84em;border:1px solid transparent;transition:all .15s}
+.nav-link:hover{background:#eff6ff}
+.nav-link.active{background:var(--primary);color:#fff;pointer-events:none;cursor:default}
+.nav-link .nl-title{display:block;font-weight:600}
+.nav-link .time{font-size:.76em;color:var(--muted);display:block;margin-top:2px}
+.nav-link.active .time,.nav-link.active .tr{color:rgba(255,255,255,.85)}
+.nav-link.disabled{opacity:.45;cursor:not-allowed;font-size:.8em;padding:6px 10px}
+.content-area{padding:22px 28px;overflow-y:auto;max-width:1100px;margin:0 auto;width:100%}
+.page-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;padding-bottom:12px;border-bottom:2px solid var(--border);flex-wrap:wrap;gap:8px}
+.page-header h2{color:var(--primary-dark);font-size:1.1em}
+.page-header .badge{background:var(--secondary);color:#fff;padding:4px 10px;border-radius:20px;font-size:.76em;font-weight:600}
+.card{background:var(--card);border-radius:10px;padding:22px;box-shadow:0 2px 8px rgba(0,0,0,.05);margin-bottom:16px;border:1px solid var(--border)}
+.card.explain{border-left:4px solid var(--primary)}
+.card.task{border-left:4px solid var(--secondary)}
+.card h3{color:var(--primary-dark);margin-bottom:12px;font-size:1.1em}
+.math-block{background:#f1f5f9;padding:12px 14px;border-radius:8px;margin:12px 0;overflow-x:auto}
+.example-box{background:#fef3c7;border-left:4px solid var(--secondary);padding:12px 16px;margin:12px 0;border-radius:6px}
+.example-box h4{color:#92400e;margin-bottom:6px;font-size:.95em}
+.tip-box{background:#dbeafe;border-left:4px solid var(--primary);padding:10px 14px;margin:10px 0;border-radius:6px}
+.tip-box h4{color:#1e40af;margin-bottom:4px;font-size:.9em}
+.illustration{text-align:center;margin:14px 0;padding:14px;background:#f1f5f9;border-radius:8px}
+.q-text{font-size:1em;margin-bottom:12px;line-height:1.7}
+.options{display:flex;flex-direction:column;gap:8px}
+.option{display:flex;align-items:flex-start;gap:10px;padding:10px 12px;border:2px solid var(--border);border-radius:8px;cursor:pointer;background:#fff;transition:all .15s}
+.option:hover{border-color:var(--primary);background:#eff6ff}
+.option.selected{border-color:var(--primary);background:#dbeafe}
+.option.correct{border-color:var(--success);background:#d1fae5}
+.option.incorrect{border-color:var(--danger);background:#fee2e2}
+.option .marker{min-width:18px;width:18px;height:18px;border:2px solid var(--muted);border-radius:50%;flex-shrink:0;margin-top:2px;display:flex;align-items:center;justify-content:center;font-size:.7em;color:#fff}
+.option.selected .marker{background:var(--primary);border-color:var(--primary)}
+.option.correct .marker{background:var(--success);border-color:var(--success)}
+.option.incorrect .marker{background:var(--danger);border-color:var(--danger)}
+.option.checkbox .marker{border-radius:3px}
+.option .opt-text{flex:1}
+.fill-input{padding:8px 12px;border:2px solid var(--border);border-radius:6px;font-size:1em;width:100%;margin:8px 0;font-family:inherit}
+.fill-input:focus{border-color:var(--primary);outline:none}
+.btn-submit{background:var(--primary);color:#fff;border:none;padding:9px 20px;border-radius:6px;cursor:pointer;font-size:.88em;font-weight:600;margin-top:12px}
+.btn-submit:hover{background:var(--primary-dark)}
+.feedback{margin-top:12px;padding:14px;border-radius:8px;display:none}
+.feedback.show{display:block}
+.feedback.correct{background:#d1fae5;border:1px solid var(--success)}
+.feedback.incorrect{background:#fee2e2;border:1px solid var(--danger)}
+.feedback h4{margin-bottom:6px}
+.feedback ol,.feedback ul{margin:6px 0;padding-left:22px}
+.feedback li{margin:4px 0}
+.card ol, .card ul { padding-left: 26px; margin: 10px 0; }
+.card li { margin: 5px 0; }
+.example-box ol, .example-box ul { padding-left: 22px; margin: 8px 0; }
+.tip-box ol, .tip-box ul { padding-left: 22px; margin: 8px 0; }
+.math-block ol, .math-block ul { padding-left: 22px; margin: 8px 0; }
+.pagination{display:flex;justify-content:space-between;align-items:center;margin-top:18px;padding-top:14px;border-top:1px solid var(--border)}
+.pagination button{background:var(--primary);color:#fff;border:none;padding:8px 16px;border-radius:6px;cursor:pointer;font-size:.84em}
+.pagination button:disabled{background:#cbd5e1;cursor:not-allowed}
+.pagination .indicator{font-size:.82em;color:var(--muted);text-align:center;flex:1;padding:0 10px}
+.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:1000;align-items:center;justify-content:center}
+.modal.active{display:flex}
+.modal-content{background:#fff;padding:22px;border-radius:12px;max-width:460px;width:90%}
+.modal-content h3{color:var(--primary-dark);margin-bottom:12px}
+.modal-content ul{list-style:none;padding-left:0}
+.modal-content li{padding:10px 0;border-bottom:1px solid var(--border)}
+.modal-content li:last-child{border-bottom:none}
+.modal-close{background:var(--primary);color:#fff;border:none;padding:8px 18px;border-radius:6px;cursor:pointer;margin-top:12px}
+.sort-list{display:flex;flex-direction:column;gap:6px}
+.sort-item{padding:10px 12px;border:2px solid var(--border);border-radius:8px;background:#fff;cursor:pointer;display:flex;align-items:center;gap:10px;transition:all .15s}
+.sort-item:hover{border-color:var(--primary)}
+.sort-item.selected{border-color:var(--primary);background:#dbeafe}
+.sort-item .pos{background:var(--primary);color:#fff;min-width:24px;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.8em;flex-shrink:0}
+.sort-item .sort-text{flex:1}
+.pair-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.pair-col h4{font-size:.85em;color:var(--muted);margin-bottom:6px;text-transform:uppercase}
+.pair-col{display:flex;flex-direction:column;gap:6px}
+.pair-item{padding:10px 12px;border:2px solid var(--border);border-radius:8px;background:#fff;cursor:pointer;text-align:center;font-size:.92em}
+.pair-item.selected{border-color:var(--primary);background:#dbeafe}
+.pair-item.paired{opacity:.5;cursor:default;border-color:var(--success);background:#d1fae5}
+.pairs-list{margin-top:10px}
+.pair-row{display:flex;justify-content:space-between;align-items:center;padding:6px 10px;background:#f1f5f9;border-radius:6px;margin-bottom:4px;font-size:.85em}
+.pair-row .remove{cursor:pointer;color:var(--danger);font-weight:700;margin-left:6px}
+.page-numbers { display: flex; gap: 3px; flex-wrap: nowrap; justify-content: center; flex: 1; overflow-x: auto; padding: 0 3px; }
+.page-num { min-width: 28px; height: 26px; border: 1px solid var(--border); background: #fff; border-radius: 4px; cursor: pointer; font-size: .7em; display: flex; align-items: center; justify-content: center; padding: 0 4px; white-space: nowrap; transition: all .15s; flex-shrink: 0; }
+.page-num.page-num-e { background: #eff6ff; border-color: #93c5fd; color: #1e40af; }
+.page-num.page-num-t { background: #fffbeb; border-color: #fcd34d; color: #92400e; }
+.page-num.page-num-e:hover { background: #dbeafe; border-color: var(--primary); }
+.page-num.page-num-t:hover { background: #fef3c7; border-color: var(--secondary); }
+.page-num.page-num-e.active { background: var(--primary); color: #fff; border-color: var(--primary); font-weight: 600; }
+.page-num.page-num-t.active { background: var(--secondary); color: #fff; border-color: var(--secondary); font-weight: 600; }
+.page-num:disabled { opacity: 1; cursor: default; }
+.page-num.page-num-e:disabled:hover { background: var(--primary); color: #fff; border-color: var(--primary); }
+.page-num.page-num-t:disabled:hover { background: var(--secondary); color: #fff; border-color: var(--secondary); }
+@media(max-width:1100px){.main-container{grid-template-columns:180px 1fr}.content-area{padding:18px 20px}}
+@media(max-width:760px){.main-container{grid-template-columns:1fr}.sidebar{display:none}.content-area{padding:16px}header{font-size:.9em}}
+</style>
+</head>
+<body>
+<header>
+  <div class="brand">Math Tutoring by Deni</div>
+  <div class="topic">Topik: Rasio: Konsep Rasio <span class="tr">Topic: Ratio: Concept of Ratio</span></div>
+  <button id="classRulesBtn">Aturan Kelas <span class="tr">Class Rules</span></button>
+</header>
+<div class="main-container">
+  <nav class="sidebar" id="sidebar"></nav>
+  <main class="content-area">
+    <div id="pageContent"></div>
+    <div class="pagination">
+      <button id="prevBtn">← Sebelumnya <span class="tr">Previous</span></button>
+      <div class="page-numbers" id="pageNums"></div>
+      <button id="nextBtn">Berikutnya <span class="tr">Next</span> →</button>
+    </div>
+  </main>
+</div>
+<div id="classRulesModal" class="modal">
+  <div class="modal-content">
+    <h3>Aturan Kelas <span class="tr">Class Rules</span></h3>
+    <ul>
+      <li>Berbicara secara bergantian <span class="tr">Speak in turn</span></li>
+      <li>Meminta izin jika ingin meninggalkan kelas <span class="tr">Ask permission before leaving the class</span></li>
+      <li>Menyalakan microphone dan camera jika diperlukan <span class="tr">Turn on microphone and camera when needed</span></li>
+    </ul>
+    <button class="modal-close">Tutup <span class="tr">Close</span></button>
+  </div>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', function(){
+  if(!window.renderMathInElement){setTimeout(arguments.callee,50);return;}
+  const sectionsData = {
+    a: {
+      title: 'Spiral Review Warm-up',
+      titleEn: 'Spiral Review Warm-up',
+      time: '00:00 - 00:10',
+      pages: [
+        { type:'explanation', pageTitle:'E1: Pengertian Dasar Rasio', pageTitleEn:'Basic Concept of Ratio',
+          body:`
+            <p><strong>Rasio</strong> adalah cara untuk membandingkan dua atau lebih benda. Rasio menunjukkan berapa kali suatu benda lebih banyak atau lebih sedikit dibanding benda lainnya.
+              <span class="tr"><strong>Ratio</strong> is a way to compare two or more objects. A ratio shows how many times one object is more or less than another.</span></p>
+            <div class="illustration">
+              <svg width="200" height="80" viewBox="0 0 200 80">
+                <circle cx="30" cy="40" r="15" fill="#ef4444"/>
+                <circle cx="70" cy="40" r="15" fill="#ef4444"/>
+                <rect x="105" y="25" width="30" height="30" fill="#f59e0b" rx="3"/>
+                <rect x="145" y="25" width="30" height="30" fill="#f59e0b" rx="3"/>
+                <rect x="185" y="25" width="30" height="30" fill="#f59e0b" rx="3"/>
+              </svg>
+              <div style="font-size:.82em;color:var(--muted);margin-top:6px">2 Apel dan 3 Jeruk <span class="tr">2 Apples and 3 Oranges</span></div>
+            </div>
+            <p>Pada gambar di atas, terdapat 2 apel dan 3 jeruk. Rasio apel terhadap jeruk dapat ditulis sebagai:
+              <span class="tr">In the image above, there are 2 apples and 3 oranges. The ratio of apples to oranges can be written as:</span></p>
+            <div class="math-block">
+              <ul>
+                <li>Menggunakan titik dua: $2 : 3$ <span class="tr">Using a colon: $2 : 3$</span></li>
+                <li>Menggunakan pecahan: $\\frac{2}{3}$ <span class="tr">Using a fraction: $\\frac{2}{3}$</span></li>
+              </ul>
+            </div>
+            <div class="tip-box"><h4>Tips Membaca Rasio <span class="tr">Tips for Reading Ratios</span></h4>
+              Rasio $2 : 3$ dibaca "dua banding tiga". Artinya, untuk setiap 2 apel, terdapat 3 jeruk.
+              <span class="tr">The ratio $2 : 3$ is read "two to three". It means for every 2 apples, there are 3 oranges.</span></div>
+          `
+        },
+        { type:'task', pageTitle:'T1: Menulis Rasio', pageTitleEn:'Writing Ratio', taskType:'fill',
+          question:'Di sebuah kelas ada 4 meja dan 6 kursi. Rasio meja terhadap kursi adalah $x : 6$. Nilai $x = \\dots$', questionEn:'In a class there are 4 desks and 6 chairs. The ratio of desks to chairs is $x : 6$. The value of $x = \\dots$',
+          correctAnswer:'4', acceptableAnswers:['4'],
+          explanation:`<p>Jumlah meja adalah 4, dan jumlah kursi adalah 6. Rasio meja terhadap kursi adalah $4 : 6$. Jadi, nilai $x = 4$. <span class="tr">The number of desks is 4, and chairs is 6. The ratio is $4 : 6$. So, $x = 4$.</span></p>`
+        },
+        { type:'task', pageTitle:'T2: Menghitung Total Benda', pageTitleEn:'Calculating Total Objects', taskType:'radio',
+          question:'Rasio buku milik Andi dan Budi adalah $3 : 2$. Jika Budi memiliki 4 buku, berapakah jumlah buku Andi?', questionEn:'The ratio of Andi and Budi books is $3 : 2$. If Budi has 4 books, how many books does Andi have?',
+          options:[
+            {text:'3 buku <span class="tr">3 books</span>', correct:false},
+            {text:'4 buku <span class="tr">4 books</span>', correct:false},
+            {text:'6 buku <span class="tr">6 books</span>', correct:true},
+            {text:'8 buku <span class="tr">8 books</span>', correct:false}
+          ],
+          explanation:`<ol><li>Rasio Andi : Budi = $3 : 2$ <span class="tr">Ratio Andi : Budi = $3 : 2$</span></li><li>Jumlah buku Budi = 4. Karena bagian Budi adalah 2, maka 1 bagian = $4 : 2 = 2$ buku. <span class="tr">Budi's books = 4. Since Budi's part is 2, 1 part = $4 : 2 = 2$ books.</span></li><li>Jumlah buku Andi = 3 bagian = $3 \\times 2 = 6$ buku. <span class="tr">Andi's books = 3 parts = $3 \\times 2 = 6$ books.</span></li></ol>`
+        },
+        { type:'task', pageTitle:'T3: Rasio Sederhana', pageTitleEn:'Simple Ratio', taskType:'truefalse',
+          question:'Benar atau salah: Rasio $4 : 8$ jika disederhanakan menjadi $1 : 2$.', questionEn:'True or false: The ratio $4 : 8$ simplified is $1 : 2$.',
+          correctAnswer:'true',
+          explanation:`<p>$4 : 8$ dibagi 4 menghasilkan $1 : 2$. Pernyataan benar. <span class="tr">$4 : 8$ divided by 4 yields $1 : 2$. Statement is true.</span></p>`
+        },
+        { type:'explanation', pageTitle:'E2: Menyederhanakan Rasio', pageTitleEn:'Simplifying Ratios',
+          body:`
+            <p>Rasio dapat ditulis dalam bentuk yang lebih sederhana dengan cara membagi kedua angka dengan Faktor Persekutuan Terbesar (FPB).
+              <span class="tr">A ratio can be written in a simpler form by dividing both numbers by their Greatest Common Factor (GCF).</span></p>
+            <div class="math-block"><strong>Rumus:</strong> $\\text{Rasio Sederhana} = \\frac{a}{k} : \\frac{b}{k}$ <span class="tr">Formula: Simple Ratio = $\\frac{a}{k} : \\frac{b}{k}$</span><br>di mana $k$ adalah FPB dari $a$ dan $b$. <span class="tr">where $k$ is the GCF of $a$ and $b$.</span></div>
+            <div class="example-box"><h4>Contoh <span class="tr">Example</span></h4>
+              Sederhanakan rasio $12 : 18$. <span class="tr">Simplify the ratio $12 : 18$.</span>
+              <ol>
+                <li>Tentukan FPB dari 12 dan 18. FPB(12, 18) = 6. <span class="tr">Find GCF of 12 and 18. GCF(12, 18) = 6.</span></li>
+                <li>Bagi kedua angka dengan 6. <span class="tr">Divide both numbers by 6.</span></li>
+                <li>$\\frac{12}{6} : \\frac{18}{6}$ <span class="tr">Divide by 6</span></li>
+                <li>$2 : 3$ <span class="tr">Simplified</span></li>
+              </ol>
+            </div>
+          `
+        },
+        { type:'task', pageTitle:'T4: Menyederhanakan Rasio', pageTitleEn:'Simplify Ratio', taskType:'fill',
+          question:'Sederhanakan rasio $10 : 15$. Hasilnya adalah $x : 3$. Nilai $x = \\dots$', questionEn:'Simplify the ratio $10 : 15$. The result is $x : 3$. The value of $x = \\dots$',
+          correctAnswer:'2', acceptableAnswers:['2'],
+          explanation:`<ol><li>FPB dari 10 dan 15 adalah 5. <span class="tr">GCF of 10 and 15 is 5.</span></li><li>$\\frac{10}{5} : \\frac{15}{5} = 2 : 3$ <span class="tr">Divide by 5</span></li><li>Jadi, $x = 2$. <span class="tr">So, $x = 2$.</span></li></ol>`
+        },
+        { type:'task', pageTitle:'T5: Pilih Rasio yang Ekuivalen', pageTitleEn:'Select Equivalent Ratios', taskType:'checkbox',
+          question:'Pilih semua rasio yang ekuivalen (sama nilainya) dengan $2 : 5$.', questionEn:'Select all ratios that are equivalent to $2 : 5$.',
+          options:[
+            {text:'$4 : 10$ <span class="tr">4 to 10</span>', correct:true},
+            {text:'$6 : 15$ <span class="tr">6 to 15</span>', correct:true},
+            {text:'$3 : 7$ <span class="tr">3 to 7</span>', correct:false},
+            {text:'$8 : 20$ <span class="tr">8 to 20</span>', correct:true}
+          ],
+          explanation:`<p>$4 : 10$ dibagi 2 menjadi $2 : 5$. $6 : 15$ dibagi 3 menjadi $2 : 5$. $8 : 20$ dibagi 4 menjadi $2 : 5$. <span class="tr">$4:10/2=2:5$, $6:15/3=2:5$, $8:20/4=2:5$.</span></p>`
+        },
+        { type:'task', pageTitle:'T6: Urutkan Langkah', pageTitleEn:'Order the Steps', taskType:'sorting',
+          question:'Urutkan langkah menyederhanakan rasio $20 : 30$.', questionEn:'Order the steps to simplify ratio $20 : 30$.',
+          items:[
+            'Cari FPB dari 20 dan 30 (yaitu 10)',
+            'Bagi 20 dengan 10',
+            'Bagi 30 dengan 10',
+            'Hasilnya adalah 2 : 3'
+          ],
+          correctOrder:[0,1,2,3],
+          explanation:`<p>Langkah pertama mencari FPB, lalu bagi kedua angka dengan FPB tersebut. <span class="tr">First step find GCF, then divide both numbers by GCF.</span></p>`
+        },
+        { type:'explanation', pageTitle:'E3: Rasio Bagian ke Total', pageTitleEn:'Part-to-Total Ratio',
+          body:`
+            <p>Rasio tidak hanya membandingkan bagian dengan bagian, tetapi juga membandingkan <strong>bagian dengan total</strong>.
+              <span class="tr">Ratios not only compare part to part, but also compare a <strong>part to the total</strong>.</span></p>
+            <div class="illustration">
+              <svg width="240" height="80" viewBox="0 0 240 80">
+                <circle cx="30" cy="40" r="15" fill="#10b981"/>
+                <circle cx="70" cy="40" r="15" fill="#10b981"/>
+                <rect x="105" y="25" width="30" height="30" fill="#ef4444" rx="3"/>
+                <rect x="145" y="25" width="30" height="30" fill="#ef4444" rx="3"/>
+                <rect x="185" y="25" width="30" height="30" fill="#ef4444" rx="3"/>
+              </svg>
+              <div style="font-size:.82em;color:var(--muted);margin-top:6px">2 Apel dan 3 Jeruk <span class="tr">2 Apples and 3 Oranges</span></div>
+            </div>
+            <p>Total buah = 2 apel + 3 jeruk = 5 buah. <span class="tr">Total fruits = 2 apples + 3 oranges = 5 fruits.</span></p>
+            <div class="math-block">
+              <ul>
+                <li>Rasio apel terhadap total buah = $2 : 5$ <span class="tr">Ratio of apples to total fruits = $2 : 5$</span></li>
+                <li>Rasio jeruk terhadap total buah = $3 : 5$ <span class="tr">Ratio of oranges to total fruits = $3 : 5$</span></li>
+              </ul>
+            </div>
+          `
+        },
+        { type:'task', pageTitle:'T7: Bagian ke Total', pageTitleEn:'Part to Total', taskType:'radio',
+          question:'Di kelas ada 10 laki-laki dan 15 perempuan. Berapakah rasio laki-laki terhadap total siswa?', questionEn:'In class there are 10 boys and 15 girls. What is the ratio of boys to total students?',
+          options:[
+            {text:'$10 : 15$ <span class="tr">10 to 15</span>', correct:false},
+            {text:'$10 : 25$ <span class="tr">10 to 25</span>', correct:true},
+            {text:'$15 : 25$ <span class="tr">15 to 25</span>', correct:false},
+            {text:'$2 : 3$ <span class="tr">2 to 3</span>', correct:false}
+          ],
+          explanation:`<p>Total siswa = 10 + 15 = 25. Rasio laki-laki terhadap total = $10 : 25$. <span class="tr">Total students = 10 + 15 = 25. Ratio of boys to total = $10 : 25$.</span></p>`
+        },
+        { type:'task', pageTitle:'T8: Pasangkan Rasio', pageTitleEn:'Match Ratios', taskType:'pairing',
+          question:'Pasangkan rasio asli dengan bentuk sederhananya.', questionEn:'Match the original ratio with its simplified form.',
+          pairs:[
+            {left:'$5 : 10$', right:'$1 : 2$'},
+            {left:'$6 : 9$', right:'$2 : 3$'},
+            {left:'$8 : 12$', right:'$2 : 3$'},
+            {left:'$7 : 14$', right:'$1 : 2$'}
+          ],
+          explanation:`<p>$5:10$ dan $7:14$ sama dengan $1:2$. $6:9$ dan $8:12$ sama dengan $2:3$. <span class="tr">$5:10$ and $7:14$ equals $1:2$. $6:9$ and $8:12$ equals $2:3$.</span></p>`
+        },
+        { type:'task', pageTitle:'T9: Mencari Bagian Lain', pageTitleEn:'Find the Other Part', taskType:'fill',
+          question:'Rasio pensil dan pulpen adalah $3 : 4$. Jika total alat tulis adalah 21, maka jumlah pulpen adalah $\\dots$ buah.', questionEn:'The ratio of pencils and pens is $3 : 4$. If total stationery is 21, then the number of pens is $\\dots$',
+          correctAnswer:'12', acceptableAnswers:['12'],
+          explanation:`<ol><li>Total bagian = $3 + 4 = 7$ bagian. <span class="tr">Total parts = $3 + 4 = 7$ parts.</span></li><li>1 bagian = $\\frac{21}{7} = 3$ <span class="tr">1 part = 3</span></li><li>Pulpen = 4 bagian = $4 \\times 3 = 12$ buah. <span class="tr">Pens = 4 parts = $4 \\times 3 = 12$.</span></li></ol>`
+        },
+        { type:'task', pageTitle:'T10: Benar atau Salah', pageTitleEn:'True or False', taskType:'truefalse',
+          question:'Benar atau salah: Rasio $1 : 4$ berarti dari total 5 bagian, bagian pertama adalah 1 dan bagian kedua adalah 4.', questionEn:'True or false: Ratio $1 : 4$ means out of 5 total parts, the first part is 1 and second is 4.',
+          correctAnswer:'true',
+          explanation:`<p>Total bagian dari rasio $1 : 4$ adalah $1 + 4 = 5$. Pernyataan benar. <span class="tr">Total parts of $1 : 4$ is $1 + 4 = 5$. Statement is true.</span></p>`
+        }
+      ]
+    },
+    b: {
+      title: 'Introduction & Real-World Connection',
+      titleEn: 'Introduction & Real-World Connection',
+      time: '00:10 - 00:15',
+      pages: [
+        { type:'explanation', pageTitle:'E1: Rasio dalam Resep', pageTitleEn:'Ratios in Recipes',
+          body:`
+            <p>Rasio sangat berguna dalam kehidupan sehari-hari, salah satu contohnya adalah pada resep masakan.
+              <span class="tr">Ratios are very useful in daily life, one example is in cooking recipes.</span></p>
+            <div class="example-box"><h4>Contoh <span class="tr">Example</span></h4>
+              Untuk membuat kue, dibutuhkan rasio gula dan tepung $1 : 2$. Artinya, jika kita menggunakan 100 gram gula, maka tepung yang dibutuhkan adalah $2 \\times 100 = 200$ gram.
+              <span class="tr">To make a cake, the ratio of sugar to flour is $1 : 2$. This means if we use 100g of sugar, flour needed is $2 \\times 100 = 200$g.</span>
+              <div class="math-block">
+                $\\text{Gula} : \\text{Tepung} = 1 : 2$ <span class="tr">Sugar : Flour = 1 : 2</span><br>
+                $\\text{Tepung} = 2 \\times \\text{Gula} = 2 \\times 100 = 200 \\text{ gram}$ <span class="tr">Flour = 200g</span>
+              </div>
+            </div>
+          `
+        },
+        { type:'task', pageTitle:'T1: Menghitung Bahan', pageTitleEn:'Calculating Ingredients', taskType:'fill',
+          question:'Resep jus apel membutuhkan rasio apel dan air $3 : 1$. Jika apel yang digunakan 300 gram, maka air yang dibutuhkan adalah $\\dots$ ml.', questionEn:'Apple juice recipe requires apple and water ratio $3 : 1$. If apple used is 300g, water needed is $\\dots$ ml.',
+          correctAnswer:'100', acceptableAnswers:['100'],
+          explanation:`<ol><li>Rasio Apel : Air = $3 : 1$. <span class="tr">Ratio Apple : Water = $3 : 1$.</span></li><li>Apel = 3 bagian = 300 gram. 1 bagian = $300 : 3 = 100$ gram. <span class="tr">Apple = 3 parts = 300g. 1 part = 100g.</span></li><li>Air = 1 bagian = $1 \\times 100 = 100$ ml. <span class="tr">Water = 1 part = 100 ml.</span></li></ol>`
+        },
+        { type:'task', pageTitle:'T2: Membaca Rasio', pageTitleEn:'Reading Ratio', taskType:'radio',
+          question:'Rasio $3 : 1$ pada resep jus apel berarti...', questionEn:'The ratio $3 : 1$ in apple juice recipe means...',
+          options:[
+            {text:'Air 3 kali lebih banyak dari apel <span class="tr">Water is 3 times more than apple</span>', correct:false},
+            {text:'Apel 3 kali lebih banyak dari air <span class="tr">Apple is 3 times more than water</span>', correct:true},
+            {text:'Total jus 4 ml <span class="tr">Total juice is 4 ml</span>', correct:false},
+            {text:'Apel dan air sama banyak <span class="tr">Apple and water are equal</span>', correct:false}
+          ],
+          explanation:`<p>Rasio $3 : 1$ berarti apel (angka depan) 3 kali lebih banyak dari air (angka belakang). <span class="tr">Ratio $3 : 1$ means apple is 3 times more than water.</span></p>`
+        },
+        { type:'task', pageTitle:'T3: Benar atau Salah', pageTitleEn:'True or False', taskType:'truefalse',
+          question:'Benar atau salah: Jika rasio gula dan tepung $1 : 2$, maka total adonan adalah 3 bagian.', questionEn:'True or false: If sugar and flour ratio is $1 : 2$, total dough is 3 parts.',
+          correctAnswer:'true',
+          explanation:`<p>Total bagian = $1 + 2 = 3$. Pernyataan benar. <span class="tr">Total parts = $1 + 2 = 3$. Statement is true.</span></p>`
+        },
+        { type:'explanation', pageTitle:'E2: Rasio Skala Peta', pageTitleEn:'Map Scale Ratio',
+          body:`
+            <p>Skala pada peta adalah rasio antara jarak pada peta dengan jarak sebenarnya di dunia nyata.
+              <span class="tr">The scale on a map is the ratio between the distance on the map and the actual distance in the real world.</span></p>
+            <div class="math-block"><strong>Rumus:</strong> $\\text{Skala} = \\frac{\\text{Jarak pada Peta}}{\\text{Jarak Sebenarnya}}$ <span class="tr">Formula: Scale = $\\frac{\\text{Map Distance}}{\\text{Actual Distance}}$</span></div>
+            <div class="example-box"><h4>Contoh <span class="tr">Example</span></h4>
+              Skala peta $1 : 100.000$. Jika jarak kota A ke kota B pada peta adalah 5 cm, maka jarak sebenarnya adalah:
+              <span class="tr">Map scale is $1 : 100,000$. If distance A to B on map is 5 cm, actual distance is:</span>
+              <ol>
+                <li>$\\text{Jarak Sebenarnya} = 5 \\times 100.000 = 500.000 \\text{ cm}$ <span class="tr">Actual Distance = $5 \\times 100,000 = 500,000$ cm</span></li>
+                <li>Ubah ke km: $500.000 \\text{ cm} = 5 \\text{ km}$ <span class="tr">Convert to km: $500,000$ cm = 5 km</span></li>
+              </ol>
+            </div>
+          `
+        },
+        { type:'task', pageTitle:'T4: Menghitung Jarak', pageTitleEn:'Calculating Distance', taskType:'fill',
+          question:'Skala peta $1 : 50.000$. Jarak pada peta 4 cm. Jarak sebenarnya dalam satuan km adalah $\\dots$ km.', questionEn:'Map scale $1 : 50,000$. Map distance 4 cm. Actual distance in km is $\\dots$ km.',
+          correctAnswer:'2', acceptableAnswers:['2'],
+          explanation:`<ol><li>Jarak sebenarnya = $4 \\times 50.000 = 200.000 \\text{ cm}$ <span class="tr">Actual distance = 200,000 cm</span></li><li>Ubah ke km: $200.000 \\text{ cm} = 2 \\text{ km}$ <span class="tr">Convert to km: 2 km</span></li></ol>`
+        },
+        { type:'task', pageTitle:'T5: Pilih Skala yang Benar', pageTitleEn:'Select Correct Scale', taskType:'checkbox',
+          question:'Pilih semua pernyataan yang benar tentang skala $1 : 10.000$.', questionEn:'Select all correct statements about scale $1 : 10,000$.',
+          options:[
+            {text:'1 cm di peta sama dengan 10.000 cm di dunia nyata <span class="tr">1 cm on map equals 10,000 cm in real world</span>', correct:true},
+            {text:'1 cm di peta sama dengan 100 m di dunia nyata <span class="tr">1 cm on map equals 100 m in real world</span>', correct:true},
+            {text:'1 cm di peta sama dengan 1 km di dunia nyata <span class="tr">1 cm on map equals 1 km in real world</span>', correct:false},
+            {text:'Skala ini memperkecil benda sebenarnya <span class="tr">This scale shrinks the actual object</span>', correct:true}
+          ],
+          explanation:`<p>$10.000 \\text{ cm} = 100 \\text{ m} = 0,1 \\text{ km}$. Skala peta selalu memperkecil. <span class="tr">$10,000$ cm = 100 m = 0.1 km. Map scale always shrinks.</span></p>`
+        },
+        { type:'task', pageTitle:'T6: Urutkan Konversi', pageTitleEn:'Order Conversion', taskType:'sorting',
+          question:'Urutkan langkah mengubah 300.000 cm menjadi km.', questionEn:'Order steps to convert 300,000 cm to km.',
+          items:[
+            'Ketahui jarak awal: 300.000 cm',
+            'Bagi 300.000 dengan 100 untuk mendapatkan meter (3.000 m)',
+            'Bagi 3.000 dengan 1.000 untuk mendapatkan kilometer',
+            'Hasilnya adalah 3 km'
+          ],
+          correctOrder:[0,1,2,3],
+          explanation:`<p>$300.000 \\text{ cm} \\div 100 = 3.000 \\text{ m} \\div 1.000 = 3 \\text{ km}$. <span class="tr">$300,000$ cm $\\div 100 = 3,000$ m $\\div 1,000 = 3$ km.</span></p>`
+        },
+        { type:'explanation', pageTitle:'E3: Rasio dalam Uang', pageTitleEn:'Ratios in Money',
+          body:`
+            <p>Rasio sering digunakan untuk membagi uang atau barang. Misalnya, membagi uang saku berdasarkan rasio tertentu.
+              <span class="tr">Ratios are often used to divide money or goods. For example, dividing allowance based on a certain ratio.</span></p>
+            <div class="example-box"><h4>Contoh <span class="tr">Example</span></h4>
+              Ayah membagikan Rp 50.000 kepada Andi dan Budi dengan rasio $2 : 3$. Berapa bagian masing-masing?
+              <span class="tr">Father distributes Rp 50,000 to Andi and Budi with ratio $2 : 3$. What is each share?</span>
+              <ol>
+                <li>Total bagian = $2 + 3 = 5$ bagian <span class="tr">Total parts = 5 parts</span></li>
+                <li>Nilai 1 bagian = $\\frac{\\text{Rp } 50.000}{5} = \\text{Rp } 10.000$ <span class="tr">Value of 1 part = Rp 10,000</span></li>
+                <li>Andi = $2 \\times 10.000 = \\text{Rp } 20.000$ <span class="tr">Andi = Rp 20,000</span></li>
+                <li>Budi = $3 \\times 10.000 = \\text{Rp } 30.000$ <span class="tr">Budi = Rp 30,000</span></li>
+              </ol>
+            </div>
+          `
+        },
+        { type:'task', pageTitle:'T7: Membagi Uang', pageTitleEn:'Dividing Money', taskType:'fill',
+          question:'Uang Rp 40.000 dibagi dengan rasio $1 : 3$. Bagian terkecil adalah Rp $\\dots .000$', questionEn:'Money Rp 40,000 is divided with ratio $1 : 3$. The smallest share is Rp $\\dots .000$',
+          correctAnswer:'10', acceptableAnswers:['10'],
+          explanation:`<ol><li>Total bagian = $1 + 3 = 4$ <span class="tr">Total parts = 4</span></li><li>1 bagian = $\\frac{40}{4} = 10$ <span class="tr">1 part = 10</span></li><li>Bagian terkecil (1 bagian) = Rp 10.000 <span class="tr">Smallest share = Rp 10,000</span></li></ol>`
+        },
+        { type:'task', pageTitle:'T8: Mencari Total Bagian', pageTitleEn:'Find Total Parts', taskType:'radio',
+          question:'Jika rasio pembagian uang adalah $4 : 5 : 6$, berapakah total bagiannya?', questionEn:'If money division ratio is $4 : 5 : 6$, what is the total parts?',
+          options:[
+            {text:'$11$ <span class="tr">11 parts</span>', correct:false},
+            {text:'$15$ <span class="tr">15 parts</span>', correct:true},
+            {text:'$45$ <span class="tr">45 parts</span>', correct:false},
+            {text:'$10$ <span class="tr">10 parts</span>', correct:false}
+          ],
+          explanation:`<p>Total bagian = $4 + 5 + 6 = 15$. <span class="tr">Total parts = $4 + 5 + 6 = 15$.</span></p>`
+        },
+        { type:'task', pageTitle:'T9: Pasangkan Nilai Bagian', pageTitleEn:'Match Part Values', taskType:'pairing',
+          question:'Pasangkan total uang dan nilai 1 bagian berdasarkan rasio $1 : 2$.', questionEn:'Match total money and value of 1 part based on ratio $1 : 2$.',
+          pairs:[
+            {left:'Total Rp 30.000', right:'1 bagian = Rp 10.000'},
+            {left:'Total Rp 60.000', right:'1 bagian = Rp 20.000'},
+            {left:'Total Rp 90.000', right:'1 bagian = Rp 30.000'},
+            {left:'Total Rp 15.000', right:'1 bagian = Rp 5.000'}
+          ],
+          explanation:`<p>Rasio $1:2$ berarti total 3 bagian. Total dibagi 3. <span class="tr">Ratio $1:2$ means 3 total parts. Total divided by 3.</span></p>`
+        },
+        { type:'task', pageTitle:'T10: Hitung Bagian Terbesar', pageTitleEn:'Calculate Largest Share', taskType:'fill',
+          question:'Uang Rp 100.000 dibagi dengan rasio $3 : 7$. Bagian terbesar adalah Rp $\\dots .000$', questionEn:'Money Rp 100,000 divided with ratio $3 : 7$. Largest share is Rp $\\dots .000$',
+          correctAnswer:'70', acceptableAnswers:['70'],
+          explanation:`<ol><li>Total = $3 + 7 = 10$ bagian. <span class="tr">Total = 10 parts.</span></li><li>1 bagian = $\\frac{100}{10} = 10$ <span class="tr">1 part = 10</span></li><li>Bagian terbesar (7) = $7 \\times 10 = 70$ <span class="tr">Largest (7) = 70</span></li></ol>`
+        }
+      ]
+    },
+    c: {
+      title: 'Review of Prior Knowledge',
+      titleEn: 'Review of Prior Knowledge',
+      time: '00:15 - 00:20',
+      pages: [
+        { type:'explanation', pageTitle:'E1: Operasi Hitung Pecahan', pageTitleEn:'Fraction Operations',
+          body:`
+            <p>Sebelum mempelajari rasio lebih dalam, kita perlu menguasai <strong>operasi hitung pecahan</strong>. Pecahan adalah bagian dari keseluruhan.
+              <span class="tr">Before studying ratios deeper, we need to master <strong>fraction operations</strong>. A fraction is a part of a whole.</span></p>
+            <div class="math-block"><strong>Penjumlahan & Pengurangan:</strong> Samakan penyebutnya terlebih dahulu. <span class="tr"><strong>Addition & Subtraction:</strong> Equalize the denominators first.</span><br>
+              $\\frac{1}{2} + \\frac{1}{3} = \\frac{3}{6} + \\frac{2}{6} = \\frac{5}{6}$ <span class="tr">Example of addition</span></div>
+            <div class="math-block"><strong>Perkalian:</strong> Kalikan pembilang dengan pembilang, penyebut dengan penyebut. <span class="tr"><strong>Multiplication:</strong> Multiply numerators, multiply denominators.</span><br>
+              $\\frac{2}{3} \\times \\frac{4}{5} = \\frac{2 \\times 4}{3 \\times 5} = \\frac{8}{15}$ <span class="tr">Example of multiplication</span></div>
+            <div class="example-box"><h4>Contoh <span class="tr">Example</span></h4>
+              Hitung $\\frac{3}{4} \\times \\frac{8}{9}$. <span class="tr">Calculate $\\frac{3}{4} \\times \\frac{8}{9}$.</span>
+              <ol>
+                <li>Kalikan silang untuk menyederhanakan: $\\frac{3}{4} \\times \\frac{8}{9} = \\frac{1}{1} \\times \\frac{2}{3}$ <span class="tr">Cross-simplify</span></li>
+                <li>Hasilnya $\\frac{2}{3}$ <span class="tr">Result is $\\frac{2}{3}$</span></li>
+              </ol>
+            </div>
+          `
+        },
+        { type:'task', pageTitle:'T1: Penjumlahan Pecahan', pageTitleEn:'Fraction Addition', taskType:'fill',
+          question:'Hasil dari $\\frac{1}{4} + \\frac{2}{4} = \\frac{x}{4}$. Nilai $x = \\dots$', questionEn:'The result of $\\frac{1}{4} + \\frac{2}{4} = \\frac{x}{4}$. The value of $x = \\dots$',
+          correctAnswer:'3', acceptableAnswers:['3'],
+          explanation:`<p>Karena penyebut sama, jumlahkan pembilangnya: $1 + 2 = 3$. <span class="tr">Since denominators are same, add numerators: $1 + 2 = 3$.</span></p>`
+        },
+        { type:'task', pageTitle:'T2: Perkalian Pecahan', pageTitleEn:'Fraction Multiplication', taskType:'radio',
+          question:'Berapakah hasil dari $\\frac{1}{2} \\times \\frac{2}{3}$?', questionEn:'What is the result of $\\frac{1}{2} \\times \\frac{2}{3}$?',
+          options:[
+            {text:'$\\frac{2}{6}$ atau $\\frac{1}{3}$ <span class="tr">$\\frac{2}{6}$ or $\\frac{1}{3}$</span>', correct:true},
+            {text:'$\\frac{3}{5}$ <span class="tr">$\\frac{3}{5}$</span>', correct:false},
+            {text:'$\\frac{1}{6}$ <span class="tr">$\\frac{1}{6}$</span>', correct:false},
+            {text:'$\\frac{2}{5}$ <span class="tr">$\\frac{2}{5}$</span>', correct:false}
+          ],
+          explanation:`<ol><li>Kalikan pembilang: $1 \\times 2 = 2$ <span class="tr">Multiply numerators</span></li><li>Kalikan penyebut: $2 \\times 3 = 6$ <span class="tr">Multiply denominators</span></li><li>Hasil $\\frac{2}{6}$ disederhanakan menjadi $\\frac{1}{3}$. <span class="tr">Result $\\frac{2}{6}$ simplified to $\\frac{1}{3}$.</span></li></ol>`
+        },
+        { type:'task', pageTitle:'T3: Pilih Pecahan Senilai', pageTitleEn:'Select Equivalent Fractions', taskType:'checkbox',
+          question:'Pilih semua pecahan yang senilai (sama) dengan $\\frac{1}{2}$.', questionEn:'Select all fractions equivalent to $\\frac{1}{2}$.',
+          options:[
+            {text:'$\\frac{2}{4}$ <span class="tr">$\\frac{2}{4}$</span>', correct:true},
+            {text:'$\\frac{3}{6}$ <span class="tr">$\\frac{3}{6}$</span>', correct:true},
+            {text:'$\\frac{4}{10}$ <span class="tr">$\\frac{4}{10}$</span>', correct:false},
+            {text:'$\\frac{5}{10}$ <span class="tr">$\\frac{5}{10}$</span>', correct:true}
+          ],
+          explanation:`<p>Jika pembilang dan penyebut dikalikan bilangan yang sama, pecahan senilai. $\\frac{1}{2} = \\frac{2}{4} = \\frac{3}{6} = \\frac{5}{10}$. <span class="tr">Equivalent fractions have same value.</span></p>`
+        },
+        { type:'explanation', pageTitle:'E2: Perbandingan dan Pengukuran', pageTitleEn:'Comparison and Measurement',
+          body:`
+            <p>Rasio sangat berkaitan dengan <strong>perbandingan</strong> dua besaran yang memiliki satuan yang sama. Jika satuan berbeda, kita harus mengubahnya menjadi satuan yang sama.
+              <span class="tr">Ratios are closely related to <strong>comparing</strong> two quantities with the same units. If units are different, we must convert them to the same unit.</span></p>
+            <div class="math-block">1 meter = 100 cm <br> 1 kg = 1000 gram <br> 1 menit = 60 detik <span class="tr">Conversion factors</span></div>
+            <div class="example-box"><h4>Contoh <span class="tr">Example</span></h4>
+              Bandingkan 2 meter dengan 50 cm. <span class="tr">Compare 2 meters with 50 cm.</span>
+              <ol>
+                <li>Ubah 2 meter ke cm: $2 \\times 100 = 200 \\text{ cm}$ <span class="tr">Convert to cm: 200 cm</span></li>
+                <li>Bandingkan 200 cm dengan 50 cm. <span class="tr">Compare 200 cm and 50 cm.</span></li>
+                <li>Rasio = $200 : 50 = 4 : 1$ <span class="tr">Ratio = $4 : 1$</span></li>
+              </ol>
+            </div>
+          `
+        },
+        { type:'task', pageTitle:'T4: Mengubah Satuan', pageTitleEn:'Converting Units', taskType:'sorting',
+          question:'Urutkan langkah mencari rasio 1 kg terhadap 200 gram.', questionEn:'Order steps to find ratio of 1 kg to 200 g.',
+          items:[
+            'Ubah 1 kg menjadi gram: 1 x 1000 = 1000 gram',
+            'Bandingkan 1000 gram dengan 200 gram',
+            'Sederhanakan 1000 : 200',
+            'Hasil rasio adalah 5 : 1'
+          ],
+          correctOrder:[0,1,2,3],
+          explanation:`<p>Samakan satuan terlebih dahulu, baru bandingkan dan sederhanakan. <span class="tr">Equalize units first, then compare and simplify.</span></p>`
+        },
+        { type:'task', pageTitle:'T5: Rasio Waktu', pageTitleEn:'Time Ratio', taskType:'fill',
+          question:'Rasio 1 jam terhadap 15 menit dalam bentuk sederhana adalah $x : 1$. Nilai $x = \\dots$', questionEn:'Ratio of 1 hour to 15 minutes in simplest form is $x : 1$. Value of $x = \\dots$',
+          correctAnswer:'4', acceptableAnswers:['4'],
+          explanation:`<ol><li>1 jam = 60 menit. <span class="tr">1 hour = 60 min.</span></li><li>Rasio 60 menit : 15 menit. <span class="tr">Ratio 60 min : 15 min.</span></li><li>$\\frac{60}{15} : \\frac{15}{15} = 4 : 1$. Jadi $x = 4$. <span class="tr">$\\frac{60}{15} : \\frac{15}{15} = 4 : 1$. So $x = 4$.</span></li></ol>`
+        },
+        { type:'task', pageTitle:'T6: Benar atau Salah', pageTitleEn:'True or False', taskType:'truefalse',
+          question:'Benar atau salah: Rasio 500 gram dan 1 kg adalah $1 : 2$.', questionEn:'True or false: Ratio of 500 g and 1 kg is $1 : 2$.',
+          correctAnswer:'true',
+          explanation:`<p>1 kg = 1000 gram. Rasio 500 : 1000 disederhanakan menjadi $1 : 2$. Pernyataan benar. <span class="tr">1 kg = 1000g. Ratio 500:1000 simplified to $1:2$. True.</span></p>`
+        },
+        { type:'explanation', pageTitle:'E3: Pengenalan Aljabar Sederhana', pageTitleEn:'Introduction to Simple Algebra',
+          body:`
+            <p>Rasio sering melibatkan variabel seperti $x$. Kita perlu memahami persamaan sederhana.
+              <span class="tr">Ratios often involve variables like $x$. We need to understand simple equations.</span></p>
+            <div class="math-block"><strong>Prinsip Persamaan:</strong> Apa yang dilakukan di ruas kiri harus dilakukan di ruas kanan. <span class="tr"><strong>Equation Principle:</strong> What is done on the left must be done on the right.</span><br>
+              Jika $2x = 10$, maka $x = \\frac{10}{2} = 5$. <span class="tr">If $2x = 10$, then $x = 5$.</span></div>
+            <div class="example-box"><h4>Contoh Rasio & Aljabar <span class="tr">Example of Ratio & Algebra</span></h4>
+              Rasio $x : 4 = 3 : 2$. Tentukan nilai $x$. <span class="tr">Ratio $x : 4 = 3 : 2$. Find $x$.</span>
+              <ol>
+                <li>Ubah ke pecahan: $\\frac{x}{4} = \\frac{3}{2}$ <span class="tr">Convert to fraction</span></li>
+                <li>Silang kalikan: $2 \\times x = 4 \\times 3$ <span class="tr">Cross multiply</span></li>
+                <li>$2x = 12$ <span class="tr">Simplify</span></li>
+                <li>$x = \\frac{12}{2} = 6$ <span class="tr">Divide by 2</span></li>
+              </ol>
+            </div>
+          `
+        },
+        { type:'task', pageTitle:'T7: Mencari Nilai x', pageTitleEn:'Find Value of x', taskType:'fill',
+          question:'Jika $3x = 21$, maka nilai $x = \\dots$', questionEn:'If $3x = 21$, then value of $x = \\dots$',
+          correctAnswer:'7', acceptableAnswers:['7'],
+          explanation:`<p>$x = \\frac{21}{3} = 7$. <span class="tr">$x = 7$.</span></p>`
+        },
+        { type:'task', pageTitle:'T8: Rasio & Aljabar', pageTitleEn:'Ratio & Algebra', taskType:'radio',
+          question:'Jika rasio $x : 5 = 4 : 2$, berapakah nilai $x$?', questionEn:'If ratio $x : 5 = 4 : 2$, what is the value of $x$?',
+          options:[
+            {text:'$10$ <span class="tr">10</span>', correct:true},
+            {text:'$8$ <span class="tr">8</span>', correct:false},
+            {text:'$5$ <span class="tr">5</span>', correct:false},
+            {text:'$20$ <span class="tr">20</span>', correct:false}
+          ],
+          explanation:`<ol><li>$\\frac{x}{5} = \\frac{4}{2}$ <span class="tr">Fraction form</span></li><li>$\\frac{x}{5} = 2$ <span class="tr">Simplify right side</span></li><li>$x = 2 \\times 5 = 10$ <span class="tr">Multiply by 5</span></li></ol>`
+        },
+        { type:'task', pageTitle:'T9: Pasangkan Persamaan', pageTitleEn:'Match Equations', taskType:'pairing',
+          question:'Pasangkan persamaan dengan nilai $x$ yang benar.', questionEn:'Match equations with correct $x$ value.',
+          pairs:[
+            {left:'$2x = 8$', right:'$x = 4$'},
+            {left:'$x + 3 = 7$', right:'$x = 4$'},
+            {left:'$3x = 12$', right:'$x = 4$'},
+            {left:'$\\frac{x}{2} = 2$', right:'$x = 4$'}
+          ],
+          explanation:`<p>Semua persamaan tersebut memiliki solusi $x = 4$. <span class="tr">All equations have solution $x = 4$.</span></p>`
+        },
+        { type:'task', pageTitle:'T10: Soal Cerita Aljabar', pageTitleEn:'Algebra Word Problem', taskType:'fill',
+          question:'Umur Andi adalah setengah dari umur Budi. Jika umur Budi 14 tahun, maka umur Andi adalah $\\dots$ tahun.', questionEn:'Andi age is half of Budi age. If Budi is 14 years old, Andi age is $\\dots$ years.',
+          correctAnswer:'7', acceptableAnswers:['7'],
+          explanation:`<ol><li>$\\text{Andi} = \\frac{1}{2} \\times \\text{Budi}$ <span class="tr">Equation</span></li><li>$\\text{Andi} = \\frac{1}{2} \\times 14 = 7$ tahun. <span class="tr">Andi = 7 years.</span></li></ol>`
+        }
+      ]
+    },
+    d: {
+      title: 'Problem Introduction',
+      titleEn: 'Problem Introduction',
+      time: '00:20 - 00:30',
+      pages: [
+        { type:'explanation', pageTitle:'E1: Konsep Dasar Rasio Ekuivalen', pageTitleEn:'Concept of Equivalent Ratios',
+          body:`
+            <p>Rasio ekuivalen adalah rasio yang memiliki nilai sama meskipun angkanya berbeda. Ini didapat dengan mengalikan atau membagi kedua angka rasio dengan bilangan yang sama.
+              <span class="tr">Equivalent ratios are ratios that have the same value even though the numbers are different. This is obtained by multiplying or dividing both numbers by the same value.</span></p>
+            <div class="math-block"><strong>Rumus:</strong> Jika $a : b = c : d$, maka $a \\times d = b \\times c$ <span class="tr">Formula: If $a:b=c:d$, then $a \\times d = b \\times c$</span></div>
+            <div class="example-box"><h4>Contoh <span class="tr">Example</span></h4>
+              Apakah $2 : 3$ ekuivalen dengan $4 : 6$? <span class="tr">Is $2:3$ equivalent to $4:6$?</span>
+              <ol>
+                <li>$2 \\times 6 = 12$ <span class="tr">Cross multiply</span></li>
+                <li>$3 \\times 4 = 12$ <span class="tr">Cross multiply</span></li>
+                <li>Karena $12 = 12$, maka rasio tersebut ekuivalen. <span class="tr">Since $12=12$, ratios are equivalent.</span></li>
+              </ol>
+            </div>
+            <div class="tip-box"><h4>Tips Cepat <span class="tr">Quick Tip</span></h4>
+              Kalikan kedua angka dengan 2: $2:3 \\rightarrow 4:6$. <span class="tr">Multiply both by 2.</span>
+            </div>
+          `
+        },
+        { type:'task', pageTitle:'T1: Mencari Rasio Ekuivalen', pageTitleEn:'Find Equivalent Ratio', taskType:'fill',
+          question:'Rasio ekuivalen dari $3 : 5$ adalah $x : 15$. Nilai $x = \\dots$', questionEn:'Equivalent ratio of $3 : 5$ is $x : 15$. Value of $x = \\dots$',
+          correctAnswer:'9', acceptableAnswers:['9'],
+          explanation:`<ol><li>$5 \\times 3 = 15$ (penyebut dikali 3) <span class="tr">Denominator multiplied by 3</span></li><li>Maka pembilang juga dikali 3: $3 \\times 3 = 9$. <span class="tr">Numerator multiplied by 3: $9$.</span></li></ol>`
+        },
+        { type:'task', pageTitle:'T2: Identifikasi Rasio', pageTitleEn:'Identify Ratio', taskType:'radio',
+          question:'Manakah dari berikut ini yang merupakan rasio ekuivalen dengan $1 : 4$?', questionEn:'Which of the following is an equivalent ratio to $1 : 4$?',
+          options:[
+            {text:'$2 : 6$ <span class="tr">2 to 6</span>', correct:false},
+            {text:'$3 : 12$ <span class="tr">3 to 12</span>', correct:true},
+            {text:'$4 : 12$ <span class="tr">4 to 12</span>', correct:false},
+            {text:'$2 : 10$ <span class="tr">2 to 10</span>', correct:false}
+          ],
+          explanation:`<p>$3 : 12$ jika dibagi 3 menjadi $1 : 4$. <span class="tr">$3:12$ divided by 3 is $1:4$.</span></p>`
+        },
+        { type:'task', pageTitle:'T3: Benar atau Salah', pageTitleEn:'True or False', taskType:'truefalse',
+          question:'Benar atau salah: $4 : 7$ ekuivalen dengan $12 : 21$.', questionEn:'True or false: $4 : 7$ is equivalent to $12 : 21$.',
+          correctAnswer:'true',
+          explanation:`<p>$4 \\times 3 = 12$ dan $7 \\times 3 = 21$. Pernyataan benar. <span class="tr">$4 \\times 3 = 12$ and $7 \\times 3 = 21$. True.</span></p>`
+        },
+        { type:'explanation', pageTitle:'E2: Rasio dengan Skala', pageTitleEn:'Ratio with Scale',
+          body:`
+            <p>Skala adalah rasio yang membandingkan ukuran model atau peta dengan ukuran sebenarnya.
+              <span class="tr">Scale is a ratio comparing the size of a model or map to the actual size.</span></p>
+            <div class="illustration">
+              <svg width="200" height="80" viewBox="0 0 200 80">
+                <rect x="10" y="20" width="40" height="40" fill="#e2e8f0" stroke="#000"/>
+                <text x="20" y="45" font-size="10">Map</text>
+                <rect x="100" y="10" width="80" height="60" fill="#dbeafe" stroke="#000"/>
+                <text x="120" y="45" font-size="10">Real World</text>
+                <line x1="50" y1="40" x2="100" y2="40" stroke="#ef4444" stroke-width="2" marker-end="url(#arrow)"/>
+              </svg>
+              <div style="font-size:.82em;color:var(--muted);margin-top:6px">Perbandingan Peta dan Dunia Nyata <span class="tr">Map and Real World Comparison</span></div>
+            </div>
+            <div class="math-block"><strong>Rumus:</strong> $\\text{Skala} = \\frac{\\text{Ukuran Model}}{\\text{Ukuran Sebenarnya}}$ <span class="tr">Formula: Scale = $\\frac{\\text{Model Size}}{\\text{Actual Size}}$</span></div>
+            <div class="example-box"><h4>Contoh <span class="tr">Example</span></h4>
+              Skala mainan mobil adalah $1 : 20$. Jika panjang mobil sebenarnya 4 meter, berapa panjang mainan?
+              <span class="tr">Toy car scale is $1 : 20$. If actual car length is 4 meters, what is toy length?</span>
+              <ol>
+                <li>Ukuran mainan = $\\frac{1}{20} \\times 4 \\text{ m} = 0,2 \\text{ m}$ <span class="tr">Toy size = 0.2 m</span></li>
+                <li>0,2 m = 20 cm. <span class="tr">0.2 m = 20 cm.</span></li>
+              </ol>
+            </div>
+          `
+        },
+        { type:'task', pageTitle:'T4: Menghitung Skala', pageTitleEn:'Calculating Scale', taskType:'fill',
+          question:'Panjang model 5 cm, panjang sebenarnya 100 cm. Skalanya adalah $1 : x$. Nilai $x = \\dots$', questionEn:'Model length 5 cm, actual length 100 cm. Scale is $1 : x$. Value of $x = \\dots$',
+          correctAnswer:'20', acceptableAnswers:['20'],
+          explanation:`<ol><li>Skala = $5 : 100$ <span class="tr">Scale = 5 : 100</span></li><li>Sederhanakan: $\\frac{5}{5} : \\frac{100}{5} = 1 : 20$. <span class="tr">Simplify: 1 : 20.</span></li></ol>`
+        },
+        { type:'task', pageTitle:'T5: Pilih Pernyataan Benar', pageTitleEn:'Select True Statements', taskType:'checkbox',
+          question:'Pilih semua pernyataan yang benar tentang skala $1 : 50$.', questionEn:'Select all correct statements about scale $1 : 50$.',
+          options:[
+            {text:'Model 1 cm mewakili 50 cm asli <span class="tr">1 cm model represents 50 cm actual</span>', correct:true},
+            {text:'Benda asli lebih kecil dari model <span class="tr">Actual object is smaller than model</span>', correct:false},
+            {text:'Benda asli 50 kali lebih besar dari model <span class="tr">Actual object is 50 times bigger</span>', correct:true},
+            {text:'Model 2 cm mewakili 100 cm asli <span class="tr">2 cm model represents 100 cm actual</span>', correct:true}
+          ],
+          explanation:`<p>Skala 1:50 berarti benda asli 50x lebih besar. 2cm model = $2 \\times 50 = 100$ cm asli. <span class="tr">Scale 1:50 means actual is 50x bigger.</span></p>`
+        },
+        { type:'task', pageTitle:'T6: Urutkan Langkah', pageTitleEn:'Order Steps', taskType:'sorting',
+          question:'Urutkan langkah mencari ukuran sebenarnya jika skala 1:100 dan model 3 cm.', questionEn:'Order steps to find actual size if scale 1:100 and model 3 cm.',
+          items:[
+            'Tulis rasio skala: 1 cm model = 100 cm asli',
+            'Kalikan ukuran model dengan skala: 3 x 100',
+            'Hasilnya 300 cm asli',
+            'Ubah ke meter: 3 meter'
+          ],
+          correctOrder:[0,1,2,3],
+          explanation:`<p>Ukuran asli = Ukuran model $\\times$ Skala. <span class="tr">Actual size = Model size $\\times$ Scale.</span></p>`
+        },
+        { type:'explanation', pageTitle:'E3: Rasio & Kecepatan', pageTitleEn:'Ratio & Speed',
+          body:`
+            <p>Kecepatan adalah rasio antara jarak dan waktu. <span class="tr">Speed is the ratio between distance and time.</span></p>
+            <div class="math-block"><strong>Rumus:</strong> $v = \\frac{s}{t}$ <span class="tr">Formula: $v = \\frac{s}{t}$</span><br>
+              $v$ = kecepatan (speed), $s$ = jarak (distance), $t$ = waktu (time).</div>
+            <div class="example-box"><h4>Contoh <span class="tr">Example</span></h4>
+              Mobil menempuh 120 km dalam 2 jam. Berapa kecepatannya?
+              <span class="tr">Car travels 120 km in 2 hours. What is the speed?</span>
+              <ol>
+                <li>$v = \\frac{120 \\text{ km}}{2 \\text{ jam}}$ <span class="tr">Substitute values</span></li>
+                <li>$v = 60 \\text{ km/jam}$ <span class="tr">Divide</span></li>
+              </ol>
+            </div>
+          `
+        },
+        { type:'task', pageTitle:'T7: Menghitung Kecepatan', pageTitleEn:'Calculate Speed', taskType:'fill',
+          question:'Sepeda menempuh 30 km dalam 2 jam. Kecepatan rata-rata sepeda adalah $\\dots$ km/jam.', questionEn:'Bicycle travels 30 km in 2 hours. Average speed is $\\dots$ km/h.',
+          correctAnswer:'15', acceptableAnswers:['15'],
+          explanation:`<p>$v = \\frac{s}{t} = \\frac{30}{2} = 15$ km/jam. <span class="tr">$v = 15$ km/h.</span></p>`
+        },
+        { type:'task', pageTitle:'T8: Mencari Jarak', pageTitleEn:'Find Distance', taskType:'radio',
+          question:'Jika kecepatan 40 km/jam dan waktu 3 jam, berapakah jarak yang ditempuh?', questionEn:'If speed is 40 km/h and time is 3 hours, what is distance traveled?',
+          options:[
+            {text:'$43 \\text{ km}$ <span class="tr">43 km</span>', correct:false},
+            {text:'$120 \\text{ km}$ <span class="tr">120 km</span>', correct:true},
+            {text:'$13 \\text{ km}$ <span class="tr">13 km</span>', correct:false},
+            {text:'$37 \\text{ km}$ <span class="tr">37 km</span>', correct:false}
+          ],
+          explanation:`<ol><li>$s = v \\times t$ <span class="tr">Formula</span></li><li>$s = 40 \\times 3 = 120$ km. <span class="tr">Multiply</span></li></ol>`
+        },
+        { type:'task', pageTitle:'T9: Pasangkan Besaran', pageTitleEn:'Match Quantities', taskType:'pairing',
+          question:'Pasangkan rasio dengan besaran yang sesuai.', questionEn:'Match ratio with correct quantity.',
+          pairs:[
+            {left:'$\\text{Jarak} : \\text{Waktu}$', right:'Kecepatan'},
+            {left:'$\\text{Harga} : \\text{Jumlah Barang}$', right:'Harga Satuan'},
+            {left:'$\\text{Model} : \\text{Asli}$', right:'Skala'},
+            {left:'$\\text{Apel} : \\text{Jeruk}$', right:'Rasio Buah'}
+          ],
+          explanation:`<p>Kecepatan adalah jarak per waktu, dst. <span class="tr">Speed is distance per time, etc.</span></p>`
+        },
+        { type:'task', pageTitle:'T10: Kecepatan & Jarak', pageTitleEn:'Speed & Distance', taskType:'fill',
+          question:'Jika kecepatan 50 km/jam, maka dalam 4 jam jarak yang ditempuh adalah $\\dots$ km.', questionEn:'If speed 50 km/h, in 4 hours distance traveled is $\\dots$ km.',
+          correctAnswer:'200', acceptableAnswers:['200'],
+          explanation:`<p>$s = 50 \\times 4 = 200$ km. <span class="tr">$s = 200$ km.</span></p>`
+        }
+      ]
+    },
+    e: {
+      title: 'Guided Practice',
+      titleEn: 'Guided Practice',
+      time: '00:30 - 00:45',
+      pages: [
+        { type:'explanation', pageTitle:'E1: Membagi Nilai Berdasarkan Rasio', pageTitleEn:'Sharing Value Based on Ratio',
+          body:`
+            <p>Membagi nilai total menjadi beberapa bagian sesuai rasio adalah aplikasi rasio yang sangat umum. <span class="tr">Dividing total value into parts according to a ratio is a very common ratio application.</span></p>
+            <div class="math-block"><strong>Langkah-langkah:</strong> <span class="tr"><strong>Steps:</strong></span>
+              <ol>
+                <li>Jumlahkan semua bagian rasio. <span class="tr">Sum all ratio parts.</span></li>
+                <li>Bagi total nilai dengan jumlah bagian untuk mendapat nilai 1 bagian. <span class="tr">Divide total by sum to get 1 part.</span></li>
+                <li>Kalikan nilai 1 bagian dengan rasio masing-masing. <span class="tr">Multiply 1 part value by each ratio.</span></li>
+              </ol>
+            </div>
+            <div class="example-box"><h4>Contoh <span class="tr">Example</span></h4>
+              Bagi Rp 60.000 kepada Ali dan Budi dengan rasio $2 : 3$. <span class="tr">Divide Rp 60,000 to Ali and Budi with ratio $2:3$.</span>
+              <ol>
+                <li>Total bagian = $2 + 3 = 5$ <span class="tr">Total parts = 5</span></li>
+                <li>1 bagian = $\\frac{60.000}{5} = 12.000$ <span class="tr">1 part = 12,000</span></li>
+                <li>Ali = $2 \\times 12.000 = 24.000$ <span class="tr">Ali = 24,000</span></li>
+                <li>Budi = $3 \\times 12.000 = 36.000$ <span class="tr">Budi = 36,000</span></li>
+              </ol>
+            </div>
+          `
+        },
+        { type:'task', pageTitle:'T1: Mencari 1 Bagian', pageTitleEn:'Find 1 Part', taskType:'fill',
+          question:'Total 40 dibagi dengan rasio $1 : 3$. Nilai dari 1 bagian adalah $\\dots$', questionEn:'Total 40 divided with ratio $1 : 3$. Value of 1 part is $\\dots$',
+          correctAnswer:'10', acceptableAnswers:['10'],
+          explanation:`<p>Total bagian = $1 + 3 = 4$. 1 bagian = $\\frac{40}{4} = 10$. <span class="tr">Total parts = 4. 1 part = 10.</span></p>`
+        },
+        { type:'task', pageTitle:'T2: Membagi Uang', pageTitleEn:'Dividing Money', taskType:'radio',
+          question:'Rp 90.000 dibagi dengan rasio $2 : 3 : 4$. Berapakah bagian terbesar?', questionEn:'Rp 90,000 divided with ratio $2 : 3 : 4$. What is the largest share?',
+          options:[
+            {text:'Rp 20.000 <span class="tr">Rp 20,000</span>', correct:false},
+            {text:'Rp 30.000 <span class="tr">Rp 30,000</span>', correct:false},
+            {text:'Rp 40.000 <span class="tr">Rp 40,000</span>', correct:true},
+            {text:'Rp 45.000 <span class="tr">Rp 45,000</span>', correct:false}
+          ],
+          explanation:`<ol><li>Total bagian = $2+3+4=9$ <span class="tr">Total parts = 9</span></li><li>1 bagian = $\\frac{90}{9} = 10$ <span class="tr">1 part = 10</span></li><li>Bagian terbesar (4) = $4 \\times 10 = 40$ (Rp 40.000). <span class="tr">Largest (4) = 40.</span></li></ol>`
+        },
+        { type:'task', pageTitle:'T3: Pilih Langkah Benar', pageTitleEn:'Select Correct Steps', taskType:'checkbox',
+          question:'Pilih semua langkah yang benar untuk membagi 100 dengan rasio $1 : 4$.', questionEn:'Select all correct steps to divide 100 with ratio $1 : 4$.',
+          options:[
+            {text:'Jumlahkan 1 dan 4 untuk mendapatkan total bagian <span class="tr">Add 1 and 4 for total parts</span>', correct:true},
+            {text:'Total bagian adalah 5 <span class="tr">Total parts is 5</span>', correct:true},
+            {text:'Bagi 100 dengan 5 untuk mendapat 1 bagian (nilai 20) <span class="tr">Divide 100 by 5 to get 1 part (20)</span>', correct:true},
+            {text:'Bagian pertama adalah 4x20=80 <span class="tr">First part is 80</span>', correct:false}
+          ],
+          explanation:`<p>Bagian pertama adalah $1 \\times 20 = 20$. <span class="tr">First part is 20.</span></p>`
+        },
+        { type:'explanation', pageTitle:'E2: Mencari Bagian yang Tidak Diketahui', pageTitleEn:'Finding Unknown Parts',
+          body:`
+            <p>Jika diketahui rasio dan nilai salah satu bagian, kita bisa mencari nilai bagian yang lain. <span class="tr">If ratio and value of one part are known, we can find the value of other parts.</span></p>
+            <div class="math-block"><strong>Rumus:</strong> $\\frac{\\text{Bagian 1}}{\\text{Bagian 2}} = \\frac{\\text{Nilai 1}}{\\text{Nilai 2}}$ <span class="tr">Formula: $\\frac{\\text{Part 1}}{\\text{Part 2}} = \\frac{\\text{Value 1}}{\\text{Value 2}}$</span></div>
+            <div class="example-box"><h4>Contoh <span class="tr">Example</span></h4>
+              Rasio A : B = $3 : 4$. Jika A = 15, berapakah B? <span class="tr">Ratio A : B = $3:4$. If A = 15, what is B?</span>
+              <ol>
+                <li>1 bagian untuk A = $\\frac{15}{3} = 5$ <span class="tr">1 part for A = 5</span></li>
+                <li>Karena B adalah 4 bagian, maka $B = 4 \\times 5 = 20$. <span class="tr">B = 4 parts, so B = 20.</span></li>
+              </ol>
+            </div>
+          `
+        },
+        { type:'task', pageTitle:'T4: Mencari Nilai Lain', pageTitleEn:'Find Other Value', taskType:'fill',
+          question:'Rasio $x : y = 2 : 5$. Jika $x = 10$, maka nilai $y = \\dots$', questionEn:'Ratio $x : y = 2 : 5$. If $x = 10$, then value of $y = \\dots$',
+          correctAnswer:'25', acceptableAnswers:['25'],
+          explanation:`<ol><li>1 bagian $x = \\frac{10}{2} = 5$ <span class="tr">1 part x = 5</span></li><li>$y = 5 \\times 5 = 25$ <span class="tr">y = 25</span></li></ol>`
+        },
+        { type:'task', pageTitle:'T5: Menghitung Total', pageTitleEn:'Calculate Total', taskType:'fill',
+          question:'Rasio A : B = $1 : 3$. Jika B = 21, maka total A dan B adalah $\\dots$', questionEn:'Ratio A : B = $1 : 3$. If B = 21, then total A and B is $\\dots$',
+          correctAnswer:'28', acceptableAnswers:['28'],
+          explanation:`<ol><li>1 bagian B = $\\frac{21}{3} = 7$ <span class="tr">1 part B = 7</span></li><li>A = $1 \\times 7 = 7$ <span class="tr">A = 7</span></li><li>Total = $A + B = 7 + 21 = 28$ <span class="tr">Total = 28</span></li></ol>`
+        },
+        { type:'task', pageTitle:'T6: Urutkan Langkah Mencari Y', pageTitleEn:'Order Steps to Find Y', taskType:'sorting',
+          question:'Urutkan langkah mencari $y$ jika $x:y = 3:4$ dan $x=18$.', questionEn:'Order steps to find $y$ if $x:y = 3:4$ and $x=18$.',
+          items:[
+            'Bagi 18 dengan 3 untuk mencari 1 bagian (6)',
+            'Ketahui bahwa y memiliki 4 bagian',
+            'Kalikan 4 dengan 6',
+            'Hasilnya y = 24'
+          ],
+          correctOrder:[0,1,2,3],
+          explanation:`<p>1 bagian = 6. $y = 4 \\times 6 = 24$. <span class="tr">1 part = 6. $y = 24$.</span></p>`
+        },
+        { type:'explanation', pageTitle:'E3: Aplikasi Rasio Harga', pageTitleEn:'Ratio in Pricing Application',
+          body:`
+            <p>Rasio harga satuan dapat digunakan untuk mencari harga total. <span class="tr">Unit price ratio can be used to find total price.</span></p>
+            <div class="math-block"><strong>Rumus:</strong> $\\frac{\\text{Harga 1}}{\\text{Jumlah 1}} = \\frac{\\text{Harga 2}}{\\text{Jumlah 2}}$ <span class="tr">Formula: $\\frac{\\text{Price 1}}{\\text{Qty 1}} = \\frac{\\text{Price 2}}{\\text{Qty 2}}$</span></div>
+            <div class="example-box"><h4>Contoh <span class="tr">Example</span></h4>
+              Harga 2 buku adalah Rp 4.000. Berapa harga 5 buku? <span class="tr">Price of 2 books is Rp 4,000. What is price of 5 books?</span>
+              <ol>
+                <li>Harga 1 buku = $\\frac{4.000}{2} = 2.000$ <span class="tr">Price of 1 book = 2,000</span></li>
+                <li>Harga 5 buku = $5 \\times 2.000 = 10.000$ <span class="tr">Price of 5 books = 10,000</span></li>
+              </ol>
+            </div>
+          `
+        },
+        { type:'task', pageTitle:'T7: Mencari Harga Satuan', pageTitleEn:'Find Unit Price', taskType:'fill',
+          question:'Harga 3 pensil adalah Rp 6.000. Harga 1 pensil adalah Rp $\\dots$', questionEn:'Price of 3 pencils is Rp 6,000. Price of 1 pencil is Rp $\\dots$',
+          correctAnswer:'2000', acceptableAnswers:['2000'],
+          explanation:`<p>Harga 1 pensil = $\\frac{6.000}{3} = 2.000$. <span class="tr">Price of 1 pencil = 2,000.</span></p>`
+        },
+        { type:'task', pageTitle:'T8: Harga Total', pageTitleEn:'Total Price', taskType:'radio',
+          question:'Jika 4 permen harganya Rp 1.000, berapakah harga 12 permen?', questionEn:'If 4 candies cost Rp 1,000, what is price of 12 candies?',
+          options:[
+            {text:'Rp 2.000 <span class="tr">Rp 2,000</span>', correct:false},
+            {text:'Rp 3.000 <span class="tr">Rp 3,000</span>', correct:true},
+            {text:'Rp 4.000 <span class="tr">Rp 4,000</span>', correct:false},
+            {text:'Rp 12.000 <span class="tr">Rp 12,000</span>', correct:false}
+          ],
+          explanation:`<ol><li>Harga 1 permen = $\\frac{1.000}{4} = 250$ <span class="tr">1 candy = 250</span></li><li>Harga 12 permen = $12 \\times 250 = 3.000$ <span class="tr">12 candies = 3,000</span></li></ol>`
+        },
+        { type:'task', pageTitle:'T9: Pasangkan Rasio Harga', pageTitleEn:'Match Price Ratios', taskType:'pairing',
+          question:'Pasangkan jumlah barang dengan harga total (harga 1 barang = Rp 500).', questionEn:'Match quantity with total price (1 item = Rp 500).',
+          pairs:[
+            {left:'2 Barang', right:'Rp 1.000'},
+            {left:'5 Barang', right:'Rp 2.500'},
+            {left:'8 Barang', right:'Rp 4.000'},
+            {left:'10 Barang', right:'Rp 5.000'}
+          ],
+          explanation:`<p>Kalikan jumlah barang dengan 500. <span class="tr">Multiply quantity by 500.</span></p>`
+        },
+        { type:'task', pageTitle:'T10: Soal Cerita Harga', pageTitleEn:'Price Word Problem', taskType:'fill',
+          question:'Harga 5 kg gula adalah Rp 40.000. Harga 2 kg gula adalah Rp $\\dots .000$', questionEn:'Price of 5 kg sugar is Rp 40,000. Price of 2 kg sugar is Rp $\\dots .000$',
+          correctAnswer:'16', acceptableAnswers:['16'],
+          explanation:`<ol><li>Harga 1 kg = $\\frac{40.000}{5} = 8.000$ <span class="tr">1 kg = 8,000</span></li><li>Harga 2 kg = $2 \\times 8.000 = 16.000$ <span class="tr">2 kg = 16,000</span></li></ol>`
+        }
+      ]
+    },
+    f: {
+      title: 'Independent Practice',
+      titleEn: 'Independent Practice',
+      time: '00:45 - 00:55',
+      pages: [
+        { type:'explanation', pageTitle:'E1: Menghitung Umur dengan Rasio', pageTitleEn:'Calculating Age with Ratio',
+          body:`
+            <p>Rasio sangat sering digunakan dalam soal cerita yang berkaitan dengan umur. Kunci utamanya adalah menemukan nilai 1 bagian terlebih dahulu.
+              <span class="tr">Ratios are very often used in word problems related to age. The main key is finding the value of 1 part first.</span></p>
+            <div class="example-box"><h4>Contoh <span class="tr">Example</span></h4>
+              Umur Andi dan Budi memiliki rasio $3 : 5$. Jika selisih umur mereka adalah 10 tahun, berapakah umur Budi?
+              <span class="tr">Andi and Budi age ratio is $3 : 5$. If age difference is 10 years, how old is Budi?</span>
+              <ol>
+                <li>Selisih bagian = $5 - 3 = 2$ bagian <span class="tr">Part difference = 2 parts</span></li>
+                <li>2 bagian = 10 tahun, maka 1 bagian = $\\frac{10}{2} = 5$ tahun <span class="tr">1 part = 5 years</span></li>
+                <li>Umur Budi = $5 \\times 5 = 25$ tahun <span class="tr">Budi age = 25 years</span></li>
+              </ol>
+            </div>
+          `
+        },
+        { type:'task', pageTitle:'T1: Mencari Umur', pageTitleEn:'Find Age', taskType:'fill',
+          question:'Umur ayah dan anak memiliki rasio $4 : 1$. Jika umur ayah 40 tahun, maka umur anak adalah $\\dots$ tahun.', questionEn:'Father and child age ratio is $4 : 1$. If father is 40 years old, child age is $\\dots$ years.',
+          correctAnswer:'10', acceptableAnswers:['10'],
+          explanation:`<ol><li>4 bagian ayah = 40 tahun <span class="tr">4 parts father = 40</span></li><li>1 bagian = $\\frac{40}{4} = 10$ tahun <span class="tr">1 part = 10</span></li><li>Umur anak (1 bagian) = 10 tahun. <span class="tr">Child age = 10.</span></li></ol>`
+        },
+        { type:'task', pageTitle:'T2: Total Umur', pageTitleEn:'Total Age', taskType:'radio',
+          question:'Rasio umur A dan B adalah $2 : 3$. Jika A berumur 12 tahun, berapakah total umur mereka?', questionEn:'Age ratio of A and B is $2 : 3$. If A is 12 years old, what is total age?',
+          options:[
+            {text:'$18 \\text{ tahun}$ <span class="tr">18 years</span>', correct:false},
+            {text:'$30 \\text{ tahun}$ <span class="tr">30 years</span>', correct:true},
+            {text:'$20 \\text{ tahun}$ <span class="tr">20 years</span>', correct:false},
+            {text:'$24 \\text{ tahun}$ <span class="tr">24 years</span>', correct:false}
+          ],
+          explanation:`<ol><li>1 bagian = $\\frac{12}{2} = 6$ <span class="tr">1 part = 6</span></li><li>Umur B = $3 \\times 6 = 18$ <span class="tr">B age = 18</span></li><li>Total = $12 + 18 = 30$ tahun. <span class="tr">Total = 30.</span></li></ol>`
+        },
+        { type:'task', pageTitle:'T3: Benar atau Salah', pageTitleEn:'True or False', taskType:'truefalse',
+          question:'Benar atau salah: Jika rasio umur kakak dan adik $3 : 1$, maka kakak selalu 3 tahun lebih tua dari adik.', questionEn:'True or false: If older and younger sibling age ratio is $3 : 1$, older is always 3 years older.',
+          correctAnswer:'false',
+          explanation:`<p>Rasio $3:1$ berarti umur kakak 3 KALI umur adik, bukan 3 tahun lebih tua. <span class="tr">Ratio $3:1$ means older is 3 TIMES older, not 3 years older.</span></p>`
+        },
+        { type:'explanation', pageTitle:'E2: Rasio pada Bangun Datar', pageTitleEn:'Ratios in Plane Figures',
+          body:`
+            <p>Rasio dapat digunakan untuk menyatakan perbandingan panjang sisi-sisi pada bangun datar, seperti persegi panjang.
+              <span class="tr">Ratios can be used to express comparison of side lengths in plane figures, like rectangles.</span></p>
+            <div class="math-block"><strong>Keliling Persegi Panjang:</strong> $K = 2 \\times (p + l)$ <span class="tr">Rectangle Perimeter: $K = 2 \\times (p + l)$</span></div>
+            <div class="example-box"><h4>Contoh <span class="tr">Example</span></h4>
+              Persegi panjang memiliki rasio panjang dan lebar $3 : 2$. Jika kelilingnya 20 cm, berapakah panjangnya?
+              <span class="tr">Rectangle length and width ratio is $3 : 2$. If perimeter is 20 cm, what is length?</span>
+              <ol>
+                <li>Rasio p : l = $3 : 2$. <span class="tr">Ratio p:l = 3:2.</span></li>
+                <li>Keliling = $2 \\times (3 + 2) = 2 \\times 5 = 10$ bagian. <span class="tr">Perimeter = 10 parts.</span></li>
+                <li>10 bagian = 20 cm, maka 1 bagian = 2 cm. <span class="tr">1 part = 2 cm.</span></li>
+                <li>Panjang = $3 \\times 2 = 6$ cm. <span class="tr">Length = 6 cm.</span></li>
+              </ol>
+            </div>
+          `
+        },
+        { type:'task', pageTitle:'T4: Mencari Lebar', pageTitleEn:'Find Width', taskType:'fill',
+          question:'Rasio panjang dan lebar $4 : 3$. Jika panjang 12 cm, maka lebar adalah $\\dots$ cm.', questionEn:'Length and width ratio $4 : 3$. If length is 12 cm, width is $\\dots$ cm.',
+          correctAnswer:'9', acceptableAnswers:['9'],
+          explanation:`<ol><li>1 bagian panjang = $\\frac{12}{4} = 3$ cm <span class="tr">1 part = 3 cm</span></li><li>Lebar = $3 \\times 3 = 9$ cm. <span class="tr">Width = 9 cm.</span></li></ol>`
+        },
+        { type:'task', pageTitle:'T5: Pilih Pernyataan Benar', pageTitleEn:'Select True Statements', taskType:'checkbox',
+          question:'Pilih pernyataan yang benar untuk persegi panjang dengan rasio p:l = $5 : 2$.', questionEn:'Select true statements for rectangle with p:l ratio $5 : 2$.',
+          options:[
+            {text:'Panjang lebih besar dari lebar <span class="tr">Length is greater than width</span>', correct:true},
+            {text:'Jika lebar 4 cm, panjang adalah 10 cm <span class="tr">If width is 4 cm, length is 10 cm</span>', correct:true},
+            {text:'Jika panjang 10 cm, lebar adalah 5 cm <span class="tr">If length is 10 cm, width is 5 cm</span>', correct:false},
+            {text:'Luas = 12 bagian <span class="tr">Area = 12 parts</span>', correct:false}
+          ],
+          explanation:`<p>Jika panjang 10 cm (5 bagian), 1 bagian=2 cm. Lebar = 2 bagian = 4 cm (bukan 5). Luas = p x l = 5 x 2 = 10 bagian (bukan 12). <span class="tr">If length 10cm (5 parts), 1 part=2cm. Width = 2 parts = 4cm (not 5). Area = 5 x 2 = 10 parts (not 12).</span></p>`
+        },
+        { type:'task', pageTitle:'T6: Urutkan Keliling', pageTitleEn:'Order Perimeter', taskType:'sorting',
+          question:'Urutkan langkah mencari keliling jika p:l = $2 : 1$ dan lebar 5 cm.', questionEn:'Order steps to find perimeter if p:l = $2 : 1$ and width 5 cm.',
+          items:[
+            'Lebar 5 cm = 1 bagian, jadi 1 bagian = 5 cm',
+            'Panjang = 2 bagian = 2 x 5 = 10 cm',
+            'Keliling = 2 x (panjang + lebar)',
+            'Keliling = 2 x (10 + 5) = 30 cm'
+          ],
+          correctOrder:[0,1,2,3],
+          explanation:`<p>Hitung panjang dulu, lalu masukkan ke rumus keliling. <span class="tr">Calculate length first, then apply perimeter formula.</span></p>`
+        },
+        { type:'explanation', pageTitle:'E3: Rasio Campuran Bahan', pageTitleEn:'Ratio of Mixture',
+          body:`
+            <p>Rasio digunakan untuk mencampur bahan, seperti sirup dan air, atau semen dan pasir.
+              <span class="tr">Ratios are used to mix ingredients, like syrup and water, or cement and sand.</span></p>
+            <div class="example-box"><h4>Contoh <span class="tr">Example</span></h4>
+              Rasio sirup dan air adalah $1 : 4$. Jika air yang digunakan 200 ml, berapakah volume total minuman?
+              <span class="tr">Syrup and water ratio is $1 : 4$. If water used is 200 ml, what is total volume?</span>
+              <ol>
+                <li>1 bagian air = $\\frac{200}{4} = 50$ ml <span class="tr">1 part = 50 ml</span></li>
+                <li>Sirup = $1 \\times 50 = 50$ ml <span class="tr">Syrup = 50 ml</span></li>
+                <li>Total = Sirup + Air = $50 + 200 = 250$ ml <span class="tr">Total = 250 ml</span></li>
+              </ol>
+            </div>
+          `
+        },
+        { type:'task', pageTitle:'T7: Mencari Total Cairan', pageTitleEn:'Find Total Liquid', taskType:'fill',
+          question:'Rasio susu dan kopi $2 : 3$. Jika susu 100 ml, maka total minuman adalah $\\dots$ ml.', questionEn:'Milk and coffee ratio $2 : 3$. If milk is 100 ml, total drink is $\\dots$ ml.',
+          correctAnswer:'250', acceptableAnswers:['250'],
+          explanation:`<ol><li>1 bagian susu = $\\frac{100}{2} = 50$ ml <span class="tr">1 part = 50 ml</span></li><li>Kopi = $3 \\times 50 = 150$ ml <span class="tr">Coffee = 150 ml</span></li><li>Total = $100 + 150 = 250$ ml. <span class="tr">Total = 250 ml.</span></li></ol>`
+        },
+        { type:'task', pageTitle:'T8: Mencari Bagian Bahan', pageTitleEn:'Find Ingredient Part', taskType:'radio',
+          question:'Rasio semen, pasir, dan kerikil $1 : 2 : 3$. Jika total campuran 120 kg, berapakah berat semen?', questionEn:'Cement, sand, gravel ratio $1 : 2 : 3$. If total mixture is 120 kg, what is cement weight?',
+          options:[
+            {text:'$20 \\text{ kg}$ <span class="tr">20 kg</span>', correct:true},
+            {text:'$40 \\text{ kg}$ <span class="tr">40 kg</span>', correct:false},
+            {text:'$60 \\text{ kg}$ <span class="tr">60 kg</span>', correct:false},
+            {text:'$10 \\text{ kg}$ <span class="tr">10 kg</span>', correct:false}
+          ],
+          explanation:`<ol><li>Total bagian = $1+2+3=6$ <span class="tr">Total parts = 6</span></li><li>1 bagian = $\\frac{120}{6} = 20$ kg <span class="tr">1 part = 20 kg</span></li><li>Semen = 1 bagian = 20 kg. <span class="tr">Cement = 20 kg.</span></li></ol>`
+        },
+        { type:'task', pageTitle:'T9: Pasangkan Rasio Campuran', pageTitleEn:'Match Mixture Ratios', taskType:'pairing',
+          question:'Pasangkan rasio bahan dengan totalnya (1 bagian = 10 gram).', questionEn:'Match ingredient ratio with total (1 part = 10 g).',
+          pairs:[
+            {left:'Rasio $1 : 1$', right:'Total 20 gram'},
+            {left:'Rasio $1 : 3$', right:'Total 40 gram'},
+            {left:'Rasio $2 : 3$', right:'Total 50 gram'},
+            {left:'Rasio $1 : 4$', right:'Total 50 gram'}
+          ],
+          explanation:`<p>$1:1=2$ bagian, $1:3=4$ bagian, $2:3=5$ bagian, $1:4=5$ bagian. <span class="tr">Total parts: 2, 4, 5, 5.</span></p>`
+        },
+        { type:'task', pageTitle:'T10: Soal Cerita Campuran', pageTitleEn:'Mixture Word Problem', taskType:'fill',
+          question:'Rasio gula dan tepung $3 : 5$. Jika tepung 250 gram, maka gula yang dibutuhkan adalah $\\dots$ gram.', questionEn:'Sugar and flour ratio $3 : 5$. If flour is 250 g, sugar needed is $\\dots$ g.',
+          correctAnswer:'150', acceptableAnswers:['150'],
+          explanation:`<ol><li>1 bagian tepung = $\\frac{250}{5} = 50$ gram <span class="tr">1 part = 50 g</span></li><li>Gula = $3 \\times 50 = 150$ gram. <span class="tr">Sugar = 150 g.</span></li></ol>`
+        }
+      ]
+    },
+    g: {
+      title: 'Consolidation & Reflection',
+      titleEn: 'Consolidation & Reflection',
+      time: '00:55 - 01:00',
+      pages: [
+        { type:'explanation', pageTitle:'E1: Poin Penting', pageTitleEn:'Key Takeaways',
+          body:`
+            <div class="illustration">
+              <svg width="220" height="80" viewBox="0 0 220 80">
+                <circle cx="40" cy="40" r="28" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+                <text x="40" y="48" text-anchor="middle" font-size="22" fill="#2563eb">★</text>
+                <text x="85" y="35" font-size="13" fill="#1e40af" font-weight="bold">Konsep Rasio</text>
+                <text x="85" y="52" font-size="10" fill="#64748b">Perbandingan Dua Benda</text>
+              </svg>
+              <div style="font-size:.82em;color:var(--muted);margin-top:4px">Simbol & Aturan <span class="tr">Symbols & Rules</span></div>
+            </div>
+            <p>Hari ini kita belajar tentang <strong>Konsep Rasio</strong>. Berikut poin terpentingnya:
+              <span class="tr">Today we learned about <strong>Concept of Ratio</strong>. Here are the most important points:</span></p>
+            <div class="math-block">
+              <ol>
+                <li><strong>Penulisan Rasio:</strong> Menggunakan titik dua ($a : b$) atau pecahan ($\\frac{a}{b}$). <span class="tr">Using colon or fraction.</span></li>
+                <li><strong>Menyederhanakan Rasio:</strong> Bagi dengan FPB. <span class="tr">Divide by GCF.</span></li>
+                <li><strong>Rasio Ekuivalen:</strong> Rasio dengan nilai sama. <span class="tr">Ratios with same value.</span></li>
+                <li><strong>Membagi Nilai:</strong> Bagi total dengan jumlah bagian, lalu kalikan dengan rasio. <span class="tr">Divide total by parts, multiply by ratio.</span></li>
+              </ol>
+            </div>
+            <div class="tip-box">
+              <h4>Tips <span class="tr">Tip</span></h4>
+              <ul>
+                <li>Pastikan satuan sama sebelum membandingkan. <span class="tr">Ensure units are same before comparing.</span></li>
+                <li>Cari nilai 1 bagian terlebih dahulu untuk mempermudah perhitungan. <span class="tr">Find 1 part value first to simplify.</span></li>
+              </ul>
+            </div>
+          `
+        },
+        { type:'task', pageTitle:'T1: Pertanyaan Refleksi', pageTitleEn:'Reflection Question', taskType:'truefalse',
+          question:'Benar atau salah: Saya memahami bahwa untuk menemukan nilai 1 bagian, saya harus membagi total nilai dengan jumlah total bagian rasio.', questionEn:'True or false: I understand that to find 1 part value, I must divide total value by total ratio parts.',
+          correctAnswer:'true',
+          explanation:`<p>Jika benar, Anda siap untuk latihan mandiri! <span class="tr">If true, you are ready for independent practice!</span></p>`
+        },
+        { type:'task', pageTitle:'T2: Exit Ticket', pageTitleEn:'Exit Ticket', taskType:'fill',
+          question:'Rasio $x : 15 = 2 : 3$. Nilai $x = \\dots$', questionEn:'Ratio $x : 15 = 2 : 3$. Value of $x = \\dots$',
+          correctAnswer:'10', acceptableAnswers:['10'],
+          explanation:`<ol><li>$\\frac{x}{15} = \\frac{2}{3}$ <span class="tr">Fraction form</span></li><li>$3 \\times x = 15 \\times 2$ <span class="tr">Cross multiply</span></li><li>$3x = 30$ <span class="tr">Simplify</span></li><li>$x = 10$ <span class="tr">Divide by 3</span></li></ol>`
+        },
+        { type:'explanation', pageTitle:'E2: Follow-up Practice', pageTitleEn:'Follow-up Practice',
+          body:`
+            <p>Latihan tambahan tersedia di <strong>Bagian H–L (Task 1–5)</strong>. Setiap bagian berisi 10 soal:
+              <span class="tr">Additional practice is available in <strong>Sections H–L</strong>. Each section contains 10 questions:</span></p>
+            <div class="math-block">
+              <ul>
+                <li><strong>Task 1 (H):</strong> Rasio dasar & penulisan <span class="tr">Basic ratio & writing</span></li>
+                <li><strong>Task 2 (I):</strong> Rasio ekuivalen & satuan <span class="tr">Equivalent ratio & units</span></li>
+                <li><strong>Task 3 (J):</strong> Membagi nilai berdasarkan rasio <span class="tr">Sharing value based on ratio</span></li>
+                <li><strong>Task 4 (K):</strong> Rasio & aljabar <span class="tr">Ratio & algebra</span></li>
+                <li><strong>Task 5 (L):</strong> Soal cerita & aplikasi <span class="tr">Word problems & applications</span></li>
+              </ul>
+            </div>
+            <div class="tip-box">
+              <h4>Cara menggunakan <span class="tr">How to use</span></h4>
+              <ol>
+                <li>Buka bagian H–L dari sidebar kiri.</li>
+                <li>Jawab soal, lalu klik <strong>"Periksa Jawaban"</strong>.</li>
+                <li>Setelah selesai 10 soal, klik tombol <strong>🖨 Cetak ke PDF</strong> di kanan atas.</li>
+                <li>Cetak atau simpan sebagai PDF untuk diperiksa oleh tutor Anda.</li>
+              </ol>
+            </div>
+          `
+        }
+      ]
+    },
+    h: {
+      title: 'Task 1',
+      titleEn: 'Task 1',
+      time: 'Printable',
+      pages: [
+        { type:'task', pageTitle:'T1: Menulis Rasio', pageTitleEn:'Write Ratio', taskType:'fill',
+          question:'Ada 5 kucing dan 2 anjing. Rasio anjing terhadap kucing adalah $2 : x$. Nilai $x = \\dots$', questionEn:'5 cats and 2 dogs. Ratio of dogs to cats is $2 : x$. Value of $x = \\dots$',
+          correctAnswer:'5', acceptableAnswers:['5'],
+          explanation:`<p>Anjing = 2, Kucing = 5. Rasio anjing:kucing = $2:5$. Jadi $x=5$. <span class="tr">Dogs=2, Cats=5. Ratio=2:5. So x=5.</span></p>`},
+        { type:'task', pageTitle:'T2: Rasio Sederhana', pageTitleEn:'Simple Ratio', taskType:'radio',
+          question:'Rasio sederhana dari $14 : 21$ adalah...', questionEn:'Simple ratio of $14 : 21$ is...',
+          options:[
+            {text:'$2 : 3$ <span class="tr">2 to 3</span>', correct:true},
+            {text:'$3 : 2$ <span class="tr">3 to 2</span>', correct:false},
+            {text:'$7 : 10$ <span class="tr">7 to 10</span>', correct:false},
+            {text:'$4 : 7$ <span class="tr">4 to 7</span>', correct:false}
+          ],
+          explanation:`<p>FPB(14,21)=7. $\\frac{14}{7} : \\frac{21}{7} = 2:3$. <span class="tr">GCF=7. Result 2:3.</span></p>`},
+        { type:'task', pageTitle:'T3: Benar atau Salah', pageTitleEn:'True or False', taskType:'truefalse',
+          question:'Benar atau salah: Rasio $10:20$ sama dengan $1:2$.', questionEn:'True or false: Ratio $10:20$ is same as $1:2$.',
+          correctAnswer:'true',
+          explanation:`<p>$10:20$ dibagi 10 menjadi $1:2$. Benar. <span class="tr">$10:20$ divided by 10 is $1:2$. True.</span></p>`},
+        { type:'task', pageTitle:'T4: Mencari Total', pageTitleEn:'Find Total', taskType:'fill',
+          question:'Rasio A:B = $3:4$. Jika A=15, maka total A dan B adalah $\\dots$', questionEn:'Ratio A:B = $3:4$. If A=15, total A and B is $\\dots$',
+          correctAnswer:'35', acceptableAnswers:['35'],
+          explanation:`<ol><li>1 bagian = $15/3 = 5$ <span class="tr">1 part=5</span></li><li>B = $4 \\times 5 = 20$ <span class="tr">B=20</span></li><li>Total = $15+20=35$ <span class="tr">Total=35</span></li></ol>`},
+        { type:'task', pageTitle:'T5: Urutkan Sederhanakan', pageTitleEn:'Order Simplify', taskType:'sorting',
+          question:'Urutkan langkah menyederhanakan $25:35$.', questionEn:'Order steps to simplify $25:35$.',
+          items:['Cari FPB 25 dan 35 (yaitu 5)','Bagi 25 dengan 5','Bagi 35 dengan 5','Hasilnya 5:7'],
+          correctOrder:[0,1,2,3],
+          explanation:`<p>FPB=5. $\\frac{25}{5} : \\frac{35}{5} = 5:7$. <span class="tr">GCF=5. Result 5:7.</span></p>`},
+        { type:'task', pageTitle:'T6: Pasangkan Rasio', pageTitleEn:'Match Ratios', taskType:'pairing',
+          question:'Pasangkan rasio dengan bentuk sederhananya.', questionEn:'Match ratios with simplified forms.',
+          pairs:[
+            {left:'$4:8$', right:'$1:2$'},
+            {left:'$6:8$', right:'$3:4$'},
+            {left:'$9:12$', right:'$3:4$'},
+            {left:'$5:10$', right:'$1:2$'}
+          ],
+          explanation:`<p>$4:8$ dan $5:10$ menjadi $1:2$. $6:8$ dan $9:12$ menjadi $3:4$. <span class="tr">Simplified accordingly.</span></p>`},
+        { type:'task', pageTitle:'T7: Bagian ke Total', pageTitleEn:'Part to Total', taskType:'checkbox',
+          question:'Ada 4 bola merah dan 6 bola biru. Pilih rasio yang benar.', questionEn:'4 red balls and 6 blue balls. Select correct ratios.',
+          options:[
+            {text:'Merah : Biru = $2:3$ <span class="tr">Red : Blue = 2:3</span>', correct:true},
+            {text:'Merah : Total = $4:10$ <span class="tr">Red : Total = 4:10</span>', correct:true},
+            {text:'Biru : Total = $3:5$ <span class="tr">Blue : Total = 3:5</span>', correct:true},
+            {text:'Total : Merah = $6:4$ <span class="tr">Total : Red = 6:4</span>', correct:false}
+          ],
+          explanation:`<p>Total = 10. Merah:Total = $4:10 = 2:5$. Biru:Total = $6:10 = 3:5$. Total:Merah = $10:4 = 5:2$. <span class="tr">Correct ratios calculated.</span></p>`},
+        { type:'task', pageTitle:'T8: Rasio Ekuivalen', pageTitleEn:'Equivalent Ratio', taskType:'fill',
+          question:'Rasio ekuivalen dari $3:7$ adalah $9:x$. Nilai $x = \\dots$', questionEn:'Equivalent ratio of $3:7$ is $9:x$. Value of $x = \\dots$',
+          correctAnswer:'21', acceptableAnswers:['21'],
+          explanation:`<p>$3 \\times 3 = 9$, maka $7 \\times 3 = 21$. <span class="tr">Multiply by 3.</span></p>`},
+        { type:'task', pageTitle:'T9: Pilih Ekuivalen', pageTitleEn:'Select Equivalent', taskType:'radio',
+          question:'Manakah yang ekuivalen dengan $2:5$?', questionEn:'Which is equivalent to $2:5$?',
+          options:[
+            {text:'$4:10$ <span class="tr">4:10</span>', correct:true},
+            {text:'$5:2$ <span class="tr">5:2</span>', correct:false},
+            {text:'$6:10$ <span class="tr">6:10</span>', correct:false},
+            {text:'$2:10$ <span class="tr">2:10</span>', correct:false}
+          ],
+          explanation:`<p>$4:10$ dibagi 2 sama dengan $2:5$. <span class="tr">4:10 divided by 2 is 2:5.</span></p>`},
+        { type:'task', pageTitle:'T10: Total Bagian', pageTitleEn:'Total Parts', taskType:'fill',
+          question:'Rasio $2:3:4$. Total bagian adalah $\\dots$', questionEn:'Ratio $2:3:4$. Total parts is $\\dots$',
+          correctAnswer:'9', acceptableAnswers:['9'],
+          explanation:`<p>$2+3+4=9$. <span class="tr">Sum is 9.</span></p>`}
+      ]
+    },
+    i: {
+      title: 'Task 2',
+      titleEn: 'Task 2',
+      time: 'Printable',
+      pages: [
+        { type:'task', pageTitle:'T1: Konversi Satuan', pageTitleEn:'Unit Conversion', taskType:'fill',
+          question:'Rasio 1 meter terhadap 25 cm adalah $x:1$. Nilai $x = \\dots$', questionEn:'Ratio of 1 m to 25 cm is $x:1$. Value of $x = \\dots$',
+          correctAnswer:'4', acceptableAnswers:['4'],
+          explanation:`<p>1 m = 100 cm. Rasio $100:25 = 4:1$. <span class="tr">1m=100cm. Ratio 4:1.</span></p>`},
+        { type:'task', pageTitle:'T2: Rasio Waktu', pageTitleEn:'Time Ratio', taskType:'radio',
+          question:'Rasio 1 jam terhadap 30 menit adalah...', questionEn:'Ratio of 1 hour to 30 minutes is...',
+          options:[
+            {text:'$1:30$ <span class="tr">1:30</span>', correct:false},
+            {text:'$2:1$ <span class="tr">2:1</span>', correct:true},
+            {text:'$1:2$ <span class="tr">1:2</span>', correct:false},
+            {text:'$3:1$ <span class="tr">3:1</span>', correct:false}
+          ],
+          explanation:`<p>1 jam = 60 menit. Rasio $60:30 = 2:1$. <span class="tr">1h=60m. Ratio 2:1.</span></p>`},
+        { type:'task', pageTitle:'T3: Benar atau Salah', pageTitleEn:'True or False', taskType:'truefalse',
+          question:'Benar atau salah: Rasio 2 kg terhadap 500 g adalah $4:1$.', questionEn:'True or false: Ratio of 2 kg to 500 g is 4:1.',
+          correctAnswer:'true',
+          explanation:`<p>2 kg = 2000 g. Rasio $2000:500 = 4:1$. Benar. <span class="tr">2kg=2000g. Ratio 4:1. True.</span></p>`},
+        { type:'task', pageTitle:'T4: Mencari Skala', pageTitleEn:'Find Scale', taskType:'fill',
+          question:'Model 5 cm, asli 200 cm. Skala $1:x$. Nilai $x = \\dots$', questionEn:'Model 5 cm, actual 200 cm. Scale $1:x$. Value of $x = \\dots$',
+          correctAnswer:'40', acceptableAnswers:['40'],
+          explanation:`<p>Skala = $5:200 = 1:40$. <span class="tr">Scale 1:40.</span></p>`},
+        { type:'task', pageTitle:'T5: Ukuran Asli', pageTitleEn:'Actual Size', taskType:'sorting',
+          question:'Urutkan langkah mencari ukuran asli (Skala 1:50, Model 3 cm).', questionEn:'Order steps to find actual size (Scale 1:50, Model 3 cm).',
+          items:['Skala 1:50 berarti 1 cm model = 50 cm asli','Kalikan model dengan skala: 3 x 50','Hasilnya 150 cm','Ubah ke meter: 1.5 m'],
+          correctOrder:[0,1,2,3],
+          explanation:`<p>Ukuran asli = $3 \\times 50 = 150$ cm = 1,5 m. <span class="tr">Actual = 150 cm = 1.5 m.</span></p>`},
+        { type:'task', pageTitle:'T6: Pasangkan Konversi', pageTitleEn:'Match Conversions', taskType:'pairing',
+          question:'Pasangkan ukuran asli dengan ukuran model (Skala 1:100).', questionEn:'Match actual size with model size (Scale 1:100).',
+          pairs:[
+            {left:'Asli 100 cm', right:'Model 1 cm'},
+            {left:'Asli 200 cm', right:'Model 2 cm'},
+            {left:'Asli 500 cm', right:'Model 5 cm'},
+            {left:'Asli 1000 cm', right:'Model 10 cm'}
+          ],
+          explanation:`<p>Asli dibagi 100 untuk mendapat model. <span class="tr">Actual divided by 100 is model.</span></p>`},
+        { type:'task', pageTitle:'T7: Kecepatan', pageTitleEn:'Speed', taskType:'checkbox',
+          question:'Pilih pernyataan benar tentang kecepatan 60 km/jam.', questionEn:'Select true statements about speed 60 km/h.',
+          options:[
+            {text:'Menempuh 60 km dalam 1 jam <span class="tr">Travels 60 km in 1 hour</span>', correct:true},
+            {text:'Menempuh 120 km dalam 2 jam <span class="tr">Travels 120 km in 2 hours</span>', correct:true},
+            {text:'Menempuh 30 km dalam 30 menit <span class="tr">Travels 30 km in 30 minutes</span>', correct:true},
+            {text:'Menempuh 60 km dalam 60 menit <span class="tr">Travels 60 km in 60 minutes</span>', correct:true}
+          ],
+          explanation:`<p>60 km/jam berarti setiap jam = 60 km. 30 menit = 30 km. <span class="tr">Correct statements.</span></p>`},
+        { type:'task', pageTitle:'T8: Mencari Jarak', pageTitleEn:'Find Distance', taskType:'fill',
+          question:'Kecepatan 80 km/jam, waktu 2,5 jam. Jarak = $\\dots$ km.', questionEn:'Speed 80 km/h, time 2.5 hours. Distance = $\\dots$ km.',
+          correctAnswer:'200', acceptableAnswers:['200'],
+          explanation:`<p>$s = v \\times t = 80 \\times 2,5 = 200$ km. <span class="tr">$s = 200$ km.</span></p>`},
+        { type:'task', pageTitle:'T9: Pilih Rasio Kecepatan', pageTitleEn:'Select Speed Ratio', taskType:'radio',
+          question:'Mobil A 60 km/jam, Mobil B 40 km/jam. Rasio kecepatan A:B adalah...', questionEn:'Car A 60 km/h, Car B 40 km/h. Speed ratio A:B is...',
+          options:[
+            {text:'$3:2$ <span class="tr">3:2</span>', correct:true},
+            {text:'$2:3$ <span class="tr">2:3</span>', correct:false},
+            {text:'$6:4$ <span class="tr">6:4</span>', correct:false},
+            {text:'$1:2$ <span class="tr">1:2</span>', correct:false}
+          ],
+          explanation:`<p>$60:40 = 6:4 = 3:2$. <span class="tr">Ratio 3:2.</span></p>`},
+        { type:'task', pageTitle:'T10: Total Kecepatan', pageTitleEn:'Total Speed', taskType:'fill',
+          question:'Rasio kecepatan A:B = $2:3$. Jika A=40 km/jam, maka B = $\\dots$ km/jam.', questionEn:'Speed ratio A:B = 2:3. If A=40 km/h, then B = \\dots km/h.',
+          correctAnswer:'60', acceptableAnswers:['60'],
+          explanation:`<p>1 bagian = $40/2=20$. B = $3 \\times 20 = 60$. <span class="tr">1 part=20. B=60.</span></p>`}
+      ]
+    },
+    j: {
+      title: 'Task 3',
+      titleEn: 'Task 3',
+      time: 'Printable',
+      pages: [
+        { type:'task', pageTitle:'T1: Membagi Uang', pageTitleEn:'Dividing Money', taskType:'fill',
+          question:'Rp 50.000 dibagi rasio $1:4$. Bagian terbesar Rp $\\dots .000$', questionEn:'Rp 50,000 divided ratio $1:4$. Largest share Rp $\\dots .000$',
+          correctAnswer:'40', acceptableAnswers:['40'],
+          explanation:`<p>Total 5 bagian = 50. 1 bagian=10. Terbesar (4) = $4 \\times 10=40$. <span class="tr">Largest=40.</span></p>`},
+        { type:'task', pageTitle:'T2: Mencari 1 Bagian', pageTitleEn:'Find 1 Part', taskType:'radio',
+          question:'Total 90 dibagi rasio $2:3:4$. Berapakah nilai 1 bagian?', questionEn:'Total 90 divided ratio $2:3:4$. What is 1 part value?',
+          options:[
+            {text:'$9$ <span class="tr">9</span>', correct:false},
+            {text:'$10$ <span class="tr">10</span>', correct:true},
+            {text:'$15$ <span class="tr">15</span>', correct:false},
+            {text:'$30$ <span class="tr">30</span>', correct:false}
+          ],
+          explanation:`<p>Total bagian = 9. 1 bagian = $90/9=10$. <span class="tr">1 part=10.</span></p>`},
+        { type:'task', pageTitle:'T3: Benar atau Salah', pageTitleEn:'True or False', taskType:'truefalse',
+          question:'Benar atau salah: Jika rasio $1:3$ dan total 40, maka bagian terkecil adalah 10.', questionEn:'True or false: If ratio 1:3 and total 40, smallest part is 10.',
+          correctAnswer:'true',
+          explanation:`<p>Total 4 bagian=40. 1 bagian=10. Terkecil (1) = 10. Benar. <span class="tr">Smallest=10. True.</span></p>`},
+        { type:'task', pageTitle:'T4: Mencari Total Bagian', pageTitleEn:'Find Total Parts', taskType:'fill',
+          question:'Rasio $3:5$. Jika selisih bagian adalah 10, maka total bagian adalah $\\dots$', questionEn:'Ratio $3:5$. If part difference is 10, total parts is $\\dots$',
+          correctAnswer:'40', acceptableAnswers:['40'],
+          explanation:`<p>Selisih = $5-3=2$ bagian = 10. 1 bagian = 5. Total = $8 \\times 5 = 40$. <span class="tr">Total=40.</span></p>`},
+        { type:'task', pageTitle:'T5: Urutkan Pembagian', pageTitleEn:'Order Division', taskType:'sorting',
+          question:'Urutkan langkah membagi 60 dengan rasio $1:2$.', questionEn:'Order steps to divide 60 with ratio $1:2$.',
+          items:['Total bagian = 1+2 = 3','1 bagian = 60/3 = 20','Bagian pertama = 1x20 = 20','Bagian kedua = 2x20 = 40'],
+          correctOrder:[0,1,2,3],
+          explanation:`<p>Langkah sistematis pembagian rasio. <span class="tr">Systematic steps.</span></p>`},
+        { type:'task', pageTitle:'T6: Pasangkan Bagian', pageTitleEn:'Match Parts', taskType:'pairing',
+          question:'Pasangkan total dengan bagian terbesar (Rasio $2:5$).', questionEn:'Match total with largest part (Ratio $2:5$).',
+          pairs:[
+            {left:'Total 70', right:'Terbesar 50'},
+            {left:'Total 35', right:'Terbesar 25'},
+            {left:'Total 14', right:'Terbesar 10'},
+            {left:'Total 21', right:'Terbesar 15'}
+          ],
+          explanation:`<p>Total 7 bagian. Terbesar = 5 bagian. <span class="tr">Total 7 parts. Largest 5 parts.</span></p>`},
+        { type:'task', pageTitle:'T7: Pilih Bagian Terkecil', pageTitleEn:'Select Smallest Part', taskType:'checkbox',
+          question:'Total 80 dibagi rasio $3:5$. Pilih pernyataan benar.', questionEn:'Total 80 divided ratio $3:5$. Select true statements.',
+          options:[
+            {text:'Total bagian adalah 8 <span class="tr">Total parts is 8</span>', correct:true},
+            {text:'1 bagian = 10 <span class="tr">1 part = 10</span>', correct:true},
+            {text:'Bagian terkecil = 30 <span class="tr">Smallest part = 30</span>', correct:true},
+            {text:'Bagian terbesar = 50 <span class="tr">Largest part = 50</span>', correct:true}
+          ],
+          explanation:`<p>Total 8 bagian. 1 bagian=10. Terkecil (3)=30. Terbesar (5)=50. <span class="tr">All correct.</span></p>`},
+        { type:'task', pageTitle:'T8: Mencari Nilai Y', pageTitleEn:'Find Y Value', taskType:'fill',
+          question:'Rasio $x:y = 3:4$. Jika $x=18$, maka $y = \\dots$', questionEn:'Ratio $x:y = 3:4$. If $x=18$, then $y = \\dots$',
+          correctAnswer:'24', acceptableAnswers:['24'],
+          explanation:`<p>1 bagian $x = 18/3=6$. $y = 4 \\times 6=24$. <span class="tr">y=24.</span></p>`},
+        { type:'task', pageTitle:'T9: Rasio Umur', pageTitleEn:'Age Ratio', taskType:'radio',
+          question:'Rasio umur A:B = $2:5$. Jika A=10 tahun, berapakah umur B?', questionEn:'Age ratio A:B = $2:5$. If A=10 years, what is B age?',
+          options:[
+            {text:'$20 \\text{ tahun}$ <span class="tr">20 years</span>', correct:false},
+            {text:'$25 \\text{ tahun}$ <span class="tr">25 years</span>', correct:true},
+            {text:'$15 \\text{ tahun}$ <span class="tr">15 years</span>', correct:false},
+            {text:'$30 \\text{ tahun}$ <span class="tr">30 years</span>', correct:false}
+          ],
+          explanation:`<p>1 bagian = $10/2=5$. B = $5 \\times 5=25$. <span class="tr">B=25.</span></p>`},
+        { type:'task', pageTitle:'T10: Umur Total', pageTitleEn:'Total Age', taskType:'fill',
+          question:'Rasio umur A:B = $3:4$. Jika B=20 tahun, maka total umur = $\\dots$ tahun.', questionEn:'Age ratio A:B = $3:4$. If B=20 years, total age = $\\dots$ years.',
+          correctAnswer:'35', acceptableAnswers:['35'],
+          explanation:`<p>1 bagian = $20/4=5$. A = $3 \\times 5=15$. Total = $15+20=35$. <span class="tr">Total=35.</span></p>`}
+      ]
+    },
+    k: {
+      title: 'Task 4',
+      titleEn: 'Task 4',
+      time: 'Printable',
+      pages: [
+        { type:'task', pageTitle:'T1: Mencari X', pageTitleEn:'Find X', taskType:'fill',
+          question:'Rasio $x:6 = 2:3$. Nilai $x = \\dots$', questionEn:'Ratio $x:6 = 2:3$. Value of $x = \\dots$',
+          correctAnswer:'4', acceptableAnswers:['4'],
+          explanation:`<p>$\\frac{x}{6} = \\frac{2}{3}$. $3x = 12$. $x=4$. <span class="tr">x=4.</span></p>`},
+        { type:'task', pageTitle:'T2: Pecahan Rasio', pageTitleEn:'Fraction Ratio', taskType:'radio',
+          question:'Rasio $\\frac{1}{2} : \\frac{1}{4}$ disederhanakan menjadi...', questionEn:'Ratio $\\frac{1}{2} : \\frac{1}{4}$ simplified is...',
+          options:[
+            {text:'$1:2$ <span class="tr">1:2</span>', correct:false},
+            {text:'$2:1$ <span class="tr">2:1</span>', correct:true},
+            {text:'$1:1$ <span class="tr">1:1</span>', correct:false},
+            {text:'$3:1$ <span class="tr">3:1</span>', correct:false}
+          ],
+          explanation:`<p>Kali 4: $(\\frac{1}{2} \\times 4) : (\\frac{1}{4} \\times 4) = 2:1$. <span class="tr">Multiply by 4. Result 2:1.</span></p>`},
+        { type:'task', pageTitle:'T3: Benar atau Salah', pageTitleEn:'True or False', taskType:'truefalse',
+          question:'Benar atau salah: Rasio $x:5 = 4:20$ memiliki solusi $x=1$.', questionEn:'True or false: Ratio $x:5 = 4:20$ has solution $x=1$.',
+          correctAnswer:'true',
+          explanation:`<p>$\\frac{x}{5} = \\frac{4}{20} = \\frac{1}{5}$. Jadi $x=1$. Benar. <span class="tr">x=1. True.</span></p>`},
+        { type:'task', pageTitle:'T4: Mencari Nilai Total', pageTitleEn:'Find Total Value', taskType:'fill',
+          question:'Rasio $x:y = 2:3$. Jika $y=15$, maka $x+y = \\dots$', questionEn:'Ratio $x:y = 2:3$. If $y=15$, then $x+y = \\dots$',
+          correctAnswer:'25', acceptableAnswers:['25'],
+          explanation:`<p>1 bagian $y = 15/3=5$. $x = 2 \\times 5=10$. Total = $10+15=25$. <span class="tr">Total=25.</span></p>`},
+        { type:'task', pageTitle:'T5: Urutkan Aljabar', pageTitleEn:'Order Algebra', taskType:'sorting',
+          question:'Urutkan langkah mencari $x$ pada $x:4 = 5:2$.', questionEn:'Order steps to find $x$ in $x:4 = 5:2$.',
+          items:['Ubah ke pecahan: x/4 = 5/2','Silang kalikan: 2x = 4*5','Sederhanakan: 2x = 20','Bagi 2: x = 10'],
+          correctOrder:[0,1,2,3],
+          explanation:`<p>Langkah penyelesaian persamaan rasio. <span class="tr">Equation solving steps.</span></p>`},
+        { type:'task', pageTitle:'T6: Pasangkan X', pageTitleEn:'Match X', taskType:'pairing',
+          question:'Pasangkan persamaan rasio dengan nilai $x$.', questionEn:'Match ratio equations with $x$ value.',
+          pairs:[
+            {left:'$x:2 = 3:1$', right:'$x=6$'},
+            {left:'$x:3 = 4:2$', right:'$x=6$'},
+            {left:'$x:5 = 2:1$', right:'$x=10$'},
+            {left:'$x:4 = 3:2$', right:'$x=6$'}
+          ],
+          explanation:`<p>Hitung silang untuk mencari $x$. <span class="tr">Cross multiply to find x.</span></p>`},
+        { type:'task', pageTitle:'T7: Pilih Persamaan', pageTitleEn:'Select Equation', taskType:'checkbox',
+          question:'Pilih persamaan yang benar untuk $x:6 = 2:3$.', questionEn:'Select correct equations for $x:6 = 2:3$.',
+          options:[
+            {text:'$\\frac{x}{6} = \\frac{2}{3}$ <span class="tr">Fraction form</span>', correct:true},
+            {text:'$3x = 12$ <span class="tr">Cross multiplied</span>', correct:true},
+            {text:'$x = 4$ <span class="tr">Solution</span>', correct:true},
+            {text:'$2x = 18$ <span class="tr">Incorrect cross multiply</span>', correct:false}
+          ],
+          explanation:`<p>$\\frac{x}{6} = \\frac{2}{3}$ menghasilkan $3x = 12$ dan $x=4$. <span class="tr">Correct path.</span></p>`},
+        { type:'task', pageTitle:'T8: Rasio Pecahan', pageTitleEn:'Fraction Ratio', taskType:'fill',
+          question:'Rasio $\\frac{1}{3} : \\frac{1}{6}$ disederhanakan menjadi $x:1$. Nilai $x = \\dots$', questionEn:'Ratio $\\frac{1}{3} : \\frac{1}{6}$ simplified to $x:1$. Value of $x = \\dots$',
+          correctAnswer:'2', acceptableAnswers:['2'],
+          explanation:`<p>Kali 6: $(\\frac{1}{3} \\times 6) : (\\frac{1}{6} \\times 6) = 2:1$. Jadi $x=2$. <span class="tr">Multiply by 6. x=2.</span></p>`},
+        { type:'task', pageTitle:'T9: Mencari Y', pageTitleEn:'Find Y', taskType:'radio',
+          question:'Jika $3:y = 6:8$, berapakah nilai $y$?', questionEn:'If $3:y = 6:8$, what is value of $y$?',
+          options:[
+            {text:'$4$ <span class="tr">4</span>', correct:true},
+            {text:'$6$ <span class="tr">6</span>', correct:false},
+            {text:'$8$ <span class="tr">8</span>', correct:false},
+            {text:'$12$ <span class="tr">12</span>', correct:false}
+          ],
+          explanation:`<p>$\\frac{3}{y} = \\frac{6}{8} = \\frac{3}{4}$. Jadi $y=4$. <span class="tr">y=4.</span></p>`},
+        { type:'task', pageTitle:'T10: Soal Cerita X', pageTitleEn:'X Word Problem', taskType:'fill',
+          question:'Rasio uang A dan B adalah $3:5$. Jika uang A Rp 30.000, maka uang B Rp $\\dots .000$', questionEn:'Money ratio A and B is $3:5$. If A has Rp 30,000, B has Rp $\\dots .000$',
+          correctAnswer:'50', acceptableAnswers:['50'],
+          explanation:`<p>1 bagian = $30/3=10$. B = $5 \\times 10=50$. <span class="tr">B=50.</span></p>`}
+      ]
+    },
+    l: {
+      title: 'Task 5',
+      titleEn: 'Task 5',
+      time: 'Printable',
+      pages: [
+        { type:'task', pageTitle:'T1: Resep Rasio', pageTitleEn:'Recipe Ratio', taskType:'fill',
+          question:'Rasio gula dan tepung $2:5$. Jika gula 100 gram, tepung = $\\dots$ gram.', questionEn:'Sugar and flour ratio $2:5$. If sugar 100 g, flour = $\\dots$ g.',
+          correctAnswer:'250', acceptableAnswers:['250'],
+          explanation:`<p>1 bagian = $100/2=50$. Tepung = $5 \\times 50=250$. <span class="tr">Flour=250.</span></p>`},
+        { type:'task', pageTitle:'T2: Jarak Peta', pageTitleEn:'Map Distance', taskType:'radio',
+          question:'Skala 1:100.000. Jarak peta 3 cm. Jarak sebenarnya...', questionEn:'Scale 1:100,000. Map distance 3 cm. Actual distance...',
+          options:[
+            {text:'$3 \\text{ km}$ <span class="tr">3 km</span>', correct:true},
+            {text:'$30 \\text{ km}$ <span class="tr">30 km</span>', correct:false},
+            {text:'$300 \\text{ m}$ <span class="tr">300 m</span>', correct:false},
+            {text:'$3.000 \\text{ cm}$ <span class="tr">3,000 cm</span>', correct:false}
+          ],
+          explanation:`<p>$3 \\times 100.000 = 300.000$ cm = 3 km. <span class="tr">Actual=3 km.</span></p>`},
+        { type:'task', pageTitle:'T3: Benar atau Salah', pageTitleEn:'True or False', taskType:'truefalse',
+          question:'Benar atau salah: Jika kecepatan 50 km/jam, maka dalam 12 menit menempuh 10 km.', questionEn:'True or false: If speed 50 km/h, in 12 minutes travels 10 km.',
+          correctAnswer:'true',
+          explanation:`<p>12 menit = $\\frac{12}{60} = 0,2$ jam. Jarak = $50 \\times 0,2 = 10$ km. Benar. <span class="tr">12 min=0.2h. Dist=10km. True.</span></p>`},
+        { type:'task', pageTitle:'T4: Mencari Skala', pageTitleEn:'Find Scale', taskType:'fill',
+          question:'Jarak peta 4 cm, jarak asli 2 km. Skala = $1 : \\dots .000$', questionEn:'Map distance 4 cm, actual 2 km. Scale = $1 : \\dots .000$',
+          correctAnswer:'50', acceptableAnswers:['50'],
+          explanation:`<p>2 km = 200.000 cm. Skala = $4 : 200.000 = 1 : 50.000$. <span class="tr">Scale 1:50,000.</span></p>`},
+        { type:'task', pageTitle:'T5: Urutkan Jarak', pageTitleEn:'Order Distance', taskType:'sorting',
+          question:'Urutkan langkah mencari jarak (v=60 km/jam, t=2 jam).', questionEn:'Order steps to find distance (v=60 km/h, t=2 hours).',
+          items:['Tulis rumus jarak: s = v x t','Substitusi nilai: s = 60 x 2','Hitung hasil: s = 120','Kesimpulan: Jarak 120 km'],
+          correctOrder:[0,1,2,3],
+          explanation:`<p>Langkah perhitungan jarak. <span class="tr">Distance calculation steps.</span></p>`},
+        { type:'task', pageTitle:'T6: Pasangkan Kecepatan', pageTitleEn:'Match Speed', taskType:'pairing',
+          question:'Pasangkan jarak dan waktu dengan kecepatan (km/jam).', questionEn:'Match distance and time with speed (km/h).',
+          pairs:[
+            {left:'120 km dalam 2 jam', right:'60 km/jam'},
+            {left:'100 km dalam 2 jam', right:'50 km/jam'},
+            {left:'80 km dalam 4 jam', right:'20 km/jam'},
+            {left:'150 km dalam 3 jam', right:'50 km/jam'}
+          ],
+          explanation:`<p>Kecepatan = Jarak dibagi waktu. <span class="tr">Speed = Distance divided by time.</span></p>`},
+        { type:'task', pageTitle:'T7: Rasio Bangun', pageTitleEn:'Figure Ratio', taskType:'checkbox',
+          question:'Persegi panjang p:l = $4:3$. Pilih pernyataan benar.', questionEn:'Rectangle p:l = $4:3$. Select true statements.',
+          options:[
+            {text:'Jika l=9 cm, maka p=12 cm <span class="tr">If l=9cm, p=12cm</span>', correct:true},
+            {text:'Jika p=16 cm, maka l=12 cm <span class="tr">If p=16cm, l=12cm</span>', correct:true},
+            {text:'Keliling = 14 bagian <span class="tr">Perimeter = 14 parts</span>', correct:true},
+            {text:'Luas = 12 bagian <span class="tr">Area = 12 parts</span>', correct:true}
+          ],
+          explanation:`<p>1 bagian p=4. Jika l=9 (3 bagian), p=12. K=2(4+3)=14 bagian. L=p*l=12 bagian. <span class="tr">All correct.</span></p>`},
+        { type:'task', pageTitle:'T8: Rasio Campuran', pageTitleEn:'Mixture Ratio', taskType:'fill',
+          question:'Rasio Air : Sirup = $5:1$. Jika sirup 30 ml, maka air = $\\dots$ ml.', questionEn:'Water : Syrup ratio = $5:1$. If syrub 30 ml, water = $\\dots$ ml.',
+          correctAnswer:'150', acceptableAnswers:['150'],
+          explanation:`<p>1 bagian sirup = 30. Air = $5 \\times 30=150$. <span class="tr">Water=150.</span></p>`},
+        { type:'task', pageTitle:'T9: Soal Cerita Umur', pageTitleEn:'Age Word Problem', taskType:'radio',
+          question:'Rasio umur ayah dan anak $5:1$. Selisih umur 40 tahun. Berapakah umur ayah?', questionEn:'Father and child age ratio $5:1$. Age difference 40 years. Father age?',
+          options:[
+            {text:'$40 \\text{ tahun}$ <span class="tr">40 years</span>', correct:false},
+            {text:'$45 \\text{ tahun}$ <span class="tr">45 years</span>', correct:false},
+            {text:'$50 \\text{ tahun}$ <span class="tr">50 years</span>', correct:true},
+            {text:'$55 \\text{ tahun}$ <span class="tr">55 years</span>', correct:false}
+          ],
+          explanation:`<p>Selisih = 4 bagian = 40. 1 bagian=10. Ayah = $5 \\times 10=50$. <span class="tr">Father=50.</span></p>`},
+        { type:'task', pageTitle:'T10: Soal Cerita Uang', pageTitleEn:'Money Word Problem', taskType:'fill',
+          question:'Uang Andi dan Budi Rp 80.000 rasio $3:5$. Uang Andi Rp $\\dots .000$', questionEn:'Andi and Budi money Rp 80,000 ratio $3:5$. Andi money Rp $\\dots .000$',
+          correctAnswer:'30', acceptableAnswers:['30'],
+          explanation:`<p>Total 8 bagian=80. 1 bagian=10. Andi = $3 \\times 10=30$. <span class="tr">Andi=30.</span></p>`}
+      ]
+    }
+  };
+
+  // ================= STATE =================
+  let currentSection = 'a';
+  let currentPage = 0;
+  let userAnswers = {};
+
+  // ================= UTILITIES =================
+  function shuffle(arr){
+    const a = arr.slice();
+    for(let i = a.length - 1; i > 0; i--){
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  }
+  function renderMath(el){
+    if(window.renderMathInElement){
+      renderMathInElement(el, {
+        delimiters: [
+          {left:'$$', right:'$$', display:true},
+          {left:'$', right:'$', display:false}
+        ],
+        throwOnError: false
+      });
+    }
+  }
+
+  // ================= SIDEBAR =================
+  function renderSidebar(){
+    const sidebar = document.getElementById('sidebar');
+    const sectionKeys = ['a','b','c','d','e','f','g','h','i','j','k','l'];
+    const meta = {
+      a:{t:'Spiral Review Warm-up', e:'Spiral Review Warm-up', time:'00:00-00:10'},
+      b:{t:'Intro & Real-World', e:'Intro & Real-World', time:'00:10-00:15'},
+      c:{t:'Review of Prior Knowledge', e:'Review of Prior Knowledge', time:'00:15-00:20'},
+      d:{t:'Problem Introduction', e:'Problem Introduction', time:'00:20-00:30'},
+      e:{t:'Guided Practice', e:'Guided Practice', time:'00:30-00:45'},
+      f:{t:'Independent Practice', e:'Independent Practice', time:'00:45-00:55'},
+      g:{t:'Consolidation & Reflection', e:'Consolidation & Reflection', time:'00:55-01:00'},
+      h:{t:'Task 1', e:'Task 1', time:'Printable'},
+      i:{t:'Task 2', e:'Task 2', time:'Printable'},
+      j:{t:'Task 3', e:'Task 3', time:'Printable'},
+      k:{t:'Task 4', e:'Task 4', time:'Printable'},
+      l:{t:'Task 5', e:'Task 5', time:'Printable'}
+    };
+    let html = '<h3>Bagian <span class="tr">Sections</span></h3>';
+    sectionKeys.forEach(key => {
+      const section = sectionsData[key];
+      const isActive = currentSection === key;
+      if(section){
+        html += `<div class="nav-link ${isActive?'active':''}" data-section="${key}">
+          <span class="nl-title">${key.toUpperCase()}. ${meta[key].t}</span>
+          <span class="tr">${meta[key].e}</span>
+          <span class="time">${meta[key].time}</span>
+        </div>`;
+      } else {
+        html += `<div class="nav-link disabled">${key.toUpperCase()}. ${meta[key].t}<br><span class="tr">${meta[key].e}</span><br><span class="time">${meta[key].time} (segera)</span></div>`;
+      }
+    });
+    sidebar.innerHTML = html;
+    sidebar.querySelectorAll('.nav-link[data-section]').forEach(el => {
+      el.addEventListener('click', () => {
+        currentSection = el.dataset.section;
+        currentPage = 0;
+        renderSidebar();
+        renderPage();
+      });
+    });
+  }
+
+  // ================= PAGE RENDER =================
+  function renderPage(){
+    const section = sectionsData[currentSection];
+    if(!section) return;
+    const page = section.pages[currentPage];
+    const contentEl = document.getElementById('pageContent');
+
+    let printBtnHtml = '';
+    if(['h','i','j','k','l'].includes(currentSection)){
+      printBtnHtml = '<button id="printBtnTop" style="background:var(--success);color:#fff;border:none;padding:7px 14px;border-radius:6px;cursor:pointer;font-size:.8em;font-weight:600;white-space:nowrap">🖨 Cetak ke PDF <span class="tr">Print to PDF</span></button>';
+    }
+
+    let html = '<div class="page-header"><h2>' + section.title + ' <span class="tr">' + section.titleEn + '</span></h2><div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">' + printBtnHtml + '<span class="badge">' + page.pageTitle.split(':')[0] + '</span></div></div>';
+
+    if(page.type === 'explanation'){
+      html += '<div class="card explain"><h3>' + page.pageTitle + ' <span class="tr">' + page.pageTitleEn + '</span></h3>' + page.body + '</div>';
+    } else if(page.type === 'task'){
+      html += renderTask(page);
+    }
+    contentEl.innerHTML = html;
+    renderMath(contentEl);
+
+    const total = section.pages.length;
+    const pageNumsEl = document.getElementById('pageNums');
+    let pageNumHtml = '';
+    section.pages.forEach(function(p, i){
+      var raw = p.pageTitle.split(':')[0].trim();
+      var type = raw.charAt(0);
+      var num = parseInt(raw.substring(1));
+      var label = type + '-' + String(num).padStart(2, '0');
+      var typeClass = (type === 'E') ? 'page-num-e' : 'page-num-t';
+      var isActive = (i === currentPage);
+      pageNumHtml += '<button class="page-num ' + typeClass + ' ' + (isActive ? 'active' : '') + '" data-page="' + i + '"' + (isActive ? ' disabled' : '') + '>' + label + '</button>';
+    });
+    pageNumsEl.innerHTML = pageNumHtml;
+
+    pageNumsEl.querySelectorAll('.page-num').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        currentPage = parseInt(btn.dataset.page);
+        renderPage();
+      });
+    });
+
+    document.getElementById('prevBtn').disabled = (currentPage === 0);
+    document.getElementById('nextBtn').disabled = (currentPage === total - 1);
+
+    var printBtnTop = document.getElementById('printBtnTop');
+    if(printBtnTop){
+      printBtnTop.addEventListener('click', function(){ printTask(currentSection); });
+    }
+
+    if(page.type === 'task'){
+      attachTaskHandlers(page);
+    }
+  }
+
+  function renderTask(page){
+    let html = `<div class="card task"><h3>${page.pageTitle} <span class="tr">${page.pageTitleEn}</span></h3>`;
+    html += `<div class="q-text">${page.question} <span class="tr">${page.questionEn || ''}</span></div>`;
+
+    if(page.taskType === 'radio' || page.taskType === 'checkbox'){
+      const options = shuffle(page.options);
+      page._shuffledOptions = options;
+      html += '<div class="options">';
+      options.forEach((opt, i) => {
+        const cls = page.taskType === 'checkbox' ? 'option checkbox' : 'option radio';
+        html += `<div class="${cls}" data-idx="${i}">
+          <div class="marker"></div>
+          <div class="opt-text">${opt.text}</div>
+        </div>`;
+      });
+      html += '</div>';
+    } else if(page.taskType === 'fill'){
+      html += `<input type="text" class="fill-input" id="fillInput" placeholder="...">`;
+    } else if(page.taskType === 'truefalse'){
+      const opts = shuffle([
+        {text:'Benar <span class="tr">True</span>', val:'true'},
+        {text:'Salah <span class="tr">False</span>', val:'false'}
+      ]);
+      page._shuffledTF = opts;
+      html += '<div class="options">';
+      opts.forEach((o, i) => {
+        html += `<div class="option radio" data-val="${o.val}" data-idx="${i}"><div class="marker"></div><div class="opt-text">${o.text}</div></div>`;
+      });
+      html += '</div>';
+    } else if(page.taskType === 'sorting'){
+      const shuffled = shuffle(page.items.map((item, idx) => ({text:item, originalIdx:idx})));
+      page._shuffledItems = shuffled;
+      html += '<div class="sort-list">';
+      shuffled.forEach((it, i) => {
+        html += `<div class="sort-item" data-pos="${i}" data-orig="${it.originalIdx}">
+          <span class="pos">${i+1}</span>
+          <span class="sort-text">${it.text}</span>
+        </div>`;
+      });
+      html += '</div>';
+      html += '<p style="font-size:.82em;color:var(--muted);margin-top:6px">Klik dua item untuk menukar. <span class="tr">Click two items to swap.</span></p>';
+    } else if(page.taskType === 'pairing'){
+      const lefts = shuffle(page.pairs.map((p, idx) => ({text:p.left, originalIdx:idx})));
+      const rights = shuffle(page.pairs.map((p, idx) => ({text:p.right, originalIdx:idx})));
+      page._shuffledPairs = {lefts, rights};
+      html += '<div class="pair-grid">';
+      html += '<div class="pair-col"><h4>Kiri <span class="tr">Left</span></h4>';
+      lefts.forEach((l, i) => {
+        html += `<div class="pair-item" data-side="left" data-idx="${i}">${l.text}</div>`;
+      });
+      html += '</div>';
+      html += '<div class="pair-col"><h4>Kanan <span class="tr">Right</span></h4>';
+      rights.forEach((r, i) => {
+        html += `<div class="pair-item" data-side="right" data-idx="${i}">${r.text}</div>`;
+      });
+      html += '</div></div>';
+      html += '<div class="pairs-list" id="pairsList"></div>';
+      html += '<p style="font-size:.82em;color:var(--muted);margin-top:6px">Klik kiri lalu kanan untuk memasangkan. <span class="tr">Click left then right to pair.</span></p>';
+    }
+    html += `<button class="btn-submit" id="submitBtn">Periksa Jawaban <span class="tr">Check Answer</span></button>`;
+    html += `<div class="feedback" id="feedback"></div></div>`;
+    return html;
+  }
+
+  function attachTaskHandlers(page){
+    const taskType = page.taskType;
+    if(taskType === 'radio' || taskType === 'truefalse'){
+      document.querySelectorAll('.option').forEach(opt => {
+        opt.addEventListener('click', () => {
+          document.querySelectorAll('.option').forEach(o => o.classList.remove('selected'));
+          opt.classList.add('selected');
+        });
+      });
+    } else if(taskType === 'checkbox'){
+      document.querySelectorAll('.option').forEach(opt => {
+        opt.addEventListener('click', () => opt.classList.toggle('selected'));
+      });
+    } else if(taskType === 'sorting'){
+      let firstClick = null;
+      document.querySelectorAll('.sort-item').forEach(item => {
+        item.addEventListener('click', () => {
+          if(firstClick === null){
+            firstClick = item;
+            item.classList.add('selected');
+          } else if(firstClick === item){
+            item.classList.remove('selected');
+            firstClick = null;
+          } else {
+            const fText = firstClick.querySelector('.sort-text').innerHTML;
+            const sText = item.querySelector('.sort-text').innerHTML;
+            firstClick.querySelector('.sort-text').innerHTML = sText;
+            item.querySelector('.sort-text').innerHTML = fText;
+            const fOrig = firstClick.dataset.orig;
+            firstClick.dataset.orig = item.dataset.orig;
+            item.dataset.orig = fOrig;
+            firstClick.classList.remove('selected');
+            firstClick = null;
+          }
+        });
+      });
+    } else if(taskType === 'pairing'){
+      let selectedLeft = null;
+      document.querySelectorAll('.pair-item[data-side="left"]').forEach(item => {
+        item.addEventListener('click', () => {
+          if(item.classList.contains('paired')) return;
+          document.querySelectorAll('.pair-item[data-side="left"]').forEach(i => i.classList.remove('selected'));
+          item.classList.add('selected');
+          selectedLeft = item;
+        });
+      });
+      document.querySelectorAll('.pair-item[data-side="right"]').forEach(item => {
+        item.addEventListener('click', () => {
+          if(item.classList.contains('paired') || !selectedLeft) return;
+          const leftIdx = selectedLeft.dataset.idx;
+          const rightIdx = item.dataset.idx;
+          const pairList = document.getElementById('pairsList');
+          const pairRow = document.createElement('div');
+          pairRow.className = 'pair-row';
+          pairRow.dataset.leftIdx = leftIdx;
+          pairRow.dataset.rightIdx = rightIdx;
+          pairRow.innerHTML = `<span>${selectedLeft.innerHTML}</span> <span>↔</span> <span>${item.innerHTML}</span> <span class="remove" title="Hapus">×</span>`;
+          pairRow.querySelector('.remove').addEventListener('click', function() {
+            const lIdx = pairRow.dataset.leftIdx;
+            const rIdx = pairRow.dataset.rightIdx;
+            const lItem = document.querySelector(`.pair-item[data-side="left"][data-idx="${lIdx}"]`);
+            const rItem = document.querySelector(`.pair-item[data-side="right"][data-idx="${rIdx}"]`);
+            if(lItem) lItem.classList.remove('paired');
+            if(rItem) rItem.classList.remove('paired');
+            pairRow.remove();
+          });
+          pairList.appendChild(pairRow);
+          selectedLeft.classList.remove('selected');
+          selectedLeft.classList.add('paired');
+          item.classList.add('paired');
+          selectedLeft = null;
+        });
+      });
+    }
+    document.getElementById('submitBtn').addEventListener('click', () => checkAnswer(page));
+  }
+
+  function checkAnswer(page){
+    const taskType = page.taskType;
+    let isCorrect = false;
+    let userAnswerStr = '';
+
+    if(taskType === 'radio'){
+      let selected = null, selectedIdx = -1;
+      document.querySelectorAll('.option').forEach((opt, i) => {
+        if(opt.classList.contains('selected')){
+          selected = page._shuffledOptions[i];
+          selectedIdx = i;
+        }
+      });
+      if(!selected){
+        showFeedback(false, 'Silakan pilih jawaban. <span class="tr">Please select an answer.</span>', false);
+        return;
+      }
+      isCorrect = selected.correct;
+      userAnswerStr = selected.text;
+      document.querySelectorAll('.option').forEach((opt, i) => {
+        opt.classList.remove('selected');
+        if(page._shuffledOptions[i].correct) opt.classList.add('correct');
+        else if(i === selectedIdx && !selected.correct) opt.classList.add('incorrect');
+      });
+    } else if(taskType === 'checkbox'){
+      const selectedIdxs = [];
+      document.querySelectorAll('.option').forEach((opt, i) => {
+        if(opt.classList.contains('selected')) selectedIdxs.push(i);
+      });
+      if(selectedIdxs.length === 0){
+        showFeedback(false, 'Silakan pilih jawaban. <span class="tr">Please select an answer.</span>', false);
+        return;
+      }
+      const correctSet = new Set();
+      page._shuffledOptions.forEach((opt, i) => { if(opt.correct) correctSet.add(i); });
+      const selectedSet = new Set(selectedIdxs);
+      isCorrect = correctSet.size === selectedSet.size && [...correctSet].every(i => selectedSet.has(i));
+      userAnswerStr = selectedIdxs.map(i => page._shuffledOptions[i].text).join(', ');
+      document.querySelectorAll('.option').forEach((opt, i) => {
+        opt.classList.remove('selected');
+        if(page._shuffledOptions[i].correct) opt.classList.add('correct');
+        else if(selectedSet.has(i)) opt.classList.add('incorrect');
+      });
+    } else if(taskType === 'fill'){
+      const val = document.getElementById('fillInput').value.trim();
+      const acceptable = page.acceptableAnswers || [page.correctAnswer];
+      // Normalisasi untuk menangani input titik ribuan dan koma desimal
+      const norm = s => String(s).toLowerCase().replace(/[\s.]/g, '').replace(',', '.').trim();
+      isCorrect = acceptable.some(a => norm(a) === norm(val));
+      userAnswerStr = val;
+    } else if(taskType === 'truefalse'){
+      let selectedVal = null, selectedIdx = -1;
+      document.querySelectorAll('.option').forEach((opt, i) => {
+        if(opt.classList.contains('selected')){
+          selectedVal = opt.dataset.val;
+          selectedIdx = i;
+        }
+      });
+      if(!selectedVal){
+        showFeedback(false, 'Silakan pilih jawaban. <span class="tr">Please select an answer.</span>', false);
+        return;
+      }
+      isCorrect = selectedVal === page.correctAnswer;
+      userAnswerStr = selectedVal === 'true' ? 'Benar' : 'Salah';
+      document.querySelectorAll('.option').forEach((opt, i) => {
+        opt.classList.remove('selected');
+        if(opt.dataset.val === page.correctAnswer) opt.classList.add('correct');
+        else if(i === selectedIdx) opt.classList.add('incorrect');
+      });
+    } else if(taskType === 'sorting'){
+      const currentOrder = [];
+      document.querySelectorAll('.sort-item').forEach(item => {
+        currentOrder.push(parseInt(item.dataset.orig));
+      });
+      isCorrect = currentOrder.every((idx, i) => idx === page.correctOrder[i]);
+      userAnswerStr = currentOrder.map((idx, i) => `${i+1}. ${page.items[idx] || '?'}`).join('  |  ');
+      document.querySelectorAll('.sort-item').forEach((item, i) => {
+        if(currentOrder[i] === page.correctOrder[i]) item.style.borderColor = 'var(--success)';
+        else item.style.borderColor = 'var(--danger)';
+      });
+    } else if(taskType === 'pairing'){
+      const pairRows = document.querySelectorAll('.pair-row');
+      if(pairRows.length === 0){
+        showFeedback(false, 'Silakan buat pasangan. <span class="tr">Please make pairs.</span>', false);
+        return;
+      }
+      const userPairs = [];
+      pairRows.forEach(row => {
+        const lIdx = parseInt(row.dataset.leftIdx);
+        const rIdx = parseInt(row.dataset.rightIdx);
+        userPairs.push({
+          leftText: page._shuffledPairs.lefts[lIdx].text,
+          rightText: page._shuffledPairs.rights[rIdx].text
+        });
+      });
+      const correctPairs = page.pairs.map(p => ({left:p.left, right:p.right}));
+      const correctCount = userPairs.filter(up =>
+        correctPairs.some(cp => cp.left === up.leftText && cp.right === up.rightText)
+      ).length;
+      isCorrect = correctCount === correctPairs.length && userPairs.length === correctPairs.length;
+      userAnswerStr = userPairs.map(p => `${p.leftText}↔${p.rightText}`).join('  |  ');
+      pairRows.forEach(row => {
+        const lIdx = parseInt(row.dataset.leftIdx);
+        const rIdx = parseInt(row.dataset.rightIdx);
+        const lText = page._shuffledPairs.lefts[lIdx].text;
+        const rText = page._shuffledPairs.rights[rIdx].text;
+        const ok = correctPairs.some(cp => cp.left === lText && cp.right === rText);
+        row.style.background = ok ? '#d1fae5' : '#fee2e2';
+      });
+    }
+
+    const pageKey = `${currentSection}-${currentPage}`;
+    userAnswers[pageKey] = {userAnswer:userAnswerStr, correct:isCorrect, pageTitle:page.pageTitle};
+    showFeedback(isCorrect, page.explanation, true);
+  }
+
+  function showFeedback(isCorrect, explanation, showAnswer){
+    const feedback = document.getElementById('feedback');
+    feedback.className = `feedback show ${isCorrect?'correct':'incorrect'}`;
+    if(showAnswer){
+      feedback.innerHTML = `<h4>${isCorrect?'✓ Benar!':'✗ Salah'} <span class="tr">${isCorrect?'Correct!':'Incorrect'}</span></h4>${explanation}`;
+    } else {
+      feedback.innerHTML = `<h4>${isCorrect?'✓ Benar!':'✗ Salah'}</h4>`;
+    }
+    renderMath(feedback);
+  }
+
+  // ================= EVENT LISTENERS =================
+  document.getElementById('prevBtn').addEventListener('click', () => {
+    if(currentPage > 0){ currentPage--; renderPage(); }
+  });
+  document.getElementById('nextBtn').addEventListener('click', () => {
+    const total = sectionsData[currentSection].pages.length;
+    if(currentPage < total - 1){ currentPage++; renderPage(); }
+  });
+
+  const modal = document.getElementById('classRulesModal');
+  document.getElementById('classRulesBtn').addEventListener('click', () => modal.classList.add('active'));
+  document.querySelector('.modal-close').addEventListener('click', () => modal.classList.remove('active'));
+  modal.addEventListener('click', (e) => { if(e.target === modal) modal.classList.remove('active'); });
+
+  // ================= PRINT TO PDF =================
+  function getCorrectAnswer(task){
+    if(task.taskType === 'radio'){
+      const c = task.options.find(o => o.correct);
+      return c ? c.text : '';
+    }
+    if(task.taskType === 'checkbox'){
+      return task.options.filter(o => o.correct).map(o => o.text).join(', ');
+    }
+    if(task.taskType === 'fill'){
+      return task.correctAnswer || '';
+    }
+    if(task.taskType === 'truefalse'){
+      return task.correctAnswer === 'true' ? 'Benar' : 'Salah';
+    }
+    if(task.taskType === 'sorting'){
+      return task.correctOrder.map(i => task.items[i]).join(' → ');
+    }
+    if(task.taskType === 'pairing'){
+      return task.pairs.map(p => p.left + ' ↔ ' + p.right).join('; ');
+    }
+    return '';
+  }
+
+  function printTask(sectionKey){
+    const section = sectionsData[sectionKey];
+    if(!section) return;
+    const tasks = section.pages;
+    let correctCount = 0;
+
+    const rows = tasks.map((task, idx) => {
+      const pageKey = sectionKey + '-' + idx;
+      const ua = userAnswers[pageKey];
+      const isCorrect = ua ? ua.correct : false;
+      const userAns = ua ? ua.userAnswer : '(tidak dijawab)';
+      const correctAns = getCorrectAnswer(task);
+      if(ua && ua.correct) correctCount++;
+      return '<tr><td>' + (idx+1) + '</td><td>' + task.question + '</td><td>' + userAns + '</td><td>' + correctAns + '</td><td style="text-align:center;font-size:1.1em">' + (isCorrect ? '✓' : '✗') + '</td></tr>';
+    }).join('');
+
+    const score = correctCount + ' / ' + tasks.length;
+    const today = new Date().toLocaleDateString('id-ID', {day:'numeric',month:'long',year:'numeric'});
+
+    const html = '<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Cetak - ' + section.title + '</title>' +
+      '<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">' +
+      '<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"><\/script>' +
+      '<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"><\/script>' +
+      '<style>' +
+      'body{font-family:Segoe UI,sans-serif;padding:30px;color:#1e293b;line-height:1.5}' +
+      'h1{font-size:1.2em;margin-bottom:5px}' +
+      '.info{margin-bottom:15px;font-size:.88em}' +
+      '.info div{margin:3px 0}' +
+      'table{width:100%;border-collapse:collapse;margin:15px 0;font-size:.82em}' +
+      'th,td{border:1px solid #cbd5e1;padding:6px 8px;text-align:left;vertical-align:top}' +
+      'th{background:#f1f5f9;font-weight:600}' +
+      '.checked-by{margin-top:30px;text-align:right;font-style:italic}' +
+      '.tr{font-style:italic;font-size:.85em;color:#64748b}' +
+      '@media print{body{padding:15px}}' +
+      '</style></head><body>' +
+      '<h1>Math Tutoring by Deni</h1>' +
+      '<div class="info">' +
+      '<div>Nama: ____________________________ <span class="tr">Name</span></div>' +
+      '<div>Tanggal: ' + today + ' <span class="tr">Date</span></div>' +
+      '<div>Topik: Rasio: Konsep Rasio <span class="tr">Topic: Ratio: Concept of Ratio</span></div>' +
+      '<div>Grup Task: ' + section.title + ' <span class="tr">Task Group</span></div>' +
+      '<div>Skor: <strong>' + score + '</strong> <span class="tr">Score</span></div>' +
+      '</div>' +
+      '<table><thead><tr>' +
+      '<th style="width:30px">No.</th>' +
+      '<th>Pertanyaan <span class="tr">Question</span></th>' +
+      '<th>Jawaban Siswa <span class="tr">Student Answer</span></th>' +
+      '<th>Jawaban Benar <span class="tr">Correct Answer</span></th>' +
+      '<th style="width:50px">Ket. <span class="tr">Note</span></th>' +
+      '</tr></thead><tbody>' + rows + '</tbody></table>' +
+      '<div class="checked-by">Dicek oleh,<br>Deni</div>' +
+      '<script>document.addEventListener("DOMContentLoaded",function(){' +
+      'if(window.renderMathInElement){renderMathInElement(document.body,{delimiters:[{left:"$$",right:"$$",display:true},{left:"$",right:"$",display:false}],throwOnError:false});}' +
+      'setTimeout(function(){window.print();},500);});<\/script>' +
+      '</body></html>';
+
+    const w = window.open('', '_blank');
+    if(w){
+      w.document.write(html);
+      w.document.close();
+    } else {
+      alert('Mohon izinkan pop-up untuk mencetak. <span class="tr">Please allow pop-ups to print.</span>');
+    }
+  }
+
+  // ================= INIT =================
+  renderSidebar();
+  renderPage();
+});
+</script>
+</body>
+</html>
