@@ -1,0 +1,1907 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Math Tutoring by Deni - Rasio: Skala</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--primary:#2563eb;--primary-dark:#1e40af;--secondary:#f59e0b;--success:#10b981;--danger:#ef4444;--bg:#f8fafc;--card:#fff;--text:#1e293b;--muted:#64748b;--border:#e2e8f0}
+body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;min-height:100vh}
+.tr{font-style:italic;font-size:.82em;color:var(--muted);display:block;margin-top:2px}
+header{background:var(--primary);color:#fff;padding:10px 20px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 2px 8px rgba(0,0,0,.12);position:sticky;top:0;z-index:100;flex-wrap:wrap;gap:8px}
+header .brand{font-weight:700;font-size:1.05em}
+header .topic{font-size:.88em;text-align:center;flex:1}
+header .topic .tr{color:rgba(255,255,255,.85)}
+header button{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);color:#fff;padding:8px 14px;border-radius:6px;cursor:pointer;font-size:.85em;white-space:nowrap}
+header button:hover{background:rgba(255,255,255,.25)}
+.main-container{display:grid;grid-template-columns:220px 1fr;min-height:calc(100vh - 52px)}
+.sidebar{background:var(--card);border-right:1px solid var(--border);padding:14px;overflow-y:auto;position:sticky;top:52px;height:calc(100vh - 52px)}
+.sidebar h3{font-size:.72em;color:var(--muted);text-transform:uppercase;margin-bottom:8px;letter-spacing:1px}
+.nav-link{display:block;padding:8px 10px;border-radius:6px;cursor:pointer;margin-bottom:3px;font-size:.84em;border:1px solid transparent;transition:all .15s}
+.nav-link:hover{background:#eff6ff}
+.nav-link.active{background:var(--primary);color:#fff;pointer-events:none;cursor:default}
+.nav-link .nl-title{display:block;font-weight:600}
+.nav-link .time{font-size:.76em;color:var(--muted);display:block;margin-top:2px}
+.nav-link.active .time,.nav-link.active .tr{color:rgba(255,255,255,.85)}
+.content-area{padding:22px 28px;overflow-y:auto;max-width:1100px;margin:0 auto;width:100%}
+.page-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;padding-bottom:12px;border-bottom:2px solid var(--border);flex-wrap:wrap;gap:8px}
+.page-header h2{color:var(--primary-dark);font-size:1.1em}
+.page-header .badge{background:var(--secondary);color:#fff;padding:4px 10px;border-radius:20px;font-size:.76em;font-weight:600}
+.card{background:var(--card);border-radius:10px;padding:22px;box-shadow:0 2px 8px rgba(0,0,0,.05);margin-bottom:16px;border:1px solid var(--border)}
+.card.explain{border-left:4px solid var(--primary)}
+.card.task{border-left:4px solid var(--secondary)}
+.card h3{color:var(--primary-dark);margin-bottom:12px;font-size:1.1em}
+.math-block{background:#f1f5f9;padding:12px 14px;border-radius:8px;margin:12px 0;overflow-x:auto}
+.example-box{background:#fef3c7;border-left:4px solid var(--secondary);padding:12px 16px;margin:12px 0;border-radius:6px}
+.example-box h4{color:#92400e;margin-bottom:6px;font-size:.95em}
+.tip-box{background:#dbeafe;border-left:4px solid var(--primary);padding:10px 14px;margin:10px 0;border-radius:6px}
+.tip-box h4{color:#1e40af;margin-bottom:4px;font-size:.9em}
+.illustration{text-align:center;margin:14px 0;padding:14px;background:#f1f5f9;border-radius:8px}
+.q-text{font-size:1em;margin-bottom:12px;line-height:1.7}
+.options{display:flex;flex-direction:column;gap:8px}
+.option{display:flex;align-items:flex-start;gap:10px;padding:10px 12px;border:2px solid var(--border);border-radius:8px;cursor:pointer;background:#fff;transition:all .15s}
+.option:hover{border-color:var(--primary);background:#eff6ff}
+.option.selected{border-color:var(--primary);background:#dbeafe}
+.option.correct{border-color:var(--success);background:#d1fae5}
+.option.incorrect{border-color:var(--danger);background:#fee2e2}
+.option .marker{min-width:18px;width:18px;height:18px;border:2px solid var(--muted);border-radius:50%;flex-shrink:0;margin-top:2px;display:flex;align-items:center;justify-content:center;font-size:.7em;color:#fff}
+.option.selected .marker{background:var(--primary);border-color:var(--primary)}
+.option.correct .marker{background:var(--success);border-color:var(--success)}
+.option.incorrect .marker{background:var(--danger);border-color:var(--danger)}
+.option.checkbox .marker{border-radius:3px}
+.option .opt-text{flex:1}
+.fill-input{padding:8px 12px;border:2px solid var(--border);border-radius:6px;font-size:1em;width:100%;margin:8px 0;font-family:inherit}
+.fill-input:focus{border-color:var(--primary);outline:none}
+.btn-submit{background:var(--primary);color:#fff;border:none;padding:9px 20px;border-radius:6px;cursor:pointer;font-size:.88em;font-weight:600;margin-top:12px}
+.btn-submit:hover{background:var(--primary-dark)}
+.feedback{margin-top:12px;padding:14px;border-radius:8px;display:none}
+.feedback.show{display:block}
+.feedback.correct{background:#d1fae5;border:1px solid var(--success)}
+.feedback.incorrect{background:#fee2e2;border:1px solid var(--danger)}
+.feedback h4{margin-bottom:6px}
+.feedback ol,.feedback ul{margin:6px 0;padding-left:22px}
+.feedback li{margin:4px 0}
+.card ol, .card ul { padding-left: 26px; margin: 10px 0; }
+.card li { margin: 5px 0; }
+.example-box ol, .example-box ul { padding-left: 22px; margin: 8px 0; }
+.tip-box ol, .tip-box ul { padding-left: 22px; margin: 8px 0; }
+.math-block ol, .math-block ul { padding-left: 22px; margin: 8px 0; }
+.pagination{display:flex;justify-content:space-between;align-items:center;margin-top:18px;padding-top:14px;border-top:1px solid var(--border)}
+.pagination button{background:var(--primary);color:#fff;border:none;padding:8px 16px;border-radius:6px;cursor:pointer;font-size:.84em}
+.pagination button:disabled{background:#cbd5e1;cursor:not-allowed}
+.pagination .indicator{font-size:.82em;color:var(--muted);text-align:center;flex:1;padding:0 10px}
+.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:1000;align-items:center;justify-content:center}
+.modal.active{display:flex}
+.modal-content{background:#fff;padding:22px;border-radius:12px;max-width:460px;width:90%}
+.modal-content h3{color:var(--primary-dark);margin-bottom:12px}
+.modal-content ul{list-style:none;padding-left:0}
+.modal-content li{padding:10px 0;border-bottom:1px solid var(--border)}
+.modal-content li:last-child{border-bottom:none}
+.modal-close{background:var(--primary);color:#fff;border:none;padding:8px 18px;border-radius:6px;cursor:pointer;margin-top:12px}
+.sort-list{display:flex;flex-direction:column;gap:6px}
+.sort-item{padding:10px 12px;border:2px solid var(--border);border-radius:8px;background:#fff;cursor:pointer;display:flex;align-items:center;gap:10px;transition:all .15s}
+.sort-item:hover{border-color:var(--primary)}
+.sort-item.selected{border-color:var(--primary);background:#dbeafe}
+.sort-item .pos{background:var(--primary);color:#fff;min-width:24px;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.8em;flex-shrink:0}
+.sort-item .sort-text{flex:1}
+.pair-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.pair-col h4{font-size:.85em;color:var(--muted);margin-bottom:6px;text-transform:uppercase}
+.pair-col{display:flex;flex-direction:column;gap:6px}
+.pair-item{padding:10px 12px;border:2px solid var(--border);border-radius:8px;background:#fff;cursor:pointer;text-align:center;font-size:.92em}
+.pair-item.selected{border-color:var(--primary);background:#dbeafe}
+.pair-item.paired{opacity:.5;cursor:default;border-color:var(--success);background:#d1fae5}
+.pairs-list{margin-top:10px}
+.pair-row{display:flex;justify-content:space-between;align-items:center;padding:6px 10px;background:#f1f5f9;border-radius:6px;margin-bottom:4px;font-size:.85em}
+.pair-row .remove{cursor:pointer;color:var(--danger);font-weight:700;margin-left:6px}
+.page-numbers { display: flex; gap: 3px; flex-wrap: nowrap; justify-content: center; flex: 1; overflow-x: auto; padding: 0 3px; }
+.page-num { min-width: 28px; height: 26px; border: 1px solid var(--border); background: #fff; border-radius: 4px; cursor: pointer; font-size: .7em; display: flex; align-items: center; justify-content: center; padding: 0 4px; white-space: nowrap; transition: all .15s; flex-shrink: 0; }
+.page-num.page-num-e { background: #eff6ff; border-color: #93c5fd; color: #1e40af; }
+.page-num.page-num-t { background: #fffbeb; border-color: #fcd34d; color: #92400e; }
+.page-num.page-num-e:hover { background: #dbeafe; border-color: var(--primary); }
+.page-num.page-num-t:hover { background: #fef3c7; border-color: var(--secondary); }
+.page-num.page-num-e.active { background: var(--primary); color: #fff; border-color: var(--primary); font-weight: 600; }
+.page-num.page-num-t.active { background: var(--secondary); color: #fff; border-color: var(--secondary); font-weight: 600; }
+.page-num:disabled { opacity: 1; cursor: default; }
+.page-num.page-num-e:disabled:hover { background: var(--primary); color: #fff; border-color: var(--primary); }
+.page-num.page-num-t:disabled:hover { background: var(--secondary); color: #fff; border-color: var(--secondary); }
+@media(max-width:1100px){.main-container{grid-template-columns:180px 1fr}.content-area{padding:18px 20px}}
+@media(max-width:760px){.main-container{grid-template-columns:1fr}.sidebar{display:none}.content-area{padding:16px}header{font-size:.9em}}
+</style>
+</head>
+<body>
+<header>
+  <div class="brand">Math Tutoring by Deni</div>
+  <div class="topic">Topik: Rasio: Skala <span class="tr">Topic: Ratio: Scale</span></div>
+  <button id="classRulesBtn">Aturan Kelas <span class="tr">Class Rules</span></button>
+</header>
+<div class="main-container">
+  <nav class="sidebar" id="sidebar"></nav>
+  <main class="content-area">
+    <div id="pageContent"></div>
+    <div class="pagination">
+      <button id="prevBtn">← Sebelumnya <span class="tr">Previous</span></button>
+      <div class="page-numbers" id="pageNums"></div>
+      <button id="nextBtn">Berikutnya <span class="tr">Next</span> →</button>
+    </div>
+  </main>
+</div>
+<div id="classRulesModal" class="modal">
+  <div class="modal-content">
+    <h3>Aturan Kelas <span class="tr">Class Rules</span></h3>
+    <ul>
+      <li>Berbicara secara bergantian <span class="tr">Speak in turn</span></li>
+      <li>Meminta izin jika ingin meninggalkan kelas <span class="tr">Ask permission before leaving the class</span></li>
+      <li>Menyalakan microphone dan camera jika diperlukan <span class="tr">Turn on microphone and camera when needed</span></li>
+    </ul>
+    <button class="modal-close">Tutup <span class="tr">Close</span></button>
+  </div>
+</div>
+<script>
+function initApp() {
+  if(!window.renderMathInElement){ setTimeout(initApp, 50); return; }
+  const sectionsData = {
+    a: {
+      title: 'Spiral Review Warm-up',
+      titleEn: 'Spiral Review Warm-up',
+      time: '00:00 - 00:10',
+      pages: [
+        { type:'explanation', pageTitle:'E1: Pengertian Dasar Rasio', pageTitleEn:'Basic Concept of Ratio',
+          body:`
+            <p><strong>Rasio</strong> adalah cara untuk membandingkan dua besaran atau lebih. Rasio menunjukkan berapa kali suatu besaran dibandingkan dengan besaran lainnya.
+              <span class="tr"><strong>Ratio</strong> is a way to compare two or more quantities. A ratio shows how many times one quantity is compared to another.</span></p>
+            <div class="math-block"><strong>Penulisan Rasio:</strong> <span class="tr">Writing Ratio:</span>
+              <ul>
+                <li>Menggunakan tanda titik dua ($:$) $\\rightarrow$ $2 : 3$ <span class="tr">Using colon ($:$) $\\rightarrow$ $2 : 3$</span></li>
+                <li>Menggunakan pecahan $\\rightarrow$ $\\frac{2}{3}$ <span class="tr">Using fraction $\\rightarrow$ $\\frac{2}{3}$</span></li>
+              </ul>
+            </div>
+            <div class="illustration">
+              <svg width="200" height="100" viewBox="0 0 200 100">
+                <circle cx="50" cy="50" r="30" fill="#2563eb"/>
+                <circle cx="130" cy="50" r="30" fill="#f59e0b"/>
+                <text x="100" y="55" font-size="20" fill="#333" font-weight="bold">:</text>
+              </svg>
+              <div style="font-size:.82em;color:var(--muted);margin-top:6px">Perbandingan dua benda <span class="tr">Comparison of two objects</span></div>
+            </div>
+            <div class="example-box"><h4>Contoh <span class="tr">Example</span></h4>
+              Di dalam kotak ada $4$ bola merah dan $6$ bola biru. Rasio bola merah terhadap bola biru adalah $4 : 6$. Rasio ini bisa disederhanakan menjadi $2 : 3$.
+              <span class="tr">In a box there are $4$ red balls and $6$ blue balls. The ratio of red balls to blue balls is $4 : 6$. This ratio can be simplified to $2 : 3$.</span>
+              <ol>
+                <li>Tulis rasio awal: $4 : 6$ <span class="tr">Write initial ratio: $4 : 6$</span></li>
+                <li>Bagi kedua angka dengan Faktor Persekutuan Terbesar (FPB). FPB dari $4$ dan $6$ adalah $2$. <span class="tr">Divide both numbers by Greatest Common Factor (GCF). GCF of $4$ and $6$ is $2$.</span></li>
+                <li>$\\frac{4}{2} : \\frac{6}{2} = 2 : 3$ <span class="tr">Simplify</span></li>
+              </ol>
+            </div>
+          `
+        },
+        { type:'task', pageTitle:'T1: Rasio Sederhana', pageTitleEn:'Simplifying Ratio', taskType:'fill',
+          question:'Sederhanakan rasio $10 : 15$ ke bentuk paling sederhana. (Tulis dalam format a:b, contoh: 2:3)', questionEn:'Simplify the ratio $10 : 15$ to its simplest form. (Write in a:b format, example: 2:3)',
+          correctAnswer:'2:3', acceptableAnswers:['2:3','2 : 3'],
+          explanation:`<p>FPB dari $10$ dan $15$ adalah $5$. <span class="tr">GCF of $10$ and $15$ is $5$.</span></p>
+            <ol><li>$\\frac{10}{5} : \\frac{15}{5}$ <span class="tr">Divide both by 5</span></li><li>$2 : 3$ <span class="tr">Simplest form</span></li></ol>`
+        },
+        { type:'task', pageTitle:'T2: Pilih Rasio yang Sama', pageTitleEn:'Select Equal Ratio', taskType:'checkbox',
+          question:'Pilih semua rasio yang nilainya sama dengan $1 : 2$.', questionEn:'Select all ratios that are equal to $1 : 2$.',
+          options:[
+            {text:'$2 : 4$ <span class="tr">2 to 4</span>', correct:true},
+            {text:'$3 : 6$ <span class="tr">3 to 6</span>', correct:true},
+            {text:'$2 : 3$ <span class="tr">2 to 3</span>', correct:false},
+            {text:'$5 : 10$ <span class="tr">5 to 10</span>', correct:true}
+          ],
+          explanation:`<p>Rasio yang sama didapat dengan mengalikan/membagi kedua angka dengan bilangan yang sama. <span class="tr">Equal ratios are obtained by multiplying/dividing both numbers by the same number.</span></p>`
+        },
+        { type:'task', pageTitle:'T3: Rasio Objek', pageTitleEn:'Ratio of Objects', taskType:'radio',
+          question:'Di toko ada $5$ apel dan $10$ jeruk. Rasio apel terhadap jeruk adalah...', questionEn:'In a store there are $5$ apples and $10$ oranges. The ratio of apples to oranges is...',
+          options:[
+            {text:'$1 : 2$ <span class="tr">1 to 2</span>', correct:true},
+            {text:'$2 : 1$ <span class="tr">2 to 1</span>', correct:false},
+            {text:'$5 : 15$ <span class="tr">5 to 15</span>', correct:false},
+            {text:'$1 : 3$ <span class="tr">1 to 3</span>', correct:false}
+          ],
+          explanation:`<ol><li>Rasio awal: $5 : 10$ <span class="tr">Initial ratio</span></li><li>Bagi dengan $5$: $1 : 2$ <span class="tr">Divide by 5</span></li></ol>`
+        },
+        { type:'explanation', pageTitle:'E2: Rasio Bagian terhadap Total', pageTitleEn:'Part to Whole Ratio',
+          body:`
+            <p>Rasio tidak hanya membandingkan bagian dengan bagian, tetapi juga bagian terhadap keseluruhan (total).
+              <span class="tr">Ratios not only compare part to part, but also part to whole (total).</span></p>
+            <div class="math-block"><strong>Rumus:</strong> <span class="tr">Formula:</span>
+              <ul>
+                <li>Bagian : Bagian $\\rightarrow$ $a : b$ <span class="tr">Part : Part</span></li>
+                <li>Bagian : Total $\\rightarrow$ $a : (a+b)$ <span class="tr">Part : Total</span></li>
+              </ul>
+            </div>
+            <div class="example-box"><h4>Contoh <span class="tr">Example</span></h4>
+              Jika rasio laki-laki dan perempuan di kelas adalah $2 : 3$.
+              <span class="tr">If the ratio of boys to girls in class is $2 : 3$.</span>
+              <ol>
+                <li>Total bagian = $2 + 3 = 5$ <span class="tr">Total parts = 5</span></li>
+                <li>Rasio laki-laki terhadap total kelas = $2 : 5$ <span class="tr">Ratio of boys to total class</span></li>
+                <li>Rasio perempuan terhadap total kelas = $3 : 5$ <span class="tr">Ratio of girls to total class</span></li>
+              </ol>
+            </div>
+          `
+        },
+        { type:'task', pageTitle:'T4: Total Bagian', pageTitleEn:'Total Parts', taskType:'fill',
+          question:'Rasio uang Andi dan Budi adalah $4 : 7$. Berapa total bagian? <span class="tr">The ratio of Andi and Budi money is $4 : 7$. What is the total parts?</span>', questionEn:'Rasio uang Andi dan Budi adalah $4 : 7$. Berapa total bagian? <span class="tr">The ratio of Andi and Budi money is $4 : 7$. What is the total parts?</span>',
+          correctAnswer:'11', acceptableAnswers:['11'],
+          explanation:`<p>Total bagian = $4 + 7 = 11$. <span class="tr">Total parts = $4 + 7 = 11$.</span></p>`
+        },
+        { type:'task', pageTitle:'T5: Bagian terhadap Total', pageTitleEn:'Part to Total', taskType:'radio',
+          question:'Rasio pensil dan pulpen adalah $3 : 5$. Rasio pensil terhadap total alat tulis adalah... <span class="tr">The ratio of pencils and pens is $3 : 5$. The ratio of pencils to total stationery is...</span>', questionEn:'Rasio pensil dan pulpen adalah $3 : 5$. Rasio pensil terhadap total alat tulis adalah... <span class="tr">The ratio of pencils and pens is $3 : 5$. The ratio of pencils to total stationery is...</span>',
+          options:[
+            {text:'$3 : 5$ <span class="tr">3 to 5</span>', correct:false},
+            {text:'$3 : 8$ <span class="tr">3 to 8</span>', correct:true},
+            {text:'$5 : 8$ <span class="tr">5 to 8</span>', correct:false},
+            {text:'$8 : 3$ <span class="tr">8 to 3</span>', correct:false}
+          ],
+          explanation:`<p>Total alat tulis = $3 + 5 = 8$. Maka rasio pensil terhadap total = $3 : 8$. <span class="tr">Total stationery = $3 + 5 = 8$. So ratio of pencils to total = $3 : 8$.</span></p>`
+        },
+        { type:'task', pageTitle:'T6: Pasangkan Rasio', pageTitleEn:'Match Ratios', taskType:'pairing',
+          question:'Pasangkan rasio awal dengan bentuk sederhananya. <span class="tr">Match initial ratio with its simplified form.</span>', questionEn:'Pasangkan rasio awal dengan bentuk sederhananya. <span class="tr">Match initial ratio with its simplified form.</span>',
+          pairs:[
+            {left:'$6 : 8$', right:'$3 : 4$'},
+            {left:'$10 : 15$', right:'$2 : 3$'},
+            {left:'$12 : 16$', right:'$3 : 4$'},
+            {left:'$5 : 20$', right:'$1 : 4$'}
+          ],
+          explanation:`<p>Selalu cari FPB untuk menyederhanakan rasio. <span class="tr">Always find GCF to simplify ratio.</span></p>`
+        },
+        { type:'explanation', pageTitle:'E3: Membagi Nilai Berdasarkan Rasio', pageTitleEn:'Dividing Value by Ratio',
+          body:`
+            <p>Jika kita mengetahui total nilai dan rasio, kita bisa membagi nilai tersebut.
+              <span class="tr">If we know the total value and ratio, we can divide the value.</span></p>
+            <div class="math-block"><strong>Langkah-langkah:</strong> <span class="tr">Steps:</span>
+              <ol>
+                <li>Jumlahkan semua bagian rasio. <span class="tr">Sum all ratio parts.</span></li>
+                <li>Bagi total nilai dengan total bagian untuk mengetahui nilai $1$ bagian. <span class="tr">Divide total value by total parts to find value of $1$ part.</span></li>
+                <li>Kalikan nilai $1$ bagian dengan masing-masing rasio. <span class="tr">Multiply value of $1$ part by each ratio.</span></li>
+              </ol>
+            </div>
+            <div class="example-box"><h4>Contoh <span class="tr">Example</span></h4>
+              Uang $\\text{Rp } 40.000$ dibagi kepada Andi dan Budi dengan rasio $3 : 5$. Berapa bagian Andi?
+              <span class="tr">Money $\\text{Rp } 40.000$ is divided between Andi and Budi with ratio $3 : 5$. How much is Andi's share?</span>
+              <ol>
+                <li>Total bagian = $3 + 5 = 8$ <span class="tr">Total parts</span></li>
+                <li>Nilai $1$ bagian = $\\frac{40000}{8} = 5000$ <span class="tr">Value of 1 part</span></li>
+                <li>Bagian Andi = $3 \\times 5000 = 15000$ <span class="tr">Andi's share</span></li>
+              </ol>
+            </div>
+          `
+        },
+        { type:'task', pageTitle:'T7: Bagi Uang', pageTitleEn:'Divide Money', taskType:'fill',
+          question:'Rp $50.000$ dibagi dengan rasio $1 : 4$. Berapa bagian terbesar? (Tanpa simbol Rp, hanya angka)', questionEn:'Rp $50.000$ is divided with ratio $1 : 4$. What is the largest share? (Without Rp symbol, only numbers)',
+          correctAnswer:'40000', acceptableAnswers:['40000'],
+          explanation:`<ol><li>Total bagian = $1 + 4 = 5$</li><li>Nilai $1$ bagian = $\\frac{50000}{5} = 10000$</li><li>Bagian terbesar = $4 \\times 10000 = 40000$</li></ol>`
+        },
+        { type:'task', pageTitle:'T8: Urutkan Langkah', pageTitleEn:'Order Steps', taskType:'sorting',
+          question:'Urutkan langkah membagi nilai $\\text{Rp } 100.000$ dengan rasio $2 : 3$.', questionEn:'Order steps to divide $\\text{Rp } 100.000$ with ratio $2 : 3$.',
+          items:[
+            'Jumlahkan bagian rasio: $2+3=5$',
+            'Bagi total uang dengan total bagian: $\\frac{100000}{5}=20000$',
+            'Kalikan $20000$ dengan ratio pertama: $2 \\times 20000$',
+            'Hasil bagian pertama adalah $\\text{Rp } 40.000$'
+          ],
+          correctOrder:[0,1,2,3],
+          explanation:`<p>Ikuti urutan langkah: jumlah rasio $\\rightarrow$ bagi total $\\rightarrow$ kalikan per bagian. <span class="tr">Follow steps: sum ratio $\\rightarrow$ divide total $\\rightarrow$ multiply per part.</span></p>`
+        },
+        { type:'task', pageTitle:'T9: Rasio Umur', pageTitleEn:'Age Ratio', taskType:'radio',
+          question:'Umur Ayah dan Anak adalah $40$ dan $10$ tahun. Rasio umur anak terhadap ayah adalah...', questionEn:'Age of Father and Child is $40$ and $10$ years. Ratio of child age to father is...',
+          options:[
+            {text:'$4 : 1$ <span class="tr">4 to 1</span>', correct:false},
+            {text:'$1 : 4$ <span class="tr">1 to 4</span>', correct:true},
+            {text:'$1 : 3$ <span class="tr">1 to 3</span>', correct:false},
+            {text:'$3 : 1$ <span class="tr">3 to 1</span>', correct:false}
+          ],
+          explanation:`<p>Anak : Ayah = $10 : 40$. Disederhanakan (dibagi $10$) menjadi $1 : 4$. <span class="tr">Child : Father = $10 : 40$. Simplified (divided by 10) to $1 : 4$.</span></p>`
+        },
+        { type:'task', pageTitle:'T10: Benar atau Salah', pageTitleEn:'True or False', taskType:'truefalse',
+          question:'Benar atau salah: Rasio $4 : 6$ sama dengan rasio $2 : 3$. <span class="tr">True or false: Ratio $4 : 6$ is the same as ratio $2 : 3$.</span>', questionEn:'Benar atau salah: Rasio $4 : 6$ sama dengan rasio $2 : 3$. <span class="tr">True or false: Ratio $4 : 6$ is the same as ratio $2 : 3$.</span>',
+          correctAnswer:'true',
+          explanation:`<p>FPB dari $4$ dan $6$ adalah $2$. $\\frac{4}{2} : \\frac{6}{2} = 2 : 3$. Pernyataan benar. <span class="tr">GCF is 2. Simplified to 2:3. True.</span></p>`
+        }
+      ]
+    },
+    b: {
+      title: 'Introduction & Real-World Connection',
+      titleEn: 'Introduction & Real-World Connection',
+      time: '00:10 - 00:15',
+      pages: [
+        { type:'explanation', pageTitle:'E1: Apa itu Skala?', pageTitleEn:'What is Scale?',
+          body:`
+            <p><strong>Skala</strong> adalah perbandingan antara ukuran di gambar (model) dengan ukuran sebenarnya.
+              <span class="tr"><strong>Scale</strong> is the ratio between the size in a drawing (model) and the actual size.</span></p>
+            <div class="math-block"><strong>Rumus Skala:</strong> <span class="tr">Scale Formula:</span>
+              $$\\text{Skala} = \\frac{\\text{Ukuran pada Gambar}}{\\text{Ukuran Sebenarnya}}$$ <span class="tr">Scale = Drawing Size / Actual Size</span>
+            </div>
+            <div class="illustration">
+              <svg width="260" height="100" viewBox="0 0 260 100">
+                <!-- Real Car -->
+                <rect x="20" y="60" width="80" height="25" fill="#2563eb" rx="5"/>
+                <circle cx="35" cy="88" r="6" fill="#333"/>
+                <circle cx="85" cy="88" r="6" fill="#333"/>
+                <text x="30" y="55" font-size="12" fill="#333">Asli <span class="tr">Real</span></text>
+                
+                <!-- Arrow -->
+                <line x1="110" y1="70" x2="140" y2="70" stroke="#333" stroke-width="2" marker-end="url(#arrow)"/>
+                
+                <!-- Toy Car -->
+                <rect x="150" y="75" width="40" height="10" fill="#f59e0b" rx="2"/>
+                <circle cx="158" cy="87" r="3" fill="#333"/>
+                <circle cx="182" cy="87" r="3" fill="#333"/>
+                <text x="145" y="70" font-size="12" fill="#333">Gambar <span class="tr">Drawing</span></text>
+              </svg>
+            </div>
+            <div class="tip-box"><h4>Skala pada Peta <span class="tr">Scale on Map</span></h4>
+              Skala membantu kita memahami jarak sebenarnya dari sebuah peta yang sangat luas menjadi ukuran kertas yang kecil.
+              <span class="tr">Scale helps us understand actual distances from a very large map into a small paper size.</span>
+            </div>
+          `
+        },
+        { type:'task', pageTitle:'T1: Pengertian Skala', pageTitleEn:'Definition of Scale', taskType:'radio',
+          question:'Skala adalah perbandingan ukuran gambar dengan...', questionEn:'Scale is the ratio of drawing size to...',
+          options:[
+            {text:'Ukuran kertas <span class="tr">Paper size</span>', correct:false},
+            {text:'Ukuran sebenarnya <span class="tr">Actual size</span>', correct:true},
+            {text:'Ukuran ruangan <span class="tr">Room size</span>', correct:false},
+            {text:'Ukuran pixel <span class="tr">Pixel size</span>', correct:false}
+          ],
+          explanation:`<p>Skala membandingkan ukuran pada gambar/model dengan ukuran asli di dunia nyata. <span class="tr">Scale compares drawing/model size to real-world actual size.</span></p>`
+        },
+        { type:'task', pageTitle:'T2: Benar atau Salah Definisi', pageTitleEn:'True or False Definition', taskType:'truefalse',
+          question:'Benar atau salah: Skala $1 : 100$ berarti $1 \\text{ cm}$ di gambar sama dengan $100 \\text{ cm}$ di dunia nyata. <span class="tr">True or false: Scale $1 : 100$ means $1 \\text{ cm}$ in drawing equals $100 \\text{ cm}$ in real world.</span>', questionEn:'Benar atau salah: Skala $1 : 100$ berarti $1 \\text{ cm}$ di gambar sama dengan $100 \\text{ cm}$ di dunia nyata. <span class="tr">True or false: Scale $1 : 100$ means $1 \\text{ cm}$ in drawing equals $100 \\text{ cm}$ in real world.</span>',
+          correctAnswer:'true',
+          explanation:`<p>Inilah arti dari skala. Angka pertama untuk gambar, angka kedua untuk aslinya. <span class="tr">This is the meaning of scale. First number for drawing, second for actual.</span></p>`
+        },
+        { type:'task', pageTitle:'T3: Rumus Skala', pageTitleEn:'Scale Formula', taskType:'pairing',
+          question:'Pasangkan istilah dengan komponennya pada rumus Skala. <span class="tr">Match terms with their components in Scale formula.</span>', questionEn:'Pasangkan istilah dengan komponennya pada rumus Skala. <span class="tr">Match terms with their components in Scale formula.</span>',
+          pairs:[
+            {left:'Pembilang (atas)', right:'Ukuran Gambar'},
+            {left:'Penyebut (bawah)', right:'Ukuran Sebenarnya'},
+            {left:'Angka pertama pada $1:100$', right:'Ukuran Gambar'},
+            {left:'Angka kedua pada $1:100$', right:'Ukuran Sebenarnya'}
+          ],
+          explanation:`<p>Skala = $\\frac{\\text{Gambar}}{\\text{Sebenarnya}}$. <span class="tr">Scale = Drawing / Actual.</span></p>`
+        },
+        { type:'explanation', pageTitle:'E2: Skala pada Denah Rumah', pageTitleEn:'Scale on House Floor Plan',
+          body:`
+            <p>Denah rumah biasanya menggunakan skala kecil, misalnya $1 : 100$. Artinya, setiap $1 \\text{ cm}$ di kertas mewakili $100 \\text{ cm}$ ($1 \\text{ meter}$) di rumah asli.
+              <span class="tr">House floor plans usually use small scales, like $1 : 100$. It means every $1 \\text{ cm}$ on paper represents $100 \\text{ cm}$ ($1 \\text{ meter}$) in the real house.</span></p>
+            <div class="example-box"><h4>Contoh Soal <span class="tr">Example Problem</span></h4>
+              Pada denah rumah, panjang ruang tamu adalah $5 \\text{ cm}$. Jika skala denah $1 : 100$, berapa panjang sebenarnya?
+              <span class="tr">On the floor plan, the living room length is $5 \\text{ cm}$. If the scale is $1 : 100$, what is the actual length?</span>
+              <ol>
+                <li>Gunakan rumus: $\\text{Skala} = \\frac{\\text{Gambar}}{\\text{Sebenarnya}}$ <span class="tr">Use formula</span></li>
+                <li>$\\frac{1}{100} = \\frac{5}{\\text{Sebenarnya}}$ <span class="tr">Substitute values</span></li>
+                <li>$\\text{Sebenarnya} = 5 \\times 100 = 500 \\text{ cm}$ <span class="tr">Cross multiply</span></li>
+                <li>Ubah ke meter: $\\frac{500}{100} = 5 \\text{ meter}$ <span class="tr">Convert to meters</span></li>
+              </ol>
+            </div>
+          `
+        },
+        { type:'task', pageTitle:'T4: Hitung Panjang Sebenarnya', pageTitleEn:'Calculate Actual Length', taskType:'fill',
+          question:'Denah berskala $1 : 50$. Lebar kamar di gambar $4 \\text{ cm}$. Lebar sebenarnya adalah... $\\text{cm}$ (tuliskan dalam cm)', questionEn:'Floor plan scale $1 : 50$. Room width in drawing $4 \\text{ cm}$. Actual width is... $\\text{cm}$ (write in cm)',
+          correctAnswer:'200', acceptableAnswers:['200'],
+          explanation:`<ol><li>$\\frac{1}{50} = \\frac{4}{x}$</li><li>$x = 4 \\times 50$</li><li>$x = 200 \\text{ cm}$</li></ol>`
+        },
+        { type:'task', pageTitle:'T5: Pilih Jarak yang Benar', pageTitleEn:'Select Correct Distance', taskType:'checkbox',
+          question:'Skala $1 : 10$. Pilih semua jarak sebenarnya yang benar dari jarak gambar berikut. <span class="tr">Scale $1 : 10$. Select all correct actual distances from following drawing distances.</span>', questionEn:'Skala $1 : 10$. Pilih semua jarak sebenarnya yang benar dari jarak gambar berikut. <span class="tr">Scale $1 : 10$. Select all correct actual distances from following drawing distances.</span>',
+          options:[
+            {text:'Gambar $2 \\text{ cm}$ $\\rightarrow$ Asli $20 \\text{ cm}$ <span class="tr">Drawing $2 \\text{ cm}$ $\\rightarrow$ Actual $20 \\text{ cm}$</span>', correct:true},
+            {text:'Gambar $5 \\text{ cm}$ $\\rightarrow$ Asli $15 \\text{ cm}$ <span class="tr">Drawing $5 \\text{ cm}$ $\\rightarrow$ Actual $15 \\text{ cm}$</span>', correct:false},
+            {text:'Gambar $10 \\text{ cm}$ $\\rightarrow$ Asli $100 \\text{ cm}$ <span class="tr">Drawing $10 \\text{ cm}$ $\\rightarrow$ Actual $100 \\text{ cm}$</span>', correct:true},
+            {text:'Gambar $0 \\text{ cm}$ $\\rightarrow$ Asli $0 \\text{ cm}$ <span class="tr">Drawing $0 \\text{ cm}$ $\\rightarrow$ Actual $0 \\text{ cm}$</span>', correct:true}
+          ],
+          explanation:`<p>Kalikan jarak gambar dengan $10$. <span class="tr">Multiply drawing distance by $10$.</span></p>`
+        },
+        { type:'task', pageTitle:'T6: Urutkan Konversi', pageTitleEn:'Order Conversion', taskType:'sorting',
+          question:'Urutkan langkah mencari panjang sebenarnya jika gambar $3 \\text{ cm}$ dan skala $1 : 200$ (mencari dalam meter).', questionEn:'Order steps to find actual length if drawing is $3 \\text{ cm}$ and scale is $1 : 200$ (finding in meters).',
+          items:[
+            'Kalikan $3 \\text{ cm}$ dengan $200$',
+            'Hasilnya adalah $600 \\text{ cm}$',
+            'Bagi $600$ dengan $100$ untuk konversi ke meter',
+            'Hasil akhirnya adalah $6 \\text{ meter}$'
+          ],
+          correctOrder:[0,1,2,3],
+          explanation:`<p>Hitung dalam cm dulu, lalu ubah ke meter dengan membagi $100$. <span class="tr">Calculate in cm first, then convert to meters by dividing by $100$.</span></p>`
+        },
+        { type:'explanation', pageTitle:'E3: Skala pada Model Mainan', pageTitleEn:'Scale on Toy Model',
+          body:`
+            <p>Skala juga digunakan untuk membuat model mainan, mobil-mobilan, atau pesawat. Jika skala model mobil adalah $1 : 18$, maka ukuran asli mobilnya $18$ kali lebih besar dari modelnya.
+              <span class="tr">Scale is also used to make toy models, cars, or planes. If a car model scale is $1 : 18$, then the actual car size is $18$ times larger than the model.</span></p>
+            <div class="math-block"><strong>Hubungan:</strong> <span class="tr">Relationship:</strong>
+              $$\\text{Ukuran Sebenarnya} = \\text{Ukuran Gambar} \\times \\text{Angka Skala Penyebut}$$ <span class="tr">Actual Size = Drawing Size $\\times$ Denominator of Scale</span>
+            </div>
+            <div class="example-box"><h4>Contoh <span class="tr">Example</span></h4>
+              Panjang model mobil-mobilan adalah $10 \\text{ cm}$ dengan skala $1 : 18$. Berapa panjang mobil aslinya?
+              <span class="tr">The length of a toy car model is $10 \\text{ cm}$ with a scale of $1 : 18$. What is the length of the actual car?</span>
+              <ol>
+                <li>Gunakan rumus: $\\text{Asli} = 10 \\times 18$ <span class="tr">Use formula</span></li>
+                <li>$\\text{Asli} = 180 \\text{ cm}$ <span class="tr">Calculate</span></li>
+              </ol>
+            </div>
+          `
+        },
+        { type:'task', pageTitle:'T7: Model Pesawat', pageTitleEn:'Airplane Model', taskType:'fill',
+          question:'Model pesawat memiliki skala $1 : 50$. Jika panjang model $4 \\text{ cm}$, panjang aslinya adalah... $\\text{cm}$', questionEn:'Airplane model has scale $1 : 50$. If model length is $4 \\text{ cm}$, actual length is... $\\text{cm}$',
+          correctAnswer:'200', acceptableAnswers:['200'],
+          explanation:`<p>$\\text{Asli} = 4 \\times 50 = 200 \\text{ cm}$. <span class="tr">Actual = $4 \\times 50 = 200 \\text{ cm}$.</span></p>`
+        },
+        { type:'task', pageTitle:'T8: Ukuran Gambar', pageTitleEn:'Drawing Size', taskType:'radio',
+          question:'Skala $1 : 100$. Jika ukuran sebenarnya $500 \\text{ cm}$, berapa ukuran gambarnya?', questionEn:'Scale $1 : 100$. If actual size is $500 \\text{ cm}$, what is the drawing size?',
+          options:[
+            {text:'$5 \\text{ cm}$ <span class="tr">5 cm</span>', correct:true},
+            {text:'$50 \\text{ cm}$ <span class="tr">50 cm</span>', correct:false},
+            {text:'$500 \\text{ cm}$ <span class="tr">500 cm</span>', correct:false},
+            {text:'$5000 \\text{ cm}$ <span class="tr">5000 cm</span>', correct:false}
+          ],
+          explanation:`<p>$\\text{Gambar} = \\frac{\\text{Sebenarnya}}{\\text{Skala}} = \\frac{500}{100} = 5 \\text{ cm}$. <span class="tr">Drawing = Actual / Scale.</span></p>`
+        },
+        { type:'task', pageTitle:'T9: Pasangkan Skala dan Artinya', pageTitleEn:'Match Scale and Meaning', taskType:'pairing',
+          question:'Pasangkan skala dengan artinya. <span class="tr">Match scale with its meaning.</span>', questionEn:'Pasangkan skala dengan artinya. <span class="tr">Match scale with its meaning.</span>',
+          pairs:[
+            {left:'$1 : 1$', right:'Sama besar'},
+            {left:'$1 : 10$', right:'Gambar lebih kecil 10x'},
+            {left:'$1 : 100$', right:'Gambar lebih kecil 100x'},
+            {left:'$2 : 1$', right:'Gambar lebih besar 2x'}
+          ],
+          explanation:`<p>Angka pembilang lebih besar berarti gambar diperbesar. <span class="tr">Larger numerator means drawing is enlarged.</span></p>`
+        },
+        { type:'task', pageTitle:'T10: Benar atau Salah Model', pageTitleEn:'True or False Model', taskType:'truefalse',
+          question:'Benar atau salah: Pada skala $1 : 50$, ukuran sebenarnya didapat dengan membagi ukuran gambar dengan $50$. <span class="tr">True or false: On scale $1 : 50$, actual size is obtained by dividing drawing size by $50$.</span>', questionEn:'Benar atau salah: Pada skala $1 : 50$, ukuran sebenarnya didapat dengan membagi ukuran gambar dengan $50$. <span class="tr">True or false: On scale $1 : 50$, actual size is obtained by dividing drawing size by $50$.</span>',
+          correctAnswer:'false',
+          explanation:`<p>Ukuran sebenarnya didapat dengan mengalikan ukuran gambar dengan $50$. <span class="tr">Actual size is obtained by multiplying drawing size by $50$.</span></p>`
+        }
+      ]
+    },
+    c: {
+      title: 'Review of Prior Knowledge',
+      titleEn: 'Review of Prior Knowledge',
+      time: '00:15 - 00:20',
+      pages: [
+        { type:'explanation', pageTitle:'E1: Operasi Perkalian Pecahan', pageTitleEn:'Fraction Multiplication Operation',
+          body:`
+            <p>Untuk menghitung skala, kita sering menggunakan perkalian pecahan.
+              <span class="tr">To calculate scale, we often use fraction multiplication.</span></p>
+            <div class="math-block"><strong>Aturan Perkalian Pecahan:</strong> <span class="tr">Fraction Multiplication Rule:</span>
+              $$\\frac{a}{b} \\times \\frac{c}{d} = \\frac{a \\times c}{b \\times d}$$ <span class="tr">Multiply numerators and denominators</span>
+            </div>
+            <div class="example-box"><h4>Contoh <span class="tr">Example</span></h4>
+              Hitung $\\frac{1}{2} \\times \\frac{3}{4}$.
+              <ol>
+                <li>Kalikan pembilang: $1 \\times 3 = 3$ <span class="tr">Multiply numerators</span></li>
+                <li>Kalikan penyebut: $2 \\times 4 = 8$ <span class="tr">Multiply denominators</span></li>
+                <li>Hasil: $\\frac{3}{8}$ <span class="tr">Result</span></li>
+              </ol>
+            </div>
+          `
+        },
+        { type:'task', pageTitle:'T1: Kalikan Pecahan', pageTitleEn:'Multiply Fractions', taskType:'fill',
+          question:'Hitung $\\frac{2}{3} \\times \\frac{4}{5}$. (Tulis dalam format a/b)', questionEn:'Calculate $\\frac{2}{3} \\times \\frac{4}{5}$. (Write in a/b format)',
+          correctAnswer:'8/15', acceptableAnswers:['8/15'],
+          explanation:`<p>Pembilang: $2 \\times 4 = 8$. Penyebut: $3 \\times 5 = 15$. Hasil $\\frac{8}{15}$. <span class="tr">Numerator: $8$. Denominator: $15$. Result $\\frac{8}{15}$.</span></p>`
+        },
+        { type:'task', pageTitle:'T2: Pilih Hasil yang Benar', pageTitleEn:'Select Correct Result', taskType:'checkbox',
+          question:'Pilih hasil perkalian pecahan yang benar. <span class="tr">Select correct fraction multiplication results.</span>', questionEn:'Pilih hasil perkalian pecahan yang benar. <span class="tr">Select correct fraction multiplication results.</span>',
+          options:[
+            {text:'$\\frac{1}{2} \\times \\frac{1}{3} = \\frac{1}{6}$ <span class="tr">1/2 x 1/3</span>', correct:true},
+            {text:'$\\frac{2}{5} \\times \\frac{1}{2} = \\frac{2}{10}$ <span class="tr">2/5 x 1/2</span>', correct:true},
+            {text:'$\\frac{3}{4} \\times \\frac{1}{2} = \\frac{3}{6}$ <span class="tr">3/4 x 1/2</span>', correct:false},
+            {text:'$\\frac{1}{4} \\times \\frac{4}{1} = \\frac{4}{4}$ <span class="tr">1/4 x 4/1</span>', correct:true}
+          ],
+          explanation:`<p>Periksa perkalian pembilang dan penyebut. <span class="tr">Check multiplication of numerators and denominators.</span></p>`
+        },
+        { type:'task', pageTitle:'T3: Benar atau Salah Pecahan', pageTitleEn:'True or False Fractions', taskType:'truefalse',
+          question:'Benar atau salah: $\\frac{3}{5} \\times \\frac{2}{7} = \\frac{6}{35}$. <span class="tr">True or false: $\\frac{3}{5} \\times \\frac{2}{7} = \\frac{6}{35}$.</span>', questionEn:'Benar atau salah: $\\frac{3}{5} \\times \\frac{2}{7} = \\frac{6}{35}$. <span class="tr">True or false: $\\frac{3}{5} \\times \\frac{2}{7} = \\frac{6}{35}$.</span>',
+          correctAnswer:'true',
+          explanation:`<p>$3 \\times 2 = 6$ dan $5 \\times 7 = 35$. Benar. <span class="tr">$3 \\times 2 = 6$ and $5 \\times 7 = 35$. True.</span></p>`
+        },
+        { type:'explanation', pageTitle:'E2: Konversi Satuan Panjang', pageTitleEn:'Length Unit Conversion',
+          body:`
+            <p>Skala sering melibatkan perubahan satuan, dari sentimeter ($\\text{cm}$) ke meter ($\\text{m}$) atau kilometer ($\\text{km}$).
+              <span class="tr">Scale often involves unit conversion, from centimeters ($\\text{cm}$) to meters ($\\text{m}$) or kilometers ($\\text{km}$).</span></p>
+            <div class="math-block"><strong>Tangga Konversi:</strong> <span class="tr">Conversion Ladder:</span>
+              <ul>
+                <li>$1 \\text{ m} = 100 \\text{ cm}$ <span class="tr">1 m = 100 cm</span></li>
+                <li>$1 \\text{ km} = 1000 \\text{ m}$ <span class="tr">1 km = 1000 m</span></li>
+                <li>$1 \\text{ km} = 100.000 \\text{ cm}$ <span class="tr">1 km = 100,000 cm</span></li>
+              </ul>
+            </div>
+            <div class="tip-box"><h4>Tips Cepat <span class="tr">Quick Tip</span></h4>
+              <ul>
+                <li>Dari $\\text{cm}$ ke $\\text{m}$ $\\rightarrow$ bagi $100$ <span class="tr">cm to m $\\rightarrow$ divide by 100</span></li>
+                <li>Dari $\\text{m}$ ke $\\text{km}$ $\\rightarrow$ bagi $1000$ <span class="tr">m to km $\\rightarrow$ divide by 1000</span></li>
+              </ul>
+            </div>
+          `
+        },
+        { type:'task', pageTitle:'T4: Ubah cm ke m', pageTitleEn:'Convert cm to m', taskType:'fill',
+          question:'Ubah $450 \\text{ cm}$ menjadi $\\text{m}$. (Tulis angka saja)', questionEn:'Convert $450 \\text{ cm}$ to $\\text{m}$. (Write numbers only)',
+          correctAnswer:'4.5', acceptableAnswers:['4.5','4,5'],
+          explanation:`<p>$450 \\div 100 = 4.5 \\text{ m}$. <span class="tr">$450 \\div 100 = 4.5 \\text{ m}$.</span></p>`
+        },
+        { type:'task', pageTitle:'T5: Ubah m ke cm', pageTitleEn:'Convert m to cm', taskType:'radio',
+          question:'Berapakah $2.5 \\text{ m}$ dalam $\\text{cm}$?', questionEn:'What is $2.5 \\text{ m}$ in $\\text{cm}$?',
+          options:[
+            {text:'$25 \\text{ cm}$ <span class="tr">25 cm</span>', correct:false},
+            {text:'$250 \\text{ cm}$ <span class="tr">250 cm</span>', correct:true},
+            {text:'$2500 \\text{ cm}$ <span class="tr">2500 cm</span>', correct:false},
+            {text:'$25000 \\text{ cm}$ <span class="tr">25000 cm</span>', correct:false}
+          ],
+          explanation:`<p>$2.5 \\times 100 = 250 \\text{ cm}$. <span class="tr">Multiply by 100.</span></p>`
+        },
+        { type:'task', pageTitle:'T6: Pasangkan Konversi', pageTitleEn:'Match Conversions', taskType:'pairing',
+          question:'Pasangkan satuan dengan nilai yang setara. <span class="tr">Match units with equivalent values.</span>', questionEn:'Pasangkan satuan dengan nilai yang setara. <span class="tr">Match units with equivalent values.</span>',
+          pairs:[
+            {left:'$1 \\text{ km}$', right:'$1000 \\text{ m}$'},
+            {left:'$1 \\text{ m}$', right:'$100 \\text{ cm}$'},
+            {left:'$5 \\text{ m}$', right:'$500 \\text{ cm}$'},
+            {left:'$2 \\text{ km}$', right:'$2000 \\text{ m}$'}
+          ],
+          explanation:`<p>Ingat tangga konversi: km $\\rightarrow$ m $\\rightarrow$ cm. <span class="tr">Remember conversion ladder.</span></p>`
+        },
+        { type:'explanation', pageTitle:'E3: Perbandingan Senilai (Proporsi)', pageTitleEn:'Equivalent Proportion',
+          body:`
+            <p>Skala pada dasarnya adalah perbandingan senilai. Jika skala $1 : 100$, maka $1 \\text{ cm}$ gambar senilai dengan $100 \\text{ cm}$ asli. $2 \\text{ cm}$ gambar senilai dengan $200 \\text{ cm}$ asli.
+              <span class="tr">Scale is basically an equivalent proportion. If scale is $1 : 100$, then $1 \\text{ cm}$ drawing is equivalent to $100 \\text{ cm}$ actual. $2 \\text{ cm}$ drawing is equivalent to $200 \\text{ cm}$ actual.</span></p>
+            <div class="math-block"><strong>Bentuk Proporsi:</strong> <span class="tr">Proportion Form:</span>
+              $$\\frac{\\text{Gambar}_1}{\\text{Asli}_1} = \\frac{\\text{Gambar}_2}{\\text{Asli}_2}$$ <span class="tr">Drawing 1 / Actual 1 = Drawing 2 / Actual 2</span>
+            </div>
+            <div class="example-box"><h4>Contoh <span class="tr">Example</span></h4>
+              Skala $1 : 50$. Jika gambar $3 \\text{ cm}$, berapa aslinya?
+              <ol>
+                <li>$\\frac{1}{50} = \\frac{3}{x}$ <span class="tr">Set up proportion</span></li>
+                <li>$1 \\times x = 50 \\times 3$ <span class="tr">Cross multiply</span></li>
+                <li>$x = 150 \\text{ cm}$ <span class="tr">Result</span></li>
+              </ol>
+            </div>
+          `
+        },
+        { type:'task', pageTitle:'T7: Lengkapi Proporsi', pageTitleEn:'Complete Proportion', taskType:'fill',
+          question:'Skala $1 : 200$. Gambar $4 \\text{ cm}$. Proporsi: $\\frac{1}{200} = \\frac{4}{x}$. Nilai $x = \\dots$ (angka saja)', questionEn:'Scale $1 : 200$. Drawing $4 \\text{ cm}$. Proportion: $\\frac{1}{200} = \\frac{4}{x}$. Value of $x = \\dots$ (numbers only)',
+          correctAnswer:'800', acceptableAnswers:['800'],
+          explanation:`<p>$x = 200 \\times 4 = 800$. <span class="tr">$x = 800$.</span></p>`
+        },
+        { type:'task', pageTitle:'T8: Pilih Proporsi yang Benar', pageTitleEn:'Select Correct Proportion', taskType:'checkbox',
+          question:'Pilih semua bentuk proporsi yang benar untuk skala $1 : 100$ dan gambar $5 \\text{ cm}$. <span class="tr">Select all correct proportions for scale $1 : 100$ and drawing $5 \\text{ cm}$.</span>', questionEn:'Pilih semua bentuk proporsi yang benar untuk skala $1 : 100$ dan gambar $5 \\text{ cm}$. <span class="tr">Select all correct proportions for scale $1 : 100$ and drawing $5 \\text{ cm}$.</span>',
+          options:[
+            {text:'$\\frac{1}{100} = \\frac{5}{x}$ <span class="tr">1/100 = 5/x</span>', correct:true},
+            {text:'$1 : 100 = 5 : x$ <span class="tr">1:100 = 5:x</span>', correct:true},
+            {text:'$\\frac{100}{1} = \\frac{x}{5}$ <span class="tr">100/1 = x/5</span>', correct:true},
+            {text:'$\\frac{1}{5} = \\frac{100}{x}$ <span class="tr">1/5 = 100/x</span>', correct:false}
+          ],
+          explanation:`<p>Pembilang/angka pertama harus konsisten untuk gambar, penyebut/angka kedua untuk asli. <span class="tr">Numerator/first number must be consistent for drawing, denominator/second number for actual.</span></p>`
+        },
+        { type:'task', pageTitle:'T9: Urutkan Langkah Silang', pageTitleEn:'Order Cross Steps', taskType:'sorting',
+          question:'Urutkan langkah menyelesaikan $\\frac{2}{5} = \\frac{x}{10}$.', questionEn:'Order steps to solve $\\frac{2}{5} = \\frac{x}{10}$.',
+          items:[
+            'Kalikan silang: $2 \\times 10 = 5 \\times x$',
+            'Hasilnya: $20 = 5x$',
+            'Pindahkan $5$: $x = \\frac{20}{5}$',
+            'Hasil akhir: $x = 4$'
+          ],
+          correctOrder:[0,1,2,3],
+          explanation:`<p>Langkah perkalian silang: atas kiri $\\times$ bawah kanan = bawah kiri $\\times$ atas kanan. <span class="tr">Cross multiply steps.</span></p>`
+        },
+        { type:'task', pageTitle:'T10: Benar atau Salah Proporsi', pageTitleEn:'True or False Proportion', taskType:'truefalse',
+          question:'Benar atau salah: Pada skala $1 : x$, jika gambar $a \\text{ cm}$, maka aslinya adalah $x \\times a \\text{ cm}$. <span class="tr">True or false: On scale $1 : x$, if drawing is $a \\text{ cm}$, then actual is $x \\times a \\text{ cm}$.</span>', questionEn:'Benar atau salah: Pada skala $1 : x$, jika gambar $a \\text{ cm}$, maka aslinya adalah $x \\times a \\text{ cm}$. <span class="tr">True or false: On scale $1 : x$, if drawing is $a \\text{ cm}$, then actual is $x \\times a \\text{ cm}$.</span>',
+          correctAnswer:'true',
+          explanation:`<p>Benar. Ukuran sebenarnya didapat dari skala dikalikan ukuran gambar. <span class="tr">True. Actual size is scale multiplied by drawing size.</span></p>`
+        }
+      ]
+    },
+    d: {
+      title: 'Problem Introduction',
+      titleEn: 'Problem Introduction',
+      time: '00:20 - 00:30',
+      pages: [
+        { type:'explanation', pageTitle:'E1: Menemukan Skala', pageTitleEn:'Finding the Scale',
+          body:`
+            <p>Kita bisa menemukan nilai skala jika kita mengetahui ukuran gambar dan ukuran sebenarnya.
+              <span class="tr">We can find the scale value if we know the drawing size and the actual size.</span></p>
+            <div class="math-block"><strong>Rumus:</strong> <span class="tr">Formula:</span>
+              $$\\text{Skala} = \\frac{\\text{Ukuran pada Gambar}}{\\text{Ukuran Sebenarnya}}$$ <span class="tr">Scale = Drawing / Actual</span>
+            </div>
+            <div class="example-box"><h4>Contoh Soal <span class="tr">Example Problem</span></h4>
+              Sebuah mainan mobil memiliki panjang $10 \\text{ cm}$. Mobil aslinya memiliki panjang $200 \\text{ cm}$. Berapa skalanya?
+              <span class="tr">A toy car is $10 \\text{ cm}$ long. The actual car is $200 \\text{ cm}$ long. What is the scale?</span>
+              <ol>
+                <li>Tulis rumus: $\\text{Skala} = \\frac{10}{200}$ <span class="tr">Write formula</span></li>
+                <li>Sederhanakan pecahan: $\\frac{10}{200} = \\frac{1}{20}$ <span class="tr">Simplify fraction</span></li>
+                <li>Tulis dalam bentuk skala: $1 : 20$ <span class="tr">Write in scale form</span></li>
+              </ol>
+            </div>
+            <div class="tip-box"><h4>Aturan Penting <span class="tr">Important Rule</span></h4>
+              Ukuran gambar dan ukuran sebenarnya HARUS memiliki satuan yang sama sebelum dibagi!
+              <span class="tr">Drawing size and actual size MUST have the same unit before dividing!</span>
+            </div>
+          `
+        },
+        { type:'task', pageTitle:'T1: Hitung Skala', pageTitleEn:'Calculate Scale', taskType:'fill',
+          question:'Gambar $5 \\text{ cm}$, Asli $100 \\text{ cm}$. Skala = ... : ... (contoh: 1:20)', questionEn:'Drawing $5 \\text{ cm}$, Actual $100 \\text{ cm}$. Scale = ... : ... (example: 1:20)',
+          correctAnswer:'1:20', acceptableAnswers:['1:20','1 : 20'],
+          explanation:`<ol><li>$\\frac{5}{100} = \\frac{1}{20}$</li><li>Skala $1 : 20$</li></ol>`
+        },
+        { type:'task', pageTitle:'T2: Pilih Skala yang Benar', pageTitleEn:'Select Correct Scale', taskType:'radio',
+          question:'Gambar $3 \\text{ cm}$, Asli $60 \\text{ cm}$. Berapa skalanya?', questionEn:'Drawing $3 \\text{ cm}$, Actual $60 \\text{ cm}$. What is the scale?',
+          options:[
+            {text:'$1 : 20$ <span class="tr">1:20</span>', correct:true},
+            {text:'$1 : 60$ <span class="tr">1:60</span>', correct:false},
+            {text:'$3 : 60$ <span class="tr">3:60</span>', correct:false},
+            {text:'$1 : 3$ <span class="tr">1:3</span>', correct:false}
+          ],
+          explanation:`<p>$\\frac{3}{60} = \\frac{1}{20} \\rightarrow$ Skala $1 : 20$. <span class="tr">Simplified to 1:20.</span></p>`
+        },
+        { type:'task', pageTitle:'T3: Benar atau Salah Satuan', pageTitleEn:'True or False Units', taskType:'truefalse',
+          question:'Benar atau salah: Jika gambar $5 \\text{ cm}$ dan asli $2 \\text{ m}$, kita bisa langsung menghitung skala tanpa mengubah satuan. <span class="tr">True or false: If drawing is $5 \\text{ cm}$ and actual is $2 \\text{ m}$, we can directly calculate scale without converting units.</span>', questionEn:'Benar atau salah: Jika gambar $5 \\text{ cm}$ dan asli $2 \\text{ m}$, kita bisa langsung menghitung skala tanpa mengubah satuan. <span class="tr">True or false: If drawing is $5 \\text{ cm}$ and actual is $2 \\text{ m}$, we can directly calculate scale without converting units.</span>',
+          correctAnswer:'false',
+          explanation:`<p>Satuan harus sama. $2 \\text{ m}$ harus diubah menjadi $200 \\text{ cm}$ dulu. <span class="tr">Units must be same. $2 \\text{ m}$ must be converted to $200 \\text{ cm}$ first.</span></p>`
+        },
+        { type:'explanation', pageTitle:'E2: Menghitung Skala dengan Satuan Berbeda', pageTitleEn:'Calculating Scale with Different Units',
+          body:`
+            <p>Ini adalah konsep yang sangat penting. Jika satuan berbeda, kita harus menyamakannya terlebih dahulu.
+              <span class="tr">This is a very important concept. If units are different, we must make them the same first.</span></p>
+            <div class="example-box"><h4>Contoh Lengkap <span class="tr">Complete Example</span></h4>
+              Jarak pada peta $4 \\text{ cm}$. Jarak sebenarnya $2 \\text{ km}$. Berapa skala peta?
+              <span class="tr">Distance on map $4 \\text{ cm}$. Actual distance $2 \\text{ km}$. What is the map scale?</span>
+              <ol>
+                <li>Ubah $2 \\text{ km}$ menjadi $\\text{cm}$. <span class="tr">Convert km to cm</span></li>
+                <li>$1 \\text{ km} = 1000 \\text{ m} \\rightarrow 2 \\text{ km} = 2000 \\text{ m}$ <span class="tr">Convert to meters</span></li>
+                <li>$1 \\text{ m} = 100 \\text{ cm} \\rightarrow 2000 \\text{ m} = 200000 \\text{ cm}$ <span class="tr">Convert to cm</span></li>
+                <li>Hitung skala: $\\frac{4}{200000}$ <span class="tr">Calculate scale</span></li>
+                <li>Sederhanakan: $\\frac{4}{200000} = \\frac{1}{50000}$ <span class="tr">Simplify (divide by 4)</span></li>
+                <li>Skala $= 1 : 50000$ <span class="tr">Final scale</span></li>
+              </ol>
+            </div>
+          `
+        },
+        { type:'task', pageTitle:'T4: Ubah km ke cm', pageTitleEn:'Convert km to cm', taskType:'fill',
+          question:'Ubah $3 \\text{ km}$ menjadi $\\text{cm}$. (Tulis angka saja tanpa nol di depan koma)', questionEn:'Convert $3 \\text{ km}$ to $\\text{cm}$. (Write numbers only without leading zeros before decimal)',
+          correctAnswer:'300000', acceptableAnswers:['300000'],
+          explanation:`<p>$3 \\times 1000 \\times 100 = 300000 \\text{ cm}$. <span class="tr">$3 \\text{ km} = 300,000 \\text{ cm}$.</span></p>`
+        },
+        { type:'task', pageTitle:'T5: Hitung Skala Peta', pageTitleEn:'Calculate Map Scale', taskType:'radio',
+          question:'Jarak peta $2 \\text{ cm}$, jarak asli $10 \\text{ km}$ ($1000000 \\text{ cm}$). Skalanya adalah...', questionEn:'Map distance $2 \\text{ cm}$, actual distance $10 \\text{ km}$ ($1000000 \\text{ cm}$). The scale is...',
+          options:[
+            {text:'$1 : 50000$ <span class="tr">1:50000</span>', correct:false},
+            {text:'$1 : 500000$ <span class="tr">1:500000</span>', correct:true},
+            {text:'$1 : 5000000$ <span class="tr">1:5000000</span>', correct:false},
+            {text:'$1 : 100000$ <span class="tr">1:100000</span>', correct:false}
+          ],
+          explanation:`<p>$\\frac{2}{1000000} = \\frac{1}{500000} \\rightarrow$ Skala $1 : 500000$. <span class="tr">Divide by 2.</span></p>`
+        },
+        { type:'task', pageTitle:'T6: Pilih Langkah yang Benar', pageTitleEn:'Select Correct Steps', taskType:'checkbox',
+          question:'Pilih langkah yang benar dalam mencari skala jika diketahui gambar $5 \\text{ cm}$ dan asli $10 \\text{ m}$. <span class="tr">Select correct steps in finding scale if drawing is $5 \\text{ cm}$ and actual is $10 \\text{ m}$.</span>', questionEn:'Pilih langkah yang benar dalam mencari skala jika diketahui gambar $5 \\text{ cm}$ dan asli $10 \\text{ m}$. <span class="tr">Select correct steps in finding scale if drawing is $5 \\text{ cm}$ and actual is $10 \\text{ m}$.</span>',
+          options:[
+            {text:'Ubah $10 \\text{ m}$ menjadi $1000 \\text{ cm}$ <span class="tr">Convert 10m to 1000cm</span>', correct:true},
+            {text:'Ubah $5 \\text{ cm}$ menjadi $0.05 \\text{ m}$ <span class="tr">Convert 5cm to 0.05m</span>', correct:true},
+            {text:'Hitung $\\frac{5}{10}$ <span class="tr">Calculate 5/10</span>', correct:false},
+            {text:'Hitung $\\frac{5}{1000} = \\frac{1}{200}$ <span class="tr">Calculate 5/1000 = 1/200</span>', correct:true}
+          ],
+          explanation:`<p>Satuan harus disamakan. Bisa diubah ke cm semua, atau m semua. <span class="tr">Units must be same. Can convert all to cm or m.</span></p>`
+        },
+        { type:'explanation', pageTitle:'E3: Menghitung Jarak Sebenarnya', pageTitleEn:'Calculating Actual Distance',
+          body:`
+            <p>Jika kita memiliki skala peta dan mengetahui jarak pada peta, kita bisa menghitung jarak sebenarnya di lapangan.
+              <span class="tr">If we have a map scale and know the map distance, we can calculate the actual distance in the field.</span></p>
+            <div class="math-block"><strong>Rumus:</strong> <span class="tr">Formula:</span>
+              $$\\text{Jarak Sebenarnya} = \\text{Jarak pada Gambar} \\times \\text{Angka Skala Penyebut}$$ <span class="tr">Actual Distance = Map Distance $\\times$ Scale Denominator</span>
+            </div>
+            <div class="example-box"><h4>Contoh Soal <span class="tr">Example Problem</span></h4>
+              Skala peta $1 : 200.000$. Jarak kota A dan B di peta $4 \\text{ cm}$. Berapa jarak sebenarnya dalam $\\text{km}$?
+              <span class="tr">Map scale $1 : 200,000$. Map distance of city A and B is $4 \\text{ cm}$. What is actual distance in $\\text{km}$?</span>
+              <ol>
+                <li>Hitung jarak dalam $\\text{cm}$: $4 \\times 200.000 = 800.000 \\text{ cm}$ <span class="tr">Calculate in cm</span></li>
+                <li>Ubah ke $\\text{m}$: $800.000 \\div 100 = 8.000 \\text{ m}$ <span class="tr">Convert to m</span></li>
+                <li>Ubah ke $\\text{km}$: $8.000 \\div 1000 = 8 \\text{ km}$ <span class="tr">Convert to km</span></li>
+              </ol>
+            </div>
+          `
+        },
+        { type:'task', pageTitle:'T7: Hitung Jarak Sebenarnya (cm)', pageTitleEn:'Calculate Actual Distance (cm)', taskType:'fill',
+          question:'Skala $1 : 50.000$. Jarak peta $3 \\text{ cm}$. Jarak sebenarnya dalam $\\text{cm}$ adalah...', questionEn:'Scale $1 : 50,000$. Map distance $3 \\text{ cm}$. Actual distance in $\\text{cm}$ is...',
+          correctAnswer:'150000', acceptableAnswers:['150000'],
+          explanation:`<p>$3 \\times 50000 = 150000 \\text{ cm}$. <span class="tr">Multiply distance by denominator.</span></p>`
+        },
+        { type:'task', pageTitle:'T8: Hitung Jarak Sebenarnya (km)', pageTitleEn:'Calculate Actual Distance (km)', taskType:'radio',
+          question:'Skala $1 : 100.000$. Jarak peta $5 \\text{ cm}$. Jarak sebenarnya dalam $\\text{km}$ adalah...', questionEn:'Scale $1 : 100,000$. Map distance $5 \\text{ cm}$. Actual distance in $\\text{km}$ is...',
+          options:[
+            {text:'$0.5 \\text{ km}$ <span class="tr">0.5 km</span>', correct:false},
+            {text:'$5 \\text{ km}$ <span class="tr">5 km</span>', correct:true},
+            {text:'$50 \\text{ km}$ <span class="tr">50 km</span>', correct:false},
+            {text:'$500 \\text{ km}$ <span class="tr">500 km</span>', correct:false}
+          ],
+          explanation:`<p>$5 \\times 100000 = 500000 \\text{ cm} = 5000 \\text{ m} = 5 \\text{ km}$. <span class="tr">Convert cm to km.</span></p>`
+        },
+        { type:'task', pageTitle:'T9: Urutkan Langkah Jarak', pageTitleEn:'Order Distance Steps', taskType:'sorting',
+          question:'Urutkan langkah mencari jarak asli dalam km jika skala $1:100000$ dan jarak peta $6 \\text{ cm}$.', questionEn:'Order steps to find actual distance in km if scale $1:100000$ and map distance $6 \\text{ cm}$.',
+          items:[
+            'Kalikan jarak peta dengan penyebut skala',
+            'Hasil dalam cm: $600000 \\text{ cm}$',
+            'Bagi $100$ untuk mendapatkan meter: $6000 \\text{ m}$',
+            'Bagi $1000$ untuk mendapatkan kilometer: $6 \\text{ km}$'
+          ],
+          correctOrder:[0,1,2,3],
+          explanation:`<p>Langkah perhitungan selalu dari cm $\\rightarrow$ m $\\rightarrow$ km. <span class="tr">Calculation steps from cm $\\rightarrow$ m $\\rightarrow$ km.</span></p>`
+        },
+        { type:'task', pageTitle:'T10: Pasangkan Skala dan Jarak', pageTitleEn:'Match Scale and Distance', taskType:'pairing',
+          question:'Pasangkan skala dan jarak peta dengan jarak sebenarnya (dalam cm). <span class="tr">Match scale and map distance with actual distance (in cm).</span>', questionEn:'Pasangkan skala dan jarak peta dengan jarak sebenarnya (dalam cm). <span class="tr">Match scale and map distance with actual distance (in cm).</span>',
+          pairs:[
+            {left:'Skala $1:100$, Peta $2 \\text{ cm}$', right:'$200 \\text{ cm}$'},
+            {left:'Skala $1:50$, Peta $4 \\text{ cm}$', right:'$200 \\text{ cm}$'},
+            {left:'Skala $1:1000$, Peta $1 \\text{ cm}$', right:'$1000 \\text{ cm}$'},
+            {left:'Skala $1:200$, Peta $5 \\text{ cm}$', right:'$1000 \\text{ cm}$'}
+          ],
+          explanation:`<p>Kalikan jarak peta dengan angka kedua pada skala. <span class="tr">Multiply map distance by second number in scale.</span></p>`
+        }
+      ]
+    },
+	
+    e: {
+      title: 'Guided Practice',
+      titleEn: 'Guided Practice',
+      time: '00:30 - 00:45',
+      pages: [
+        { type:'explanation', pageTitle:'E1: Menghitung Jarak Sebenarnya', pageTitleEn:'Calculating Actual Distance',
+          body:`
+            <p>Mari kita belajar menghitung jarak sebenarnya jika diketahui skala peta dan jarak pada peta.
+              <span class="tr">Let's learn to calculate actual distance given map scale and map distance.</span></p>
+            <div class="math-block"><strong>Rumus:</strong> <span class="tr">Formula:</span>
+              $$\\text{Jarak Sebenarnya} = \\text{Jarak pada Gambar} \\times \\text{Angka Skala Penyebut}$$ <span class="tr">Actual Distance = Map Distance $\\times$ Scale Denominator</span>
+            </div>
+            <div class="example-box"><h4>Contoh Lengkap <span class="tr">Complete Example</span></h4>
+              Skala peta $1 : 2.000.000$. Jarak kota A ke B di peta adalah $5 \\text{ cm}$. Berapa jarak sebenarnya dalam $\\text{km}$?
+              <span class="tr">Map scale $1 : 2,000,000$. Map distance A to B is $5 \\text{ cm}$. What is actual distance in $\\text{km}$?</span>
+              <ol>
+                <li>Hitung jarak dalam $\\text{cm}$: $5 \\times 2.000.000 = 10.000.000 \\text{ cm}$ <span class="tr">Calculate in cm</span></li>
+                <li>Ubah ke $\\text{m}$: $10.000.000 \\div 100 = 100.000 \\text{ m}$ <span class="tr">Convert to m</span></li>
+                <li>Ubah ke $\\text{km}$: $100.000 \\div 1000 = 100 \\text{ km}$ <span class="tr">Convert to km</span></li>
+              </ol>
+            </div>
+          `
+        },
+        { type:'task', pageTitle:'T1: Hitung Jarak (cm)', pageTitleEn:'Calculate Distance (cm)', taskType:'fill',
+          question:'Skala $1 : 500.000$. Jarak peta $4 \\text{ cm}$. Jarak sebenarnya dalam $\\text{cm}$ adalah...', questionEn:'Scale $1 : 500,000$. Map distance $4 \\text{ cm}$. Actual distance in $\\text{cm}$ is...',
+          correctAnswer:'2000000', acceptableAnswers:['2000000'],
+          explanation:`<p>$4 \\times 500.000 = 2.000.000 \\text{ cm}$. <span class="tr">Multiply by scale denominator.</span></p>`
+        },
+        { type:'task', pageTitle:'T2: Hitung Jarak (km)', pageTitleEn:'Calculate Distance (km)', taskType:'radio',
+          question:'Skala $1 : 1.000.000$. Jarak peta $7 \\text{ cm}$. Jarak sebenarnya dalam $\\text{km}$ adalah...', questionEn:'Scale $1 : 1,000,000$. Map distance $7 \\text{ cm}$. Actual distance in $\\text{km}$ is...',
+          options:[
+            {text:'$7 \\text{ km}$ <span class="tr">7 km</span>', correct:false},
+            {text:'$70 \\text{ km}$ <span class="tr">70 km</span>', correct:true},
+            {text:'$700 \\text{ km}$ <span class="tr">700 km</span>', correct:false},
+            {text:'$7000 \\text{ km}$ <span class="tr">7000 km</span>', correct:false}
+          ],
+          explanation:`<p>$7 \\times 1.000.000 = 7.000.000 \\text{ cm}$. Lalu $7.000.000 \\div 100.000 = 70 \\text{ km}$. <span class="tr">Convert cm to km by dividing by 100,000.</span></p>`
+        },
+        { type:'task', pageTitle:'T3: Benar atau Salah Jarak', pageTitleEn:'True or False Distance', taskType:'truefalse',
+          question:'Benar atau salah: Skala $1 : 100.000$ dan jarak peta $3 \\text{ cm}$ menghasilkan jarak sebenarnya $30 \\text{ km}$. <span class="tr">True or false: Scale $1 : 100,000$ and map distance $3 \\text{ cm}$ results in actual distance $30 \\text{ km}$.</span>', questionEn:'Benar atau salah: Skala $1 : 100.000$ dan jarak peta $3 \\text{ cm}$ menghasilkan jarak sebenarnya $30 \\text{ km}$. <span class="tr">True or false: Scale $1 : 100,000$ and map distance $3 \\text{ cm}$ results in actual distance $30 \\text{ km}$.</span>',
+          correctAnswer:'false',
+          explanation:`<p>$3 \\times 100.000 = 300.000 \\text{ cm} = 3 \\text{ km}$. Bukan $30 \\text{ km}$. <span class="tr">Actual distance is 3 km.</span></p>`
+        },
+        { type:'explanation', pageTitle:'E2: Menghitung Jarak pada Gambar', pageTitleEn:'Calculating Map Distance',
+          body:`
+            <p>Sekarang kebalikannya. Jika kita tahu jarak sebenarnya, kita bisa mencari jarak di peta.
+              <span class="tr">Now the reverse. If we know actual distance, we can find map distance.</span></p>
+            <div class="math-block"><strong>Rumus:</strong> <span class="tr">Formula:</span>
+              $$\\text{Jarak pada Gambar} = \\frac{\\text{Jarak Sebenarnya}}{\\text{Angka Skala Penyebut}}$$ <span class="tr">Map Distance = Actual Distance / Scale Denominator</span>
+            </div>
+            <div class="example-box"><h4>Contoh Lengkap <span class="tr">Complete Example</span></h4>
+              Skala $1 : 1.000.000$. Jarak sebenarnya $50 \\text{ km}$. Berapa jarak pada peta dalam $\\text{cm}$?
+              <span class="tr">Scale $1 : 1,000,000$. Actual distance $50 \\text{ km}$. What is map distance in $\\text{cm}$?</span>
+              <ol>
+                <li>Ubah jarak asli ke $\\text{cm}$: $50 \\text{ km} = 50 \\times 1000 \\times 100 = 5.000.000 \\text{ cm}$ <span class="tr">Convert actual distance to cm</span></li>
+                <li>Bagi dengan penyebut skala: $\\frac{5.000.000}{1.000.000} = 5 \\text{ cm}$ <span class="tr">Divide by scale denominator</span></li>
+              </ol>
+            </div>
+          `
+        },
+        { type:'task', pageTitle:'T4: Hitung Jarak Peta', pageTitleEn:'Calculate Map Distance', taskType:'fill',
+          question:'Skala $1 : 200.000$. Jarak sebenarnya $10 \\text{ km}$ ($1.000.000 \\text{ cm}$). Jarak pada peta adalah... $\\text{cm}$', questionEn:'Scale $1 : 200,000$. Actual distance $10 \\text{ km}$ ($1,000,000 \\text{ cm}$). Map distance is... $\\text{cm}$',
+          correctAnswer:'5', acceptableAnswers:['5'],
+          explanation:`<p>$\\frac{1.000.000}{200.000} = 5 \\text{ cm}$. <span class="tr">Divide actual by scale.</span></p>`
+        },
+        { type:'task', pageTitle:'T5: Pilih Perhitungan yang Benar', pageTitleEn:'Select Correct Calculation', taskType:'checkbox',
+          question:'Pilih semua langkah yang benar untuk mencari jarak peta jika jarak asli $20 \\text{ km}$ dan skala $1 : 500.000$. <span class="tr">Select all correct steps to find map distance if actual distance is $20 \\text{ km}$ and scale is $1 : 500,000$.</span>', questionEn:'Pilih semua langkah yang benar untuk mencari jarak peta jika jarak asli $20 \\text{ km}$ dan skala $1 : 500.000$. <span class="tr">Select all correct steps to find map distance if actual distance is $20 \\text{ km}$ and scale is $1 : 500,000$.</span>',
+          options:[
+            {text:'Ubah $20 \\text{ km}$ menjadi $2.000.000 \\text{ cm}$ <span class="tr">Convert 20 km to 2,000,000 cm</span>', correct:true},
+            {text:'Bagi $2.000.000$ dengan $500.000$ <span class="tr">Divide 2,000,000 by 500,000</span>', correct:true},
+            {text:'Hasilnya adalah $4 \\text{ cm}$ <span class="tr">Result is 4 cm</span>', correct:true},
+            {text:'Kalikan $20$ dengan $500.000$ <span class="tr">Multiply 20 by 500,000</span>', correct:false}
+          ],
+          explanation:`<p>Untuk mencari jarak gambar, jarak asli (dalam cm) harus dibagi dengan skala. <span class="tr">To find map distance, actual distance (in cm) must be divided by scale.</span></p>`
+        },
+        { type:'task', pageTitle:'T6: Pasangkan Jarak', pageTitleEn:'Match Distances', taskType:'pairing',
+          question:'Pasangkan jarak sebenarnya dengan jarak petanya (Skala $1 : 100.000$). <span class="tr">Match actual distance with map distance (Scale $1 : 100,000$).</span>', questionEn:'Pasangkan jarak sebenarnya dengan jarak petanya (Skala $1 : 100.000$). <span class="tr">Match actual distance with map distance (Scale $1 : 100,000$).</span>',
+          pairs:[
+            {left:'Asli $1 \\text{ km}$', right:'Peta $1 \\text{ cm}$'},
+            {left:'Asli $5 \\text{ km}$', right:'Peta $5 \\text{ cm}$'},
+            {left:'Asli $10 \\text{ km}$', right:'Peta $10 \\text{ cm}$'},
+            {left:'Asli $20 \\text{ km}$', right:'Peta $20 \\text{ cm}$'}
+          ],
+          explanation:`<p>Pada skala $1:100.000$, $1 \\text{ cm}$ pada peta mewakili $100.000 \\text{ cm} = 1 \\text{ km}$ di kehidupan nyata. <span class="tr">On scale 1:100,000, 1 cm on map represents 1 km in real life.</span></p>`
+        },
+        { type:'explanation', pageTitle:'E3: Mencari Skala dari Jarak', pageTitleEn:'Finding Scale from Distance',
+          body:`
+            <p>Jika kita mengetahui jarak di peta dan jarak sebenarnya (dengan satuan yang sama), kita bisa mencari skalanya.
+              <span class="tr">If we know map distance and actual distance (in same units), we can find the scale.</span></p>
+            <div class="example-box"><h4>Contoh Lengkap <span class="tr">Complete Example</span></h4>
+              Jarak pada peta $3 \\text{ cm}$. Jarak sebenarnya $15 \\text{ km}$. Berapa skala peta?
+              <span class="tr">Map distance $3 \\text{ cm}$. Actual distance $15 \\text{ km}$. What is map scale?</span>
+              <ol>
+                <li>Samakan satuan. $15 \\text{ km} = 1.500.000 \\text{ cm}$ <span class="tr">Convert units</span></li>
+                <li>Gunakan rumus skala: $\\frac{3}{1.500.000}$ <span class="tr">Use formula</span></li>
+                <li>Sederhanakan pecahan: $\\frac{3}{1.500.000} = \\frac{1}{500.000}$ <span class="tr">Simplify</span></li>
+                <li>Skala $= 1 : 500.000$ <span class="tr">Scale</span></li>
+              </ol>
+            </div>
+          `
+        },
+        { type:'task', pageTitle:'T7: Cari Skala', pageTitleEn:'Find Scale', taskType:'fill',
+          question:'Jarak peta $2 \\text{ cm}$, jarak asli $4 \\text{ km}$ ($400.000 \\text{ cm}$). Skala = ... : ... (contoh: 1:200000)', questionEn:'Map distance $2 \\text{ cm}$, actual distance $4 \\text{ km}$ ($400,000 \\text{ cm}$). Scale = ... : ... (example: 1:200000)',
+          correctAnswer:'1:200000', acceptableAnswers:['1:200000','1 : 200000'],
+          explanation:`<p>$\\frac{2}{400.000} = \\frac{1}{200.000} \\rightarrow$ Skala $1 : 200.000$. <span class="tr">Simplify fraction.</span></p>`
+        },
+        { type:'task', pageTitle:'T8: Urutkan Langkah Cari Skala', pageTitleEn:'Order Find Scale Steps', taskType:'sorting',
+          question:'Urutkan langkah mencari skala jika peta $5 \\text{ cm}$ dan asli $10 \\text{ km}$.', questionEn:'Order steps to find scale if map is $5 \\text{ cm}$ and actual is $10 \\text{ km}$.',
+          items:[
+            'Ubah $10 \\text{ km}$ menjadi $\\text{cm}$: $1.000.000 \\text{ cm}$',
+            'Tulis rasio: $\\frac{5}{1.000.000}$',
+            'Sederhanakan pecahan (bagi 5): $\\frac{1}{200.000}$',
+            'Tulis bentuk skala: $1 : 200.000$'
+          ],
+          correctOrder:[0,1,2,3],
+          explanation:`<p>Samakan satuan $\\rightarrow$ buat rasio $\\rightarrow$ sederhanakan $\\rightarrow$ tulis skala. <span class="tr">Equalize units $\\rightarrow$ make ratio $\\rightarrow$ simplify $\\rightarrow$ write scale.</span></p>`
+        },
+        { type:'task', pageTitle:'T9: Pilih Skala yang Benar', pageTitleEn:'Select Correct Scale', taskType:'radio',
+          question:'Jarak peta $4 \\text{ cm}$ mewakili jarak asli $8 \\text{ km}$. Berapa skalanya?', questionEn:'Map distance $4 \\text{ cm}$ represents actual distance $8 \\text{ km}$. What is the scale?',
+          options:[
+            {text:'$1 : 200.000$ <span class="tr">1:200,000</span>', correct:true},
+            {text:'$1 : 2000$ <span class="tr">1:2,000</span>', correct:false},
+            {text:'$1 : 20.000$ <span class="tr">1:20,000</span>', correct:false},
+            {text:'$1 : 2.000.000$ <span class="tr">1:2,000,000</span>', correct:false}
+          ],
+          explanation:`<p>$8 \\text{ km} = 800.000 \\text{ cm}$. $\\frac{4}{800.000} = \\frac{1}{200.000}$. Skala $1 : 200.000$. <span class="tr">Convert and simplify.</span></p>`
+        },
+        { type:'task', pageTitle:'T10: Benar atau Salah Skala', pageTitleEn:'True or False Scale', taskType:'truefalse',
+          question:'Benar atau salah: Jika jarak peta $10 \\text{ cm}$ dan jarak asli $10 \\text{ m}$, maka skalanya $1 : 100$. <span class="tr">True or false: If map distance is $10 \\text{ cm}$ and actual distance is $10 \\text{ m}$, then scale is $1 : 100$.</span>', questionEn:'Benar atau salah: Jika jarak peta $10 \\text{ cm}$ dan jarak asli $10 \\text{ m}$, maka skalanya $1 : 100$. <span class="tr">True or false: If map distance is $10 \\text{ cm}$ and actual distance is $10 \\text{ m}$, then scale is $1 : 100$.</span>',
+          correctAnswer:'true',
+          explanation:`<p>$10 \\text{ m} = 1000 \\text{ cm}$. $\\frac{10}{1000} = \\frac{1}{100}$. Skala $1 : 100$. Benar. <span class="tr">Simplified to 1:100.</span></p>`
+        }
+      ]
+    },
+    f: {
+      title: 'Independent Practice',
+      titleEn: 'Independent Practice',
+      time: '00:45 - 00:55',
+      pages: [
+        { type:'explanation', pageTitle:'E1: Skala pada Denah Rumah', pageTitleEn:'Scale on House Floor Plan',
+          body:`
+            <p>Denah rumah menggunakan skala kecil, seperti $1 : 100$ atau $1 : 200$. Ini mengubah meter menjadi sentimeter di kertas.
+              <span class="tr">House floor plans use small scales, like $1 : 100$ or $1 : 200$. This converts meters to centimeters on paper.</span></p>
+            <div class="example-box"><h4>Contoh Lengkap <span class="tr">Complete Example</span></h4>
+              Skala denah $1 : 150$. Kamar tidur di denah berukuran panjang $6 \\text{ cm}$ dan lebar $4 \\text{ cm}$. Berapa luas kamar sebenarnya dalam $\\text{m}^2$?
+              <span class="tr">Floor plan scale $1 : 150$. Bedroom on plan is $6 \\text{ cm}$ long and $4 \\text{ cm}$ wide. What is actual room area in $\\text{m}^2$?</span>
+              <ol>
+                <li>Panjang asli: $6 \\times 150 = 900 \\text{ cm} = 9 \\text{ m}$ <span class="tr">Actual length</span></li>
+                <li>Lebar asli: $4 \\times 150 = 600 \\text{ cm} = 6 \\text{ m}$ <span class="tr">Actual width</span></li>
+                <li>Luas sebenarnya: $9 \\text{ m} \\times 6 \\text{ m} = 54 \\text{ m}^2$ <span class="tr">Actual area</span></li>
+              </ol>
+            </div>
+          `
+        },
+        { type:'task', pageTitle:'T1: Hitung Panjang Asli Denah', pageTitleEn:'Calculate Actual Floor Length', taskType:'fill',
+          question:'Skala denah $1 : 200$. Dinding di denah panjang $5 \\text{ cm}$. Panjang dinding asli adalah... $\\text{m}$', questionEn:'Floor plan scale $1 : 200$. Wall on plan is $5 \\text{ cm}$ long. Actual wall length is... $\\text{m}$',
+          correctAnswer:'10', acceptableAnswers:['10'],
+          explanation:`<p>$5 \\times 200 = 1000 \\text{ cm} = 10 \\text{ m}$. <span class="tr">Calculate and convert to meters.</span></p>`
+        },
+        { type:'task', pageTitle:'T2: Pilih Luas yang Benar', pageTitleEn:'Select Correct Area', taskType:'checkbox',
+          question:'Skala $1 : 100$. Kamar di denah $3 \\text{ cm} \\times 4 \\text{ cm}$. Pilih perhitungan yang benar. <span class="tr">Scale $1 : 100$. Room on plan $3 \\text{ cm} \\times 4 \\text{ cm}$. Select correct calculations.</span>', questionEn:'Skala $1 : 100$. Kamar di denah $3 \\text{ cm} \\times 4 \\text{ cm}$. Pilih perhitungan yang benar. <span class="tr">Scale $1 : 100$. Room on plan $3 \\text{ cm} \\times 4 \\text{ cm}$. Select correct calculations.</span>',
+          options:[
+            {text:'Panjang asli $4 \\times 100 = 400 \\text{ cm} = 4 \\text{ m}$ <span class="tr">Actual length</span>', correct:true},
+            {text:'Lebar asli $3 \\times 100 = 300 \\text{ cm} = 3 \\text{ m}$ <span class="tr">Actual width</span>', correct:true},
+            {text:'Luas $= 4 \\text{ m} \\times 3 \\text{ m} = 12 \\text{ m}^2$ <span class="tr">Area</span>', correct:true},
+            {text:'Luas $= 4 \\text{ cm} \\times 3 \\text{ cm} = 12 \\text{ cm}^2$ <span class="tr">Area in cm</span>', correct:false}
+          ],
+          explanation:`<p>Ukuran asli harus dalam satuan yang sama (meter) sebelum dikalikan untuk mencari luas. <span class="tr">Actual sizes must be in same unit before multiplying to find area.</span></p>`
+        },
+        { type:'task', pageTitle:'T3: Pasangkan Skala dan Denah', pageTitleEn:'Match Scale and Plan', taskType:'pairing',
+          question:'Pasangkan ukuran denah dengan ukuran aslinya (Skala $1 : 50$). <span class="tr">Match plan size with actual size (Scale $1 : 50$).</span>', questionEn:'Pasangkan ukuran denah dengan ukuran aslinya (Skala $1 : 50$). <span class="tr">Match plan size with actual size (Scale $1 : 50$).</span>',
+          pairs:[
+            {left:'Denah $2 \\text{ cm}$', right:'Asli $1 \\text{ m}$'},
+            {left:'Denah $4 \\text{ cm}$', right:'Asli $2 \\text{ m}$'},
+            {left:'Denah $10 \\text{ cm}$', right:'Asli $5 \\text{ m}$'},
+            {left:'Denah $20 \\text{ cm}$', right:'Asli $10 \\text{ m}$'}
+          ],
+          explanation:`<p>Skala $1:50$ berarti $1 \\text{ cm}$ di denah $= 50 \\text{ cm}$ di aslinya. <span class="tr">Scale 1:50 means 1 cm on plan = 50 cm in actual.</span></p>`
+        },
+        { type:'explanation', pageTitle:'E2: Menghitung Luas Sebenarnya', pageTitleEn:'Calculating Actual Area',
+          body:`
+            <p>Untuk mencari luas sebenarnya, kita tidak bisa langsung mengalikan luas gambar dengan kuadrat skala. Lebih aman mencari panjang dan lebar asli dulu, baru dikalikan.
+              <span class="tr">To find actual area, we cannot directly multiply drawing area by scale squared. It's safer to find actual length and width first, then multiply.</span></p>
+            <div class="tip-box"><h4>Tips Penting <span class="tr">Important Tip</span></h4>
+              $\\text{Luas} = \\text{Panjang Asli} \\times \\text{Lebar Asli}$ <span class="tr">Area = Actual Length $\\times$ Actual Width</span><br>
+              Jangan lupa ubah satuan ke meter ($\\text{m}$) sebelum menghitung luas dalam $\\text{m}^2$. <span class="tr">Don't forget to convert to meters before calculating area in $\\text{m}^2$.</span>
+            </div>
+          `
+        },
+        { type:'task', pageTitle:'T4: Hitung Luas Tanah', pageTitleEn:'Calculate Land Area', taskType:'fill',
+          question:'Skala $1 : 200$. Tanah di denah $5 \\text{ cm} \\times 6 \\text{ cm}$. Luas sebenarnya adalah... $\\text{m}^2$', questionEn:'Scale $1 : 200$. Land on plan $5 \\text{ cm} \\times 6 \\text{ cm}$. Actual area is... $\\text{m}^2$',
+          correctAnswer:'120', acceptableAnswers:['120'],
+          explanation:`<ol><li>Panjang asli: $6 \\times 200 = 1200 \\text{ cm} = 12 \\text{ m}$</li><li>Lebar asli: $5 \\times 200 = 1000 \\text{ cm} = 10 \\text{ m}$</li><li>Luas: $12 \\times 10 = 120 \\text{ m}^2$</li></ol>`
+        },
+        { type:'task', pageTitle:'T5: Pilih Langkah Luas', pageTitleEn:'Select Area Steps', taskType:'checkbox',
+          question:'Pilih langkah yang benar untuk mencari luas asli jika denah $2 \\text{ cm} \\times 3 \\text{ cm}$ dan skala $1 : 100$. <span class="tr">Select correct steps to find actual area if plan is $2 \\text{ cm} \\times 3 \\text{ cm}$ and scale $1 : 100$.</span>', questionEn:'Pilih langkah yang benar untuk mencari luas asli jika denah $2 \\text{ cm} \\times 3 \\text{ cm}$ dan skala $1 : 100$. <span class="tr">Select correct steps to find actual area if plan is $2 \\text{ cm} \\times 3 \\text{ cm}$ and scale $1 : 100$.</span>',
+          options:[
+            {text:'Cari panjang asli: $3 \\times 100 = 300 \\text{ cm} = 3 \\text{ m}$ <span class="tr">Find actual length</span>', correct:true},
+            {text:'Cari lebar asli: $2 \\times 100 = 200 \\text{ cm} = 2 \\text{ m}$ <span class="tr">Find actual width</span>', correct:true},
+            {text:'Kalikan luas denah dengan skala: $6 \\times 100$ <span class="tr">Multiply plan area by scale</span>', correct:false},
+            {text:'Kalikan panjang dan lebar asli: $3 \\text{ m} \\times 2 \\text{ m} = 6 \\text{ m}^2$ <span class="tr">Multiply actual length and width</span>', correct:true}
+          ],
+          explanation:`<p>Kita harus menghitung ukuran asli satu per satu, baru dikalikan. <span class="tr">We must calculate actual sizes one by one, then multiply.</span></p>`
+        },
+        { type:'task', pageTitle:'T6: Urutkan Langkah Luas', pageTitleEn:'Order Area Steps', taskType:'sorting',
+          question:'Urutkan langkah mencari luas asli (denah $4 \\text{ cm} \\times 5 \\text{ cm}$, skala $1 : 50$).', questionEn:'Order steps to find actual area (plan $4 \\text{ cm} \\times 5 \\text{ cm}$, scale $1 : 50$).',
+          items:[
+            'Cari panjang asli: $5 \\times 50 = 250 \\text{ cm} = 2.5 \\text{ m}$',
+            'Cari lebar asli: $4 \\times 50 = 200 \\text{ cm} = 2 \\text{ m}$',
+            'Kalikan panjang dan lebar: $2.5 \\times 2$',
+            'Hasil luas adalah $5 \\text{ m}^2$'
+          ],
+          correctOrder:[0,1,2,3],
+          explanation:`<p>Ukuran asli dulu, baru luas. <span class="tr">Actual sizes first, then area.</span></p>`
+        },
+        { type:'explanation', pageTitle:'E3: Skala, Kecepatan, dan Waktu', pageTitleEn:'Scale, Speed, and Time',
+          body:`
+            <p>Skala bisa dikombinasikan dengan rumus kecepatan: $v = \\frac{s}{t}$ atau $t = \\frac{s}{v}$.
+              <span class="tr">Scale can be combined with speed formula: $v = s / t$ or $t = s / v$.</span></p>
+            <div class="example-box"><h4>Contoh Lengkap <span class="tr">Complete Example</span></h4>
+              Skala peta $1 : 1.000.000$. Jarak pada peta $8 \\text{ cm}$. Kecepatan mobil $80 \\text{ km/jam}$. Berapa waktu tempuh?
+              <span class="tr">Map scale $1 : 1,000,000$. Map distance $8 \\text{ cm}$. Car speed $80 \\text{ km/h}$. What is travel time?</span>
+              <ol>
+                <li>Hitung jarak sebenarnya: $8 \\times 1.000.000 = 8.000.000 \\text{ cm} = 80 \\text{ km}$ <span class="tr">Calculate actual distance</span></li>
+                <li>Gunakan rumus waktu: $t = \\frac{s}{v} = \\frac{80 \\text{ km}}{80 \\text{ km/jam}} = 1 \\text{ jam}$ <span class="tr">Use time formula</span></li>
+              </ol>
+            </div>
+          `
+        },
+        { type:'task', pageTitle:'T7: Hitung Waktu Tempuh', pageTitleEn:'Calculate Travel Time', taskType:'fill',
+          question:'Skala $1 : 500.000$. Jarak peta $10 \\text{ cm}$. Kecepatan $50 \\text{ km/jam}$. Waktu tempuh adalah... jam', questionEn:'Scale $1 : 500,000$. Map distance $10 \\text{ cm}$. Speed $50 \\text{ km/h}$. Travel time is... hours',
+          correctAnswer:'1', acceptableAnswers:['1'],
+          explanation:`<p>$10 \\times 500.000 = 5.000.000 \\text{ cm} = 50 \\text{ km}$. $t = \\frac{50}{50} = 1 \\text{ jam}$. <span class="tr">Calculate distance then time.</span></p>`
+        },
+        { type:'task', pageTitle:'T8: Pilih Perhitungan Waktu', pageTitleEn:'Select Time Calculation', taskType:'radio',
+          question:'Skala $1 : 200.000$. Jarak peta $5 \\text{ cm}$. Berapa kecepatan agar sampai dalam $1$ jam? <span class="tr">Scale $1 : 200,000$. Map distance $5 \\text{ cm}$. What speed to arrive in $1$ hour?</span>', questionEn:'Skala $1 : 200.000$. Jarak peta $5 \\text{ cm}$. Berapa kecepatan agar sampai dalam $1$ jam? <span class="tr">Scale $1 : 200,000$. Map distance $5 \\text{ cm}$. What speed to arrive in $1$ hour?</span>',
+          options:[
+            {text:'$10 \\text{ km/jam}$ <span class="tr">10 km/h</span>', correct:true},
+            {text:'$20 \\text{ km/jam}$ <span class="tr">20 km/h</span>', correct:false},
+            {text:'$5 \\text{ km/jam}$ <span class="tr">5 km/h</span>', correct:false},
+            {text:'$1 \\text{ km/jam}$ <span class="tr">1 km/h</span>', correct:false}
+          ],
+          explanation:`<p>$5 \\times 200.000 = 1.000.000 \\text{ cm} = 10 \\text{ km}$. Waktu $1$ jam, maka $v = 10 \\text{ km/jam}$. <span class="tr">Calculate distance, then divide by time.</span></p>`
+        },
+        { type:'task', pageTitle:'T9: Pasangkan Skala dan Waktu', pageTitleEn:'Match Scale and Time', taskType:'pairing',
+          question:'Pasangkan jarak peta dan jarak aslinya (Skala $1 : 100.000$). <span class="tr">Match map distance with actual distance (Scale $1 : 100,000$).</span>', questionEn:'Pasangkan jarak peta dan jarak aslinya (Skala $1 : 100.000$). <span class="tr">Match map distance with actual distance (Scale $1 : 100,000$).</span>',
+          pairs:[
+            {left:'Peta $1 \\text{ cm}$', right:'Asli $1 \\text{ km}$'},
+            {left:'Peta $2 \\text{ cm}$', right:'Asli $2 \\text{ km}$'},
+            {left:'Peta $5 \\text{ cm}$', right:'Asli $5 \\text{ km}$'},
+            {left:'Peta $10 \\text{ cm}$', right:'Asli $10 \\text{ km}$'}
+          ],
+          explanation:`<p>$1:100.000$ berarti $1 \\text{ cm}$ peta $= 100.000 \\text{ cm} = 1 \\text{ km}$ asli. <span class="tr">1 cm map = 1 km actual.</span></p>`
+        },
+        { type:'task', pageTitle:'T10: Benar atau Salah Kecepatan', pageTitleEn:'True or False Speed', taskType:'truefalse',
+          question:'Benar atau salah: Jika jarak peta $2 \\text{ cm}$, skala $1 : 500.000$, dan waktu tempuh $2$ jam, maka kecepatannya $5 \\text{ km/jam}$. <span class="tr">True or false: If map distance is $2 \\text{ cm}$, scale $1 : 500,000$, and travel time is $2$ hours, then speed is $5 \\text{ km/h}$.</span>', questionEn:'Benar atau salah: Jika jarak peta $2 \\text{ cm}$, skala $1 : 500.000$, dan waktu tempuh $2$ jam, maka kecepatannya $5 \\text{ km/jam}$. <span class="tr">True or false: If map distance is $2 \\text{ cm}$, scale $1 : 500,000$, and travel time is $2$ hours, then speed is $5 \\text{ km/h}$.</span>',
+          correctAnswer:'true',
+          explanation:`<p>$2 \\times 500.000 = 1.000.000 \\text{ cm} = 10 \\text{ km}$. $v = \\frac{10}{2} = 5 \\text{ km/jam}$. Benar. <span class="tr">Calculate distance, then speed.</span></p>`
+        }
+      ]
+    },
+    g: {
+      title: 'Consolidation & Reflection',
+      titleEn: 'Consolidation & Reflection',
+      time: '00:55 - 01:00',
+      pages: [
+        { type:'explanation', pageTitle:'E1: Poin Penting', pageTitleEn:'Key Takeaways',
+          body:`
+            <p>Berikut adalah rumus penting yang harus diingat dalam topik Skala:
+              <span class="tr">Here are the important formulas to remember in Scale topic:</span></p>
+            <div class="math-block">
+              <ul>
+                <li>$\\text{Skala} = \\frac{\\text{Ukuran Gambar}}{\\text{Ukuran Sebenarnya}}$ <span class="tr">Scale formula</span></li>
+                <li>$\\text{Jarak Sebenarnya} = \\text{Jarak Gambar} \\times \\text{Skala}$ <span class="tr">Actual distance formula</span></li>
+                <li>$\\text{Jarak Gambar} = \\frac{\\text{Jarak Sebenarnya}}{\\text{Skala}}$ <span class="tr">Map distance formula</span></li>
+              </ul>
+            </div>
+            <div class="tip-box"><h4>Tips Emas <span class="tr">Golden Tips</span></h4>
+              <ul>
+                <li>Selalu samakan satuan sebelum menghitung! <span class="tr">Always equalize units before calculating!</span></li>
+                <li>Skala tidak memiliki satuan. <span class="tr">Scale has no units.</span></li>
+              </ul>
+            </div>
+          `
+        },
+        { type:'task', pageTitle:'T1: Pertanyaan Refleksi', pageTitleEn:'Reflection Question', taskType:'truefalse',
+          question:'Benar atau salah: Saya memahami bahwa jika satuan gambar dan asli berbeda, saya harus mengubahnya menjadi satuan yang sama terlebih dahulu. <span class="tr">True or false: I understand that if drawing and actual units are different, I must convert them to the same unit first.</span>', questionEn:'Benar atau salah: Saya memahami bahwa jika satuan gambar dan asli berbeda, saya harus mengubahnya menjadi satuan yang sama terlebih dahulu. <span class="tr">True or false: I understand that if drawing and actual units are different, I must convert them to the same unit first.</span>',
+          correctAnswer:'true',
+          explanation:`<p>Memahami konversi satuan adalah kunci utama mengerjakan skala. <span class="tr">Understanding unit conversion is the main key to solving scale.</span></p>`
+        },
+        { type:'task', pageTitle:'T2: Exit Ticket', pageTitleEn:'Exit Ticket', taskType:'fill',
+          question:'Skala peta $1 : 500.000$. Jarak peta $6 \\text{ cm}$. Jarak sebenarnya dalam $\\text{km}$ adalah...', questionEn:'Map scale $1 : 500,000$. Map distance $6 \\text{ cm}$. Actual distance in $\\text{km}$ is...',
+          correctAnswer:'30', acceptableAnswers:['30'],
+          explanation:`<ol><li>$6 \\times 500.000 = 3.000.000 \\text{ cm}$</li><li>$3.000.000 \\text{ cm} = 30 \\text{ km}$</li></ol>`
+        },
+        { type:'explanation', pageTitle:'E2: Follow-up Practice', pageTitleEn:'Follow-up Practice',
+          body:`
+            <p>Latihan tambahan tersedia di <strong>Bagian H–L (Task 1–5)</strong>. Setiap bagian berisi 10 soal.
+              <span class="tr">Additional practice is available in <strong>Sections H–L</strong>. Each section contains 10 questions.</span></p>
+            <div class="tip-box">
+              <h4>Cara menggunakan <span class="tr">How to use</span></h4>
+              <ol>
+                <li>Buka bagian H–L dari sidebar kiri.</li>
+                <li>Jawab soal, lalu klik <strong>"Periksa Jawaban"</strong>.</li>
+                <li>Setelah selesai 10 soal, klik tombol <strong>🖨 Cetak ke PDF</strong> di kanan atas.</li>
+                <li>Cetak atau simpan sebagai PDF untuk diperiksa oleh tutor Anda.</li>
+              </ol>
+            </div>
+          `
+        }
+      ]
+    },
+    h: {
+      title: 'Task 1',
+      titleEn: 'Task 1',
+      time: 'Printable',
+      pages: [
+        { type:'task', pageTitle:'T1: Skala Dasar', pageTitleEn:'Basic Scale', taskType:'radio',
+          question:'Gambar $4 \\text{ cm}$, Asli $20 \\text{ cm}$. Skalanya adalah...', questionEn:'Drawing $4 \\text{ cm}$, Actual $20 \\text{ cm}$. The scale is...',
+          options:[
+            {text:'$1 : 5$ <span class="tr">1:5</span>', correct:true},
+            {text:'$1 : 4$ <span class="tr">1:4</span>', correct:false},
+            {text:'$4 : 20$ <span class="tr">4:20</span>', correct:false},
+            {text:'$5 : 1$ <span class="tr">5:1</span>', correct:false}
+          ],
+          explanation:`<p>$\\frac{4}{20} = \\frac{1}{5} \\rightarrow$ Skala $1 : 5$. <span class="tr">Simplify fraction.</span></p>`},
+        { type:'task', pageTitle:'T2: Hitung Jarak', pageTitleEn:'Calculate Distance', taskType:'fill',
+          question:'Skala $1 : 100$. Jarak gambar $3 \\text{ cm}$. Jarak aslinya adalah... $\\text{cm}$', questionEn:'Scale $1 : 100$. Drawing distance $3 \\text{ cm}$. Actual distance is... $\\text{cm}$',
+          correctAnswer:'300', acceptableAnswers:['300'],
+          explanation:`<p>$3 \\times 100 = 300 \\text{ cm}$. <span class="tr">Multiply by scale.</span></p>`},
+        { type:'task', pageTitle:'T3: Benar atau Salah', pageTitleEn:'True or False', taskType:'truefalse',
+          question:'Benar atau salah: Skala $1 : 50$ berarti ukuran asli 50 kali lebih besar dari gambar. <span class="tr">True or false: Scale $1 : 50$ means actual size is 50 times larger than drawing.</span>', questionEn:'Benar atau salah: Skala $1 : 50$ berarti ukuran asli 50 kali lebih besar dari gambar. <span class="tr">True or false: Scale $1 : 50$ means actual size is 50 times larger than drawing.</span>',
+          correctAnswer:'true',
+          explanation:`<p>Angka kedua pada skala menunjukkan kelipatan pengali dari gambar ke asli. <span class="tr">Second number in scale indicates multiplication factor from drawing to actual.</span></p>`},
+        { type:'task', pageTitle:'T4: Cari Skala', pageTitleEn:'Find Scale', taskType:'fill',
+          question:'Jarak peta $5 \\text{ cm}$, jarak asli $1 \\text{ km}$ ($100.000 \\text{ cm}$). Skala = ... : ... (contoh: 1:20000)', questionEn:'Map distance $5 \\text{ cm}$, actual distance $1 \\text{ km}$ ($100,000 \\text{ cm}$). Scale = ... : ... (example: 1:20000)',
+          correctAnswer:'1:20000', acceptableAnswers:['1:20000','1 : 20000'],
+          explanation:`<p>$\\frac{5}{100.000} = \\frac{1}{20.000} \\rightarrow$ Skala $1 : 20.000$. <span class="tr">Simplify fraction.</span></p>`},
+        { type:'task', pageTitle:'T5: Urutkan Langkah', pageTitleEn:'Order Steps', taskType:'sorting',
+          question:'Urutkan langkah mencari jarak asli dalam meter (Skala $1:200$, gambar $4 \\text{ cm}$).', questionEn:'Order steps to find actual distance in meters (Scale $1:200$, drawing $4 \\text{ cm}$).',
+          items:['Kalikan $4 \\text{ cm}$ dengan $200$','Hasilnya $800 \\text{ cm}$','Bagi $800$ dengan $100$','Hasil akhir $8 \\text{ m}$'],
+          correctOrder:[0,1,2,3],
+          explanation:`<p>Hitung cm dulu, baru ubah ke meter. <span class="tr">Calculate cm first, then convert to meters.</span></p>`},
+        { type:'task', pageTitle:'T6: Pasangkan Skala', pageTitleEn:'Match Scales', taskType:'pairing',
+          question:'Pasangkan rasio awal dengan bentuk skala sederhananya. <span class="tr">Match initial ratio with simplified scale.</span>', questionEn:'Pasangkan rasio awal dengan bentuk skala sederhananya. <span class="tr">Match initial ratio with simplified scale.</span>',
+          pairs:[
+            {left:'$10 : 100$', right:'$1 : 10$'},
+            {left:'$5 : 50$', right:'$1 : 10$'},
+            {left:'$20 : 100$', right:'$1 : 5$'},
+            {left:'$25 : 100$', right:'$1 : 4$'}
+          ],
+          explanation:`<p>Sederhanakan rasio dengan membagi FPB. <span class="tr">Simplify ratio by dividing GCF.</span></p>`},
+        { type:'task', pageTitle:'T7: Pilih Pernyataan Benar', pageTitleEn:'Select True Statements', taskType:'checkbox',
+          question:'Pilih pernyataan yang benar tentang skala $1 : 1000$. <span class="tr">Select true statements about scale $1 : 1000$.</span>', questionEn:'Pilih pernyataan yang benar tentang skala $1 : 1000$. <span class="tr">Select true statements about scale $1 : 1000$.</span>',
+          options:[
+            {text:'$1 \\text{ cm}$ gambar $= 1000 \\text{ cm}$ asli <span class="tr">1 cm drawing = 1000 cm actual</span>', correct:true},
+            {text:'$2 \\text{ cm}$ gambar $= 2000 \\text{ cm}$ asli <span class="tr">2 cm drawing = 2000 cm actual</span>', correct:true},
+            {text:'$1 \\text{ cm}$ gambar $= 100 \\text{ cm}$ asli <span class="tr">1 cm drawing = 100 cm actual</span>', correct:false},
+            {text:'Ukuran asli $10$ kali ukuran gambar <span class="tr">Actual size is 10 times drawing size</span>', correct:false}
+          ],
+          explanation:`<p>Skala $1:1000$ berarti asli $1000$ kali gambar. <span class="tr">Scale 1:1000 means actual is 1000 times drawing.</span></p>`},
+        { type:'task', pageTitle:'T8: Konversi Satuan', pageTitleEn:'Unit Conversion', taskType:'fill',
+          question:'Skala $1 : 100$. Jarak gambar $5 \\text{ cm}$. Jarak aslinya dalam $\\text{meter}$ adalah... $\\text{m}$', questionEn:'Scale $1 : 100$. Drawing distance $5 \\text{ cm}$. Actual distance in $\\text{meters}$ is... $\\text{m}$',
+          correctAnswer:'5', acceptableAnswers:['5'],
+          explanation:`<p>$5 \\times 100 = 500 \\text{ cm}$. $500 \\text{ cm} = 5 \\text{ m}$. <span class="tr">Calculate then convert to meters.</span></p>`},
+        { type:'task', pageTitle:'T9: Skala Peta', pageTitleEn:'Map Scale', taskType:'radio',
+          question:'Skala peta $1 : 500.000$. Jarak peta $4 \\text{ cm}$. Jarak sebenarnya adalah...', questionEn:'Map scale $1 : 500,000$. Map distance $4 \\text{ cm}$. Actual distance is...',
+          options:[
+            {text:'$20 \\text{ km}$ <span class="tr">20 km</span>', correct:true},
+            {text:'$2 \\text{ km}$ <span class="tr">2 km</span>', correct:false},
+            {text:'$200 \\text{ m}$ <span class="tr">200 m</span>', correct:false},
+            {text:'$2000 \\text{ km}$ <span class="tr">2000 km</span>', correct:false}
+          ],
+          explanation:`<p>$4 \\times 500.000 = 2.000.000 \\text{ cm} = 20 \\text{ km}$. <span class="tr">Calculate and convert to km.</span></p>`},
+        { type:'task', pageTitle:'T10: Benar atau Salah Peta', pageTitleEn:'True or False Map', taskType:'truefalse',
+          question:'Benar atau salah: Jika jarak asli $10 \\text{ km}$ dan skala $1 : 100.000$, maka jarak petanya $10 \\text{ cm}$. <span class="tr">True or false: If actual distance is $10 \\text{ km}$ and scale $1 : 100,000$, then map distance is $10 \\text{ cm}$.</span>', questionEn:'Benar atau salah: Jika jarak asli $10 \\text{ km}$ dan skala $1 : 100.000$, maka jarak petanya $10 \\text{ cm}$. <span class="tr">True or false: If actual distance is $10 \\text{ km}$ and scale $1 : 100,000$, then map distance is $10 \\text{ cm}$.</span>',
+          correctAnswer:'true',
+          explanation:`<p>$10 \\text{ km} = 1.000.000 \\text{ cm}$. $\\frac{1.000.000}{100.000} = 10 \\text{ cm}$. Benar. <span class="tr">Convert to cm then divide by scale.</span></p>`}
+      ]
+    },
+    i: {
+      title: 'Task 2',
+      titleEn: 'Task 2',
+      time: 'Printable',
+      pages: [
+        { type:'task', pageTitle:'T1: Hitung Jarak Peta', pageTitleEn:'Calculate Map Distance', taskType:'fill',
+          question:'Skala $1 : 200.000$. Jarak sebenarnya $10 \\text{ km}$. Jarak pada peta adalah... $\\text{cm}$', questionEn:'Scale $1 : 200,000$. Actual distance $10 \\text{ km}$. Map distance is... $\\text{cm}$',
+          correctAnswer:'5', acceptableAnswers:['5'],
+          explanation:`<p>$10 \\text{ km} = 1.000.000 \\text{ cm}$. $\\frac{1.000.000}{200.000} = 5 \\text{ cm}$. <span class="tr">Convert then divide.</span></p>`},
+        { type:'task', pageTitle:'T2: Pilih Rumus yang Benar', pageTitleEn:'Select Correct Formula', taskType:'radio',
+          question:'Untuk mencari jarak pada gambar, rumus yang tepat adalah...', questionEn:'To find drawing distance, the correct formula is...',
+          options:[
+            {text:'$\\text{Jarak Gambar} = \\text{Jarak Asli} \\times \\text{Skala}$ <span class="tr">Multiply</span>', correct:false},
+            {text:'$\\text{Jarak Gambar} = \\frac{\\text{Jarak Asli}}{\\text{Skala}}$ <span class="tr">Divide</span>', correct:true},
+            {text:'$\\text{Jarak Gambar} = \\text{Skala} - \\text{Jarak Asli}$ <span class="tr">Subtract</span>', correct:false},
+            {text:'$\\text{Jarak Gambar} = \\text{Jarak Asli} + \\text{Skala}$ <span class="tr">Add</span>', correct:false}
+          ],
+          explanation:`<p>Jarak gambar didapat dari jarak asli dibagi skala. <span class="tr">Drawing distance is actual divided by scale.</span></p>`},
+        { type:'task', pageTitle:'T3: Benar atau Salah Rumus', pageTitleEn:'True or False Formula', taskType:'truefalse',
+          question:'Benar atau salah: $\\text{Skala} = \\frac{\\text{Jarak Asli}}{\\text{Jarak Gambar}}$. <span class="tr">True or false: $\\text{Scale} = \\frac{\\text{Actual Distance}}{\\text{Drawing Distance}}$.</span>', questionEn:'Benar atau salah: $\\text{Skala} = \\frac{\\text{Jarak Asli}}{\\text{Jarak Gambar}}$. <span class="tr">True or false: $\\text{Scale} = \\frac{\\text{Actual Distance}}{\\text{Drawing Distance}}$.</span>',
+          correctAnswer:'false',
+          explanation:`<p>Rumus yang benar adalah $\\text{Skala} = \\frac{\\text{Jarak Gambar}}{\\text{Jarak Asli}}$. <span class="tr">Correct formula is Drawing / Actual.</span></p>`},
+        { type:'task', pageTitle:'T4: Hitung Jarak Asli', pageTitleEn:'Calculate Actual Distance', taskType:'fill',
+          question:'Skala $1 : 50$. Jarak gambar $4 \\text{ cm}$. Jarak asli dalam $\\text{cm}$ adalah...', questionEn:'Scale $1 : 50$. Drawing distance $4 \\text{ cm}$. Actual distance in $\\text{cm}$ is...',
+          correctAnswer:'200', acceptableAnswers:['200'],
+          explanation:`<p>$4 \\times 50 = 200 \\text{ cm}$. <span class="tr">Multiply by scale.</span></p>`},
+        { type:'task', pageTitle:'T5: Urutkan Langkah', pageTitleEn:'Order Steps', taskType:'sorting',
+          question:'Urutkan langkah mencari skala (peta $5 \\text{ cm}$, asli $2 \\text{ km}$).', questionEn:'Order steps to find scale (map $5 \\text{ cm}$, actual $2 \\text{ km}$).',
+          items:['Ubah $2 \\text{ km}$ ke $\\text{cm}$: $200.000 \\text{ cm}$','Buat rasio: $\\frac{5}{200.000}$','Sederhanakan: $\\frac{1}{40.000}$','Tulis skala: $1 : 40.000$'],
+          correctOrder:[0,1,2,3],
+          explanation:`<p>Satuan $\\rightarrow$ rasio $\\rightarrow$ sederhanakan $\\rightarrow$ skala. <span class="tr">Units $\\rightarrow$ ratio $\\rightarrow$ simplify $\\rightarrow$ scale.</span></p>`},
+        { type:'task', pageTitle:'T6: Pasangkan Skala dan Jarak', pageTitleEn:'Match Scale and Distance', taskType:'pairing',
+          question:'Pasangkan skala dan jarak peta dengan jarak aslinya. <span class="tr">Match scale and map distance with actual distance.</span>', questionEn:'Pasangkan skala dan jarak peta dengan jarak aslinya. <span class="tr">Match scale and map distance with actual distance.</span>',
+          pairs:[
+            {left:'Skala $1:1000$, peta $2 \\text{ cm}$', right:'Asli $20 \\text{ m}$'},
+            {left:'Skala $1:5000$, peta $4 \\text{ cm}$', right:'Asli $200 \\text{ m}$'},
+            {left:'Skala $1:2000$, peta $5 \\text{ cm}$', right:'Asli $100 \\text{ m}$'},
+            {left:'Skala $1:10000$, peta $1 \\text{ cm}$', right:'Asli $100 \\text{ m}$'}
+          ],
+          explanation:`<p>Hitung jarak asli dalam cm lalu ubah ke meter. <span class="tr">Calculate actual in cm then convert to meters.</span></p>`},
+        { type:'task', pageTitle:'T7: Pilih Jarak yang Sama', pageTitleEn:'Select Equal Distances', taskType:'checkbox',
+          question:'Pilih semua jarak peta yang menghasilkan jarak asli $10 \\text{ km}$ ($1.000.000 \\text{ cm}$). <span class="tr">Select all map distances that result in $10 \\text{ km}$ actual distance.</span>', questionEn:'Pilih semua jarak peta yang menghasilkan jarak asli $10 \\text{ km}$ ($1.000.000 \\text{ cm}$). <span class="tr">Select all map distances that result in $10 \\text{ km}$ actual distance.</span>',
+          options:[
+            {text:'Skala $1:100.000$, peta $10 \\text{ cm}$ <span class="tr">Scale 1:100,000, map 10 cm</span>', correct:true},
+            {text:'Skala $1:200.000$, peta $5 \\text{ cm}$ <span class="tr">Scale 1:200,000, map 5 cm</span>', correct:true},
+            {text:'Skala $1:500.000$, peta $2 \\text{ cm}$ <span class="tr">Scale 1:500,000, map 2 cm</span>', correct:true},
+            {text:'Skala $1:50.000$, peta $5 \\text{ cm}$ <span class="tr">Scale 1:50,000, map 5 cm</span>', correct:false}
+          ],
+          explanation:`<p>Bagi $1.000.000$ dengan skala untuk mendapatkan jarak peta. <span class="tr">Divide actual by scale to get map distance.</span></p>`},
+        { type:'task', pageTitle:'T8: Cari Skala Denah', pageTitleEn:'Find Floor Plan Scale', taskType:'fill',
+          question:'Denah $3 \\text{ cm}$ mewakili $6 \\text{ m}$ asli. Skala = ... : ... (contoh: 1:200)', questionEn:'Floor plan $3 \\text{ cm}$ represents $6 \\text{ m}$ actual. Scale = ... : ... (example: 1:200)',
+          correctAnswer:'1:200', acceptableAnswers:['1:200','1 : 200'],
+          explanation:`<p>$6 \\text{ m} = 600 \\text{ cm}$. $\\frac{3}{600} = \\frac{1}{200}$. Skala $1:200$. <span class="tr">Convert then simplify.</span></p>`},
+        { type:'task', pageTitle:'T9: Identifikasi Skala', pageTitleEn:'Identify Scale', taskType:'radio',
+          question:'Gambar $2 \\text{ cm}$, Asli $100 \\text{ cm}$. Berapa skalanya?', questionEn:'Drawing $2 \\text{ cm}$, Actual $100 \\text{ cm}$. What is the scale?',
+          options:[
+            {text:'$1 : 50$ <span class="tr">1:50</span>', correct:true},
+            {text:'$1 : 100$ <span class="tr">1:100</span>', correct:false},
+            {text:'$1 : 200$ <span class="tr">1:200</span>', correct:false},
+            {text:'$2 : 100$ <span class="tr">2:100</span>', correct:false}
+          ],
+          explanation:`<p>$\\frac{2}{100} = \\frac{1}{50}$. Skala $1:50$. <span class="tr">Simplify fraction.</span></p>`},
+        { type:'task', pageTitle:'T10: Hitung Luas', pageTitleEn:'Calculate Area', taskType:'fill',
+          question:'Skala $1 : 100$. Kamar di denah $2 \\text{ cm} \\times 3 \\text{ cm}$. Luas aslinya adalah... $\\text{m}^2$', questionEn:'Scale $1 : 100$. Room on plan $2 \\text{ cm} \\times 3 \\text{ cm}$. Actual area is... $\\text{m}^2$',
+          correctAnswer:'6', acceptableAnswers:['6'],
+          explanation:`<p>Panjang asli $3 \\times 100 = 300 \\text{ cm} = 3 \\text{ m}$. Lebar asli $2 \\times 100 = 200 \\text{ cm} = 2 \\text{ m}$. Luas $3 \\times 2 = 6 \\text{ m}^2$. <span class="tr">Find actual dimensions then calculate area.</span></p>`}
+      ]
+    },
+    j: {
+      title: 'Task 3',
+      titleEn: 'Task 3',
+      time: 'Printable',
+      pages: [
+        { type:'task', pageTitle:'T1: Hitung Skala', pageTitleEn:'Calculate Scale', taskType:'fill',
+          question:'Peta $5 \\text{ cm}$, Asli $50 \\text{ km}$ ($5.000.000 \\text{ cm}$). Skala = ... : ... (contoh: 1:1000000)', questionEn:'Map $5 \\text{ cm}$, Actual $50 \\text{ km}$ ($5,000,000 \\text{ cm}$). Scale = ... : ... (example: 1:1000000)',
+          correctAnswer:'1:1000000', acceptableAnswers:['1:1000000','1 : 1000000'],
+          explanation:`<p>$\\frac{5}{5.000.000} = \\frac{1}{1.000.000}$. <span class="tr">Simplify fraction.</span></p>`},
+        { type:'task', pageTitle:'T2: Pilih Jarak Peta', pageTitleEn:'Select Map Distance', taskType:'radio',
+          question:'Skala $1 : 250.000$. Jarak asli $5 \\text{ km}$. Berapa jarak petanya?', questionEn:'Scale $1 : 250,000$. Actual distance $5 \\text{ km}$. What is map distance?',
+          options:[
+            {text:'$2 \\text{ cm}$ <span class="tr">2 cm</span>', correct:true},
+            {text:'$4 \\text{ cm}$ <span class="tr">4 cm</span>', correct:false},
+            {text:'$5 \\text{ cm}$ <span class="tr">5 cm</span>', correct:false},
+            {text:'$10 \\text{ cm}$ <span class="tr">10 cm</span>', correct:false}
+          ],
+          explanation:`<p>$5 \\text{ km} = 500.000 \\text{ cm}$. $\\frac{500.000}{250.000} = 2 \\text{ cm}$. <span class="tr">Convert then divide.</span></p>`},
+        { type:'task', pageTitle:'T3: Benar atau Salah Skala', pageTitleEn:'True or False Scale', taskType:'truefalse',
+          question:'Benar atau salah: Skala $1 : 10$ berarti gambar 10 kali lebih besar dari aslinya. <span class="tr">True or false: Scale $1 : 10$ means drawing is 10 times larger than actual.</span>', questionEn:'Benar atau salah: Skala $1 : 10$ berarti gambar 10 kali lebih besar dari aslinya. <span class="tr">True or false: Scale $1 : 10$ means drawing is 10 times larger than actual.</span>',
+          correctAnswer:'false',
+          explanation:`<p>Skala $1:10$ berarti gambar lebih kecil 10 kali dari aslinya. <span class="tr">Scale 1:10 means drawing is 10 times smaller.</span></p>`},
+        { type:'task', pageTitle:'T4: Hitung Jarak Asli (km)', pageTitleEn:'Calculate Actual Distance (km)', taskType:'fill',
+          question:'Skala $1 : 300.000$. Jarak peta $3 \\text{ cm}$. Jarak asli dalam $\\text{km}$ adalah...', questionEn:'Scale $1 : 300,000$. Map distance $3 \\text{ cm}$. Actual distance in $\\text{km}$ is...',
+          correctAnswer:'9', acceptableAnswers:['9'],
+          explanation:`<p>$3 \\times 300.000 = 900.000 \\text{ cm} = 9 \\text{ km}$. <span class="tr">Multiply then convert.</span></p>`},
+        { type:'task', pageTitle:'T5: Urutkan Cari Jarak Peta', pageTitleEn:'Order Find Map Distance', taskType:'sorting',
+          question:'Urutkan langkah mencari jarak peta (Asli $4 \\text{ km}$, skala $1:200.000$).', questionEn:'Order steps to find map distance (Actual $4 \\text{ km}$, scale $1:200,000$).',
+          items:['Ubah $4 \\text{ km}$ ke $\\text{cm}$: $400.000 \\text{ cm}$','Bagi $400.000$ dengan $200.000$','Hasilnya $2 \\text{ cm}$','Tulis jarak peta: $2 \\text{ cm}$'],
+          correctOrder:[0,1,2,3],
+          explanation:`<p>Ubah ke cm $\\rightarrow$ bagi skala $\\rightarrow$ hasil $\\rightarrow$ tulis. <span class="tr">Convert $\\rightarrow$ divide $\\rightarrow$ result $\\rightarrow$ write.</span></p>`},
+        { type:'task', pageTitle:'T6: Pasangkan Skala Pecahan', pageTitleEn:'Match Fraction Scale', taskType:'pairing',
+          question:'Pasangkan bentuk pecahan dengan bentuk skala. <span class="tr">Match fraction form with scale form.</span>', questionEn:'Pasangkan bentuk pecahan dengan bentuk skala. <span class="tr">Match fraction form with scale form.</span>',
+          pairs:[
+            {left:'$\\frac{1}{100}$', right:'$1 : 100$'},
+            {left:'$\\frac{1}{2000}$', right:'$1 : 2000$'},
+            {left:'$\\frac{1}{50000}$', right:'$1 : 50000$'},
+            {left:'$\\frac{2}{400}$', right:'$1 : 200$'}
+          ],
+          explanation:`<p>Bentuk pecahan dan skala memiliki arti yang sama. <span class="tr">Fraction and scale form have same meaning.</span></p>`},
+        { type:'task', pageTitle:'T7: Pilih Skala yang Tepat', pageTitleEn:'Select Correct Scale', taskType:'checkbox',
+          question:'Pilih semua skala yang menunjukkan gambar lebih kecil dari aslinya. <span class="tr">Select all scales that show drawing smaller than actual.</span>', questionEn:'Pilih semua skala yang menunjukkan gambar lebih kecil dari aslinya. <span class="tr">Select all scales that show drawing smaller than actual.</span>',
+          options:[
+            {text:'$1 : 100$ <span class="tr">1:100</span>', correct:true},
+            {text:'$1 : 50$ <span class="tr">1:50</span>', correct:true},
+            {text:'$2 : 1$ <span class="tr">2:1</span>', correct:false},
+            {text:'$5 : 1$ <span class="tr">5:1</span>', correct:false}
+          ],
+          explanation:`<p>Jika angka pertama lebih kecil, gambar lebih kecil dari aslinya. <span class="tr">If first number is smaller, drawing is smaller than actual.</span></p>`},
+        { type:'task', pageTitle:'T8: Jarak Denah', pageTitleEn:'Floor Plan Distance', taskType:'fill',
+          question:'Skala $1 : 200$. Ukuran asli $8 \\text{ m}$. Ukuran di denah adalah... $\\text{cm}$', questionEn:'Scale $1 : 200$. Actual size $8 \\text{ m}$. Size on floor plan is... $\\text{cm}$',
+          correctAnswer:'4', acceptableAnswers:['4'],
+          explanation:`<p>$8 \\text{ m} = 800 \\text{ cm}$. $\\frac{800}{200} = 4 \\text{ cm}$. <span class="tr">Convert then divide.</span></p>`},
+        { type:'task', pageTitle:'T9: Identifikasi Skala Besar', pageTitleEn:'Identify Large Scale', taskType:'radio',
+          question:'Manakah skala yang menghasilkan jarak asli paling besar jika jarak petanya sama ($1 \\text{ cm}$)?', questionEn:'Which scale produces the largest actual distance if map distance is the same ($1 \\text{ cm}$)?',
+          options:[
+            {text:'$1 : 100.000$ <span class="tr">1:100,000</span>', correct:false},
+            {text:'$1 : 500.000$ <span class="tr">1:500,000</span>', correct:false},
+            {text:'$1 : 1.000.000$ <span class="tr">1:1,000,000</span>', correct:true},
+            {text:'$1 : 50.000$ <span class="tr">1:50,000</span>', correct:false}
+          ],
+          explanation:`<p>Angka skala kedua yang lebih besar menghasilkan jarak asli yang lebih besar. <span class="tr">Larger second number produces larger actual distance.</span></p>`},
+        { type:'task', pageTitle:'T10: Hitung Waktu', pageTitleEn:'Calculate Time', taskType:'fill',
+          question:'Skala $1 : 1.000.000$. Jarak peta $5 \\text{ cm}$. Jarak asli $50 \\text{ km}$. Jika kecepatan $25 \\text{ km/jam}$, waktu tempuh adalah... jam', questionEn:'Scale $1 : 1,000,000$. Map distance $5 \\text{ cm}$. Actual distance $50 \\text{ km}$. If speed is $25 \\text{ km/h}$, travel time is... hours',
+          correctAnswer:'2', acceptableAnswers:['2'],
+          explanation:`<p>Jarak asli $50 \\text{ km}$. $t = \\frac{50}{25} = 2 \\text{ jam}$. <span class="tr">Calculate time using distance and speed.</span></p>`}
+      ]
+    },
+    k: {
+      title: 'Task 4',
+      titleEn: 'Task 4',
+      time: 'Printable',
+      pages: [
+        { type:'task', pageTitle:'T1: Hitung Skala Mainan', pageTitleEn:'Calculate Toy Scale', taskType:'fill',
+          question:'Mainan pesawat panjang $5 \\text{ cm}$ mewakili asli $50 \\text{ m}$ ($5000 \\text{ cm}$). Skala = ... : ... (contoh: 1:1000)', questionEn:'Toy plane length $5 \\text{ cm}$ represents actual $50 \\text{ m}$ ($5000 \\text{ cm}$). Scale = ... : ... (example: 1:1000)',
+          correctAnswer:'1:1000', acceptableAnswers:['1:1000','1 : 1000'],
+          explanation:`<p>$\\frac{5}{5000} = \\frac{1}{1000}$. <span class="tr">Simplify fraction.</span></p>`},
+        { type:'task', pageTitle:'T2: Pilih Skala Mainan', pageTitleEn:'Select Toy Scale', taskType:'radio',
+          question:'Skala mainan mobil $1 : 24$. Jika panjang asli $4.8 \\text{ m}$ ($480 \\text{ cm}$), berapa panjang mainannya?', questionEn:'Toy car scale $1 : 24$. If actual length is $4.8 \\text{ m}$ ($480 \\text{ cm}$), what is toy length?',
+          options:[
+            {text:'$10 \\text{ cm}$ <span class="tr">10 cm</span>', correct:false},
+            {text:'$20 \\text{ cm}$ <span class="tr">20 cm</span>', correct:true},
+            {text:'$24 \\text{ cm}$ <span class="tr">24 cm</span>', correct:false},
+            {text:'$48 \\text{ cm}$ <span class="tr">48 cm</span>', correct:false}
+          ],
+          explanation:`<p>$\\frac{480}{24} = 20 \\text{ cm}$. <span class="tr">Divide actual by scale.</span></p>`},
+        { type:'task', pageTitle:'T3: Benar atau Salah Mainan', pageTitleEn:'True or False Toy', taskType:'truefalse',
+          question:'Benar atau salah: Pada skala $1 : 50$, mainan 50 kali lebih panjang dari aslinya. <span class="tr">True or false: On scale $1 : 50$, toy is 50 times longer than actual.</span>', questionEn:'Benar atau salah: Pada skala $1 : 50$, mainan 50 kali lebih panjang dari aslinya. <span class="tr">True or false: On scale $1 : 50$, toy is 50 times longer than actual.</span>',
+          correctAnswer:'false',
+          explanation:`<p>Mainan justru 50 kali lebih pendek dari aslinya. <span class="tr">Toy is 50 times shorter.</span></p>`},
+        { type:'task', pageTitle:'T4: Hitung Skala Denah', pageTitleEn:'Calculate Floor Plan Scale', taskType:'fill',
+          question:'Rumah asli $12 \\text{ m}$, di denah $6 \\text{ cm}$. Skala = ... : ... (contoh: 1:200)', questionEn:'Actual house $12 \\text{ m}$, on floor plan $6 \\text{ cm}$. Scale = ... : ... (example: 1:200)',
+          correctAnswer:'1:200', acceptableAnswers:['1:200','1 : 200'],
+          explanation:`<p>$12 \\text{ m} = 1200 \\text{ cm}$. $\\frac{6}{1200} = \\frac{1}{200}$. <span class="tr">Convert then simplify.</span></p>`},
+        { type:'task', pageTitle:'T5: Urutkan Langkah Mainan', pageTitleEn:'Order Toy Steps', taskType:'sorting',
+          question:'Urutkan langkah mencari panjang asli (mainan $3 \\text{ cm}$, skala $1:100$).', questionEn:'Order steps to find actual length (toy $3 \\text{ cm}$, scale $1:100$).',
+          items:['Kalikan $3 \\text{ cm}$ dengan $100$','Hasilnya $300 \\text{ cm}$','Bagi $100$ untuk konversi ke meter','Hasil akhir $3 \\text{ m}$'],
+          correctOrder:[0,1,2,3],
+          explanation:`<p>Kalikan skala, lalu ubah ke meter. <span class="tr">Multiply by scale, then convert to meters.</span></p>`},
+        { type:'task', pageTitle:'T6: Pasangkan Denah dan Skala', pageTitleEn:'Match Plan and Scale', taskType:'pairing',
+          question:'Pasangkan denah dan ukuran aslinya (Skala $1 : 100$). <span class="tr">Match floor plan and actual size (Scale $1 : 100$).</span>', questionEn:'Pasangkan denah dan ukuran aslinya (Skala $1 : 100$). <span class="tr">Match floor plan and actual size (Scale $1 : 100$).</span>',
+          pairs:[
+            {left:'Denah $2 \\text{ cm}$', right:'Asli $2 \\text{ m}$'},
+            {left:'Denah $5 \\text{ cm}$', right:'Asli $5 \\text{ m}$'},
+            {left:'Denah $10 \\text{ cm}$', right:'Asli $10 \\text{ m}$'},
+            {left:'Denah $15 \\text{ cm}$', right:'Asli $15 \\text{ m}$'}
+          ],
+          explanation:`<p>Skala $1:100$ berarti $1 \\text{ cm}$ di denah $= 100 \\text{ cm} = 1 \\text{ m}$ di asli. <span class="tr">Scale 1:100 means 1 cm on plan = 1 m actual.</span></p>`},
+        { type:'task', pageTitle:'T7: Pilih Kalkulasi Luas', pageTitleEn:'Select Area Calculation', taskType:'checkbox',
+          question:'Denah $4 \\text{ cm} \\times 5 \\text{ cm}$, skala $1 : 100$. Pilih perhitungan yang benar. <span class="tr">Floor plan $4 \\text{ cm} \\times 5 \\text{ cm}$, scale $1 : 100$. Select correct calculations.</span>', questionEn:'Denah $4 \\text{ cm} \\times 5 \\text{ cm}$, skala $1 : 100$. Pilih perhitungan yang benar. <span class="tr">Floor plan $4 \\text{ cm} \\times 5 \\text{ cm}$, scale $1 : 100$. Select correct calculations.</span>',
+          options:[
+            {text:'Panjang asli $500 \\text{ cm} = 5 \\text{ m}$ <span class="tr">Actual length</span>', correct:true},
+            {text:'Lebar asli $400 \\text{ cm} = 4 \\text{ m}$ <span class="tr">Actual width</span>', correct:true},
+            {text:'Luas $= 5 \\text{ m} \\times 4 \\text{ m} = 20 \\text{ m}^2$ <span class="tr">Area</span>', correct:true},
+            {text:'Luas $= 20 \\text{ cm}^2$ <span class="tr">Area in cm</span>', correct:false}
+          ],
+          explanation:`<p>Hitung ukuran asli, lalu hitung luas dalam satuan meter. <span class="tr">Calculate actual size, then area in meters.</span></p>`},
+        { type:'task', pageTitle:'T8: Cari Skala Peta', pageTitleEn:'Find Map Scale', taskType:'fill',
+          question:'Jarak peta $4 \\text{ cm}$, jarak asli $40 \\text{ km}$. Skala = ... : ... (contoh: 1:1000000)', questionEn:'Map distance $4 \\text{ cm}$, actual distance $40 \\text{ km}$. Scale = ... : ... (example: 1:1000000)',
+          correctAnswer:'1:1000000', acceptableAnswers:['1:1000000','1 : 1000000'],
+          explanation:`<p>$40 \\text{ km} = 4.000.000 \\text{ cm}$. $\\frac{4}{4.000.000} = \\frac{1}{1.000.000}$. <span class="tr">Convert then simplify.</span></p>`},
+        { type:'task', pageTitle:'T9: Identifikasi Hubungan', pageTitleEn:'Identify Relationship', taskType:'radio',
+          question:'Jika skala diperbesar (angka kedua lebih besar), apa yang terjadi pada jarak asli jika jarak peta tetap?', questionEn:'If scale is enlarged (second number larger), what happens to actual distance if map distance remains same?',
+          options:[
+            {text:'Jarak asli mengecil <span class="tr">Actual distance decreases</span>', correct:false},
+            {text:'Jarak asli membesar <span class="tr">Actual distance increases</span>', correct:true},
+            {text:'Jarak asli tetap <span class="tr">Actual distance remains same</span>', correct:false},
+            {text:'Jarak peta menjadi 0 <span class="tr">Map distance becomes 0</span>', correct:false}
+          ],
+          explanation:`<p>Angka skala kedua adalah pengali. Jika diperbesar, jarak asli juga membesar. <span class="tr">Second number is multiplier. If enlarged, actual distance increases.</span></p>`},
+        { type:'task', pageTitle:'T10: Hitung Jarak Peta', pageTitleEn:'Calculate Map Distance', taskType:'fill',
+          question:'Skala $1 : 500.000$. Jarak asli $25 \\text{ km}$. Jarak pada peta adalah... $\\text{cm}$', questionEn:'Scale $1 : 500,000$. Actual distance $25 \\text{ km}$. Map distance is... $\\text{cm}$',
+          correctAnswer:'5', acceptableAnswers:['5'],
+          explanation:`<p>$25 \\text{ km} = 2.500.000 \\text{ cm}$. $\\frac{2.500.000}{500.000} = 5 \\text{ cm}$. <span class="tr">Convert then divide.</span></p>`}
+      ]
+    },
+    l: {
+      title: 'Task 5',
+      titleEn: 'Task 5',
+      time: 'Printable',
+      pages: [
+        { type:'task', pageTitle:'T1: Identifikasi Dunia Nyata', pageTitleEn:'Identify Real-World', taskType:'radio',
+          question:'Manakah contoh skala yang sering digunakan dalam denah rumah?', questionEn:'Which is an example of scale commonly used in house floor plans?',
+          options:[
+            {text:'$1 : 10$ <span class="tr">1:10</span>', correct:false},
+            {text:'$1 : 100$ <span class="tr">1:100</span>', correct:true},
+            {text:'$1 : 10.000$ <span class="tr">1:10,000</span>', correct:false},
+            {text:'$1 : 1.000.000$ <span class="tr">1:1,000,000</span>', correct:false}
+          ],
+          explanation:`<p>Denah rumah menggunakan skala $1:100$ agar muat di kertas. <span class="tr">Floor plans use 1:100 to fit on paper.</span></p>`},
+        { type:'task', pageTitle:'T2: Hitung Jarak Sebenarnya', pageTitleEn:'Calculate Actual Distance', taskType:'fill',
+          question:'Skala $1 : 200.000$. Jarak peta $3 \\text{ cm}$. Jarak sebenarnya dalam $\\text{km}$ adalah...', questionEn:'Scale $1 : 200,000$. Map distance $3 \\text{ cm}$. Actual distance in $\\text{km}$ is...',
+          correctAnswer:'6', acceptableAnswers:['6'],
+          explanation:`<p>$3 \\times 200.000 = 600.000 \\text{ cm} = 6 \\text{ km}$. <span class="tr">Multiply then convert.</span></p>`},
+        { type:'task', pageTitle:'T3: Benar atau Salah Logika', pageTitleEn:'True or False Logic', taskType:'truefalse',
+          question:'Benar atau salah: Skala $1 : 1$ berarti ukuran gambar sama persis dengan ukuran aslinya. <span class="tr">True or false: Scale $1 : 1$ means drawing size is exactly the same as actual size.</span>', questionEn:'Benar atau salah: Skala $1 : 1$ berarti ukuran gambar sama persis dengan ukuran aslinya. <span class="tr">True or false: Scale $1 : 1$ means drawing size is exactly the same as actual size.</span>',
+          correctAnswer:'true',
+          explanation:`<p>Tidak ada perubahan ukuran karena pengalinya $1$. <span class="tr">No size change because multiplier is 1.</span></p>`},
+        { type:'task', pageTitle:'T4: Selesaikan x Cerita', pageTitleEn:'Solve Word Problem x', taskType:'fill',
+          question:'Sebuah taman berbentuk persegi panjang. Pada denah berskala $1 : 200$, panjang taman $4 \\text{ cm}$ dan lebar $3 \\text{ cm}$. Berapa keliling taman asli dalam meter? <span class="tr">A rectangular park. On floor plan scale $1 : 200$, length $4 \\text{ cm}$ and width $3 \\text{ cm}$. What is actual perimeter in meters?</span>', questionEn:'Sebuah taman berbentuk persegi panjang. Pada denah berskala $1 : 200$, panjang taman $4 \\text{ cm}$ dan lebar $3 \\text{ cm}$. Berapa keliling taman asli dalam meter? <span class="tr">A rectangular park. On floor plan scale $1 : 200$, length $4 \\text{ cm}$ and width $3 \\text{ cm}$. What is actual perimeter in meters?</span>',
+          correctAnswer:'28', acceptableAnswers:['28'],
+          explanation:`<p>Panjang asli $4 \\times 200 = 800 \\text{ cm} = 8 \\text{ m}$. Lebar asli $3 \\times 200 = 600 \\text{ cm} = 6 \\text{ m}$. Keliling $= 2(8+6) = 28 \\text{ m}$. <span class="tr">Calculate actual dimensions then perimeter.</span></p>`},
+        { type:'task', pageTitle:'T5: Urutkan Langkah Cerita', pageTitleEn:'Order Word Problem Steps', taskType:'sorting',
+          question:'Urutkan langkah mencari luas asli (denah $2 \\text{ cm} \\times 5 \\text{ cm}$, skala $1:50$).', questionEn:'Order steps to find actual area (plan $2 \\text{ cm} \\times 5 \\text{ cm}$, scale $1:50$).',
+          items:['Cari panjang asli: $5 \\times 50 = 250 \\text{ cm} = 2.5 \\text{ m}$','Cari lebar asli: $2 \\times 50 = 100 \\text{ cm} = 1 \\text{ m}$','Kalikan panjang dan lebar: $2.5 \\times 1$','Hasil luas: $2.5 \\text{ m}^2$'],
+          correctOrder:[0,1,2,3],
+          explanation:`<p>Cari ukuran asli dalam meter, baru kalikan. <span class="tr">Find actual size in meters, then multiply.</span></p>`},
+        { type:'task', pageTitle:'T6: Pasangkan Komponen', pageTitleEn:'Match Components', taskType:'pairing',
+          question:'Pasangkan benda dengan perkiraan skala yang masuk akal. <span class="tr">Match object with reasonable scale.</span>', questionEn:'Pasangkan benda dengan perkiraan skala yang masuk akal. <span class="tr">Match object with reasonable scale.</span>',
+          pairs:[
+            {left:'Denah Rumah', right:'$1 : 100$'},
+            {left:'Peta Kota', right:'$1 : 50.000$'},
+            {left:'Peta Pulau', right:'$1 : 1.000.000$'},
+            {left:'Mainan Mobil', right:'$1 : 20$'}
+          ],
+          explanation:`<p>Sesuaikan skala dengan kebutuhan ukuran benda. <span class="tr">Match scale with object size requirement.</span></p>`},
+        { type:'task', pageTitle:'T7: Pilih Pernyataan Benar', pageTitleEn:'Select True Statements', taskType:'checkbox',
+          question:'Pilih semua pernyataan yang benar tentang skala. <span class="tr">Select all true statements about scale.</span>', questionEn:'Pilih semua pernyataan yang benar tentang skala. <span class="tr">Select all true statements about scale.</span>',
+          options:[
+            {text:'Skala adalah rasio <span class="tr">Scale is a ratio</span>', correct:true},
+            {text:'Skala bisa ditulis dalam pecahan <span class="tr">Scale can be written as fraction</span>', correct:true},
+            {text:'Skala memiliki satuan meter <span class="tr">Scale has meter unit</span>', correct:false},
+            {text:'Skala bisa digunakan untuk denah dan peta <span class="tr">Scale can be used for plans and maps</span>', correct:true}
+          ],
+          explanation:`<p>Skala tidak memiliki satuan karena merupakan perbandingan. <span class="tr">Scale has no unit because it is a comparison.</span></p>`},
+        { type:'task', pageTitle:'T8: Hitung Jarak Sehadap', pageTitleEn:'Calculate Corresponding Distance', taskType:'fill',
+          question:'Jika $1 \\text{ cm}$ mewakili $5 \\text{ km}$, berapa jarak sebenarnya jika di peta $4 \\text{ cm}$? (dalam $\\text{km}$)', questionEn:'If $1 \\text{ cm}$ represents $5 \\text{ km}$, what is actual distance if map is $4 \\text{ cm}$? (in $\\text{km}$)',
+          correctAnswer:'20', acceptableAnswers:['20'],
+          explanation:`<p>$4 \\times 5 = 20 \\text{ km}$. <span class="tr">Multiply map distance by representation.</span></p>`},
+        { type:'task', pageTitle:'T9: Tentukan Skala dari Pernyataan', pageTitleEn:'Determine Scale from Statement', taskType:'radio',
+          question:'Jika $2 \\text{ cm}$ pada peta mewakili $10 \\text{ km}$ di dunia nyata, berapa skalanya?', questionEn:'If $2 \\text{ cm}$ on map represents $10 \\text{ km}$ in real world, what is the scale?',
+          options:[
+            {text:'$1 : 500.000$ <span class="tr">1:500,000</span>', correct:true},
+            {text:'$1 : 50.000$ <span class="tr">1:50,000</span>', correct:false},
+            {text:'$1 : 5.000.000$ <span class="tr">1:5,000,000</span>', correct:false},
+            {text:'$1 : 100.000$ <span class="tr">1:100,000</span>', correct:false}
+          ],
+          explanation:`<p>$10 \\text{ km} = 1.000.000 \\text{ cm}$. $\\frac{2}{1.000.000} = \\frac{1}{500.000}$. <span class="tr">Convert then simplify.</span></p>`},
+        { type:'task', pageTitle:'T10: Hitung x Akhir', pageTitleEn:'Calculate Final x', taskType:'fill',
+          question:'Skala $1 : 100.000$. Jarak asli $x \\text{ km}$. Jarak peta $3 \\text{ cm}$. Nilai $x = \\dots$', questionEn:'Scale $1 : 100,000$. Actual distance $x \\text{ km}$. Map distance $3 \\text{ cm}$. Value of $x = \\dots$',
+          correctAnswer:'3', acceptableAnswers:['3'],
+          explanation:`<p>$3 \\times 100.000 = 300.000 \\text{ cm} = 3 \\text{ km}$. Maka $x = 3$. <span class="tr">Calculate then convert.</span></p>`}
+      ]
+    }
+  };
+
+  // ================= STATE =================
+  let currentSection = 'a';
+  let currentPage = 0;
+  let userAnswers = {};
+
+  // ================= UTILITIES =================
+  function shuffle(arr){
+    const a = arr.slice();
+    for(let i = a.length - 1; i > 0; i--){
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  }
+  function renderMath(el){
+    if(window.renderMathInElement){
+      renderMathInElement(el, {
+        delimiters: [
+          {left:'$$', right:'$$', display:true},
+          {left:'$', right:'$', display:false}
+        ],
+        throwOnError: false
+      });
+    }
+  }
+
+  // ================= SIDEBAR =================
+  function renderSidebar(){
+    const sidebar = document.getElementById('sidebar');
+    const sectionKeys = ['a','b','c','d','e','f','g','h','i','j','k','l'];
+    const meta = {
+      a:{t:'Spiral Review Warm-up', e:'Spiral Review Warm-up', time:'00:00-00:10'},
+      b:{t:'Intro & Real-World', e:'Intro & Real-World', time:'00:10-00:15'},
+      c:{t:'Review of Prior Knowledge', e:'Review of Prior Knowledge', time:'00:15-00:20'},
+      d:{t:'Problem Introduction', e:'Problem Introduction', time:'00:20-00:30'},
+      e:{t:'Guided Practice', e:'Guided Practice', time:'00:30-00:45'},
+      f:{t:'Independent Practice', e:'Independent Practice', time:'00:45-00:55'},
+      g:{t:'Consolidation & Reflection', e:'Consolidation & Reflection', time:'00:55-01:00'},
+      h:{t:'Task 1', e:'Task 1', time:'Printable'},
+      i:{t:'Task 2', e:'Task 2', time:'Printable'},
+      j:{t:'Task 3', e:'Task 3', time:'Printable'},
+      k:{t:'Task 4', e:'Task 4', time:'Printable'},
+      l:{t:'Task 5', e:'Task 5', time:'Printable'}
+    };
+    let html = '<h3>Bagian <span class="tr">Sections</span></h3>';
+    sectionKeys.forEach(key => {
+      const section = sectionsData[key];
+      const isActive = currentSection === key;
+      if(section){
+        html += `<div class="nav-link ${isActive?'active':''}" data-section="${key}">
+          <span class="nl-title">${key.toUpperCase()}. ${meta[key].t}</span>
+          <span class="tr">${meta[key].e}</span>
+          <span class="time">${meta[key].time}</span>
+        </div>`;
+      } else {
+        html += `<div class="nav-link disabled">${key.toUpperCase()}. ${meta[key].t}<br><span class="tr">${meta[key].e}</span><br><span class="time">${meta[key].time} (segera)</span></div>`;
+      }
+    });
+    sidebar.innerHTML = html;
+    sidebar.querySelectorAll('.nav-link[data-section]').forEach(el => {
+      el.addEventListener('click', () => {
+        currentSection = el.dataset.section;
+        currentPage = 0;
+        renderSidebar();
+        renderPage();
+      });
+    });
+  }
+
+  // ================= PAGE RENDER =================
+  function renderPage(){
+    const section = sectionsData[currentSection];
+    if(!section) return;
+    const page = section.pages[currentPage];
+    const contentEl = document.getElementById('pageContent');
+
+    let printBtnHtml = '';
+    if(['h','i','j','k','l'].includes(currentSection)){
+      printBtnHtml = '<button id="printBtnTop" style="background:var(--success);color:#fff;border:none;padding:7px 14px;border-radius:6px;cursor:pointer;font-size:.8em;font-weight:600;white-space:nowrap">🖨 Cetak ke PDF <span class="tr">Print to PDF</span></button>';
+    }
+    let html = '<div class="page-header"><h2>' + section.title + ' <span class="tr">' + section.titleEn + '</span></h2><div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">' + printBtnHtml + '<span class="badge">' + page.pageTitle.split(':')[0] + '</span></div></div>';
+
+    if(page.type === 'explanation'){
+      html += '<div class="card explain"><h3>' + page.pageTitle + ' <span class="tr">' + page.pageTitleEn + '</span></h3>' + page.body + '</div>';
+    } else if(page.type === 'task'){
+      html += renderTask(page);
+    }
+    contentEl.innerHTML = html;
+    renderMath(contentEl);
+
+    const total = section.pages.length;
+    const pageNumsEl = document.getElementById('pageNums');
+    let pageNumHtml = '';
+    section.pages.forEach(function(p, i){
+      var raw = p.pageTitle.split(':')[0].trim();
+      var type = raw.charAt(0);
+      var num = parseInt(raw.substring(1));
+      var label = type + '-' + String(num).padStart(2, '0');
+      var typeClass = (type === 'E') ? 'page-num-e' : 'page-num-t';
+      var isActive = (i === currentPage);
+      pageNumHtml += '<button class="page-num ' + typeClass + ' ' + (isActive ? 'active' : '') + '" data-page="' + i + '"' + (isActive ? ' disabled' : '') + '>' + label + '</button>';
+    });
+    pageNumsEl.innerHTML = pageNumHtml;
+
+    pageNumsEl.querySelectorAll('.page-num').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        currentPage = parseInt(btn.dataset.page);
+        renderPage();
+      });
+    });
+
+    document.getElementById('prevBtn').disabled = (currentPage === 0);
+    document.getElementById('nextBtn').disabled = (currentPage === total - 1);
+
+    var printBtnTop = document.getElementById('printBtnTop');
+    if(printBtnTop){
+      printBtnTop.addEventListener('click', function(){ printTask(currentSection); });
+    }
+
+    if(page.type === 'task'){
+      attachTaskHandlers(page);
+    }
+  }
+
+  function renderTask(page){
+    let html = `<div class="card task"><h3>${page.pageTitle} <span class="tr">${page.pageTitleEn}</span></h3>`;
+    let qHTML = page.question;
+	// Cegah translasi ganda jika question sudah mengandung span class="tr"
+	if (page.questionEn && !qHTML.includes('<span class="tr">')) {
+		qHTML += ` <span class="tr">${page.questionEn}</span>`;
+	}
+	html += `<div class="q-text">${qHTML}</div>`;
+
+    if(page.taskType === 'radio' || page.taskType === 'checkbox'){
+      const options = shuffle(page.options);
+      page._shuffledOptions = options;
+      html += '<div class="options">';
+      options.forEach((opt, i) => {
+        const cls = page.taskType === 'checkbox' ? 'option checkbox' : 'option radio';
+        html += `<div class="${cls}" data-idx="${i}">
+          <div class="marker"></div>
+          <div class="opt-text">${opt.text}</div>
+        </div>`;
+      });
+      html += '</div>';
+    } else if(page.taskType === 'fill'){
+      html += `<input type="text" class="fill-input" id="fillInput" placeholder="...">`;
+    } else if(page.taskType === 'truefalse'){
+      const opts = shuffle([
+        {text:'Benar <span class="tr">True</span>', val:'true'},
+        {text:'Salah <span class="tr">False</span>', val:'false'}
+      ]);
+      page._shuffledTF = opts;
+      html += '<div class="options">';
+      opts.forEach((o, i) => {
+        html += `<div class="option radio" data-val="${o.val}" data-idx="${i}"><div class="marker"></div><div class="opt-text">${o.text}</div></div>`;
+      });
+      html += '</div>';
+    } else if(page.taskType === 'sorting'){
+      const shuffled = shuffle(page.items.map((item, idx) => ({text:item, originalIdx:idx})));
+      page._shuffledItems = shuffled;
+      html += '<div class="sort-list">';
+      shuffled.forEach((it, i) => {
+        html += `<div class="sort-item" data-pos="${i}" data-orig="${it.originalIdx}">
+          <span class="pos">${i+1}</span>
+          <span class="sort-text">${it.text}</span>
+        </div>`;
+      });
+      html += '</div>';
+      html += '<p style="font-size:.82em;color:var(--muted);margin-top:6px">Klik dua item untuk menukar. <span class="tr">Click two items to swap.</span></p>';
+    } else if(page.taskType === 'pairing'){
+      const lefts = shuffle(page.pairs.map((p, idx) => ({text:p.left, originalIdx:idx})));
+      const rights = shuffle(page.pairs.map((p, idx) => ({text:p.right, originalIdx:idx})));
+      page._shuffledPairs = {lefts, rights};
+      html += '<div class="pair-grid">';
+      html += '<div class="pair-col"><h4>Kiri <span class="tr">Left</span></h4>';
+      lefts.forEach((l, i) => {
+        html += `<div class="pair-item" data-side="left" data-idx="${i}">${l.text}</div>`;
+      });
+      html += '</div>';
+      html += '<div class="pair-col"><h4>Kanan <span class="tr">Right</span></h4>';
+      rights.forEach((r, i) => {
+        html += `<div class="pair-item" data-side="right" data-idx="${i}">${r.text}</div>`;
+      });
+      html += '</div></div>';
+      html += '<div class="pairs-list" id="pairsList"></div>';
+      html += '<p style="font-size:.82em;color:var(--muted);margin-top:6px">Klik kiri lalu kanan untuk memasangkan. <span class="tr">Click left then right to pair.</span></p>';
+    }
+    html += `<button class="btn-submit" id="submitBtn">Periksa Jawaban <span class="tr">Check Answer</span></button>`;
+    html += `<div class="feedback" id="feedback"></div></div>`;
+    return html;
+  }
+
+  function attachTaskHandlers(page){
+    const taskType = page.taskType;
+    if(taskType === 'radio' || taskType === 'truefalse'){
+      document.querySelectorAll('.option').forEach(opt => {
+        opt.addEventListener('click', () => {
+          document.querySelectorAll('.option').forEach(o => o.classList.remove('selected'));
+          opt.classList.add('selected');
+        });
+      });
+    } else if(taskType === 'checkbox'){
+      document.querySelectorAll('.option').forEach(opt => {
+        opt.addEventListener('click', () => opt.classList.toggle('selected'));
+      });
+    } else if(taskType === 'sorting'){
+      let firstClick = null;
+      document.querySelectorAll('.sort-item').forEach(item => {
+        item.addEventListener('click', () => {
+          if(firstClick === null){
+            firstClick = item;
+            item.classList.add('selected');
+          } else if(firstClick === item){
+            item.classList.remove('selected');
+            firstClick = null;
+          } else {
+            const fText = firstClick.querySelector('.sort-text').innerHTML;
+            const sText = item.querySelector('.sort-text').innerHTML;
+            firstClick.querySelector('.sort-text').innerHTML = sText;
+            item.querySelector('.sort-text').innerHTML = fText;
+            const fOrig = firstClick.dataset.orig;
+            firstClick.dataset.orig = item.dataset.orig;
+            item.dataset.orig = fOrig;
+            firstClick.classList.remove('selected');
+            firstClick = null;
+          }
+        });
+      });
+    } else if(taskType === 'pairing'){
+      let selectedLeft = null;
+      document.querySelectorAll('.pair-item[data-side="left"]').forEach(item => {
+        item.addEventListener('click', () => {
+          if(item.classList.contains('paired')) return;
+          document.querySelectorAll('.pair-item[data-side="left"]').forEach(i => i.classList.remove('selected'));
+          item.classList.add('selected');
+          selectedLeft = item;
+        });
+      });
+      document.querySelectorAll('.pair-item[data-side="right"]').forEach(item => {
+        item.addEventListener('click', () => {
+          if(item.classList.contains('paired') || !selectedLeft) return;
+          const leftIdx = selectedLeft.dataset.idx;
+          const rightIdx = item.dataset.idx;
+          const pairList = document.getElementById('pairsList');
+          const pairRow = document.createElement('div');
+          pairRow.className = 'pair-row';
+          pairRow.dataset.leftIdx = leftIdx;
+          pairRow.dataset.rightIdx = rightIdx;
+          pairRow.innerHTML = `<span>${selectedLeft.innerHTML}</span> <span>↔</span> <span>${item.innerHTML}</span> <span class="remove" title="Hapus">×</span>`;
+          pairRow.querySelector('.remove').addEventListener('click', function() {
+            const lIdx = pairRow.dataset.leftIdx;
+            const rIdx = pairRow.dataset.rightIdx;
+            const lItem = document.querySelector(`.pair-item[data-side="left"][data-idx="${lIdx}"]`);
+            const rItem = document.querySelector(`.pair-item[data-side="right"][data-idx="${rIdx}"]`);
+            if(lItem) lItem.classList.remove('paired');
+            if(rItem) rItem.classList.remove('paired');
+            pairRow.remove();
+          });
+          pairList.appendChild(pairRow);
+          selectedLeft.classList.remove('selected');
+          selectedLeft.classList.add('paired');
+          item.classList.add('paired');
+          selectedLeft = null;
+        });
+      });
+    }
+    document.getElementById('submitBtn').addEventListener('click', () => checkAnswer(page));
+  }
+
+  function checkAnswer(page){
+    const taskType = page.taskType;
+    let isCorrect = false;
+    let userAnswerStr = '';
+
+    if(taskType === 'radio'){
+      let selected = null, selectedIdx = -1;
+      document.querySelectorAll('.option').forEach((opt, i) => {
+        if(opt.classList.contains('selected')){
+          selected = page._shuffledOptions[i];
+          selectedIdx = i;
+        }
+      });
+      if(!selected){
+        showFeedback(false, 'Silakan pilih jawaban. <span class="tr">Please select an answer.</span>', false);
+        return;
+      }
+      isCorrect = selected.correct;
+      userAnswerStr = selected.text;
+      document.querySelectorAll('.option').forEach((opt, i) => {
+        opt.classList.remove('selected');
+        if(page._shuffledOptions[i].correct) opt.classList.add('correct');
+        else if(i === selectedIdx && !selected.correct) opt.classList.add('incorrect');
+      });
+    } else if(taskType === 'checkbox'){
+      const selectedIdxs = [];
+      document.querySelectorAll('.option').forEach((opt, i) => {
+        if(opt.classList.contains('selected')) selectedIdxs.push(i);
+      });
+      if(selectedIdxs.length === 0){
+        showFeedback(false, 'Silakan pilih jawaban. <span class="tr">Please select an answer.</span>', false);
+        return;
+      }
+      const correctSet = new Set();
+      page._shuffledOptions.forEach((opt, i) => { if(opt.correct) correctSet.add(i); });
+      const selectedSet = new Set(selectedIdxs);
+      isCorrect = correctSet.size === selectedSet.size && [...correctSet].every(i => selectedSet.has(i));
+      userAnswerStr = selectedIdxs.map(i => page._shuffledOptions[i].text).join(', ');
+      document.querySelectorAll('.option').forEach((opt, i) => {
+        opt.classList.remove('selected');
+        if(page._shuffledOptions[i].correct) opt.classList.add('correct');
+        else if(selectedSet.has(i)) opt.classList.add('incorrect');
+      });
+    } else if(taskType === 'fill'){
+      const val = document.getElementById('fillInput').value.trim();
+      const acceptable = page.acceptableAnswers || [page.correctAnswer];
+      const norm = s => s.toLowerCase().replace(/\s+/g, '').trim();
+      isCorrect = acceptable.some(a => norm(a) === norm(val));
+      userAnswerStr = val;
+    } else if(taskType === 'truefalse'){
+      let selectedVal = null, selectedIdx = -1;
+      document.querySelectorAll('.option').forEach((opt, i) => {
+        if(opt.classList.contains('selected')){
+          selectedVal = opt.dataset.val;
+          selectedIdx = i;
+        }
+      });
+      if(!selectedVal){
+        showFeedback(false, 'Silakan pilih jawaban. <span class="tr">Please select an answer.</span>', false);
+        return;
+      }
+      isCorrect = selectedVal === page.correctAnswer;
+      userAnswerStr = selectedVal === 'true' ? 'Benar' : 'Salah';
+      document.querySelectorAll('.option').forEach((opt, i) => {
+        opt.classList.remove('selected');
+        if(opt.dataset.val === page.correctAnswer) opt.classList.add('correct');
+        else if(i === selectedIdx) opt.classList.add('incorrect');
+      });
+    } else if(taskType === 'sorting'){
+      const currentOrder = [];
+      document.querySelectorAll('.sort-item').forEach(item => {
+        currentOrder.push(parseInt(item.dataset.orig));
+      });
+      isCorrect = currentOrder.every((idx, i) => idx === page.correctOrder[i]);
+      userAnswerStr = currentOrder.map((idx, i) => `${i+1}. ${page.items[idx] || '?'}`).join('  |  ');
+      document.querySelectorAll('.sort-item').forEach((item, i) => {
+        if(currentOrder[i] === page.correctOrder[i]) item.style.borderColor = 'var(--success)';
+        else item.style.borderColor = 'var(--danger)';
+      });
+    } else if(taskType === 'pairing'){
+      const pairRows = document.querySelectorAll('.pair-row');
+      if(pairRows.length === 0){
+        showFeedback(false, 'Silakan buat pasangan. <span class="tr">Please make pairs.</span>', false);
+        return;
+      }
+      const userPairs = [];
+      pairRows.forEach(row => {
+        const lIdx = parseInt(row.dataset.leftIdx);
+        const rIdx = parseInt(row.dataset.rightIdx);
+        userPairs.push({
+          leftText: page._shuffledPairs.lefts[lIdx].text,
+          rightText: page._shuffledPairs.rights[rIdx].text
+        });
+      });
+      const correctPairs = page.pairs.map(p => ({left:p.left, right:p.right}));
+      const correctCount = userPairs.filter(up =>
+        correctPairs.some(cp => cp.left === up.leftText && cp.right === up.rightText)
+      ).length;
+      isCorrect = correctCount === correctPairs.length && userPairs.length === correctPairs.length;
+      userAnswerStr = userPairs.map(p => `${p.leftText}↔${p.rightText}`).join('  |  ');
+      pairRows.forEach(row => {
+        const lIdx = parseInt(row.dataset.leftIdx);
+        const rIdx = parseInt(row.dataset.rightIdx);
+        const lText = page._shuffledPairs.lefts[lIdx].text;
+        const rText = page._shuffledPairs.rights[rIdx].text;
+        const ok = correctPairs.some(cp => cp.left === lText && cp.right === rText);
+        row.style.background = ok ? '#d1fae5' : '#fee2e2';
+      });
+    }
+
+    const pageKey = `${currentSection}-${currentPage}`;
+    userAnswers[pageKey] = {userAnswer:userAnswerStr, correct:isCorrect, pageTitle:page.pageTitle};
+    showFeedback(isCorrect, page.explanation, true);
+  }
+
+  function showFeedback(isCorrect, explanation, showAnswer){
+    const feedback = document.getElementById('feedback');
+    feedback.className = `feedback show ${isCorrect?'correct':'incorrect'}`;
+    if(showAnswer){
+      feedback.innerHTML = `<h4>${isCorrect?'✓ Benar!':'✗ Salah'} <span class="tr">${isCorrect?'Correct!':'Incorrect'}</span></h4>${explanation}`;
+    } else {
+      feedback.innerHTML = `<h4>${isCorrect?'✓ Benar!':'✗ Salah'}</h4>`;
+    }
+    renderMath(feedback);
+  }
+
+  // ================= EVENT LISTENERS =================
+  document.getElementById('prevBtn').addEventListener('click', () => {
+    if(currentPage > 0){ currentPage--; renderPage(); }
+  });
+  document.getElementById('nextBtn').addEventListener('click', () => {
+    const total = sectionsData[currentSection].pages.length;
+    if(currentPage < total - 1){ currentPage++; renderPage(); }
+  });
+
+  const modal = document.getElementById('classRulesModal');
+  document.getElementById('classRulesBtn').addEventListener('click', () => modal.classList.add('active'));
+  document.querySelector('.modal-close').addEventListener('click', () => modal.classList.remove('active'));
+  modal.addEventListener('click', (e) => { if(e.target === modal) modal.classList.remove('active'); });
+
+  // ================= PRINT TO PDF =================
+  function getCorrectAnswer(task){
+    if(task.taskType === 'radio'){
+      const c = task.options.find(o => o.correct);
+      return c ? c.text : '';
+    }
+    if(task.taskType === 'checkbox'){
+      return task.options.filter(o => o.correct).map(o => o.text).join(', ');
+    }
+    if(task.taskType === 'fill'){
+      return task.correctAnswer || '';
+    }
+    if(task.taskType === 'truefalse'){
+      return task.correctAnswer === 'true' ? 'Benar' : 'Salah';
+    }
+    if(task.taskType === 'sorting'){
+      return task.correctOrder.map(i => task.items[i]).join(' → ');
+    }
+    if(task.taskType === 'pairing'){
+      return task.pairs.map(p => p.left + ' ↔ ' + p.right).join('; ');
+    }
+    return '';
+  }
+
+  function printTask(sectionKey){
+    const section = sectionsData[sectionKey];
+    if(!section) return;
+    const tasks = section.pages;
+    let correctCount = 0;
+
+    const rows = tasks.map((task, idx) => {
+      const pageKey = sectionKey + '-' + idx;
+      const ua = userAnswers[pageKey];
+      const isCorrect = ua ? ua.correct : false;
+      const userAns = ua ? ua.userAnswer : '(tidak dijawab)';
+      const correctAns = getCorrectAnswer(task);
+      if(ua && ua.correct) correctCount++;
+      let printQ = task.question;
+	  if (task.questionEn && !printQ.includes('<span class="tr">')) {
+		printQ += ' <span class="tr">' + task.questionEn + '</span>';
+	  }
+	  return '<tr><td>' + (idx+1) + '</td><td>' + printQ + '</td><td>' + userAns + '</td><td>' + correctAns + '</td><td style="text-align:center;font-size:1.1em">' + (isCorrect ? '✓' : '✗') + '</td></tr>';
+    }).join('');
+
+    const score = correctCount + ' / ' + tasks.length;
+    const today = new Date().toLocaleDateString('id-ID', {day:'numeric',month:'long',year:'numeric'});
+
+    const html = '<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Cetak - ' + section.title + '</title>' +
+      '<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">' +
+      '<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"><\/script>' +
+      '<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"><\/script>' +
+      '<style>' +
+      'body{font-family:Segoe UI,sans-serif;padding:30px;color:#1e293b;line-height:1.5}' +
+      'h1{font-size:1.2em;margin-bottom:5px}' +
+      '.info{margin-bottom:15px;font-size:.88em}' +
+      '.info div{margin:3px 0}' +
+      'table{width:100%;border-collapse:collapse;margin:15px 0;font-size:.82em}' +
+      'th,td{border:1px solid #cbd5e1;padding:6px 8px;text-align:left;vertical-align:top}' +
+      'th{background:#f1f5f9;font-weight:600}' +
+      '.checked-by{margin-top:30px;text-align:right;font-style:italic}' +
+      '.tr{font-style:italic;font-size:.85em;color:#64748b}' +
+      '@media print{body{padding:15px}}' +
+      '</style></head><body>' +
+      '<h1>Math Tutoring by Deni</h1>' +
+      '<div class="info">' +
+      '<div>Nama: ____________________________ <span class="tr">Name</span></div>' +
+      '<div>Tanggal: ' + today + ' <span class="tr">Date</span></div>' +
+      '<div>Topik: Rasio: Skala <span class="tr">Topic: Ratio: Scale</span></div>' +
+      '<div>Grup Task: ' + section.title + ' <span class="tr">Task Group</span></div>' +
+      '<div>Skor: <strong>' + score + '</strong> <span class="tr">Score</span></div>' +
+      '</div>' +
+      '<table><thead><tr>' +
+      '<th style="width:30px">No.</th>' +
+      '<th>Pertanyaan <span class="tr">Question</span></th>' +
+      '<th>Jawaban Siswa <span class="tr">Student Answer</span></th>' +
+      '<th>Jawaban Benar <span class="tr">Correct Answer</span></th>' +
+      '<th style="width:50px">Ket. <span class="tr">Note</span></th>' +
+      '</tr></thead><tbody>' + rows + '</tbody></table>' +
+      '<div class="checked-by">Dicek oleh,<br>Deni</div>' +
+      '<script>window.onload=function(){' +
+      'if(window.renderMathInElement){renderMathInElement(document.body,{delimiters:[{left:"$$",right:"$$",display:true},{left:"$",right:"$",display:false}],throwOnError:false});}' +
+      'setTimeout(function(){window.print();},500);});<\/script>' +
+      '</body></html>';
+
+    const w = window.open('', '_blank');
+    if(w){
+      w.document.write(html);
+      w.document.close();
+    } else {
+      alert('Mohon izinkan pop-up untuk mencetak. <span class="tr">Please allow pop-ups to print.</span>');
+    }
+  }
+
+  // ================= INIT =================
+  renderSidebar();
+  renderPage();
+}
+document.addEventListener('DOMContentLoaded', initApp);
+</script>
+</body>
+</html>
