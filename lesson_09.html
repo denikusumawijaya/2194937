@@ -1,0 +1,1512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Math Tutoring by Deni - Rasio: Laju Perubahan Satuan</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--primary:#2563eb;--primary-dark:#1e40af;--secondary:#f59e0b;--success:#10b981;--danger:#ef4444;--bg:#f8fafc;--card:#fff;--text:#1e293b;--muted:#64748b;--border:#e2e8f0}
+body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;min-height:100vh}
+.tr{font-style:italic;font-size:.82em;color:var(--muted);display:block;margin-top:2px}
+header{background:var(--primary);color:#fff;padding:10px 20px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 2px 8px rgba(0,0,0,.12);position:sticky;top:0;z-index:100;flex-wrap:wrap;gap:8px}
+header .brand{font-weight:700;font-size:1.05em}
+header .topic{font-size:.88em;text-align:center;flex:1}
+header .topic .tr{color:rgba(255,255,255,.85)}
+header button{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);color:#fff;padding:8px 14px;border-radius:6px;cursor:pointer;font-size:.85em;white-space:nowrap}
+header button:hover{background:rgba(255,255,255,.25)}
+.main-container{display:grid;grid-template-columns:220px 1fr;min-height:calc(100vh - 52px)}
+.sidebar{background:var(--card);border-right:1px solid var(--border);padding:14px;overflow-y:auto;position:sticky;top:52px;height:calc(100vh - 52px)}
+.sidebar h3{font-size:.72em;color:var(--muted);text-transform:uppercase;margin-bottom:8px;letter-spacing:1px}
+.nav-link{display:block;padding:8px 10px;border-radius:6px;cursor:pointer;margin-bottom:3px;font-size:.84em;border:1px solid transparent;transition:all .15s}
+.nav-link:hover{background:#eff6ff}
+.nav-link.active{background:var(--primary);color:#fff;pointer-events:none;cursor:default}
+.nav-link .nl-title{display:block;font-weight:600}
+.nav-link .time{font-size:.76em;color:var(--muted);display:block;margin-top:2px}
+.nav-link.active .time,.nav-link.active .tr{color:rgba(255,255,255,.85)}
+.nav-link.disabled{opacity:.45;cursor:not-allowed;font-size:.8em;padding:6px 10px}
+.content-area{padding:22px 28px;overflow-y:auto;max-width:1100px;margin:0 auto;width:100%}
+.page-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;padding-bottom:12px;border-bottom:2px solid var(--border);flex-wrap:wrap;gap:8px}
+.page-header h2{color:var(--primary-dark);font-size:1.1em}
+.page-header .badge{background:var(--secondary);color:#fff;padding:4px 10px;border-radius:20px;font-size:.76em;font-weight:600}
+.card{background:var(--card);border-radius:10px;padding:22px;box-shadow:0 2px 8px rgba(0,0,0,.05);margin-bottom:16px;border:1px solid var(--border)}
+.card.explain{border-left:4px solid var(--primary)}
+.card.task{border-left:4px solid var(--secondary)}
+.card h3{color:var(--primary-dark);margin-bottom:12px;font-size:1.1em}
+.math-block{background:#f1f5f9;padding:12px 14px;border-radius:8px;margin:12px 0;overflow-x:auto}
+.example-box{background:#fef3c7;border-left:4px solid var(--secondary);padding:12px 16px;margin:12px 0;border-radius:6px}
+.example-box h4{color:#92400e;margin-bottom:6px;font-size:.95em}
+.tip-box{background:#dbeafe;border-left:4px solid var(--primary);padding:10px 14px;margin:10px 0;border-radius:6px}
+.tip-box h4{color:#1e40af;margin-bottom:4px;font-size:.9em}
+.illustration{text-align:center;margin:14px 0;padding:14px;background:#f1f5f9;border-radius:8px}
+.q-text{font-size:1em;margin-bottom:12px;line-height:1.7}
+.options{display:flex;flex-direction:column;gap:8px}
+.option{display:flex;align-items:flex-start;gap:10px;padding:10px 12px;border:2px solid var(--border);border-radius:8px;cursor:pointer;background:#fff;transition:all .15s}
+.option:hover{border-color:var(--primary);background:#eff6ff}
+.option.selected{border-color:var(--primary);background:#dbeafe}
+.option.correct{border-color:var(--success);background:#d1fae5}
+.option.incorrect{border-color:var(--danger);background:#fee2e2}
+.option .marker{min-width:18px;width:18px;height:18px;border:2px solid var(--muted);border-radius:50%;flex-shrink:0;margin-top:2px;display:flex;align-items:center;justify-content:center;font-size:.7em;color:#fff}
+.option.selected .marker{background:var(--primary);border-color:var(--primary)}
+.option.correct .marker{background:var(--success);border-color:var(--success)}
+.option.incorrect .marker{background:var(--danger);border-color:var(--danger)}
+.option.checkbox .marker{border-radius:3px}
+.option .opt-text{flex:1}
+.fill-input{padding:8px 12px;border:2px solid var(--border);border-radius:6px;font-size:1em;width:100%;margin:8px 0;font-family:inherit}
+.fill-input:focus{border-color:var(--primary);outline:none}
+.btn-submit{background:var(--primary);color:#fff;border:none;padding:9px 20px;border-radius:6px;cursor:pointer;font-size:.88em;font-weight:600;margin-top:12px}
+.btn-submit:hover{background:var(--primary-dark)}
+.feedback{margin-top:12px;padding:14px;border-radius:8px;display:none}
+.feedback.show{display:block}
+.feedback.correct{background:#d1fae5;border:1px solid var(--success)}
+.feedback.incorrect{background:#fee2e2;border:1px solid var(--danger)}
+.feedback h4{margin-bottom:6px}
+.feedback ol,.feedback ul{margin:6px 0;padding-left:22px}
+.feedback li{margin:4px 0}
+.card ol, .card ul { padding-left: 26px; margin: 10px 0; }
+.card li { margin: 5px 0; }
+.example-box ol, .example-box ul { padding-left: 22px; margin: 8px 0; }
+.tip-box ol, .tip-box ul { padding-left: 22px; margin: 8px 0; }
+.math-block ol, .math-block ul { padding-left: 22px; margin: 8px 0; }
+.pagination{display:flex;justify-content:space-between;align-items:center;margin-top:18px;padding-top:14px;border-top:1px solid var(--border)}
+.pagination button{background:var(--primary);color:#fff;border:none;padding:8px 16px;border-radius:6px;cursor:pointer;font-size:.84em}
+.pagination button:disabled{background:#cbd5e1;cursor:not-allowed}
+.pagination .indicator{font-size:.82em;color:var(--muted);text-align:center;flex:1;padding:0 10px}
+.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:1000;align-items:center;justify-content:center}
+.modal.active{display:flex}
+.modal-content{background:#fff;padding:22px;border-radius:12px;max-width:460px;width:90%}
+.modal-content h3{color:var(--primary-dark);margin-bottom:12px}
+.modal-content ul{list-style:none;padding-left:0}
+.modal-content li{padding:10px 0;border-bottom:1px solid var(--border)}
+.modal-content li:last-child{border-bottom:none}
+.modal-close{background:var(--primary);color:#fff;border:none;padding:8px 18px;border-radius:6px;cursor:pointer;margin-top:12px}
+.sort-list{display:flex;flex-direction:column;gap:6px}
+.sort-item{padding:10px 12px;border:2px solid var(--border);border-radius:8px;background:#fff;cursor:pointer;display:flex;align-items:center;gap:10px;transition:all .15s}
+.sort-item:hover{border-color:var(--primary)}
+.sort-item.selected{border-color:var(--primary);background:#dbeafe}
+.sort-item .pos{background:var(--primary);color:#fff;min-width:24px;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.8em;flex-shrink:0}
+.sort-item .sort-text{flex:1}
+.pair-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.pair-col h4{font-size:.85em;color:var(--muted);margin-bottom:6px;text-transform:uppercase}
+.pair-col{display:flex;flex-direction:column;gap:6px}
+.pair-item{padding:10px 12px;border:2px solid var(--border);border-radius:8px;background:#fff;cursor:pointer;text-align:center;font-size:.92em}
+.pair-item.selected{border-color:var(--primary);background:#dbeafe}
+.pair-item.paired{opacity:.5;cursor:default;border-color:var(--success);background:#d1fae5}
+.pairs-list{margin-top:10px}
+.pair-row{display:flex;justify-content:space-between;align-items:center;padding:6px 10px;background:#f1f5f9;border-radius:6px;margin-bottom:4px;font-size:.85em}
+.pair-row .remove{cursor:pointer;color:var(--danger);font-weight:700;margin-left:6px}
+.page-numbers {display:flex;gap:3px;flex-wrap:nowrap;justify-content:center;flex:1;overflow-x:auto;padding:0 3px;}
+.page-num {min-width:28px;height:26px;border:1px solid var(--border);background:#fff;border-radius:4px;cursor:pointer;font-size:.7em;display:flex;align-items:center;justify-content:center;padding:0 4px;white-space:nowrap;transition:all .15s;flex-shrink:0;}
+.page-num.page-num-e {background:#eff6ff;border-color:#93c5fd;color:#1e40af;}
+.page-num.page-num-t {background:#fffbeb;border-color:#fcd34d;color:#92400e;}
+.page-num.page-num-e:hover {background:#dbeafe;border-color:var(--primary);}
+.page-num.page-num-t:hover {background:#fef3c7;border-color:var(--secondary);}
+.page-num.page-num-e.active {background:var(--primary);color:#fff;border-color:var(--primary);font-weight:600;}
+.page-num.page-num-t.active {background:var(--secondary);color:#fff;border-color:var(--secondary);font-weight:600;}
+.page-num:disabled {opacity:1;cursor:default;}
+@media(max-width:1100px){.main-container{grid-template-columns:180px 1fr}.content-area{padding:18px 20px}}
+@media(max-width:760px){.main-container{grid-template-columns:1fr}.sidebar{display:none}.content-area{padding:16px}header{font-size:.9em}}
+</style>
+</head>
+<body>
+<header>
+  <div class="brand">Math Tutoring by Deni <span class="tr">Bimbingan Matematika oleh Deni</span></div>
+  <div class="topic">Topik: Rasio: Laju Perubahan Satuan <span class="tr">Topic: Ratio: Rate of Change</span></div>
+  <button id="classRulesBtn">Aturan Kelas <span class="tr">Class Rules</span></button>
+</header>
+<div class="main-container">
+  <nav class="sidebar" id="sidebar"></nav>
+  <main class="content-area">
+    <div id="pageContent"></div>
+    <div class="pagination">
+      <button id="prevBtn">← Sebelumnya <span class="tr">Previous</span></button>
+      <div class="page-numbers" id="pageNums"></div>
+      <button id="nextBtn">Berikutnya <span class="tr">Next</span> →</button>
+    </div>
+  </main>
+</div>
+<div id="classRulesModal" class="modal">
+  <div class="modal-content">
+    <h3>Aturan Kelas <span class="tr">Class Rules</span></h3>
+    <ul>
+      <li>Berbicara secara bergantian <span class="tr">Speak in turn</span></li>
+      <li>Meminta izin jika ingin meninggalkan kelas <span class="tr">Ask permission before leaving the class</span></li>
+      <li>Menyalakan microphone dan camera jika diperlukan <span class="tr">Turn on microphone and camera when needed</span></li>
+    </ul>
+    <button class="modal-close">Tutup <span class="tr">Close</span></button>
+  </div>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', function(){
+  if(!window.renderMathInElement){setTimeout(arguments.callee,50);return;}
+  const sectionsData = {
+    a: {
+      title: 'Spiral Review Warm-up', titleEn: 'Spiral Review Warm-up', time: '00:00 - 00:10',
+      pages: [
+        { type:'explanation', pageTitle:'E1: Pengertian Rasio', pageTitleEn:'Definition of Ratio',
+          body:`<p>Halo! Hari ini kita akan belajar tentang <strong>Rasio dan Laju</strong>. <span class="tr">Hello! Today we will learn about <strong>Ratio and Rate</strong>.</span></p>
+          <p><strong>Rasio</strong> adalah perbandingan dua besaran yang memiliki satuan yang sama. <span class="tr"><strong>A ratio</strong> is a comparison of two quantities that have the same unit.</span></p>
+          <div class="math-block"><strong>Rumus Rasio:</strong> $a : b$ atau $\\dfrac{a}{b}$ <span class="tr"><strong>Ratio Formula:</strong> $a : b$ or $\\dfrac{a}{b}$</span></div>
+          <div class="illustration"><svg width="280" height="150" viewBox="0 0 280 150"><rect x="40" y="20" width="40" height="40" fill="#2563eb" rx="4"/><rect x="100" y="20" width="40" height="40" fill="#2563eb" rx="4"/><circle cx="60" cy="90" r="20" fill="#f59e0b"/><circle cx="120" cy="90" r="20" fill="#f59e0b"/><circle cx="180" cy="90" r="20" fill="#f59e0b"/><text x="60" y="140" font-size="14" text-anchor="middle">Kotak <span class="tr">Box</span></text><text x="120" y="140" font-size="14" text-anchor="middle">Lingkaran <span class="tr">Circle</span></text></svg><div style="font-size:.82em;color:var(--muted);margin-top:6px">Rasio kotak dan lingkaran adalah $2 : 3$ <span class="tr">Ratio of boxes to circles is $2 : 3$</span></div></div>
+          <div class="example-box"><h4>Contoh <span class="tr">Example</span></h4>
+          <p>Ada 4 apel dan 3 pisang. Rasio apel terhadap pisang adalah... <span class="tr">There are 4 apples and 3 bananas. The ratio of apples to bananas is...</span></p>
+          <p><strong>Jawab:</strong> $4 : 3$ <span class="tr"><strong>Answer:</strong> $4 : 3$</span></p></div>
+          <div class="tip-box"><h4>Catatan Penting <span class="tr">Important Note</span></h4>
+          <p>Urutan penulisan rasio sangat penting! $4 : 3$ berbeda dengan $3 : 4$. <span class="tr">The order of writing the ratio is very important! $4 : 3$ is different from $3 : 4$.</span></p></div>`
+        },
+        { type:'task', pageTitle:'T1: Mencari Rasio', pageTitleEn:'Finding Ratio', taskType:'radio',
+          question:'Di kandang ada 5 ayam dan 2 bebek. Berapa rasio ayam terhadap bebek?', questionEn:'In the pen there are 5 chickens and 2 ducks. What is the ratio of chickens to ducks?',
+          options:[{text:'$2 : 5$ <span class="tr">$2 : 5$</span>', correct:false},{text:'$5 : 2$ <span class="tr">$5 : 2$</span>', correct:true},{text:'$5 : 7$ <span class="tr">$5 : 7$</span>', correct:false},{text:'$7 : 2$ <span class="tr">$7 : 2$</span>', correct:false}],
+          explanation:`<p>Rasio ayam terhadap bebek ditulis dengan ayam di depan, lalu bebek. <span class="tr">The ratio of chickens to ducks is written with chickens first, then ducks.</span></p>
+          <p>Jumlah ayam = $5$. Jumlah bebek = $2$. <span class="tr">Number of chickens = $5$. Number of ducks = $2$.</span></p>
+          <p>Jadi, rasio = $5 : 2$. <span class="tr">So, the ratio is $5 : 2$.</span></p>`
+        },
+        { type:'task', pageTitle:'T2: Menyederhanakan Rasio', pageTitleEn:'Simplifying Ratio', taskType:'fill',
+          question:'Sederhanakan rasio $6 : 4$. Jika disederhanakan menjadi $x : 2$, maka nilai $x = \\dots$', questionEn:'Simplify the ratio $6 : 4$. If simplified to $x : 2$, then the value of $x = \\dots$',
+          correctAnswer:'3', acceptableAnswers:['3'],
+          explanation:`<p>Untuk menyederhanakan rasio, kita cari FPB (Faktor Persekutuan Terbesar) dari kedua angka. <span class="tr">To simplify the ratio, we find the GCF (Greatest Common Factor) of both numbers.</span></p>
+          <p>FPB dari $6$ dan $4$ adalah $2$. <span class="tr">The GCF of $6$ and $4$ is $2$.</span></p>
+          <p>Bagi kedua angka dengan FPB: <span class="tr">Divide both numbers by GCF:</span></p>
+          <ul><li>$6 \\div 2 = 3$ <span class="tr">$6 \\div 2 = 3$</span></li><li>$4 \\div 2 = 2$ <span class="tr">$4 \\div 2 = 2$</span></li></ul>
+          <p>Jadi, rasio sederhananya adalah $3 : 2$. Maka $x = 3$. <span class="tr">So, the simplified ratio is $3 : 2$. Thus $x = 3$.</span></p>`
+        },
+        { type:'task', pageTitle:'T3: Rasio dari Kelereng', pageTitleEn:'Ratio of Marbles', taskType:'pairing',
+          question:'Pasangkan rasio asli dengan bentuk sederhananya.', questionEn:'Match the original ratio with its simplified form.',
+          pairs:[{left:'$4 : 8$ <span class="tr">$4 : 8$</span>', right:'$1 : 2$ <span class="tr">$1 : 2$</span>'},{left:'$3 : 9$ <span class="tr">$3 : 9$</span>', right:'$1 : 3$ <span class="tr">$1 : 3$</span>'},{left:'$10 : 5$ <span class="tr">$10 : 5$</span>', right:'$2 : 1$ <span class="tr">$2 : 1$</span>'},{left:'$5 : 15$ <span class="tr">$5 : 15$</span>', right:'$1 : 3$ <span class="tr">$1 : 3$</span>'}],
+          explanation:`<p>Kita bagi kedua angka dengan FPB-nya. <span class="tr">We divide both numbers by their GCF.</span></p>
+          <p>$4 : 8$ dibagi $4$ menjadi $1 : 2$. <span class="tr">$4 : 8$ divided by $4$ becomes $1 : 2$.</span></p>
+          <p>$3 : 9$ dibagi $3$ menjadi $1 : 3$. <span class="tr">$3 : 9$ divided by $3$ becomes $1 : 3$.</span></p>
+          <p>$10 : 5$ dibagi $5$ menjadi $2 : 1$. <span class="tr">$10 : 5$ divided by $5$ becomes $2 : 1$.</span></p>
+          <p>$5 : 15$ dibagi $5$ menjadi $1 : 3$. <span class="tr">$5 : 15$ divided by $5$ becomes $1 : 3$.</span></p>`
+        },
+        { type:'explanation', pageTitle:'E2: Pengertian Laju', pageTitleEn:'Definition of Rate',
+          body:`<p><strong>Laju</strong> adalah perbandingan dua besaran yang memiliki <strong>satuan yang berbeda</strong>. <span class="tr"><strong>A rate</strong> is a comparison of two quantities that have <strong>different units</strong>.</span></p>
+          <div class="math-block"><strong>Rumus Laju:</strong> $\\dfrac{a}{b}$ dengan satuan berbeda. <span class="tr"><strong>Rate Formula:</strong> $\\dfrac{a}{b}$ with different units.</span></div>
+          <div class="illustration"><svg width="280" height="150" viewBox="0 0 280 150"><rect x="20" y="40" width="240" height="60" fill="#e2e8f0" rx="4"/><rect x="40" y="50" width="40" height="40" fill="#2563eb" rx="4"/><circle cx="60" cy="95" r="10" fill="#1e293b"/><circle cx="60" cy="95" r="4" fill="#fff"/><text x="180" y="80" font-size="14" fill="#1e40af">60 km</text><text x="180" y="100" font-size="14" fill="#1e40af">1 jam</text><path d="M 180 110 L 220 110" stroke="#1e40af" stroke-width="2"/><polygon points="220,110 215,105 215,115" fill="#1e40af"/></svg><div style="font-size:.82em;color:var(--muted);margin-top:6px">Mobil menempuh 60 km dalam 1 jam. <span class="tr">Car travels 60 km in 1 hour.</span></div></div>
+          <div class="example-box"><h4>Contoh <span class="tr">Example</span></h4>
+          <p>Sebuah motor menempuh jarak $120 \\text{ km}$ dalam waktu $3 \\text{ jam}$. Berapa laju motor tersebut? <span class="tr">A motorcycle travels a distance of $120 \\text{ km}$ in $3 \\text{ hours}$. What is the rate of the motorcycle?</span></p>
+          <p><strong>Jawab:</strong> <span class="tr"><strong>Answer:</strong></span></p>
+          <p>$\\text{Laju} = \\dfrac{120 \\text{ km}}{3 \\text{ jam}} = 40 \\text{ km/jam}$. <span class="tr">$\\text{Rate} = \\dfrac{120 \\text{ km}}{3 \\text{ hours}} = 40 \\text{ km/h}$.</span></p></div>`
+        },
+        { type:'task', pageTitle:'T4: Menghitung Laju', pageTitleEn:'Calculating Rate', taskType:'fill',
+          question:'Sepeda melaju sejauh $40 \\text{ km}$ dalam waktu $2 \\text{ jam}$. Laju rata-rata sepeda adalah $\\dots \\text{ km/jam}$', questionEn:'A bicycle travels a distance of $40 \\text{ km}$ in $2 \\text{ hours}$. The average rate of the bicycle is $\\dots \\text{ km/h}$',
+          correctAnswer:'20', acceptableAnswers:['20'],
+          explanation:`<p>Laju didapat dari jarak dibagi waktu. <span class="tr">Rate is obtained from distance divided by time.</span></p>
+          <p>$\\text{Laju} = \\dfrac{40 \\text{ km}}{2 \\text{ jam}}$. <span class="tr">$\\text{Rate} = \\dfrac{40 \\text{ km}}{2 \\text{ hours}}$.</span></p>
+          <p>$40 \\div 2 = 20 \\text{ km/jam}$. <span class="tr">$40 \\div 2 = 20 \\text{ km/h}$.</span></p>`
+        },
+        { type:'task', pageTitle:'T5: Identifikasi Laju', pageTitleEn:'Identify Rate', taskType:'radio',
+          question:'Manakah dari pilihan berikut yang merupakan contoh dari laju (rate)?', questionEn:'Which of the following is an example of a rate?',
+          options:[{text:'$5 \\text{ apel dan } 3 \\text{ jeruk}$ <span class="tr">$5 \\text{ apples and } 3 \\text{ oranges}$</span>', correct:false},{text:'$10 \\text{ siswa per kelas}$ <span class="tr">$10 \\text{ students per class}$</span>', correct:true},{text:'$4 : 6$ <span class="tr">$4 : 6$</span>', correct:false},{text:'$10 \\text{ lembar kertas}$ <span class="tr">$10 \\text{ sheets of paper}$</span>', correct:false}],
+          explanation:`<p>Laju (rate) selalu memiliki dua satuan yang berbeda. "siswa per kelas" memiliki satuan "siswa" dan "kelas". <span class="tr">A rate always has two different units. "students per class" has units "students" and "class".</span></p>
+          <p>Pilihan lain adalah rasio (satuan sama) atau besaran tunggal. <span class="tr">Other options are ratios (same unit) or single quantities.</span></p>`
+        },
+        { type:'task', pageTitle:'T6: Rasio atau Laju?', pageTitleEn:'Ratio or Rate?', taskType:'truefalse',
+          question:'Benar atau Salah: "50 meter per detik" adalah sebuah rasio (ratio).', questionEn:'True or False: "50 meters per second" is a ratio.',
+          correctAnswer:'false',
+          explanation:`<p>"Meter" dan "detik" adalah satuan yang berbeda. Jadi, ini adalah sebuah laju (rate). <span class="tr">"Meter" and "second" are different units. So, this is a rate.</span></p>`
+        },
+        { type:'explanation', pageTitle:'E3: Laju Satuan', pageTitleEn:'Unit Rate',
+          body:`<p><strong>Laju Satuan (Unit Rate)</strong> adalah laju yang penyebutnya bernilai $1$. <span class="tr"><strong>Unit Rate</strong> is a rate where the denominator is $1$.</span></p>
+          <div class="math-block"><strong>Rumus:</strong> $\\dfrac{a}{b} = \\dfrac{x}{1}$ <span class="tr"><strong>Formula:</strong> $\\dfrac{a}{b} = \\dfrac{x}{1}$</span></div>
+          <p>Cara mencari laju satuan: Bagi pembilang dan penyebut dengan penyebut. <span class="tr">How to find unit rate: Divide numerator and denominator by the denominator.</span></p>
+          <div class="example-box"><h4>Contoh <span class="tr">Example</span></h4>
+          <p>Harga $4 \\text{ kg}$ jeruk adalah $\\text{Rp}40.000$. Berapa harga $1 \\text{ kg}$ jeruk? <span class="tr">Price of $4 \\text{ kg}$ of oranges is $\\text{Rp}40,000$. What is the price of $1 \\text{ kg}$ of oranges?</span></p>
+          <p><strong>Langkah 1:</strong> Tulis sebagai laju. $\\dfrac{40000}{4}$. <span class="tr"><strong>Step 1:</strong> Write as a rate. $\\dfrac{40000}{4}$.</span></p>
+          <p><strong>Langkah 2:</strong> Bagi dengan penyebut ($4$). <span class="tr"><strong>Step 2:</strong> Divide by denominator ($4$).</span></p>
+          <p>$40000 \\div 4 = 10000$. <span class="tr">$40000 \\div 4 = 10000$.</span></p>
+          <p><strong>Hasil:</strong> $\\text{Rp}10.000 \\text{ per kg}$. <span class="tr"><strong>Result:</strong> $\\text{Rp}10,000 \\text{ per kg}$.</span></p></div>`
+        },
+        { type:'task', pageTitle:'T7: Mencari Laju Satuan', pageTitleEn:'Finding Unit Rate', taskType:'fill',
+          question:'Sebuah mobil memakai $6 \\text{ liter}$ bensin untuk menempuh $60 \\text{ km}$. Berapa jarak yang ditempuh untuk $1 \\text{ liter}$ bensin? Jawab: $\\dots \\text{ km/liter}$', questionEn:'A car uses $6 \\text{ liters}$ of fuel to travel $60 \\text{ km}$. How far does it travel for $1 \\text{ liter}$ of fuel? Answer: $\\dots \\text{ km/liter}$',
+          correctAnswer:'10', acceptableAnswers:['10'],
+          explanation:`<p>Kita mencari jarak per $1 \\text{ liter}$. <span class="tr">We are finding distance per $1 \\text{ liter}$.</span></p>
+          <p>$\\dfrac{60 \\text{ km}}{6 \\text{ liter}} = \\dfrac{60 \\div 6}{6 \\div 6} = \\dfrac{10}{1}$. <span class="tr">$\\dfrac{60 \\text{ km}}{6 \\text{ liter}} = \\dfrac{60 \\div 6}{6 \\div 6} = \\dfrac{10}{1}$.</span></p>
+          <p>Jadi, jaraknya adalah $10 \\text{ km/liter}$. <span class="tr">So, the distance is $10 \\text{ km/liter}$.</span></p>`
+        },
+        { type:'task', pageTitle:'T8: Urutkan Langkah Laju Satuan', pageTitleEn:'Order Unit Rate Steps', taskType:'sorting',
+          question:'Urutkan langkah mencari harga 1 buku jika 3 buku seharga Rp 15.000.', questionEn:'Order the steps to find the price of 1 book if 3 books cost Rp 15,000.',
+          items:['Tulis laju: $\\dfrac{15000}{3}$ <span class="tr">Write rate: $\\dfrac{15000}{3}$</span>','Bagi pembilang dengan penyebut: $15000 \\div 3$ <span class="tr">Divide numerator by denominator: $15000 \\div 3$</span>','Hasil pembagian adalah $5000$ <span class="tr">Division result is $5000$</span>','Tulis laju satuan: $\\text{Rp}5000 \\text{ per buku}$ <span class="tr">Write unit rate: $\\text{Rp}5000 \\text{ per book}$</span>'], correctOrder:[0,1,2,3],
+          explanation:`<p>Ikuti langkah perhitungan laju satuan secara berurutan. <span class="tr">Follow the unit rate calculation steps sequentially.</span></p>`
+        },
+        { type:'task', pageTitle:'T9: Laju Satuan yang Benar', pageTitleEn:'Correct Unit Rate', taskType:'checkbox',
+          question:'Pilih semua perhitungan laju satuan yang BENAR!', questionEn:'Select all unit rate calculations that are CORRECT!',
+          options:[{text:'$\\dfrac{80 \\text{ km}}{4 \\text{ jam}} = 20 \\text{ km/jam}$ <span class="tr">$\\dfrac{80 \\text{ km}}{4 \\text{ hours}} = 20 \\text{ km/h}$</span>', correct:true},{text:'$\\dfrac{100 \\text{ m}}{20 \\text{ s}} = 5 \\text{ m/s}$ <span class="tr">$\\dfrac{100 \\text{ m}}{20 \\text{ s}} = 5 \\text{ m/s}$</span>', correct:true},{text:'$\\dfrac{50 \\text{ lembar}}{10 \\text{ menit}} = 4 \\text{ lembar/menit}$ <span class="tr">$\\dfrac{50 \\text{ pages}}{10 \\text{ minutes}} = 4 \\text{ pages/minute}$</span>', correct:false},{text:'$\\dfrac{40 \\text{ kg}}{2 \\text{ karung}} = 20 \\text{ kg/karung}$ <span class="tr">$\\dfrac{40 \\text{ kg}}{2 \\text{ sacks}} = 20 \\text{ kg/sack}$</span>', correct:true}],
+          explanation:`<p>$80 \\div 4 = 20$. (Benar) <span class="tr">$80 \\div 4 = 20$. (Correct)</span></p>
+          <p>$100 \\div 20 = 5$. (Benar) <span class="tr">$100 \\div 20 = 5$. (Correct)</span></p>
+          <p>$50 \\div 10 = 5$. Seharusnya $5 \\text{ lembar/menit}$. (Salah) <span class="tr">$50 \\div 10 = 5$. Should be $5 \\text{ pages/minute}$. (Wrong)</span></p>
+          <p>$40 \\div 2 = 20$. (Benar) <span class="tr">$40 \\div 2 = 20$. (Correct)</span></p>`
+        },
+        { type:'task', pageTitle:'T10: Aplikasi Laju Satuan', pageTitleEn:'Unit Rate Application', taskType:'radio',
+          question:'Toko A menjual 2 kg apel seharga Rp 30.000. Toko B menjual 5 kg apel seharga Rp 80.000. Toko mana yang lebih murah per kg-nya?', questionEn:'Store A sells 2 kg of apples for Rp 30,000. Store B sells 5 kg of apples for Rp 80,000. Which store is cheaper per kg?',
+          options:[{text:'Toko A <span class="tr">Store A</span>', correct:true},{text:'Toko B <span class="tr">Store B</span>', correct:false},{text:'Harga sama <span class="tr">Same price</span>', correct:false},{text:'Tidak bisa ditentukan <span class="tr">Cannot be determined</span>', correct:false}],
+          explanation:`<p>Cari laju satuan (harga per kg) masing-masing toko. <span class="tr">Find the unit rate (price per kg) of each store.</span></p>
+          <p><strong>Toko A:</strong> $\\dfrac{30000}{2} = \\text{Rp}15.000 \\text{ /kg}$. <span class="tr"><strong>Store A:</strong> $\\dfrac{30000}{2} = \\text{Rp}15,000 \\text{ /kg}$.</span></p>
+          <p><strong>Toko B:</strong> $\\dfrac{80000}{5} = \\text{Rp}16.000 \\text{ /kg}$. <span class="tr"><strong>Store B:</strong> $\\dfrac{80000}{5} = \\text{Rp}16,000 \\text{ /kg}$.</span></p>
+          <p>Karena $15.000 < 16.000$, maka Toko A lebih murah. <span class="tr">Since $15,000 < 16,000$, Store A is cheaper.</span></p>`
+        }
+      ]
+    },
+    b: {
+      title: 'Introduction & Real-World Connection', titleEn: 'Introduction & Real-World Connection', time: '00:10 - 00:15',
+      pages: [
+        { type:'explanation', pageTitle:'E1: Laju dalam Berbelanja', pageTitleEn:'Rates in Shopping',
+          body:`<p><strong>Laju Satuan (Unit Rate)</strong> sangat berguna saat kita berbelanja! Kita bisa menemukan mana produk yang lebih murah untuk satu satuan yang sama. <span class="tr"><strong>Unit Rate</strong> is very useful when shopping! We can find which product is cheaper for the same single unit.</span></p>
+          <div class="illustration"><svg width="280" height="150" viewBox="0 0 280 150"><rect x="30" y="40" width="80" height="80" fill="#dbeafe" stroke="#2563eb" rx="6"/><text x="70" y="80" font-size="12" text-anchor="middle">Toko A <span class="tr">Store A</span></text><text x="70" y="100" font-size="12" text-anchor="middle">Rp 20.000</text><text x="70" y="115" font-size="10" text-anchor="middle">2 kg</text><rect x="170" y="40" width="80" height="80" fill="#fef3c7" stroke="#f59e0b" rx="6"/><text x="210" y="80" font-size="12" text-anchor="middle">Toko B <span class="tr">Store B</span></text><text x="210" y="100" font-size="12" text-anchor="middle">Rp 45.000</text><text x="210" y="115" font-size="10" text-anchor="middle">5 kg</text></svg><div style="font-size:.82em;color:var(--muted);margin-top:6px">Mana yang lebih murah? <span class="tr">Which one is cheaper?</span></div></div>
+          <p><strong>Langkah-langkah mencari harga per kg:</strong> <span class="tr"><strong>Steps to find price per kg:</strong></span></p>
+          <ol><li><strong>Tulis sebagai laju:</strong> Total Harga dibagi Total Berat. <span class="tr"><strong>Write as rate:</strong> Total Price divided by Total Weight.</span></li>
+          <li><strong>Hitung laju satuan:</strong> Bagi total harga dengan total berat. <span class="tr"><strong>Calculate unit rate:</strong> Divide total price by total weight.</span></li></ol>
+          <div class="example-box"><h4>Contoh Perhitungan <span class="tr">Calculation Example</span></h4>
+          <p><strong>Toko A:</strong> $\\dfrac{20000}{2} = \\text{Rp}10.000 \\text{ /kg}$. <span class="tr"><strong>Store A:</strong> $\\dfrac{20000}{2} = \\text{Rp}10,000 \\text{ /kg}$.</span></p>
+          <p><strong>Toko B:</strong> $\\dfrac{45000}{5} = \\text{Rp}9.000 \\text{ /kg}$. <span class="tr"><strong>Store B:</strong> $\\dfrac{45000}{5} = \\text{Rp}9,000 \\text{ /kg}$.</span></p>
+          <p>Toko B lebih murah karena $\\text{Rp}9.000 < \\text{Rp}10.000$. <span class="tr">Store B is cheaper because $\\text{Rp}9,000 < \\text{Rp}10,000$.</span></p></div>`
+        },
+        { type:'task', pageTitle:'T1: Belanja yang Lebih Hemat', pageTitleEn:'Better Buy', taskType:'radio',
+          question:'Toko X menjual 3 buku seharga Rp 15.000. Toko Y menjual 4 buku seharga Rp 24.000. Di mana lebih hemat membeli buku?', questionEn:'Store X sells 3 books for Rp 15,000. Store Y sells 4 books for Rp 24,000. Where is it more economical to buy books?',
+          options:[{text:'Toko X <span class="tr">Store X</span>', correct:true},{text:'Toko Y <span class="tr">Store Y</span>', correct:false},{text:'Harga sama <span class="tr">Same price</span>', correct:false},{text:'Tidak bisa ditentukan <span class="tr">Cannot be determined</span>', correct:false}],
+          explanation:`<p>Hitung harga 1 buku di tiap toko. <span class="tr">Calculate the price of 1 book at each store.</span></p>
+          <p><strong>Toko X:</strong> $\\dfrac{15000}{3} = \\text{Rp}5.000 \\text{ /buku}$. <span class="tr"><strong>Store X:</strong> $\\dfrac{15000}{3} = \\text{Rp}5,000 \\text{ /book}$.</span></p>
+          <p><strong>Toko Y:</strong> $\\dfrac{24000}{4} = \\text{Rp}6.000 \\text{ /buku}$. <span class="tr"><strong>Store Y:</strong> $\\dfrac{24000}{4} = \\text{Rp}6,000 \\text{ /book}$.</span></p>
+          <p>Karena $5000 < 6000$, maka Toko X lebih hemat. <span class="tr">Since $5000 < 6000$, Store X is more economical.</span></p>`
+        },
+        { type:'task', pageTitle:'T2: Harga per Unit', pageTitleEn:'Price per Unit', taskType:'fill',
+          question:'Sebotol sirup 500 ml dijual seharga Rp 25.000. Berapa harga untuk 1 ml sirup? (Dalam Rupiah) Jawab: $\\dots \\text{ Rp/ml}$', questionEn:'A 500 ml bottle of syrup is sold for Rp 25,000. What is the price for 1 ml of syrup? (In Rupiah) Answer: $\\dots \\text{ Rp/ml}$',
+          correctAnswer:'50', acceptableAnswers:['50'],
+          explanation:`<p>Untuk mencari harga per mililiter, bagi total harga dengan total volume. <span class="tr">To find the price per milliliter, divide the total price by the total volume.</span></p>
+          <p>$\\dfrac{25000}{500} = 50 \\text{ Rp/ml}$. <span class="tr">$\\dfrac{25000}{500} = 50 \\text{ Rp/ml}$.</span></p>`
+        },
+        { type:'task', pageTitle:'T3: Penilaian Hemat', pageTitleEn:'Economical Assessment', taskType:'truefalse',
+          question:'Benar atau Salah: Mencari laju satuan (unit rate) membantu kita menghindari pemborosan uang. ', questionEn:'True or False: Finding the unit rate helps us avoid wasting money.',
+          correctAnswer:'true',
+          explanation:`<p>Dengan mengetahui harga per unit, kita bisa membandingkan produk dengan adil, terlepas dari ukuran kemasannya. <span class="tr">By knowing the price per unit, we can compare products fairly, regardless of their packaging size.</span></p>`
+        },
+        { type:'explanation', pageTitle:'E2: Laju Kepadatan', pageTitleEn:'Density Rate',
+          body:`<p><strong>Laju Kepadatan</strong> adalah perbandingan antara jumlah penduduk dengan luas wilayah. <span class="tr"><strong>Population Density</strong> is the ratio of the number of people to the area of land.</span></p>
+          <div class="math-block"><strong>Rumus:</strong> $\\text{Kepadatan} = \\dfrac{\\text{Jumlah Penduduk}}{\\text{Luas Wilayah}} \\left( \\text{jiwa/km}^2 \\right)$ <span class="tr"><strong>Formula:</strong> $\\text{Density} = \\dfrac{\\text{Population}}{\\text{Area}} \\left( \\text{people/km}^2 \\right)$</span></div>
+          <div class="example-box"><h4>Contoh <span class="tr">Example</span></h4>
+          <p>Sebuah desa memiliki $1200 \\text{ jiwa}$ dengan luas $4 \\text{ km}^2$. Berapa kepadatan penduduknya? <span class="tr">A village has $1200 \\text{ people}$ with an area of $4 \\text{ km}^2$. What is the population density?</span></p>
+          <p><strong>Jawab:</strong> <span class="tr"><strong>Answer:</strong></span></p>
+          <p>$\\text{Kepadatan} = \\dfrac{1200}{4} = 300 \\text{ jiwa/km}^2$. <span class="tr">$\\text{Density} = \\dfrac{1200}{4} = 300 \\text{ people/km}^2$.</span></p></div>
+          <div class="tip-box"><h4>Info <span class="tr">Info</span></h4>
+          <p>Satuan "jiwa/km$^2$" berarti orang per kilometer persegi. <span class="tr">The unit "jiwa/km$^2$" means people per square kilometer.</span></p></div>`
+        },
+        { type:'task', pageTitle:'T4: Menghitung Kepadatan', pageTitleEn:'Calculating Density', taskType:'fill',
+          question:'Kota Sejahtera memiliki $5000 \\text{ jiwa}$ dan luas $10 \\text{ km}^2$. Kepadatan penduduknya adalah $\\dots \\text{ jiwa/km}^2$', questionEn:'Kota Sejahtera has $5000 \\text{ people}$ and an area of $10 \\text{ km}^2$. The population density is $\\dots \\text{ people/km}^2$',
+          correctAnswer:'500', acceptableAnswers:['500'],
+          explanation:`<p>$\\text{Kepadatan} = \\dfrac{5000}{10} = 500 \\text{ jiwa/km}^2$. <span class="tr">$\\text{Density} = \\dfrac{5000}{10} = 500 \\text{ people/km}^2$.</span></p>`
+        },
+        { type:'task', pageTitle:'T5: Identifikasi Kepadatan', pageTitleEn:'Identify Density', taskType:'checkbox',
+          question:'Pilih semua bentuk perhitungan laju kepadatan yang BENAR!', questionEn:'Select all correct density rate calculations!',
+          options:[{text:'$\\dfrac{1000 \\text{ jiwa}}{2 \\text{ km}^2} = 500 \\text{ jiwa/km}^2$ <span class="tr">$\\dfrac{1000 \\text{ people}}{2 \\text{ km}^2} = 500 \\text{ people/km}^2$</span>', correct:true},{text:'$\\dfrac{3000 \\text{ jiwa}}{3 \\text{ km}^2} = 1000 \\text{ jiwa/km}^2$ <span class="tr">$\\dfrac{3000 \\text{ people}}{3 \\text{ km}^2} = 1000 \\text{ people/km}^2$</span>', correct:true},{text:'$\\dfrac{400 \\text{ jiwa}}{1 \\text{ km}^2} = 400 \\text{ jiwa/km}^2$ <span class="tr">$\\dfrac{400 \\text{ people}}{1 \\text{ km}^2} = 400 \\text{ people/km}^2$</span>', correct:true},{text:'$\\dfrac{500 \\text{ jiwa}}{5 \\text{ km}^2} = 250 \\text{ jiwa/km}^2$ <span class="tr">$\\dfrac{500 \\text{ people}}{5 \\text{ km}^2} = 250 \\text{ people/km}^2$</span>', correct:false}],
+          explanation:`<p>$1000 \\div 2 = 500$. (Benar) <span class="tr">$1000 \\div 2 = 500$. (Correct)</span></p>
+          <p>$3000 \\div 3 = 1000$. (Benar) <span class="tr">$3000 \\div 3 = 1000$. (Correct)</span></p>
+          <p>$400 \\div 1 = 400$. (Benar) <span class="tr">$400 \\div 1 = 400$. (Correct)</span></p>
+          <p>$500 \\div 5 = 100$. Seharusnya $100 \\text{ jiwa/km}^2$. (Salah) <span class="tr">$500 \\div 5 = 100$. Should be $100 \\text{ people/km}^2$. (Wrong)</span></p>`
+        },
+        { type:'task', pageTitle:'T6: Pasangkan Situasi', pageTitleEn:'Match Situations', taskType:'pairing',
+          question:'Pasangkan situasi dengan laju yang sesuai.', questionEn:'Match the situation with the correct rate.',
+          pairs:[{left:'Laju mengisi air <span class="tr">Water filling rate</span>', right:'$\\text{liter/menit}$ <span class="tr">$\\text{liters/minute}$</span>'},{left:'Laju mengetik <span class="tr">Typing rate</span>', right:'$\\text{kata/menit}$ <span class="tr">$\\text{words/minute}$</span>'},{left:'Laju membaca <span class="tr">Reading rate</span>', right:'$\\text{halaman/jam}$ <span class="tr">$\\text{pages/hour}$</span>'},{left:'Laju bertani <span class="tr">Farming rate</span>', right:'$\\text{kg/hektar}$ <span class="tr">$\\text{kg/hectare}$</span>'}],
+          explanation:`<p>Pastikan satuan penyebut dan pembilang sesuai dengan konteks aktivitas. <span class="tr">Make sure the denominator and numerator units match the context of the activity.</span></p>`
+        },
+        { type:'explanation', pageTitle:'E3: Kecepatan sebagai Laju', pageTitleEn:'Speed as a Rate',
+          body:`<p><strong>Kecepatan</strong> adalah jenis laju yang paling sering kita temui, yaitu jarak tempuh per satuan waktu. <span class="tr"><strong>Speed</strong> is the most common type of rate we encounter, which is distance traveled per unit of time.</span></p>
+          <div class="math-block"><strong>Rumus Kecepatan:</strong> $v = \\dfrac{s}{t}$ <span class="tr"><strong>Speed Formula:</strong> $v = \\dfrac{s}{t}$</span>
+          <br>$v = \\text{kecepatan}$ <span class="tr">$v = \\text{speed}$</span>, $s = \\text{jarak}$ <span class="tr">$s = \\text{distance}$</span>, $t = \\text{waktu}$ <span class="tr">$t = \\text{time}$</span></div>
+          <div class="example-box"><h4>Contoh <span class="tr">Example</span></h4>
+          <p>Sebuah pesawat terbang menempuh $1200 \\text{ km}$ dalam $2 \\text{ jam}$. Berapa kecepatannya? <span class="tr">An airplane travels $1200 \\text{ km}$ in $2 \\text{ hours}$. What is its speed?</span></p>
+          <p><strong>Jawab:</strong> <span class="tr"><strong>Answer:</strong></span></p>
+          <p>$v = \\dfrac{1200 \\text{ km}}{2 \\text{ jam}} = 600 \\text{ km/jam}$. <span class="tr">$v = \\dfrac{1200 \\text{ km}}{2 \\text{ hours}} = 600 \\text{ km/h}$.</span></p></div>`
+        },
+        { type:'task', pageTitle:'T7: Menghitung Kecepatan', pageTitleEn:'Calculating Speed', taskType:'fill',
+          question:'Kereta api melaju sejauh $150 \\text{ km}$ dalam waktu $3 \\text{ jam}$. Kecepatan kereta api adalah $\\dots \\text{ km/jam}$', questionEn:'A train travels a distance of $150 \\text{ km}$ in $3 \\text{ hours}$. The speed of the train is $\\dots \\text{ km/h}$',
+          correctAnswer:'50', acceptableAnswers:['50'],
+          explanation:`<p>$v = \\dfrac{s}{t} = \\dfrac{150}{3} = 50 \\text{ km/jam}$. <span class="tr">$v = \\dfrac{s}{t} = \\dfrac{150}{3} = 50 \\text{ km/h}$.</span></p>`
+        },
+        { type:'task', pageTitle:'T8: Urutkan Langkah Kecepatan', pageTitleEn:'Order Speed Steps', taskType:'sorting',
+          question:'Urutkan langkah mencari kecepatan jika diketahui jarak $240 \\text{ m}$ dan waktu $4 \\text{ s}$.', questionEn:'Order the steps to find speed given distance $240 \\text{ m}$ and time $4 \\text{ s}$.',
+          items:['Tulis rumus $v = \\dfrac{s}{t}$ <span class="tr">Write formula $v = \\dfrac{s}{t}$</span>','Substitusi nilai: $v = \\dfrac{240}{4}$ <span class="tr">Substitute values: $v = \\dfrac{240}{4}$</span>','Bagi $240$ dengan $4$ <span class="tr">Divide $240$ by $4$</span>','Tulis kecepatan: $60 \\text{ m/s}$ <span class="tr">Write speed: $60 \\text{ m/s}$</span>'], correctOrder:[0,1,2,3],
+          explanation:`<p>Ikuti langkah rumus kecepatan secara berurutan. <span class="tr">Follow the speed formula steps sequentially.</span></p>`
+        },
+        { type:'task', pageTitle:'T9: Interpretasi Satuan', pageTitleEn:'Unit Interpretation', taskType:'radio',
+          question:'Jika sebuah sepeda melaju dengan kecepatan $20 \\text{ km/jam}$, apa artinya?', questionEn:'If a bicycle moves at a speed of $20 \\text{ km/h}$, what does it mean?',
+          options:[{text:'Sepeda berjalan $20 \\text{ km}$ dalam $1 \\text{ jam}$ <span class="tr">Bicycle travels $20 \\text{ km}$ in $1 \\text{ hour}$</span>', correct:true},{text:'Sepeda berjalan $1 \\text{ km}$ dalam $20 \\text{ jam}$ <span class="tr">Bicycle travels $1 \\text{ km}$ in $20 \\text{ hours}$</span>', correct:false},{text:'Sepeda berjalan $20 \\text{ jam}$ dalam $1 \\text{ km}$ <span class="tr">Bicycle travels $20 \\text{ hours}$ in $1 \\text{ km}$</span>', correct:false},{text:'Total jaraknya $20 \\text{ km}$ <span class="tr">Total distance is $20 \\text{ km}$</span>', correct:false}],
+          explanation:`<p>Laju satuan $\\text{km/jam}$ berarti jarak (km) yang ditempuh dalam waktu $1 \\text{ jam}$. <span class="tr">The unit rate $\\text{km/h}$ means distance (km) traveled in $1 \\text{ hour}$ time.</span></p>`
+        },
+        { type:'task', pageTitle:'T10: Logika Kecepatan', pageTitleEn:'Speed Logic', taskType:'truefalse',
+          question:'Benar atau Salah: Jika kecepatan mobil lebih besar, maka waktu yang dibutuhkan untuk sampai ke tujuan akan lebih lama. ', questionEn:'True or False: If the speed of a car is greater, the time needed to reach the destination will be longer.',
+          correctAnswer:'false',
+          explanation:`<p>Kecepatan yang lebih besar berarti menempuh jarak yang sama dalam waktu yang lebih singkat. <span class="tr">A greater speed means covering the same distance in a shorter time.</span></p>`
+        }
+      ]
+    },
+    c: {
+      title: 'Review of Prior Knowledge', titleEn: 'Review of Prior Knowledge', time: '00:15 - 00:20',
+      pages: [
+        { type:'explanation', pageTitle:'E1: Faktor Persekutuan Terbesar (FPB)', pageTitleEn:'Greatest Common Factor (GCF)',
+          body:`<p>Sebelum mempelajari Rasio lebih jauh, kita perlu mengingat <strong>Faktor Persekutuan Terbesar (FPB)</strong>. FPB berguna untuk menyederhanakan rasio. <span class="tr">Before studying Ratio further, we need to recall the <strong>Greatest Common Factor (GCF)</strong>. GCF is useful for simplifying ratios.</span></p>
+          <p><strong>Faktor</strong> adalah bilangan yang dapat membagi habis suatu bilangan lain. <span class="tr">A <strong>factor</strong> is a number that can divide another number evenly.</span></p>
+          <div class="example-box"><h4>Contoh FPB <span class="tr">GCF Example</span></h4>
+          <p>Cari FPB dari $12$ dan $18$. <span class="tr">Find the GCF of $12$ and $18$.</span></p>
+          <p><strong>Faktor 12:</strong> $1, 2, 3, 4, 6, 12$. <span class="tr"><strong>Factors of 12:</strong> $1, 2, 3, 4, 6, 12$.</span></p>
+          <p><strong>Faktor 18:</strong> $1, 2, 3, 6, 9, 18$. <span class="tr"><strong>Factors of 18:</strong> $1, 2, 3, 6, 9, 18$.</span></p>
+          <p>Faktor yang sama (persekutuan) adalah $1, 2, 3, 6$. Yang terbesar adalah $6$. Jadi, FPB(12, 18) = $6$. <span class="tr">The common factors are $1, 2, 3, 6$. The largest is $6$. So, GCF(12, 18) = $6$.</span></p></div>`
+        },
+        { type:'task', pageTitle:'T1: Mencari FPB', pageTitleEn:'Finding GCF', taskType:'fill',
+          question:'Tentukan FPB dari $8$ dan $12$. FPB = $\\dots$', questionEn:'Determine the GCF of $8$ and $12$. GCF = $\\dots$',
+          correctAnswer:'4', acceptableAnswers:['4'],
+          explanation:`<p>Faktor 8: $1, 2, 4, 8$. <span class="tr">Factors of 8: $1, 2, 4, 8$.</span></p>
+          <p>Faktor 12: $1, 2, 3, 4, 6, 12$. <span class="tr">Factors of 12: $1, 2, 3, 4, 6, 12$.</span></p>
+          <p>Faktor persekutuan: $1, 2, 4$. Yang terbesar adalah $4$. <span class="tr">Common factors: $1, 2, 4$. The largest is $4$.</span></p>`
+        },
+        { type:'task', pageTitle:'T2: Faktor yang Sama', pageTitleEn:'Common Factors', taskType:'checkbox',
+          question:'Pilih semua faktor persekutuan dari $10$ dan $15$.', questionEn:'Select all common factors of $10$ and $15$.',
+          options:[{text:'$1$ <span class="tr">$1$</span>', correct:true},{text:'$5$ <span class="tr">$5$</span>', correct:true},{text:'$2$ <span class="tr">$2$</span>', correct:false},{text:'$10$ <span class="tr">$10$</span>', correct:false}],
+          explanation:`<p>Faktor 10: $1, 2, 5, 10$. <span class="tr">Factors of 10: $1, 2, 5, 10$.</span></p>
+          <p>Faktor 15: $1, 3, 5, 15$. <span class="tr">Factors of 15: $1, 3, 5, 15$.</span></p>
+          <p>Yang sama: $1$ dan $5$. <span class="tr">Common ones: $1$ and $5$.</span></p>`
+        },
+        { type:'task', pageTitle:'T3: Pasangkan FPB', pageTitleEn:'Match GCF', taskType:'pairing',
+          question:'Pasangkan pasangan bilangan dengan FPB-nya.', questionEn:'Match the number pairs with their GCF.',
+          pairs:[{left:'$(4, 6)$', right:'$2$'},{left:'$(9, 12)$', right:'$3$'},{left:'$(10, 25)$', right:'$5$'},{left:'$(7, 14)$', right:'$7$'}],
+          explanation:`<p>Cari faktor terbesar yang sama di antara kedua bilangan. <span class="tr">Find the largest common factor between the two numbers.</span></p>`
+        },
+        { type:'explanation', pageTitle:'E2: Menyederhanakan Pecahan', pageTitleEn:'Simplifying Fractions',
+          body:`<p><strong>Pecahan</strong> adalah bentuk lain dari rasio. Menyederhanakan pecahan berarti membagi pembilang dan penyebut dengan FPB-nya. <span class="tr">A <strong>fraction</strong> is another form of ratio. Simplifying a fraction means dividing the numerator and denominator by their GCF.</span></p>
+          <div class="math-block"><strong>Rumus:</strong> $\\dfrac{a}{b} = \\dfrac{a \\div \\text{FPB}}{b \\div \\text{FPB}}$ <span class="tr"><strong>Formula:</strong> $\\dfrac{a}{b} = \\dfrac{a \\div \\text{GCF}}{b \\div \\text{GCF}}$</span></div>
+          <div class="example-box"><h4>Contoh <span class="tr">Example</span></h4>
+          <p>Sederhanakan $\\dfrac{6}{8}$. <span class="tr">Simplify $\\dfrac{6}{8}$.</span></p>
+          <p>FPB dari $6$ dan $8$ adalah $2$. <span class="tr">GCF of $6$ and $8$ is $2$.</span></p>
+          <p>$\\dfrac{6 \\div 2}{8 \\div 2} = \\dfrac{3}{4}$. <span class="tr">$\\dfrac{6 \\div 2}{8 \\div 2} = \\dfrac{3}{4}$.</span></p></div>`
+        },
+        { type:'task', pageTitle:'T4: Sederhanakan Pecahan', pageTitleEn:'Simplify Fraction', taskType:'fill',
+          question:'Sederhanakan pecahan $\\dfrac{9}{12}$. Jika disederhanakan menjadi $\\dfrac{3}{x}$, maka nilai $x = \\dots$', questionEn:'Simplify the fraction $\\dfrac{9}{12}$. If simplified to $\\dfrac{3}{x}$, then the value of $x = \\dots$',
+          correctAnswer:'4', acceptableAnswers:['4'],
+          explanation:`<p>FPB dari $9$ dan $12$ adalah $3$. <span class="tr">GCF of $9$ and $12$ is $3$.</span></p>
+          <p>Pembilang: $9 \\div 3 = 3$. <span class="tr">Numerator: $9 \\div 3 = 3$.</span></p>
+          <p>Penyebut: $12 \\div 3 = 4$. <span class="tr">Denominator: $12 \\div 3 = 4$.</span></p>
+          <p>Jadi $x = 4$. <span class="tr">So $x = 4$.</span></p>`
+        },
+        { type:'task', pageTitle:'T5: Urutkan Langkah Pecahan', pageTitleEn:'Order Fraction Steps', taskType:'sorting',
+          question:'Urutkan langkah menyederhanakan $\\dfrac{10}{15}$.', questionEn:'Order the steps to simplify $\\dfrac{10}{15}$.',
+          items:['Cari FPB dari $10$ dan $15$, yaitu $5$ <span class="tr">Find GCF of $10$ and $15$, which is $5$</span>','Bagi pembilang: $10 \\div 5 = 2$ <span class="tr">Divide numerator: $10 \\div 5 = 2$</span>','Bagi penyebut: $15 \\div 5 = 3$ <span class="tr">Divide denominator: $15 \\div 5 = 3$</span>','Tulis hasil: $\\dfrac{2}{3}$ <span class="tr">Write result: $\\dfrac{2}{3}$</span>'], correctOrder:[0,1,2,3],
+          explanation:`<p>Ikuti langkah menyederhanakan pecahan secara berurutan. <span class="tr">Follow the fraction simplification steps sequentially.</span></p>`
+        },
+        { type:'task', pageTitle:'T6: Pengecekan Pecahan', pageTitleEn:'Fraction Check', taskType:'truefalse',
+          question:'Benar atau Salah: Pecahan $\\dfrac{4}{6}$ sudah dalam bentuk paling sederhana. ', questionEn:'True or False: The fraction $\\dfrac{4}{6}$ is in its simplest form.',
+          correctAnswer:'false',
+          explanation:`<p>FPB dari $4$ dan $6$ adalah $2$. Masih bisa dibagi, menjadi $\\dfrac{2}{3}$. <span class="tr">GCF of $4$ and $6$ is $2$. It can still be divided, to $\\dfrac{2}{3}$.</span></p>`
+        },
+        { type:'explanation', pageTitle:'E3: Perkalian Pecahan', pageTitleEn:'Multiplying Fractions',
+          body:`<p>Kita perlu mengingat perkalian pecahan untuk menyelesaikan masalah rasio yang kompleks. <span class="tr">We need to recall multiplying fractions to solve complex ratio problems.</span></p>
+          <div class="math-block"><strong>Rumus:</strong> $\\dfrac{a}{b} \\times \\dfrac{c}{d} = \\dfrac{a \\times c}{b \\times d}$ <span class="tr"><strong>Formula:</strong> $\\dfrac{a}{b} \\times \\dfrac{c}{d} = \\dfrac{a \\times c}{b \\times d}$</span></div>
+          <div class="example-box"><h4>Contoh <span class="tr">Example</span></h4>
+          <p>Hitung $\\dfrac{2}{3} \\times \\dfrac{4}{5}$. <span class="tr">Calculate $\\dfrac{2}{3} \\times \\dfrac{4}{5}$.</span></p>
+          <p><strong>Langkah 1:</strong> Kali pembilang: $2 \\times 4 = 8$. <span class="tr"><strong>Step 1:</strong> Multiply numerators: $2 \\times 4 = 8$.</span></p>
+          <p><strong>Langkah 2:</strong> Kali penyebut: $3 \\times 5 = 15$. <span class="tr"><strong>Step 2:</strong> Multiply denominators: $3 \\times 5 = 15$.</span></p>
+          <p><strong>Hasil:</strong> $\\dfrac{8}{15}$. <span class="tr"><strong>Result:</strong> $\\dfrac{8}{15}$.</span></p></div>`
+        },
+        { type:'task', pageTitle:'T7: Mengalikan Pecahan', pageTitleEn:'Multiplying Fractions', taskType:'fill',
+          question:'Hasil dari $\\dfrac{3}{4} \\times \\dfrac{5}{6} = \\dfrac{x}{24}$. Nilai $x = \\dots$', questionEn:'The result of $\\dfrac{3}{4} \\times \\dfrac{5}{6} = \\dfrac{x}{24}$. The value of $x = \\dots$',
+          correctAnswer:'15', acceptableAnswers:['15'],
+          explanation:`<p>Pembilang: $3 \\times 5 = 15$. <span class="tr">Numerator: $3 \\times 5 = 15$.</span></p>
+          <p>Penyebut: $4 \\times 6 = 24$. <span class="tr">Denominator: $4 \\times 6 = 24$.</span></p>
+          <p>Jadi hasilnya $\\dfrac{15}{24}$, maka $x = 15$. <span class="tr">So the result is $\\dfrac{15}{24}$, thus $x = 15$.</span></p>`
+        },
+        { type:'task', pageTitle:'T8: Perkalian Silang', pageTitleEn:'Cross Multiplication', taskType:'radio',
+          question:'Hasil dari $\\dfrac{2}{5} \\times \\dfrac{3}{7}$ adalah...', questionEn:'The result of $\\dfrac{2}{5} \\times \\dfrac{3}{7}$ is...',
+          options:[{text:'$\\dfrac{6}{35}$ <span class="tr">$\\dfrac{6}{35}$</span>', correct:true},{text:'$\\dfrac{5}{12}$ <span class="tr">$\\dfrac{5}{12}$</span>', correct:false},{text:'$\\dfrac{6}{12}$ <span class="tr">$\\dfrac{6}{12}$</span>', correct:false},{text:'$\\dfrac{5}{35}$ <span class="tr">$\\dfrac{5}{35}$</span>', correct:false}],
+          explanation:`<p>Pembilang: $2 \\times 3 = 6$. <span class="tr">Numerator: $2 \\times 3 = 6$.</span></p>
+          <p>Penyebut: $5 \\times 7 = 35$. <span class="tr">Denominator: $5 \\times 7 = 35$.</span></p>
+          <p>Hasilnya adalah $\\dfrac{6}{35}$. <span class="tr">The result is $\\dfrac{6}{35}$.</span></p>`
+        },
+        { type:'task', pageTitle:'T9: Logika Perkalian', pageTitleEn:'Multiplication Logic', taskType:'truefalse',
+          question:'Benar atau Salah: Dalam perkalian pecahan, penyebut dikalikan dengan penyebut, dan pembilang dikalikan dengan pembilang. ', questionEn:'True or False: In fraction multiplication, denominator is multiplied by denominator, and numerator is multiplied by numerator.',
+          correctAnswer:'true',
+          explanation:`<p>Ya, posisinya lurus-lurus. Pembilang dengan pembilang, penyebut dengan penyebut. <span class="tr">Yes, positions are straight. Numerator with numerator, denominator with denominator.</span></p>`
+        },
+        { type:'task', pageTitle:'T10: Pecahan dari Kuantitas', pageTitleEn:'Fraction of Quantity', taskType:'fill',
+          question:'Hitung $\\dfrac{2}{3}$ dari $30$. Hasilnya = $\\dots$', questionEn:'Calculate $\\dfrac{2}{3}$ of $30$. Result = $\\dots$',
+          correctAnswer:'20', acceptableAnswers:['20'],
+          explanation:`<p>"Dari" berarti dikalikan. <span class="tr">"Of" means multiplied.</span></p>
+          <p>$\\dfrac{2}{3} \\times 30 = \\dfrac{2}{3} \\times \\dfrac{30}{1} = \\dfrac{2 \\times 30}{3} = \\dfrac{60}{3} = 20$. <span class="tr">$\\dfrac{2}{3} \\times 30 = \\dfrac{2}{3} \\times \\dfrac{30}{1} = \\dfrac{2 \\times 30}{3} = \\dfrac{60}{3} = 20$.</span></p>`
+        }
+      ]
+    },
+    d: {
+      title: 'Problem Introduction', titleEn: 'Problem Introduction', time: '00:20 - 00:30',
+      pages: [
+        { type:'explanation', pageTitle:'E1: Mengubah Rasio menjadi Laju Satuan', pageTitleEn:'Converting Ratio to Unit Rate',
+          body:`<p>Sekarang kita gabungkan pengetahuan kita! Mengubah rasio menjadi laju satuan sangat mudah. <span class="tr">Now we combine our knowledge! Converting a ratio to a unit rate is very easy.</span></p>
+          <p><strong>Langkah-langkah:</strong> <span class="tr"><strong>Steps:</strong></span></p>
+          <ol><li>Tulis rasio sebagai pecahan. <span class="tr">Write the ratio as a fraction.</span></li>
+          <li>Bagi pembilang dan penyebut dengan penyebut asli. <span class="tr">Divide numerator and denominator by the original denominator.</span></li>
+          <li>Hasilnya menjadi laju satuan dengan penyebut $1$. <span class="tr">The result is a unit rate with a denominator of $1$.</span></li></ol>
+          <div class="example-box"><h4>Contoh <span class="tr">Example</span></h4>
+          <p>Ubah rasio $\\dfrac{150 \\text{ km}}{3 \\text{ jam}}$ menjadi laju satuan. <span class="tr">Convert ratio $\\dfrac{150 \\text{ km}}{3 \\text{ hours}}$ to unit rate.</span></p>
+          <p><strong>Langkah 1:</strong> $\\dfrac{150}{3}$. <span class="tr"><strong>Step 1:</strong> $\\dfrac{150}{3}$.</span></p>
+          <p><strong>Langkah 2:</strong> Bagi dengan $3$. <span class="tr"><strong>Step 2:</strong> Divide by $3$.</span></p>
+          <p>$\\dfrac{150 \\div 3}{3 \\div 3} = \\dfrac{50}{1}$. <span class="tr">$\\dfrac{150 \\div 3}{3 \\div 3} = \\dfrac{50}{1}$.</span></p>
+          <p><strong>Laju Satuan:</strong> $50 \\text{ km/jam}$. <span class="tr"><strong>Unit Rate:</strong> $50 \\text{ km/h}$.</span></p></div>`
+        },
+        { type:'task', pageTitle:'T1: Mengubah ke Laju Satuan', pageTitleEn:'Convert to Unit Rate', taskType:'fill',
+          question:'Sebuah mesin menghasilkan $240 \\text{ widget}$ dalam $6 \\text{ jam}$. Berapa laju satuan produksinya? Jawab: $\\dots \\text{ widget/jam}$', questionEn:'A machine produces $240 \\text{ widgets}$ in $6 \\text{ hours}$. What is the unit production rate? Answer: $\\dots \\text{ widgets/hour}$',
+          correctAnswer:'40', acceptableAnswers:['40'],
+          explanation:`<p>$\\dfrac{240}{6} = \\dfrac{240 \\div 6}{6 \\div 6} = \\dfrac{40}{1}$. <span class="tr">$\\dfrac{240}{6} = \\dfrac{240 \\div 6}{6 \\div 6} = \\dfrac{40}{1}$.</span></p>
+          <p>Laju satuan = $40 \\text{ widget/jam}$. <span class="tr">Unit rate = $40 \\text{ widgets/hour}$.</span></p>`
+        },
+        { type:'task', pageTitle:'T2: Identifikasi Laju Satuan', pageTitleEn:'Identify Unit Rate', taskType:'radio',
+          question:'Manakah yang merupakan bentuk laju satuan (unit rate) yang benar?', questionEn:'Which is the correct form of a unit rate?',
+          options:[{text:'$\\dfrac{25}{1}$ <span class="tr">$\\dfrac{25}{1}$</span>', correct:true},{text:'$\\dfrac{50}{2}$ <span class="tr">$\\dfrac{50}{2}$</span>', correct:false},{text:'$\\dfrac{75}{3}$ <span class="tr">$\\dfrac{75}{3}$</span>', correct:false},{text:'$\\dfrac{100}{5}$ <span class="tr">$\\dfrac{100}{5}$</span>', correct:false}],
+          explanation:`<p>Laju satuan selalu memiliki penyebut bernilai $1$. <span class="tr">A unit rate always has a denominator value of $1$.</span></p>`
+        },
+        { type:'task', pageTitle:'T3: Definisi Laju Satuan', pageTitleEn:'Unit Rate Definition', taskType:'truefalse',
+          question:'Benar atau Salah: Laju satuan (unit rate) memiliki penyebut (denominator) bernilai $1$. ', questionEn:'True or False: A unit rate has a denominator value of $1$.',
+          correctAnswer:'true',
+          explanation:`<p>Ya, contohnya $\\dfrac{50 \\text{ km}}{1 \\text{ jam}}$. $1$ berada di penyebut. <span class="tr">Yes, for example $\\dfrac{50 \\text{ km}}{1 \\text{ hour}}$. $1$ is in the denominator.</span></p>`
+        },
+        { type:'explanation', pageTitle:'E2: Perbandingan Senilai', pageTitleEn:'Equivalent Ratios',
+          body:`<p><strong>Perbandingan Senilai</strong> adalah dua rasio yang nilainya sama. Kita bisa membuatnya dengan mengalikan atau membagi kedua angka dengan bilangan yang sama. <span class="tr"><strong>Equivalent Ratios</strong> are two ratios that have the same value. We can make them by multiplying or dividing both numbers by the same number.</span></p>
+          <div class="math-block"><strong>Rumus:</strong> Jika $a : b = c : d$, maka $a \\times d = b \\times c$ <span class="tr"><strong>Formula:</strong> If $a : b = c : d$, then $a \\times d = b \\times c$</span></div>
+          <div class="example-box"><h4>Contoh <span class="tr">Example</span></h4>
+          <p>Apakah $\\dfrac{2}{3}$ senilai dengan $\\dfrac{8}{12}$? <span class="tr">Is $\\dfrac{2}{3}$ equivalent to $\\dfrac{8}{12}$?</span></p>
+          <p>Kalikan silang: $2 \\times 12 = 24$ dan $3 \\times 8 = 24$. Karena $24 = 24$, maka keduanya senilai. <span class="tr">Cross multiply: $2 \\times 12 = 24$ and $3 \\times 8 = 24$. Since $24 = 24$, they are equivalent.</span></p>
+          <p>Atau: $\\dfrac{2 \\times 4}{3 \\times 4} = \\dfrac{8}{12}$. <span class="tr">Or: $\\dfrac{2 \\times 4}{3 \\times 4} = \\dfrac{8}{12}$.</span></p></div>`
+        },
+        { type:'task', pageTitle:'T4: Mencari Nilai Senilai', pageTitleEn:'Finding Equivalent Value', taskType:'fill',
+          question:'Jika $\\dfrac{5}{7} = \\dfrac{x}{21}$, maka nilai $x = \\dots$', questionEn:'If $\\dfrac{5}{7} = \\dfrac{x}{21}$, then the value of $x = \\dots$',
+          correctAnswer:'15', acceptableAnswers:['15'],
+          explanation:`<p>Cara perkalian silang: $7 \\times x = 5 \\times 21 \\Rightarrow 7x = 105 \\Rightarrow x = 15$. <span class="tr">Cross multiplication method: $7 \\times x = 5 \\times 21 \\Rightarrow 7x = 105 \\Rightarrow x = 15$.</span></p>
+          <p>Cara kelipatan: $21 \\div 7 = 3$. Maka $5 \\times 3 = 15$. <span class="tr">Multiple method: $21 \\div 7 = 3$. Then $5 \\times 3 = 15$.</span></p>`
+        },
+        { type:'task', pageTitle:'T5: Membuat Rasio Senilai', pageTitleEn:'Making Equivalent Ratio', taskType:'sorting',
+          question:'Urutkan langkah membuat rasio senilai dari $\\dfrac{3}{4}$ menjadi penyebut $20$.', questionEn:'Order the steps to make an equivalent ratio from $\\dfrac{3}{4}$ to denominator $20$.',
+          items:['Tentukan pengali: $20 \\div 4 = 5$ <span class="tr">Determine multiplier: $20 \\div 4 = 5$</span>','Kalikan pembilang dengan pengali: $3 \\times 5 = 15$ <span class="tr">Multiply numerator by multiplier: $3 \\times 5 = 15$</span>','Tulis rasio baru: $\\dfrac{15}{20}$ <span class="tr">Write new ratio: $\\dfrac{15}{20}$</span>','Verifikasi: $\\dfrac{3}{4} = 0.75$ dan $\\dfrac{15}{20} = 0.75$ <span class="tr">Verify: $\\dfrac{3}{4} = 0.75$ and $\\dfrac{15}{20} = 0.75$</span>'], correctOrder:[0,1,2,3],
+          explanation:`<p>Ikuti langkah-langkah logis untuk membuat rasio senilai. <span class="tr">Follow the logical steps to create an equivalent ratio.</span></p>`
+        },
+        { type:'task', pageTitle:'T6: Pasangkan Senilai', pageTitleEn:'Match Equivalents', taskType:'pairing',
+          question:'Pasangkan rasio yang senilai.', questionEn:'Match the equivalent ratios.',
+          pairs:[{left:'$\\dfrac{1}{2}$', right:'$\\dfrac{5}{10}$'},{left:'$\\dfrac{2}{3}$', right:'$\\dfrac{8}{12}$'},{left:'$\\dfrac{3}{4}$', right:'$\\dfrac{9}{12}$'},{left:'$\\dfrac{4}{5}$', right:'$\\dfrac{16}{20}$'}],
+          explanation:`<p>Periksa dengan mengalikan silang atau melihat pengali kedua angka. <span class="tr">Verify by cross multiplying or looking at the multiplier for both numbers.</span></p>`
+        },
+        { type:'explanation', pageTitle:'E3: Menyelesaikan Masalah Laju', pageTitleEn:'Solving Rate Problems',
+          body:`<p>Saat kita menemukan masalah kata (word problem) tentang laju, kita gunakan <strong>Perbandingan Senilai</strong> untuk menyelesaikannya. <span class="tr">When we encounter a word problem about rates, we use <strong>Equivalent Ratios</strong> to solve it.</span></p>
+          <div class="illustration"><svg width="280" height="150" viewBox="0 0 280 150"><text x="140" y="30" font-size="14" text-anchor="middle" fill="#1e40af" font-weight="bold">Diberikan Laju</text><text x="140" y="50" font-size="14" text-anchor="middle">$\\dfrac{a}{b}$</text><line x1="140" y1="65" x2="140" y2="90" stroke="#64748b" stroke-width="2"/><polygon points="140,90 135,80 145,80" fill="#64748b"/><text x="140" y="115" font-size="14" text-anchor="middle" fill="#1e40af" font-weight="bold">Ditanyakan Laju Satuan</text><text x="140" y="135" font-size="14" text-anchor="middle">$\\dfrac{x}{1}$</text></svg><div style="font-size:.82em;color:var(--muted);margin-top:6px">Gunakan perkalian silang <span class="tr">Use cross multiplication</span></div></div>
+          <p><strong>Strategi Penyelesaian:</strong> <span class="tr"><strong>Solution Strategy:</strong></span></p>
+          <ol><li>Identifikasi laju awal (misal $\\dfrac{a}{b}$). <span class="tr">Identify the initial rate (e.g., $\\dfrac{a}{b}$).</span></li>
+          <li>Tulis laju satuan yang dicari (misal $\\dfrac{x}{1}$). <span class="tr">Write the unit rate sought (e.g., $\\dfrac{x}{1}$).</span></li>
+          <li>Susun persamaan: $\\dfrac{a}{b} = \\dfrac{x}{1}$. <span class="tr">Set up equation: $\\dfrac{a}{b} = \\dfrac{x}{1}$.</span></li>
+          <li>Selesaikan untuk $x$: $x = \\dfrac{a}{b}$. <span class="tr">Solve for $x$: $x = \\dfrac{a}{b}$.</span></li></ol>
+          <div class="example-box"><h4>Contoh <span class="tr">Example</span></h4>
+          <p>Jika $3 \\text{ apel}$ berharga $\\text{Rp}9.000$, berapa harga $1 \\text{ apel}$? <span class="tr">If $3 \\text{ apples}$ cost $\\text{Rp}9,000$, what is the price of $1 \\text{ apple}$?</span></p>
+          <p><strong>Persamaan:</strong> $\\dfrac{9000}{3} = \\dfrac{x}{1}$. <span class="tr"><strong>Equation:</strong> $\\dfrac{9000}{3} = \\dfrac{x}{1}$.</span></p>
+          <p>$x = \\dfrac{9000}{3} = 3000$. Harga $1 \\text{ apel}$ adalah $\\text{Rp}3.000$. <span class="tr">$x = \\dfrac{9000}{3} = 3000$. Price of $1 \\text{ apple}$ is $\\text{Rp}3,000$.</span></p></div>`
+        },
+        { type:'task', pageTitle:'T7: Menyelesaikan Word Problem', pageTitleEn:'Solving Word Problem', taskType:'fill',
+          question:'Sebuah kereta menempuh $210 \\text{ km}$ dalam $3 \\text{ jam}$. Jika kecepatannya konstan, berapa jarak yang ditempuh dalam $1 \\text{ jam}$? Jawab: $\\dots \\text{ km}$', questionEn:'A train travels $210 \\text{ km}$ in $3 \\text{ hours}$. If the speed is constant, what distance is traveled in $1 \\text{ hour}$? Answer: $\\dots \\text{ km}$',
+          correctAnswer:'70', acceptableAnswers:['70'],
+          explanation:`<p><strong>Persamaan:</strong> $\\dfrac{210}{3} = \\dfrac{x}{1}$. <span class="tr"><strong>Equation:</strong> $\\dfrac{210}{3} = \\dfrac{x}{1}$.</span></p>
+          <p>$x = \\dfrac{210}{3} = 70 \\text{ km}$. <span class="tr">$x = \\dfrac{210}{3} = 70 \\text{ km}$.</span></p>`
+        },
+        { type:'task', pageTitle:'T8: Identifikasi Strategi', pageTitleEn:'Identify Strategy', taskType:'checkbox',
+          question:'Pilih langkah yang benar untuk menyelesaikan masalah laju satuan dari $\\dfrac{120}{4}$!', questionEn:'Select the correct steps to find the unit rate from $\\dfrac{120}{4}$!',
+          options:[{text:'Tulis persamaan $\\dfrac{120}{4} = \\dfrac{x}{1}$ <span class="tr">Write equation $\\dfrac{120}{4} = \\dfrac{x}{1}$</span>', correct:true},{text:'Bagi $120$ dengan $4$ <span class="tr">Divide $120$ by $4$</span>', correct:true},{text:'Kalikan $120$ dengan $4$ <span class="tr">Multiply $120$ by $4$</span>', correct:false},{text:'Hasilnya adalah $30$ <span class="tr">The result is $30$</span>', correct:true}],
+          explanation:`<p>Untuk mendapatkan penyebut $1$, kita harus membagi pembilang dan penyebut dengan penyebut asli ($4$). $120 \\div 4 = 30$. <span class="tr">To get a denominator of $1$, we must divide numerator and denominator by the original denominator ($4$). $120 \\div 4 = 30$.</span></p>`
+        },
+        { type:'task', pageTitle:'T9: Logika Laju Konstan', pageTitleEn:'Constant Rate Logic', taskType:'truefalse',
+          question:'Benar atau Salah: Jika $4$ orang bisa mengecat $4$ tembok dalam $1$ jam, maka $1$ orang bisa mengecat $1$ tembok dalam $1$ jam. ', questionEn:'True or False: If $4$ people can paint $4$ walls in $1$ hour, then $1$ person can paint $1$ wall in $1$ hour.',
+          correctAnswer:'true',
+          explanation:`<p>Laju per orang adalah $\\dfrac{4 \\text{ tembok}}{4 \\text{ orang}} = 1 \\text{ tembok/orang}$. Karena waktunya sama ($1$ jam), maka benar. <span class="tr">The rate per person is $\\dfrac{4 \\text{ walls}}{4 \\text{ people}} = 1 \\text{ wall/person}$. Since the time is the same ($1$ hour), it is true.</span></p>`
+        },
+        { type:'task', pageTitle:'T10: Aplikasi Nyata', pageTitleEn:'Real-world Application', taskType:'radio',
+          question:'Pompa air mengisi $60$ liter dalam $5$ menit. Berapa liter yang bisa diisi dalam $1$ menit?', questionEn:'A water pump fills $60$ liters in $5$ minutes. How many liters can be filled in $1$ minute?',
+          options:[{text:'$12 \\text{ liter}$ <span class="tr">$12 \\text{ liters}$</span>', correct:true},{text:'$10 \\text{ liter}$ <span class="tr">$10 \\text{ liters}$</span>', correct:false},{text:'$5 \\text{ liter}$ <span class="tr">$5 \\text{ liters}$</span>', correct:false},{text:'$60 \\text{ liter}$ <span class="tr">$60 \\text{ liters}$</span>', correct:false}],
+          explanation:`<p>$\\dfrac{60}{5} = \\dfrac{x}{1} \\Rightarrow x = \\dfrac{60}{5} = 12 \\text{ liter/menit}$. <span class="tr">$\\dfrac{60}{5} = \\dfrac{x}{1} \\Rightarrow x = \\dfrac{60}{5} = 12 \\text{ liters/minute}$.</span></p>`
+        }
+      ]
+    },
+    e: {
+      title: 'Guided Practice', titleEn: 'Guided Practice', time: '00:30 - 00:45',
+      pages: [
+        { type:'explanation', pageTitle:'E1: Grafik Laju', pageTitleEn:'Rate Graphs',
+          body:`<p>Kita bisa memvisualisasikan laju menggunakan grafik. Jika laju <strong>konstan</strong> (tetap), grafiknya akan berbentuk <strong>garis lurus</strong>. <span class="tr">We can visualize rates using graphs. If the rate is <strong>constant</strong>, the graph will be a <strong>straight line</strong>.</span></p>
+          <div class="math-block"><strong>Gradien (Laju):</strong> $m = \\dfrac{\\Delta y}{\\Delta x} = \\dfrac{y_2 - y_1}{x_2 - x_1}$ <span class="tr"><strong>Gradient (Rate):</strong> $m = \\dfrac{\\Delta y}{\\Delta x} = \\dfrac{y_2 - y_1}{x_2 - x_1}$</span></div>
+          <div class="illustration"><svg width="280" height="180" viewBox="0 0 280 180"><line x1="30" y1="150" x2="260" y2="150" stroke="#333" stroke-width="2"/><polygon points="260,150 250,145 250,155" fill="#333"/><line x1="30" y1="150" x2="30" y2="20" stroke="#333" stroke-width="2"/><polygon points="30,20 25,30 35,30" fill="#333"/><text x="245" y="170" font-size="12">Waktu (jam) <span class="tr">Time (h)</span></text><text x="10" y="25" font-size="12">Jarak (km) <span class="tr">Dist (km)</span></text><line x1="30" y1="150" x2="150" y2="30" stroke="#2563eb" stroke-width="3"/><circle cx="30" cy="150" r="3" fill="#ef4444"/><text x="35" y="145" font-size="10">(0,0)</text><circle cx="150" cy="30" r="3" fill="#ef4444"/><text x="155" y="30" font-size="10">(4, 120)</text></svg><div style="font-size:.82em;color:var(--muted);margin-top:6px">Grafik Jarak vs Waktu <span class="tr">Distance vs Time Graph</span></div></div>
+          <div class="example-box"><h4>Contoh <span class="tr">Example</span></h4>
+          <p>Dari grafik di atas, titik $(0,0)$ ke $(4, 120)$. Berapa lajunya? <span class="tr">From the graph, point $(0,0)$ to $(4, 120)$. What is the rate?</span></p>
+          <p><strong>Langkah 1:</strong> Identifikasi $\\Delta y = 120 - 0 = 120$. <span class="tr"><strong>Step 1:</strong> Identify $\\Delta y = 120 - 0 = 120$.</span></p>
+          <p><strong>Langkah 2:</strong> Identifikasi $\\Delta x = 4 - 0 = 4$. <span class="tr"><strong>Step 2:</strong> Identify $\\Delta x = 4 - 0 = 4$.</span></p>
+          <p><strong>Langkah 3:</strong> Bagi $\\Delta y$ dengan $\\Delta x$. <span class="tr"><strong>Step 3:</strong> Divide $\\Delta y$ by $\\Delta x$.</span></p>
+          <p>$\\text{Laju} = \\dfrac{120}{4} = 30 \\text{ km/jam}$. <span class="tr">$\\text{Rate} = \\dfrac{120}{4} = 30 \\text{ km/h}$.</span></p></div>`
+        },
+        { type:'task', pageTitle:'T1: Membaca Grafik Laju', pageTitleEn:'Reading Rate Graph', taskType:'fill',
+          question:'Sebuah grafik menunjukkan titik $(0,0)$ dan $(2, 100)$. Jika sumbu Y adalah Jarak (m) dan sumbu X adalah Waktu (s), berapa lajunya? Jawab: $\\dots \\text{ m/s}$', questionEn:'A graph shows points $(0,0)$ and $(2, 100)$. If Y-axis is Distance (m) and X-axis is Time (s), what is the rate? Answer: $\\dots \\text{ m/s}$',
+          correctAnswer:'50', acceptableAnswers:['50'],
+          explanation:`<p>$\\text{Laju} = \\dfrac{\\Delta y}{\\Delta x} = \\dfrac{100 - 0}{2 - 0} = \\dfrac{100}{2} = 50 \\text{ m/s}$. <span class="tr">$\\text{Rate} = \\dfrac{\\Delta y}{\\Delta x} = \\dfrac{100 - 0}{2 - 0} = \\dfrac{100}{2} = 50 \\text{ m/s}$.</span></p>`
+        },
+        { type:'task', pageTitle:'T2: Identifikasi Grafik Konstan', pageTitleEn:'Identify Constant Graph', taskType:'radio',
+          question:'Grafik seperti apa yang menunjukkan laju konstan (tetap)?', questionEn:'What kind of graph indicates a constant rate?',
+          options:[{text:'Garis lurus <span class="tr">Straight line</span>', correct:true},{text:'Garis melengkung <span class="tr">Curved line</span>', correct:false},{text:'Titik acak <span class="tr">Random points</span>', correct:false},{text:'Garis patah-patah <span class="tr">Zigzag line</span>', correct:false}],
+          explanation:`<p>Laju konstan berarti perubahan selalu sama setiap satuan waktu, yang menghasilkan garis lurus. <span class="tr">Constant rate means the change is always the same every unit of time, which results in a straight line.</span></p>`
+        },
+        { type:'task', pageTitle:'T3: Laju dari Gradien', pageTitleEn:'Rate from Gradient', taskType:'truefalse',
+          question:'Benar atau Salah: Gradien grafik jarak terhadap waktu sama dengan kecepatan (laju). ', questionEn:'True or False: The gradient of a distance-time graph equals the speed (rate).',
+          correctAnswer:'true',
+          explanation:`<p>Ya, kecepatan adalah perubahan jarak per perubahan waktu, yang merupakan gradien grafik. <span class="tr">Yes, speed is change in distance over change in time, which is the gradient of the graph.</span></p>`
+        },
+        { type:'explanation', pageTitle:'E2: Menghitung Waktu dari Laju', pageTitleEn:'Calculating Time from Rate',
+          body:`<p>Jika kita tahu laju dan jarak, kita bisa mencari <strong>waktu</strong> tempuh. <span class="tr">If we know the rate and distance, we can find the travel <strong>time</strong>.</span></p>
+          <div class="math-block"><strong>Rumus Waktu:</strong> $t = \\dfrac{s}{v}$ <span class="tr"><strong>Time Formula:</strong> $t = \\dfrac{s}{v}$</span>
+          <br>$t = \\text{waktu}$ <span class="tr">$t = \\text{time}$</span>, $s = \\text{jarak}$ <span class="tr">$s = \\text{distance}$</span>, $v = \\text{laju}$ <span class="tr">$v = \\text{rate}$</span></div>
+          <div class="example-box"><h4>Contoh <span class="tr">Example</span></h4>
+          <p>Sebuah mobil melaju dengan kecepatan $60 \\text{ km/jam}$. Jarak yang harus ditempuh adalah $180 \\text{ km}$. Berapa waktu tempuhnya? <span class="tr">A car travels at a speed of $60 \\text{ km/h}$. The distance to be covered is $180 \\text{ km}$. What is the travel time?</span></p>
+          <p><strong>Langkah 1:</strong> Tulis rumus $t = \\dfrac{s}{v}$. <span class="tr"><strong>Step 1:</strong> Write formula $t = \\dfrac{s}{v}$.</span></p>
+          <p><strong>Langkah 2:</strong> Substitusi $t = \\dfrac{180}{60}$. <span class="tr"><strong>Step 2:</strong> Substitute $t = \\dfrac{180}{60}$.</span></p>
+          <p><strong>Langkah 3:</strong> Sederhanakan $t = 3 \\text{ jam}$. <span class="tr"><strong>Step 3:</strong> Simplify $t = 3 \\text{ hours}$.</span></p></div>`
+        },
+        { type:'task', pageTitle:'T4: Mencari Waktu Tempuh', pageTitleEn:'Finding Travel Time', taskType:'fill',
+          question:'Seekor burung terbang dengan kecepatan $50 \\text{ km/jam}$ untuk menempuh jarak $200 \\text{ km}$. Waktu yang dibutuhkan adalah $\\dots \\text{ jam}$', questionEn:'A bird flies at a speed of $50 \\text{ km/h}$ to cover a distance of $200 \\text{ km}$. The time needed is $\\dots \\text{ hours}$',
+          correctAnswer:'4', acceptableAnswers:['4'],
+          explanation:`<p>$t = \\dfrac{s}{v} = \\dfrac{200}{50} = 4 \\text{ jam}$. <span class="tr">$t = \\dfrac{s}{v} = \\dfrac{200}{50} = 4 \\text{ hours}$.</span></p>`
+        },
+        { type:'task', pageTitle:'T5: Urutkan Langkah Waktu', pageTitleEn:'Order Time Steps', taskType:'sorting',
+          question:'Urutkan langkah mencari waktu jika diketahui $s = 150 \\text{ m}$ dan $v = 30 \\text{ m/s}$.', questionEn:'Order the steps to find time given $s = 150 \\text{ m}$ and $v = 30 \\text{ m/s}$.',
+          items:['Tulis rumus $t = \\dfrac{s}{v}$ <span class="tr">Write formula $t = \\dfrac{s}{v}$</span>','Substitusi nilai: $t = \\dfrac{150}{30}$ <span class="tr">Substitute values: $t = \\dfrac{150}{30}$</span>','Bagi $150$ dengan $30$ <span class="tr">Divide $150$ by $30$</span>','Tulis waktu: $5 \\text{ s}$ <span class="tr">Write time: $5 \\text{ s}$</span>'], correctOrder:[0,1,2,3],
+          explanation:`<p>Ikuti langkah-langkah penyelesaian rumus waktu secara berurutan. <span class="tr">Follow the time formula solving steps sequentially.</span></p>`
+        },
+        { type:'task', pageTitle:'T6: Pasangkan Waktu', pageTitleEn:'Match Time', taskType:'pairing',
+          question:'Pasangkan jarak dan laju dengan waktu tempuhnya.', questionEn:'Match distance and rate with travel time.',
+          pairs:[{left:'$s=100, v=50$ <span class="tr">$s=100, v=50$</span>', right:'$t=2$'},{left:'$s=240, v=60$ <span class="tr">$s=240, v=60$</span>', right:'$t=4$'},{left:'$s=300, v=75$ <span class="tr">$s=300, v=75$</span>', right:'$t=4$'},{left:'$s=400, v=80$ <span class="tr">$s=400, v=80$</span>', right:'$t=5$'}],
+          explanation:`<p>Gunakan rumus $t = \\dfrac{s}{v}$. <span class="tr">Use formula $t = \\dfrac{s}{v}$.</span></p>
+          <p>$100/50=2$, $240/60=4$, $300/75=4$, $400/80=5$. <span class="tr">$100/50=2$, $240/60=4$, $300/75=4$, $400/80=5$.</span></p>`
+        },
+        { type:'explanation', pageTitle:'E3: Menghitung Jarak dari Laju', pageTitleEn:'Calculating Distance from Rate',
+          body:`<p>Jika kita tahu laju dan waktu, kita bisa mencari <strong>jarak</strong> yang ditempuh. <span class="tr">If we know the rate and time, we can find the <strong>distance</strong> traveled.</span></p>
+          <div class="math-block"><strong>Rumus Jarak:</strong> $s = v \\times t$ <span class="tr"><strong>Distance Formula:</strong> $s = v \\times t$</span>
+          <br>$s = \\text{jarak}$ <span class="tr">$s = \\text{distance}$</span>, $v = \\text{laju}$ <span class="tr">$v = \\text{rate}$</span>, $t = \\text{waktu}$ <span class="tr">$t = \\text{time}$</span></div>
+          <div class="example-box"><h4>Contoh <span class="tr">Example</span></h4>
+          <p>Sebuah perahu melaju dengan kecepatan $20 \\text{ knot}$ selama $3 \\text{ jam}$. Berapa jarak yang ditempuh? <span class="tr">A boat travels at a speed of $20 \\text{ knots}$ for $3 \\text{ hours}$. What distance is traveled?</span></p>
+          <p><strong>Langkah 1:</strong> Tulis rumus $s = v \\times t$. <span class="tr"><strong>Step 1:</strong> Write formula $s = v \\times t$.</span></p>
+          <p><strong>Langkah 2:</strong> Substitusi $s = 20 \\times 3$. <span class="tr"><strong>Step 2:</strong> Substitute $s = 20 \\times 3$.</span></p>
+          <p><strong>Langkah 3:</strong> Kalikan $s = 60 \\text{ mil laut}$. <span class="tr"><strong>Step 3:</strong> Multiply $s = 60 \\text{ nautical miles}$.</span></p></div>`
+        },
+        { type:'task', pageTitle:'T7: Mencari Jarak Tempuh', pageTitleEn:'Finding Travel Distance', taskType:'fill',
+          question:'Kapal selam menyelam dengan laju $40 \\text{ m/menit}$ selama $5 \\text{ menit}$. Jarak yang ditempuh adalah $\\dots \\text{ m}$', questionEn:'A submarine dives at a rate of $40 \\text{ m/min}$ for $5 \\text{ minutes}$. The distance traveled is $\\dots \\text{ m}$',
+          correctAnswer:'200', acceptableAnswers:['200'],
+          explanation:`<p>$s = v \\times t = 40 \\times 5 = 200 \\text{ m}$. <span class="tr">$s = v \\times t = 40 \\times 5 = 200 \\text{ m}$.</span></p>`
+        },
+        { type:'task', pageTitle:'T8: Identifikasi Rumus Jarak', pageTitleEn:'Identify Distance Formula', taskType:'checkbox',
+          question:'Pilih semua pernyataan yang BENAR tentang rumus jarak $s = v \\times t$.', questionEn:'Select all TRUE statements about distance formula $s = v \\times t$.',
+          options:[{text:'$s$ adalah jarak <span class="tr">$s$ is distance</span>', correct:true},{text:'$v$ adalah laju <span class="tr">$v$ is rate</span>', correct:true},{text:'$t$ adalah waktu <span class="tr">$t$ is time</span>', correct:true},{text:'$v$ adalah jarak <span class="tr">$v$ is distance</span>', correct:false}],
+          explanation:`<p>Dalam rumus $s = v \\times t$, $s$ menandakan jarak, $v$ menandakan laju/kecepatan, dan $t$ menandakan waktu. <span class="tr">In formula $s = v \\times t$, $s$ stands for distance, $v$ stands for rate/speed, and $t$ stands for time.</span></p>`
+        },
+        { type:'task', pageTitle:'T9: Logika Jarak', pageTitleEn:'Distance Logic', taskType:'truefalse',
+          question:'Benar atau Salah: Jika laju konstan, semakin lama waktu tempuh, semakin jauh jarak yang ditempuh. ', questionEn:'True or False: If the rate is constant, the longer the travel time, the farther the distance traveled.',
+          correctAnswer:'true',
+          explanation:`<p>Karena $s = v \\times t$, jika $v$ tetap, maka $s$ akan bertambah seiring bertambahnya $t$. <span class="tr">Since $s = v \\times t$, if $v$ is constant, $s$ will increase as $t$ increases.</span></p>`
+        },
+        { type:'task', pageTitle:'T10: Aplikasi Rumus', pageTitleEn:'Formula Application', taskType:'radio',
+          question:'Pesawat terbang dengan kecepatan $800 \\text{ km/jam}$ selama $2.5 \\text{ jam}$. Berapa jarak yang ditempuh?', questionEn:'An airplane flies at a speed of $800 \\text{ km/h}$ for $2.5 \\text{ hours}$. What distance is traveled?',
+          options:[{text:'$2000 \\text{ km}$ <span class="tr">$2000 \\text{ km}$</span>', correct:true},{text:'$200 \\text{ km}$ <span class="tr">$200 \\text{ km}$</span>', correct:false},{text:'$320 \\text{ km}$ <span class="tr">$320 \\text{ km}$</span>', correct:false},{text:'$3200 \\text{ km}$ <span class="tr">$3200 \\text{ km}$</span>', correct:false}],
+          explanation:`<p>$s = v \\times t = 800 \\times 2.5 = 2000 \\text{ km}$. <span class="tr">$s = v \\times t = 800 \\times 2.5 = 2000 \\text{ km}$.</span></p>`
+        }
+      ]
+    },
+    f: {
+      title: 'Independent Practice', titleEn: 'Independent Practice', time: '00:45 - 00:55',
+      pages: [
+        { type:'explanation', pageTitle:'E1: Konversi Satuan Laju', pageTitleEn:'Rate Unit Conversion',
+          body:`<p>Terkadang kita perlu mengubah satuan laju, misalnya dari $\\text{km/jam}$ menjadi $\\text{m/s}$. <span class="tr">Sometimes we need to convert rate units, for example from $\\text{km/h}$ to $\\text{m/s}$.</span></p>
+          <div class="math-block"><strong>Faktor Konversi:</strong> <span class="tr"><strong>Conversion Factor:</strong></span>
+          <br>$1 \\text{ km} = 1000 \\text{ m}$ <span class="tr">$1 \\text{ km} = 1000 \\text{ m}$</span>
+          <br>$1 \\text{ jam} = 3600 \\text{ s}$ <span class="tr">$1 \\text{ hour} = 3600 \\text{ s}$</span></div>
+          <p><strong>Rumus Cepat:</strong> <span class="tr"><strong>Quick Formula:</strong></span></p>
+          <div class="math-block">$\\text{m/s} = \\text{km/jam} \\times \\dfrac{1000}{3600} = \\text{km/jam} \\times \\dfrac{5}{18}$ <span class="tr">$\\text{m/s} = \\text{km/h} \\times \\dfrac{1000}{3600} = \\text{km/h} \\times \\dfrac{5}{18}$</span></div>
+          <div class="example-box"><h4>Contoh <span class="tr">Example</span></h4>
+          <p>Ubah $72 \\text{ km/jam}$ menjadi $\\text{m/s}$. <span class="tr">Convert $72 \\text{ km/h}$ to $\\text{m/s}$.</span></p>
+          <p><strong>Langkah 1:</strong> Kalikan dengan $\\dfrac{5}{18}$. <span class="tr"><strong>Step 1:</strong> Multiply by $\\dfrac{5}{18}$.</span></p>
+          <p><strong>Langkah 2:</strong> $72 \\times \\dfrac{5}{18}$. <span class="tr"><strong>Step 2:</strong> $72 \\times \\dfrac{5}{18}$.</span></p>
+          <p><strong>Langkah 3:</strong> Bagi $72$ dengan $18$ menjadi $4$. <span class="tr"><strong>Step 3:</strong> Divide $72$ by $18$ to get $4$.</span></p>
+          <p><strong>Hasil:</strong> $4 \\times 5 = 20 \\text{ m/s}$. <span class="tr"><strong>Result:</strong> $4 \\times 5 = 20 \\text{ m/s}$.</span></p></div>`
+        },
+        { type:'task', pageTitle:'T1: Konversi ke m/s', pageTitleEn:'Convert to m/s', taskType:'fill',
+          question:'Ubah $36 \\text{ km/jam}$ menjadi $\\text{m/s}$. Jawab: $\\dots \\text{ m/s}$', questionEn:'Convert $36 \\text{ km/h}$ to $\\text{m/s}$. Answer: $\\dots \\text{ m/s}$',
+          correctAnswer:'10', acceptableAnswers:['10'],
+          explanation:`<p>$36 \\times \\dfrac{5}{18} = 2 \\times 5 = 10 \\text{ m/s}$. <span class="tr">$36 \\times \\dfrac{5}{18} = 2 \\times 5 = 10 \\text{ m/s}$.</span></p>`
+        },
+        { type:'task', pageTitle:'T2: Bandingkan Laju', pageTitleEn:'Compare Rates', taskType:'radio',
+          question:'Mana yang lebih cepat? $A: 10 \\text{ m/s}$ atau $B: 30 \\text{ km/jam}$?', questionEn:'Which is faster? $A: 10 \\text{ m/s}$ or $B: 30 \\text{ km/h}$?',
+          options:[{text:'$A: 10 \\text{ m/s}$ <span class="tr">$A: 10 \\text{ m/s}$</span>', correct:true},{text:'$B: 30 \\text{ km/jam}$ <span class="tr">$B: 30 \\text{ km/h}$</span>', correct:false},{text:'Sama cepat <span class="tr">Same speed</span>', correct:false},{text:'Tidak bisa dibandingkan <span class="tr">Cannot be compared</span>', correct:false}],
+          explanation:`<p>Ubah $B$ ke $\\text{m/s}$: $30 \\times \\dfrac{5}{18} = \\dfrac{150}{18} = 8.33 \\text{ m/s}$. <span class="tr">Convert $B$ to $\\text{m/s}$: $30 \\times \\dfrac{5}{18} = \\dfrac{150}{18} = 8.33 \\text{ m/s}$.</span></p>
+          <p>Karena $10 > 8.33$, maka $A$ lebih cepat. <span class="tr">Since $10 > 8.33$, $A$ is faster.</span></p>`
+        },
+        { type:'task', pageTitle:'T3: Konversi km/jam', pageTitleEn:'Convert km/h', taskType:'truefalse',
+          question:'Benar atau Salah: $20 \\text{ m/s}$ sama dengan $72 \\text{ km/jam}$. ', questionEn:'True or False: $20 \\text{ m/s}$ is equal to $72 \\text{ km/h}$.',
+          correctAnswer:'true',
+          explanation:`<p>Untuk mengubah $\\text{m/s}$ ke $\\text{km/jam}$, kalikan dengan $\\dfrac{18}{5}$. <span class="tr">To convert $\\text{m/s}$ to $\\text{km/h}$, multiply by $\\dfrac{18}{5}$.</span></p>
+          <p>$20 \\times \\dfrac{18}{5} = 4 \\times 18 = 72 \\text{ km/jam}$. <span class="tr">$20 \\times \\dfrac{18}{5} = 4 \\times 18 = 72 \\text{ km/h}$.</span></p>`
+        },
+        { type:'explanation', pageTitle:'E2: Perbandingan Laju', pageTitleEn:'Comparing Rates',
+          body:`<p>Untuk membandingkan dua laju yang satuan atau nilainya berbeda, kita harus menemukan <strong>laju satuan</strong> dari keduanya terlebih dahulu. <span class="tr">To compare two rates with different units or values, we must find the <strong>unit rate</strong> of both first.</span></p>
+          <div class="example-box"><h4>Contoh <span class="tr">Example</span></h4>
+          <p>Pemain A mencetak $10 \\text{ gol}$ dalam $5 \\text{ pertandingan}$. Pemain B mencetak $12 \\text{ gol}$ dalam $6 \\text{ pertandingan}$. Siapa yang lebih produktif? <span class="tr">Player A scores $10 \\text{ goals}$ in $5 \\text{ matches}$. Player B scores $12 \\text{ goals}$ in $6 \\text{ matches}$. Who is more productive?</span></p>
+          <p><strong>Pemain A:</strong> $\\dfrac{10}{5} = 2 \\text{ gol/pertandingan}$. <span class="tr"><strong>Player A:</strong> $\\dfrac{10}{5} = 2 \\text{ goals/match}$.</span></p>
+          <p><strong>Pemain B:</strong> $\\dfrac{12}{6} = 2 \\text{ gol/pertandingan}$. <span class="tr"><strong>Player B:</strong> $\\dfrac{12}{6} = 2 \\text{ goals/match}$.</span></p>
+          <p>Keduanya sama-sama produktif! <span class="tr">Both are equally productive!</span></p></div>`
+        },
+        { type:'task', pageTitle:'T4: Bandingkan Produksi', pageTitleEn:'Compare Production', taskType:'fill',
+          question:'Mesin X membuat $40 \\text{ mainan}$ dalam $5 \\text{ menit}$. Mesin Y membuat $45 \\text{ mainan}$ dalam $5 \\text{ menit}$. Berapa selisih laju satuan mereka? (Mainan/menit) Jawab: $\\dots \\text{ mainan/menit}$', questionEn:'Machine X makes $40 \\text{ toys}$ in $5 \\text{ minutes}$. Machine Y makes $45 \\text{ toys}$ in $5 \\text{ minutes}$. What is the difference in their unit rates? (Toys/minute) Answer: $\\dots \\text{ toys/minute}$',
+          correctAnswer:'1', acceptableAnswers:['1'],
+          explanation:`<p>Laju Mesin X: $\\dfrac{40}{5} = 8 \\text{ mainan/menit}$. <span class="tr">Rate of Machine X: $\\dfrac{40}{5} = 8 \\text{ toys/minute}$.</span></p>
+          <p>Laju Mesin Y: $\\dfrac{45}{5} = 9 \\text{ mainan/menit}$. <span class="tr">Rate of Machine Y: $\\dfrac{45}{5} = 9 \\text{ toys/minute}$.</span></p>
+          <p>Selisih: $9 - 8 = 1 \\text{ mainan/menit}$. <span class="tr">Difference: $9 - 8 = 1 \\text{ toy/minute}$.</span></p>`
+        },
+        { type:'task', pageTitle:'T5: Urutkan Perbandingan', pageTitleEn:'Order Comparison', taskType:'sorting',
+          question:'Urutkan langkah membandingkan dua laju kerja.', questionEn:'Order the steps to compare two work rates.',
+          items:['Hitung laju satuan pekerja pertama <span class="tr">Calculate unit rate of first worker</span>','Hitung laju satuan pekerja kedua <span class="tr">Calculate unit rate of second worker</span>','Samakan satuan keduanya <span class="tr">Make units the same</span>','Bandingkan nilai laju satuan <span class="tr">Compare unit rate values</span>'], correctOrder:[0,1,2,3],
+          explanation:`<p>Kita harus menghitung dan menyamakan satuan sebelum membandingkan. <span class="tr">We must calculate and equalize units before comparing.</span></p>`
+        },
+        { type:'task', pageTitle:'T6: Pasangkan Laju Satuan', pageTitleEn:'Match Unit Rates', taskType:'pairing',
+          question:'Pasangkan laju kerja dengan laju satuannya.', questionEn:'Match work rates with their unit rates.',
+          pairs:[{left:'$60 \\text{ halaman} / 2 \\text{ jam}$ <span class="tr">$60 \\text{ pages} / 2 \\text{ hours}$</span>', right:'$30 \\text{ hal/jam}$ <span class="tr">$30 \\text{ pg/h}$</span>'},{left:'$80 \\text{ halaman} / 4 \\text{ jam}$ <span class="tr">$80 \\text{ pages} / 4 \\text{ hours}$</span>', right:'$20 \\text{ hal/jam}$ <span class="tr">$20 \\text{ pg/h}$</span>'},{left:'$45 \\text{ halaman} / 3 \\text{ jam}$ <span class="tr">$45 \\text{ pages} / 3 \\text{ hours}$</span>', right:'$15 \\text{ hal/jam}$ <span class="tr">$15 \\text{ pg/h}$</span>'},{left:'$90 \\text{ halaman} / 2 \\text{ jam}$ <span class="tr">$90 \\text{ pages} / 2 \\text{ hours}$</span>', right:'$45 \\text{ hal/jam}$ <span class="tr">$45 \\text{ pg/h}$</span>'}],
+          explanation:`<p>Bagi jumlah halaman dengan jumlah jam. <span class="tr">Divide number of pages by number of hours.</span></p>`
+        },
+        { type:'explanation', pageTitle:'E3: Laju Produksi Massal', pageTitleEn:'Mass Production Rate',
+          body:`<p>Di pabrik, laju satuan digunakan untuk memprediksi berapa banyak produk yang bisa dibuat dalam waktu tertentu. <span class="tr">In factories, unit rate is used to predict how many products can be made in a certain time.</span></p>
+          <div class="math-block"><strong>Rumus:</strong> $\\text{Total Produksi} = \\text{Laju Satuan} \\times \\text{Waktu Total}$ <span class="tr"><strong>Formula:</strong> $\\text{Total Production} = \\text{Unit Rate} \\times \\text{Total Time}$</span></div>
+          <div class="example-box"><h4>Contoh <span class="tr">Example</span></h4>
+          <p>Sebuah mesin pengemas mengemas $5 \\text{ kotak per detik}$. Berapa banyak kotak yang dikemas dalam $1 \\text{ menit}$ ($60 \\text{ detik}$)? <span class="tr">A packaging machine packs $5 \\text{ boxes per second}$. How many boxes are packed in $1 \\text{ minute}$ ($60 \\text{ seconds}$)?</span></p>
+          <p><strong>Langkah 1:</strong> Laju = $5 \\text{ kotak/detik}$. <span class="tr"><strong>Step 1:</strong> Rate = $5 \\text{ boxes/second}$.</span></p>
+          <p><strong>Langkah 2:</strong> Waktu = $60 \\text{ detik}$. <span class="tr"><strong>Step 2:</strong> Time = $60 \\text{ seconds}$.</span></p>
+          <p><strong>Langkah 3:</strong> Total = $5 \\times 60 = 300 \\text{ kotak}$. <span class="tr"><strong>Step 3:</strong> Total = $5 \\times 60 = 300 \\text{ boxes}$.</span></p></div>`
+        },
+        { type:'task', pageTitle:'T7: Produksi Massal', pageTitleEn:'Mass Production', taskType:'fill',
+          question:'Pabrik roda membuat $12 \\text{ roda per menit}$. Berapa roda yang dibuat dalam $10 \\text{ menit}$? Jawab: $\\dots \\text{ roda}$', questionEn:'A wheel factory makes $12 \\text{ wheels per minute}$. How many wheels are made in $10 \\text{ minutes}$? Answer: $\\dots \\text{ wheels}$',
+          correctAnswer:'120', acceptableAnswers:['120'],
+          explanation:`<p>$\\text{Total} = 12 \\times 10 = 120 \\text{ roda}$. <span class="tr">$\\text{Total} = 12 \\times 10 = 120 \\text{ wheels}$.</span></p>`
+        },
+        { type:'task', pageTitle:'T8: Identifikasi Laju Produksi', pageTitleEn:'Identify Production Rate', taskType:'checkbox',
+          question:'Pilih semua perhitungan yang BENAR untuk laju produksi!', questionEn:'Select all CORRECT calculations for production rate!',
+          options:[{text:'$100 \\text{ unit} / 4 \\text{ jam} = 25 \\text{ unit/jam}$ <span class="tr">$100 \\text{ units} / 4 \\text{ hours} = 25 \\text{ units/h}$</span>', correct:true},{text:'$50 \\text{ unit} / 2 \\text{ jam} = 25 \\text{ unit/jam}$ <span class="tr">$50 \\text{ units} / 2 \\text{ hours} = 25 \\text{ units/h}$</span>', correct:true},{text:'$120 \\text{ unit} / 3 \\text{ jam} = 40 \\text{ unit/jam}$ <span class="tr">$120 \\text{ units} / 3 \\text{ hours} = 40 \\text{ units/h}$</span>', correct:true},{text:'$90 \\text{ unit} / 3 \\text{ jam} = 40 \\text{ unit/jam}$ <span class="tr">$90 \\text{ units} / 3 \\text{ hours} = 40 \\text{ units/h}$</span>', correct:false}],
+          explanation:`<p>$100/4=25$, $50/2=25$, $120/3=40$. (Benar) <span class="tr">$100/4=25$, $50/2=25$, $120/3=40$. (Correct)</span></p>
+          <p>$90/3 = 30$, bukan $40$. (Salah) <span class="tr">$90/3 = 30$, not $40$. (Wrong)</span></p>`
+        },
+        { type:'task', pageTitle:'T9: Logika Produksi', pageTitleEn:'Production Logic', taskType:'truefalse',
+          question:'Benar atau Salah: Jika laju produksi berkurang, waktu untuk membuat jumlah unit yang sama akan bertambah. ', questionEn:'True or False: If the production rate decreases, the time to make the same number of units will increase.',
+          correctAnswer:'true',
+          explanation:`<p>Karena $\\text{Waktu} = \\dfrac{\\text{Total}}{\\text{Laju}}$, jika laju turun, waktu naik. <span class="tr">Since $\\text{Time} = \\dfrac{\\text{Total}}{\\text{Rate}}$, if rate goes down, time goes up.</span></p>`
+        },
+        { type:'task', pageTitle:'T10: Efisiensi Mesin', pageTitleEn:'Machine Efficiency', taskType:'radio',
+          question:'Mesin A membuat $200 \\text{ botol}$ dalam $5 \\text{ jam}$. Mesin B membuat $300 \\text{ botol}$ dalam $10 \\text{ jam}$. Mesin mana yang lebih efisien?', questionEn:'Machine A makes $200 \\text{ bottles}$ in $5 \\text{ hours}$. Machine B makes $300 \\text{ bottles}$ in $10 \\text{ hours}$. Which machine is more efficient?',
+          options:[{text:'Mesin A <span class="tr">Machine A</span>', correct:true},{text:'Mesin B <span class="tr">Machine B</span>', correct:false},{text:'Sama efisien <span class="tr">Equally efficient</span>', correct:false},{text:'Tidak bisa ditentukan <span class="tr">Cannot be determined</span>', correct:false}],
+          explanation:`<p>Mesin A: $\\dfrac{200}{5} = 40 \\text{ botol/jam}$. <span class="tr">Machine A: $\\dfrac{200}{5} = 40 \\text{ bottles/hour}$.</span></p>
+          <p>Mesin B: $\\dfrac{300}{10} = 30 \\text{ botol/jam}$. <span class="tr">Machine B: $\\dfrac{300}{10} = 30 \\text{ bottles/hour}$.</span></p>
+          <p>$40 > 30$, jadi Mesin A lebih efisien. <span class="tr">$40 > 30$, so Machine A is more efficient.</span></p>`
+        }
+      ]
+    },
+    g: {
+      title: 'Consolidation & Reflection', titleEn: 'Consolidation & Reflection', time: '00:55 - 01:00',
+      pages: [
+        { type:'explanation', pageTitle:'E1: Poin Penting', pageTitleEn:'Key Takeaways',
+          body:`<p>Hari ini kita telah belajar banyak tentang Rasio dan Laju Perubahan Satuan! Mari kita ingat kembali rumus-rumus pentingnya. <span class="tr">Today we have learned a lot about Ratio and Rate of Change! Let's recall the important formulas.</span></p>
+          <div class="math-block"><ol><li><strong>Rasio:</strong> $a : b$ (satuan sama) <span class="tr"><strong>Ratio:</strong> $a : b$ (same unit)</span></li><li><strong>Laju:</strong> $a : b$ (satuan berbeda) <span class="tr"><strong>Rate:</strong> $a : b$ (different unit)</span></li><li><strong>Laju Satuan:</strong> $\\dfrac{a}{b} = \\dfrac{x}{1}$ <span class="tr"><strong>Unit Rate:</strong> $\\dfrac{a}{b} = \\dfrac{x}{1}$</span></li><li><strong>Kecepatan:</strong> $v = \\dfrac{s}{t}$ <span class="tr"><strong>Speed:</strong> $v = \\dfrac{s}{t}$</span></li><li><strong>Waktu:</strong> $t = \\dfrac{s}{v}$ <span class="tr"><strong>Time:</strong> $t = \\dfrac{s}{v}$</span></li><li><strong>Jarak:</strong> $s = v \\times t$ <span class="tr"><strong>Distance:</strong> $s = v \\times t$</span></li></ol></div>`
+        },
+        { type:'task', pageTitle:'T1: Pertanyaan Refleksi', pageTitleEn:'Reflection Question', taskType:'truefalse',
+          question:'Benar atau Salah: Saya memahami bahwa "Laju Satuan" berarti menemukan nilai untuk 1 unit saja (misal: harga per 1 kg).', questionEn:'True or False: I understand that "Unit Rate" means finding the value for exactly 1 unit (e.g., price per 1 kg).',
+          correctAnswer:'true',
+          explanation:`<p>Benar! Laju satuan selalu menyamakan penyebut menjadi 1. <span class="tr">True! Unit rate always makes the denominator 1.</span></p>`
+        },
+        { type:'task', pageTitle:'T2: Exit Ticket', pageTitleEn:'Exit Ticket', taskType:'fill',
+          question:'Sebuah sepeda motor menempuh jarak $120 \\text{ km}$ dalam $2 \\text{ jam}$. Laju satuan kecepatannya adalah $\\dots \\text{ km/jam}$', questionEn:'A motorcycle travels a distance of $120 \\text{ km}$ in $2 \\text{ hours}$. The unit rate of its speed is $\\dots \\text{ km/h}$',
+          correctAnswer:'60', acceptableAnswers:['60'],
+          explanation:`<p>$v = \\dfrac{s}{t} = \\dfrac{120}{2} = 60 \\text{ km/jam}$. <span class="tr">$v = \\dfrac{s}{t} = \\dfrac{120}{2} = 60 \\text{ km/h}$.</span></p>`
+        },
+        { type:'explanation', pageTitle:'E2: Follow-up Practice', pageTitleEn:'Follow-up Practice',
+          body:`<p>Latihan tambahan tersedia di <strong>Bagian H hingga L (Task 1 - 5)</strong>. Setiap bagian berisi 10 soal dengan berbagai tipe untuk menguji pemahamanmu! <span class="tr">Additional practice is available in <strong>Sections H to L (Tasks 1 - 5)</strong>. Each section contains 10 questions of various types to test your understanding!</span></p>
+          <div class="math-block"><ul><li><strong>Task 1 (H):</strong> Dasar Laju & Rasio <span class="tr">Basics of Rate & Ratio</span></li><li><strong>Task 2 (I):</strong> Kecepatan, Jarak, Waktu <span class="tr">Speed, Distance, Time</span></li><li><strong>Task 3 (J):</strong> Aplikasi Laju Satuan <span class="tr">Unit Rate Applications</span></li><li><strong>Task 4 (K):</strong> Konversi & Perbandingan <span class="tr">Conversion & Comparison</span></li><li><strong>Task 5 (L):</strong> Soal Campuran <span class="tr">Mixed Questions</span></li></ul></div>`
+        }
+      ]
+    },
+    h: {
+      title: 'Task 1', titleEn: 'Task 1', time: 'Printable',
+      pages: [
+        { type:'task', pageTitle:'T1: Identifikasi Laju', pageTitleEn:'Identify Rate', taskType:'radio',
+          question:'Manakah yang merupakan contoh laju (rate)?', questionEn:'Which is an example of a rate?',
+          options:[{text:'$5 \\text{ pensil dan } 3 \\text{ pulpen}$ <span class="tr">$5 \\text{ pencils and } 3 \\text{ pens}$</span>', correct:false},{text:'$10 \\text{ km per jam}$ <span class="tr">$10 \\text{ km per hour}$</span>', correct:true},{text:'$4 : 6$ <span class="tr">$4 : 6$</span>', correct:false},{text:'$15 \\text{ buah apel}$ <span class="tr">$15 \\text{ apples}$</span>', correct:false}],
+          explanation:`<p>Laju memiliki dua satuan yang berbeda. "km" dan "jam" berbeda. <span class="tr">Rate has two different units. "km" and "hour" are different.</span></p>`
+        },
+        { type:'task', pageTitle:'T2: Hitung Laju Satuan', pageTitleEn:'Calculate Unit Rate', taskType:'fill',
+          question:'Harga $4 \\text{ kg}$ gula adalah $\\text{Rp}20.000$. Harga $1 \\text{ kg}$ gula adalah $\\text{Rp} \\dots$', questionEn:'Price of $4 \\text{ kg}$ sugar is $\\text{Rp}20,000$. Price of $1 \\text{ kg}$ sugar is $\\text{Rp} \\dots$',
+          correctAnswer:'5000', acceptableAnswers:['5000','5000.00'],
+          explanation:`<p>$\\dfrac{20000}{4} = 5000$. <span class="tr">$\\dfrac{20000}{4} = 5000$.</span></p>`
+        },
+        { type:'task', pageTitle:'T3: Konsep Rasio', pageTitleEn:'Ratio Concept', taskType:'truefalse',
+          question:'Benar atau Salah: Rasio membandingkan dua besaran dengan satuan yang berbeda. ', questionEn:'True or False: Ratio compares two quantities with different units.',
+          correctAnswer:'false',
+          explanation:`<p>Salah. Rasio membandingkan besaran dengan satuan yang SAMA. Yang berbeda satuan adalah Laju. <span class="tr">False. Ratio compares quantities with the SAME unit. Different units is Rate.</span></p>`
+        },
+        { type:'task', pageTitle:'T4: Urutkan Perhitungan Laju', pageTitleEn:'Order Rate Calculation', taskType:'sorting',
+          question:'Urutkan langkah mencari laju satuan dari $\\dfrac{90}{3}$.', questionEn:'Order steps to find unit rate from $\\dfrac{90}{3}$.',
+          items:['Tulis bentuk pecahan $\\dfrac{90}{3}$ <span class="tr">Write fraction form $\\dfrac{90}{3}$</span>','Bagi $90$ dengan $3$ <span class="tr">Divide $90$ by $3$</span>','Hasilnya adalah $30$ <span class="tr">Result is $30$</span>','Tulis laju satuan $\\dfrac{30}{1}$ <span class="tr">Write unit rate $\\dfrac{30}{1}$</span>'], correctOrder:[0,1,2,3],
+          explanation:`<p>Langkah logis mencari laju satuan. <span class="tr">Logical steps to find unit rate.</span></p>`
+        },
+        { type:'task', pageTitle:'T5: Validasi Laju Satuan', pageTitleEn:'Validate Unit Rate', taskType:'checkbox',
+          question:'Pilih semua laju satuan yang BENAR!', questionEn:'Select all CORRECT unit rates!',
+          options:[{text:'$\\dfrac{50}{1}$ <span class="tr">$\\dfrac{50}{1}$</span>', correct:true},{text:'$\\dfrac{100}{2}$ <span class="tr">$\\dfrac{100}{2}$</span>', correct:false},{text:'$\\dfrac{25}{1}$ <span class="tr">$\\dfrac{25}{1}$</span>', correct:true},{text:'$\\dfrac{10}{5}$ <span class="tr">$\\dfrac{10}{5}$</span>', correct:false}],
+          explanation:`<p>Laju satuan selalu memiliki penyebut $1$. <span class="tr">Unit rate always has denominator $1$.</span></p>`
+        },
+        { type:'task', pageTitle:'T6: Pasangkan Laju', pageTitleEn:'Match Rates', taskType:'pairing',
+          question:'Pasangkan laju asli dengan laju satuannya.', questionEn:'Match original rate with its unit rate.',
+          pairs:[{left:'$\\dfrac{60}{2}$', right:'$30$'},{left:'$\\dfrac{80}{4}$', right:'$20$'},{left:'$\\dfrac{90}{3}$', right:'$30$'},{left:'$\\dfrac{100}{5}$', right:'$20$'}],
+          explanation:`<p>Bagi pembilang dengan penyebut. <span class="tr">Divide numerator by denominator.</span></p>`
+        },
+        { type:'task', pageTitle:'T7: Mencari Jarak', pageTitleEn:'Finding Distance', taskType:'fill',
+          question:'Mobil melaju $60 \\text{ km/jam}$ selama $3 \\text{ jam}$. Jarak = $\\dots \\text{ km}$', questionEn:'Car travels $60 \\text{ km/h}$ for $3 \\text{ hours}$. Distance = $\\dots \\text{ km}$',
+          correctAnswer:'180', acceptableAnswers:['180'],
+          explanation:`<p>$s = v \\times t = 60 \\times 3 = 180 \\text{ km}$. <span class="tr">$s = v \\times t = 60 \\times 3 = 180 \\text{ km}$.</span></p>`
+        },
+        { type:'task', pageTitle:'T8: Mencari Waktu', pageTitleEn:'Finding Time', taskType:'radio',
+          question:'Kapal melaju $40 \\text{ m/detik}$ untuk jarak $200 \\text{ m}$. Waktu = ...', questionEn:'Ship travels $40 \\text{ m/s}$ for distance $200 \\text{ m}$. Time = ...',
+          options:[{text:'$5 \\text{ s}$ <span class="tr">$5 \\text{ s}$</span>', correct:true},{text:'$4 \\text{ s}$ <span class="tr">$4 \\text{ s}$</span>', correct:false},{text:'$6 \\text{ s}$ <span class="tr">$6 \\text{ s}$</span>', correct:false},{text:'$8 \\text{ s}$ <span class="tr">$8 \\text{ s}$</span>', correct:false}],
+          explanation:`<p>$t = \\dfrac{s}{v} = \\dfrac{200}{40} = 5 \\text{ s}$. <span class="tr">$t = \\dfrac{s}{v} = \\dfrac{200}{40} = 5 \\text{ s}$.</span></p>`
+        },
+        { type:'task', pageTitle:'T9: Perbandingan Senilai', pageTitleEn:'Equivalent Ratio', taskType:'truefalse',
+          question:'Benar atau Salah: $\\dfrac{3}{4} = \\dfrac{9}{12}$ adalah perbandingan senilai. ', questionEn:'True or False: $\\dfrac{3}{4} = \\dfrac{9}{12}$ is an equivalent ratio.',
+          correctAnswer:'true',
+          explanation:`<p>$3 \\times 12 = 36$, $4 \\times 9 = 36$. Karena sama, maka senilai. <span class="tr">$3 \\times 12 = 36$, $4 \\times 9 = 36$. Since same, it's equivalent.</span></p>`
+        },
+        { type:'task', pageTitle:'T10: Laju Silang', pageTitleEn:'Cross Rate', taskType:'fill',
+          question:'Jika $\\dfrac{5}{2} = \\dfrac{x}{10}$, maka $x = \\dots$', questionEn:'If $\\dfrac{5}{2} = \\dfrac{x}{10}$, then $x = \\dots$',
+          correctAnswer:'25', acceptableAnswers:['25'],
+          explanation:`<p>$2x = 5 \\times 10 \\Rightarrow 2x = 50 \\Rightarrow x = 25$. <span class="tr">$2x = 5 \\times 10 \\Rightarrow 2x = 50 \\Rightarrow x = 25$.</span></p>`
+        }
+      ]
+    },
+    i: {
+      title: 'Task 2', titleEn: 'Task 2', time: 'Printable',
+      pages: [
+        { type:'task', pageTitle:'T1: Hitung Kecepatan', pageTitleEn:'Calculate Speed', taskType:'fill',
+          question:'Jarak $150 \\text{ m}$ ditempuh dalam $5 \\text{ s}$. Kecepatan = $\\dots \\text{ m/s}$', questionEn:'Distance $150 \\text{ m}$ covered in $5 \\text{ s}$. Speed = $\\dots \\text{ m/s}$',
+          correctAnswer:'30', acceptableAnswers:['30'],
+          explanation:`<p>$v = \\dfrac{s}{t} = \\dfrac{150}{5} = 30 \\text{ m/s}$. <span class="tr">$v = \\dfrac{s}{t} = \\dfrac{150}{5} = 30 \\text{ m/s}$.</span></p>`
+        },
+        { type:'task', pageTitle:'T2: Rumus Jarak', pageTitleEn:'Distance Formula', taskType:'radio',
+          question:'Manakah rumus yang benar untuk mencari Jarak?', questionEn:'Which is the correct formula to find Distance?',
+          options:[{text:'$s = v \\times t$ <span class="tr">$s = v \\times t$</span>', correct:true},{text:'$v = s \\times t$ <span class="tr">$v = s \\times t$</span>', correct:false},{text:'$t = s \\times v$ <span class="tr">$t = s \\times v$</span>', correct:false},{text:'$s = \\dfrac{v}{t}$ <span class="tr">$s = \\dfrac{v}{t}$</span>', correct:false}],
+          explanation:`<p>Jarak didapat dari Laju dikali Waktu. <span class="tr">Distance is obtained from Rate multiplied by Time.</span></p>`
+        },
+        { type:'task', pageTitle:'T3: Logika Waktu', pageTitleEn:'Time Logic', taskType:'truefalse',
+          question:'Benar atau Salah: Jika jarak tetap, semakin cepat seseorang berlari, semakin lama waktu yang dibutuhkan. ', questionEn:'True or False: If distance is constant, the faster someone runs, the longer time it takes.',
+          correctAnswer:'false',
+          explanation:`<p>Salah. Semakin cepat (laju naik), semakin singkat waktu yang dibutuhkan. <span class="tr">False. Faster (rate up), shorter time needed.</span></p>`
+        },
+        { type:'task', pageTitle:'T4: Pasangkan Rumus', pageTitleEn:'Match Formulas', taskType:'pairing',
+          question:'Pasangkan besaran dengan rumus mencarinya.', questionEn:'Match quantities with their formulas.',
+          pairs:[{left:'Jarak <span class="tr">Distance</span>', right:'$s = v \\times t$'},{left:'Kecepatan <span class="tr">Speed</span>', right:'$v = \\dfrac{s}{t}$'},{left:'Waktu <span class="tr">Time</span>', right:'$t = \\dfrac{s}{v}$'},{left:'Laju Satuan <span class="tr">Unit Rate</span>', right:'$\\dfrac{a}{b} = \\dfrac{x}{1}$'}],
+          explanation:`<p>Ingat rumus dasar Laju, Jarak, dan Waktu. <span class="tr">Remember basic formulas of Rate, Distance, and Time.</span></p>`
+        },
+        { type:'task', pageTitle:'T5: Perhitungan Laju', pageTitleEn:'Rate Calculation', taskType:'checkbox',
+          question:'Pilih perhitungan kecepatan yang BENAR!', questionEn:'Select CORRECT speed calculations!',
+          options:[{text:'$s=100, t=20 \\Rightarrow v=5$ <span class="tr">$s=100, t=20 \\Rightarrow v=5$</span>', correct:true},{text:'$s=50, t=10 \\Rightarrow v=5$ <span class="tr">$s=50, t=10 \\Rightarrow v=5$</span>', correct:true},{text:'$s=120, t=4 \\Rightarrow v=30$ <span class="tr">$s=120, t=4 \\Rightarrow v=30$</span>', correct:true},{text:'$s=80, t=4 \\Rightarrow v=25$ <span class="tr">$s=80, t=4 \\Rightarrow v=25$</span>', correct:false}],
+          explanation:`<p>$100/20=5$, $50/10=5$, $120/4=30$. (Benar) <span class="tr">$100/20=5$, $50/10=5$, $120/4=30$. (Correct)</span></p><p>$80/4=20$, bukan $25$. (Salah) <span class="tr">$80/4=20$, not $25$. (Wrong)</span></p>`
+        },
+        { type:'task', pageTitle:'T6: Cari Waktu Tempuh', pageTitleEn:'Find Travel Time', taskType:'fill',
+          question:'Bus melaju $80 \\text{ km/jam}$ untuk $240 \\text{ km}$. Waktu = $\\dots \\text{ jam}$', questionEn:'Bus travels $80 \\text{ km/h}$ for $240 \\text{ km}$. Time = $\\dots \\text{ hours}$',
+          correctAnswer:'3', acceptableAnswers:['3'],
+          explanation:`<p>$t = \\dfrac{s}{v} = \\dfrac{240}{80} = 3 \\text{ jam}$. <span class="tr">$t = \\dfrac{s}{v} = \\dfrac{240}{80} = 3 \\text{ hours}$.</span></p>`
+        },
+        { type:'task', pageTitle:'T7: Langkah Word Problem', pageTitleEn:'Word Problem Steps', taskType:'sorting',
+          question:'Urutkan langkah menyelesaikan: "Jika $v=50 \\text{ km/jam}, t=4 \\text{ jam}, s=? $ ".', questionEn:'Order steps to solve: "If $v=50 \\text{ km/h}, t=4 \\text{ hours}, s=? $ ".',
+          items:['Identifikasi ditanya: $s$ <span class="tr">Identify asked: $s$</span>','Pilih rumus: $s = v \\times t$ <span class="tr">Choose formula: $s = v \\times t$</span>','Substitusi: $s = 50 \\times 4$ <span class="tr">Substitute: $s = 50 \\times 4$</span>','Hasil: $s = 200 \\text{ km}$ <span class="tr">Result: $s = 200 \\text{ km}$</span>'], correctOrder:[0,1,2,3],
+          explanation:`<p>Langkah baku penyelesaian soal cerita matematika. <span class="tr">Standard steps for solving math word problems.</span></p>`
+        },
+        { type:'task', pageTitle:'T8: Hitung Jarak', pageTitleEn:'Calculate Distance', taskType:'radio',
+          question:'Pesawat terbang $900 \\text{ km/jam}$ selama $2 \\text{ jam}$. Jarak = ...', questionEn:'Plane flies $900 \\text{ km/h}$ for $2 \\text{ hours}$. Distance = ...',
+          options:[{text:'$1800 \\text{ km}$ <span class="tr">$1800 \\text{ km}$</span>', correct:true},{text:'$450 \\text{ km}$ <span class="tr">$450 \\text{ km}$</span>', correct:false},{text:'$902 \\text{ km}$ <span class="tr">$902 \\text{ km}$</span>', correct:false},{text:'$180 \\text{ km}$ <span class="tr">$180 \\text{ km}$</span>', correct:false}],
+          explanation:`<p>$s = 900 \\times 2 = 1800 \\text{ km}$. <span class="tr">$s = 900 \\times 2 = 1800 \\text{ km}$.</span></p>`
+        },
+        { type:'task', pageTitle:'T9: Konsep Konversi', pageTitleEn:'Conversion Concept', taskType:'truefalse',
+          question:'Benar atau Salah: $1 \\text{ km/jam}$ lebih cepat dari $1 \\text{ m/s}$. ', questionEn:'True or False: $1 \\text{ km/h}$ is faster than $1 \\text{ m/s}$.',
+          correctAnswer:'false',
+          explanation:`<p>$1 \\text{ m/s} = 3.6 \\text{ km/jam}$. Jadi $1 \\text{ m/s}$ lebih cepat dari $1 \\text{ km/jam}$. Pernyataan tersebut SALAH. <span class="tr">$1 \\text{ m/s} = 3.6 \\text{ km/h}$. So $1 \\text{ m/s}$ is faster than $1 \\text{ km/h}$. The statement is FALSE.</span></p>`
+        },
+        { type:'task', pageTitle:'T10: Konversi ke m/s', pageTitleEn:'Convert to m/s', taskType:'fill',
+          question:'Ubah $54 \\text{ km/jam}$ menjadi $\\text{m/s}$. Jawab: $\\dots \\text{ m/s}$', questionEn:'Convert $54 \\text{ km/h}$ to $\\text{m/s}$. Answer: $\\dots \\text{ m/s}$',
+          correctAnswer:'15', acceptableAnswers:['15'],
+          explanation:`<p>$54 \\times \\dfrac{5}{18} = 3 \\times 5 = 15 \\text{ m/s}$. <span class="tr">$54 \\times \\dfrac{5}{18} = 3 \\times 5 = 15 \\text{ m/s}$.</span></p>`
+        }
+      ]
+    },
+    j: {
+      title: 'Task 3', titleEn: 'Task 3', time: 'Printable',
+      pages: [
+        { type:'task', pageTitle:'T1: Laju Pengupasan', pageTitleEn:'Peeling Rate', taskType:'fill',
+          question:'Ibu mengupas $5 \\text{ kg}$ kentang dalam $10 \\text{ menit}$. Berapa banyak kentang yang dikupas dalam $1 \\text{ menit}$? Jawab: $\\dots \\text{ kg/menit}$', questionEn:'Mother peels $5 \\text{ kg}$ of potatoes in $10 \\text{ minutes}$. How many potatoes are peeled in $1 \\text{ minute}$? Answer: $\\dots \\text{ kg/min}$',
+          correctAnswer:'0.5', acceptableAnswers:['0.5','1/2','0,5'],
+          explanation:`<p>Laju satuan = $\\dfrac{5}{10} = 0.5 \\text{ kg/menit}$. <span class="tr">Unit rate = $\\dfrac{5}{10} = 0.5 \\text{ kg/min}$.</span></p>`
+        },
+        { type:'task', pageTitle:'T2: Aplikasi Berbelanja', pageTitleEn:'Shopping Application', taskType:'radio',
+          question:'Toko A: $2 \\text{ kg}$ jeruk seharga $\\text{Rp}24.000$. Toko B: $5 \\text{ kg}$ jeruk seharga $\\text{Rp}55.000$. Mana yang lebih murah per kg?', questionEn:'Store A: $2 \\text{ kg}$ oranges for $\\text{Rp}24,000$. Store B: $5 \\text{ kg}$ oranges for $\\text{Rp}55,000$. Which is cheaper per kg?',
+          options:[{text:'Toko A <span class="tr">Store A</span>', correct:false},{text:'Toko B <span class="tr">Store B</span>', correct:true},{text:'Sama murah <span class="tr">Equally cheap</span>', correct:false},{text:'Tidak bisa ditentukan <span class="tr">Cannot be determined</span>', correct:false}],
+          explanation:`<p>Toko A: $\\dfrac{24000}{2} = \\text{Rp}12.000 \\text{ /kg}$. <span class="tr">Store A: $\\dfrac{24000}{2} = \\text{Rp}12,000 \\text{ /kg}$.</span></p>
+          <p>Toko B: $\\dfrac{55000}{5} = \\text{Rp}11.000 \\text{ /kg}$. <span class="tr">Store B: $\\dfrac{55000}{5} = \\text{Rp}11,000 \\text{ /kg}$.</span></p>
+          <p>Karena $11.000 < 12.000$, maka Toko B lebih murah. <span class="tr">Since $11,000 < 12,000$, Store B is cheaper.</span></p>` 
+        },
+        { type:'task', pageTitle:'T3: Konsep Laju Konstan', pageTitleEn:'Constant Rate Concept', taskType:'truefalse',
+          question:'Benar atau Salah: Jika sebuah mesin bekerja dengan laju konstan, menggandakan waktu akan menggandakan hasil produksi. ', questionEn:'True or False: If a machine works at a constant rate, doubling the time will double the production output.',
+          correctAnswer:'true',
+          explanation:`<p>Karena laju konstan, total produksi berbanding lurus dengan waktu. <span class="tr">Because rate is constant, total production is proportional to time.</span></p>`
+        },
+        { type:'task', pageTitle:'T4: Pasangkan Kepadatan', pageTitleEn:'Match Densities', taskType:'pairing',
+          question:'Pasangkan jumlah penduduk dan luas wilayah dengan kepadatan penduduknya (jiwa/km$^2$).', questionEn:'Match population and area with population density (people/km$^2$).',
+          pairs:[{left:'$1000 \\text{ jiwa}, 2 \\text{ km}^2$ <span class="tr">$1000 \\text{ people}, 2 \\text{ km}^2$</span>', right:'$500$'},{left:'$3000 \\text{ jiwa}, 3 \\text{ km}^2$ <span class="tr">$3000 \\text{ people}, 3 \\text{ km}^2$</span>', right:'$1000$'},{left:'$400 \\text{ jiwa}, 1 \\text{ km}^2$ <span class="tr">$400 \\text{ people}, 1 \\text{ km}^2$</span>', right:'$400$'},{left:'$1500 \\text{ jiwa}, 3 \\text{ km}^2$ <span class="tr">$1500 \\text{ people}, 3 \\text{ km}^2$</span>', right:'$500$'}],
+          explanation:`<p>Bagi penduduk dengan luas. <span class="tr">Divide population by area.</span></p>`
+        },
+        { type:'task', pageTitle:'T5: Identifikasi Laju Air', pageTitleEn:'Identify Water Rate', taskType:'checkbox',
+          question:'Pilih semua kemungkinan laju air yang mengisi bak mandi dengan benar!', questionEn:'Select all possible correct rates of water filling a bathtub!',
+          options:[{text:'$20 \\text{ liter/menit}$ <span class="tr">$20 \\text{ liters/min}$</span>', correct:true},{text:'$5 \\text{ liter/detik}$ <span class="tr">$5 \\text{ liters/s}$</span>', correct:true},{text:'$30 \\text{ meter/jam}$ <span class="tr">$30 \\text{ meters/h}$</span>', correct:false},{text:'$15 \\text{ kg/menit}$ <span class="tr">$15 \\text{ kg/min}$</span>', correct:false}],
+          explanation:`<p>Satuan harus berupa volume per waktu. "meter" adalah jarak, "kg" adalah massa. <span class="tr">Unit must be volume per time. "meters" is distance, "kg" is mass.</span></p>`
+        },
+        { type:'task', pageTitle:'T6: Laju Mengisi Air', pageTitleEn:'Water Filling Rate', taskType:'fill',
+          question:'Bak mandi berisi $60 \\text{ liter}$ air dalam $3 \\text{ menit}$. Laju airnya adalah $\\dots \\text{ liter/menit}$', questionEn:'Bathtub fills with $60 \\text{ liters}$ of water in $3 \\text{ minutes}$. Water rate is $\\dots \\text{ liters/min}$',
+          correctAnswer:'20', acceptableAnswers:['20'],
+          explanation:`<p>$\\dfrac{60}{3} = 20 \\text{ liter/menit}$. <span class="tr">$\\dfrac{60}{3} = 20 \\text{ liters/min}$.</span></p>`
+        },
+        { type:'task', pageTitle:'T7: Urutkan Belanja', pageTitleEn:'Order Shopping', taskType:'sorting',
+          question:'Urutkan langkah mencari mana yang lebih hemat: $3 \\text{ kg}$ seharga $\\text{Rp}30.000$ vs $5 \\text{ kg}$ seharga $\\text{Rp}45.000$.', questionEn:'Order steps to find which is more economical: $3 \\text{ kg}$ for $\\text{Rp}30,000$ vs $5 \\text{ kg}$ for $\\text{Rp}45,000$.',
+          items:['Hitung laju satuan A: $30000 \\div 3 = 10000$ <span class="tr">Calculate unit rate A: $30000 \\div 3 = 10000$</span>','Hitung laju satuan B: $45000 \\div 5 = 9000$ <span class="tr">Calculate unit rate B: $45000 \\div 5 = 9000$</span>','Bandingkan: $10000 > 9000$ <span class="tr">Compare: $10000 > 9000$</span>','Kesimpulan: B lebih murah <span class="tr">Conclusion: B is cheaper</span>'], correctOrder:[0,1,2,3],
+          explanation:`<p>Langkah baku membandingkan dua produk. <span class="tr">Standard steps to compare two products.</span></p>`
+        },
+        { type:'task', pageTitle:'T8: Laju Mengetik', pageTitleEn:'Typing Rate', taskType:'radio',
+          question:'Andi mengetik $300 \\text{ kata}$ dalam $5 \\text{ menit}$. Berapa laju mengetik Andi?', questionEn:'Andi types $300 \\text{ words}$ in $5 \\text{ minutes}$. What is Andi\'s typing rate?',
+          options:[{text:'$60 \\text{ kata/menit}$ <span class="tr">$60 \\text{ words/min}$</span>', correct:true},{text:'$50 \\text{ kata/menit}$ <span class="tr">$50 \\text{ words/min}$</span>', correct:false},{text:'$1500 \\text{ kata/menit}$ <span class="tr">$1500 \\text{ words/min}$</span>', correct:false},{text:'$30 \\text{ kata/menit}$ <span class="tr">$30 \\text{ words/min}$</span>', correct:false}],
+          explanation:`<p>$\\dfrac{300}{5} = 60 \\text{ kata/menit}$. <span class="tr">$\\dfrac{300}{5} = 60 \\text{ words/min}$.</span></p>`
+        },
+        { type:'task', pageTitle:'T9: Validasi Laju Produksi', pageTitleEn:'Validate Production Rate', taskType:'truefalse',
+          question:'Benar atau Salah: Jika $10 \\text{ pekerja}$ membuat $10 \\text{ kursi}$ dalam $1 \\text{ jam}$, maka $1 \\text{ pekerja}$ membuat $1 \\text{ kursi}$ dalam $1 \\text{ jam}$. ', questionEn:'True or False: If $10 \\text{ workers}$ make $10 \\text{ chairs}$ in $1 \\text{ hour}$, then $1 \\text{ worker}$ makes $1 \\text{ chair}$ in $1 \\text{ hour}$.',
+          correctAnswer:'true',
+          explanation:`<p>Laju per pekerja adalah $1 \\text{ kursi/jam}$. Jika waktu tetap $1 \\text{ jam}$, maka 1 pekerja membuat 1 kursi. <span class="tr">Rate per worker is $1 \\text{ chair/hour}$. If time remains $1 \\text{ hour}$, then 1 worker makes 1 chair.</span></p>`
+        },
+        { type:'task', pageTitle:'T10: Aplikasi Dolar', pageTitleEn:'Dollar Application', taskType:'fill',
+          question:'Jika $\$3$ setara dengan $\\text{Rp}45.000$, maka $\$1$ setara dengan $\\text{Rp} \\dots$', questionEn:'If $\$3$ equals $\\text{Rp}45,000$, then $\$1$ equals $\\text{Rp} \\dots$',
+          correctAnswer:'15000', acceptableAnswers:['15000','15.000','15000.00'],
+          explanation:`<p>$\\dfrac{45000}{3} = 15000$. Jadi $\$1 = \\text{Rp}15.000$. <span class="tr">$\\dfrac{45000}{3} = 15000$. So $\$1 = \\text{Rp}15,000$.</span></p>`
+        }
+      ]
+    },
+    k: {
+      title: 'Task 4', titleEn: 'Task 4', time: 'Printable',
+      pages: [
+        { type:'task', pageTitle:'T1: Konversi km/jam ke m/s', pageTitleEn:'Convert km/h to m/s', taskType:'fill',
+          question:'Ubah $90 \\text{ km/jam}$ menjadi $\\text{m/s}$. Jawab: $\\dots \\text{ m/s}$', questionEn:'Convert $90 \\text{ km/h}$ to $\\text{m/s}$. Answer: $\\dots \\text{ m/s}$',
+          correctAnswer:'25', acceptableAnswers:['25'],
+          explanation:`<p>$90 \\times \\dfrac{5}{18}$. Bagi $90$ dengan $18$ menghasilkan $5$. Lalu $5 \\times 5 = 25 \\text{ m/s}$. <span class="tr">$90 \\times \\dfrac{5}{18}$. Divide $90$ by $18$ gives $5$. Then $5 \\times 5 = 25 \\text{ m/s}$.</span></p>`
+        },
+        { type:'task', pageTitle:'T2: Konversi m/s ke km/jam', pageTitleEn:'Convert m/s to km/h', taskType:'fill',
+          question:'Ubah $15 \\text{ m/s}$ menjadi $\\text{km/jam}$. Jawab: $\\dots \\text{ km/jam}$', questionEn:'Convert $15 \\text{ m/s}$ to $\\text{km/h}$. Answer: $\\dots \\text{ km/h}$',
+          correctAnswer:'54', acceptableAnswers:['54'],
+          explanation:`<p>$15 \\times \\dfrac{18}{5}$. Bagi $15$ dengan $5$ menghasilkan $3$. Lalu $3 \\times 18 = 54 \\text{ km/jam}$. <span class="tr">$15 \\times \\dfrac{18}{5}$. Divide $15$ by $5$ gives $3$. Then $3 \\times 18 = 54 \\text{ km/h}$.</span></p>`
+        },
+        { type:'task', pageTitle:'T3: Bandingkan Laju Berbeda Satuan', pageTitleEn:'Compare Different Unit Rates', taskType:'radio',
+          question:'Mana yang lebih cepat? $A: 10 \\text{ m/s}$ atau $B: 60 \\text{ km/jam}$?', questionEn:'Which is faster? $A: 10 \\text{ m/s}$ or $B: 60 \\text{ km/h}$?',
+          options:[{text:'$A: 10 \\text{ m/s}$ <span class="tr">$A: 10 \\text{ m/s}$</span>', correct:false},{text:'$B: 60 \\text{ km/jam}$ <span class="tr">$B: 60 \\text{ km/h}$</span>', correct:true},{text:'Sama cepat <span class="tr">Same speed</span>', correct:false},{text:'Tidak bisa dibandingkan <span class="tr">Cannot be compared</span>', correct:false}],
+          explanation:`<p>Ubah $A$ ke $\\text{km/jam}$: $10 \\times \\dfrac{18}{5} = 36 \\text{ km/jam}$. <span class="tr">Convert $A$ to $\\text{km/h}$: $10 \\times \\dfrac{18}{5} = 36 \\text{ km/h}$.</span></p>
+          <p>Karena $36 < 60$, maka $B$ lebih cepat. <span class="tr">Since $36 < 60$, B is faster.</span></p>` 
+        },
+        { type:'task', pageTitle:'T4: Pasangkan Konversi', pageTitleEn:'Match Conversions', taskType:'pairing',
+          question:'Pasangkan laju asli dengan bentuk konversinya.', questionEn:'Match original rate with its conversion.',
+          pairs:[{left:'$36 \\text{ km/jam}$ <span class="tr">$36 \\text{ km/h}$</span>', right:'$10 \\text{ m/s}$ <span class="tr">$10 \\text{ m/s}$</span>'},{left:'$72 \\text{ km/jam}$ <span class="tr">$72 \\text{ km/h}$</span>', right:'$20 \\text{ m/s}$ <span class="tr">$20 \\text{ m/s}$</span>'},{left:'$18 \\text{ km/jam}$ <span class="tr">$18 \\text{ km/h}$</span>', right:'$5 \\text{ m/s}$ <span class="tr">$5 \\text{ m/s}$</span>'},{left:'$10 \\text{ m/s}$ <span class="tr">$10 \\text{ m/s}$</span>', right:'$36 \\text{ km/jam}$ <span class="tr">$36 \\text{ km/h}$</span>'}],
+          explanation:`<p>Gunakan faktor konversi $\\times \\dfrac{5}{18}$ atau $\\times \\dfrac{18}{5}$. <span class="tr">Use conversion factor $\\times \\dfrac{5}{18}$ or $\\times \\dfrac{18}{5}$.</span></p>`
+        },
+        { type:'task', pageTitle:'T5: Validasi Konversi', pageTitleEn:'Validate Conversion', taskType:'checkbox',
+          question:'Pilih semua konversi yang BENAR!', questionEn:'Select all CORRECT conversions!',
+          options:[{text:'$54 \\text{ km/jam} = 15 \\text{ m/s}$ <span class="tr">$54 \\text{ km/h} = 15 \\text{ m/s}$</span>', correct:true},{text:'$10 \\text{ m/s} = 36 \\text{ km/jam}$ <span class="tr">$10 \\text{ m/s} = 36 \\text{ km/h}$</span>', correct:true},{text:'$36 \\text{ km/jam} = 10 \\text{ m/s}$ <span class="tr">$36 \\text{ km/h} = 10 \\text{ m/s}$</span>', correct:true},{text:'$20 \\text{ m/s} = 36 \\text{ km/jam}$ <span class="tr">$20 \\text{ m/s} = 36 \\text{ km/h}$</span>', correct:false}],
+          explanation:`<p>$54 \\times \\frac{5}{18} = 15$. $10 \\times \\frac{18}{5} = 36$. $36 \\times \\frac{5}{18} = 10$. (Benar) <span class="tr">$54 \\times \\frac{5}{18} = 15$. $10 \\times \\frac{18}{5} = 36$. $36 \\times \\frac{5}{18} = 10$. (Correct)</span></p>
+          <p>$20 \\text{ m/s} \\times \\frac{18}{5} = 72 \\text{ km/jam}$, bukan $36$. (Salah) <span class="tr">$20 \\text{ m/s} \\times \\frac{18}{5} = 72 \\text{ km/h}$, not $36$. (Wrong)</span></p>`
+        },
+        { type:'task', pageTitle:'T6: Laju Menyalin File', pageTitleEn:'File Copying Rate', taskType:'fill',
+          question:'Menyalin $80 \\text{ MB}$ file dalam $4 \\text{ detik}$. Berapa kecepatan transfernya? Jawab: $\\dots \\text{ MB/s}$', questionEn:'Copying $80 \\text{ MB}$ file in $4 \\text{ seconds}$. What is the transfer speed? Answer: $\\dots \\text{ MB/s}$',
+          correctAnswer:'20', acceptableAnswers:['20'],
+          explanation:`<p>$\\dfrac{80}{4} = 20 \\text{ MB/s}$. <span class="tr">$\\dfrac{80}{4} = 20 \\text{ MB/s}$.</span></p>`
+        },
+        { type:'task', pageTitle:'T7: Urutkan Konversi', pageTitleEn:'Order Conversion', taskType:'sorting',
+          question:'Urutkan langkah mengubah $108 \\text{ km/jam}$ ke $\\text{m/s}$.', questionEn:'Order steps to convert $108 \\text{ km/h}$ to $\\text{m/s}$.',
+          items:['Tulis rumus: $\\text{km/jam} \\times \\dfrac{5}{18}$ <span class="tr">Write formula: $\\text{km/h} \\times \\dfrac{5}{18}$</span>','Substitusi: $108 \\times \\dfrac{5}{18}$ <span class="tr">Substitute: $108 \\times \\dfrac{5}{18}$</span>','Sederhanakan: $108 \\div 18 = 6$ <span class="tr">Simplify: $108 \\div 18 = 6$</span>','Hasil: $6 \\times 5 = 30 \\text{ m/s}$ <span class="tr">Result: $6 \\times 5 = 30 \\text{ m/s}$</span>'], correctOrder:[0,1,2,3],
+          explanation:`<p>Urutan langkah konversi yang benar. <span class="tr">Correct order of conversion steps.</span></p>`
+        },
+        { type:'task', pageTitle:'T8: Aplikasi Kecepatan', pageTitleEn:'Speed Application', taskType:'radio',
+          question:'Cepat rambat gelombang suara di udara sekitar $340 \\text{ m/s}$. Berapa jarak yang ditempuh dalam $5 \\text{ s}$?', questionEn:'Speed of sound in air is about $340 \\text{ m/s}$. What distance is covered in $5 \\text{ s}$?',
+          options:[{text:'$1700 \\text{ m}$ <span class="tr">$1700 \\text{ m}$</span>', correct:true},{text:'$170 \\text{ m}$ <span class="tr">$170 \\text{ m}$</span>', correct:false},{text:'$68 \\text{ m}$ <span class="tr">$68 \\text{ m}$</span>', correct:false},{text:'$3400 \\text{ m}$ <span class="tr">$3400 \\text{ m}$</span>', correct:false}],
+          explanation:`<p>$s = v \\times t = 340 \\times 5 = 1700 \\text{ m}$. <span class="tr">$s = v \\times t = 340 \\times 5 = 1700 \\text{ m}$.</span></p>`
+        },
+        { type:'task', pageTitle:'T9: Logika Satuan Waktu', pageTitleEn:'Time Unit Logic', taskType:'truefalse',
+          question:'Benar atau Salah: $1 \\text{ menit}$ sama dengan $60 \\text{ sekon}$. ', questionEn:'True or False: $1 \\text{ minute}$ is equal to $60 \\text{ seconds}$.',
+          correctAnswer:'true',
+          explanation:`<p>Konversi dasar waktu: $1 \\text{ menit} = 60 \\text{ s}$. <span class="tr">Basic time conversion: $1 \\text{ min} = 60 \\text{ s}$.</span></p>`
+        },
+        { type:'task', pageTitle:'T10: Konversi Waktu ke Laju', pageTitleEn:'Convert Time to Rate', taskType:'fill',
+          question:'Lari $100 \\text{ m}$ dalam $20 \\text{ s}$. Berapa kecepatannya dalam $\\text{m/menit}$? Jawab: $\\dots \\text{ m/menit}$', questionEn:'Run $100 \\text{ m}$ in $20 \\text{ s}$. What is the speed in $\\text{m/min}$? Answer: $\\dots \\text{ m/min}$',
+          correctAnswer:'300', acceptableAnswers:['300'],
+          explanation:`<p>Kecepatan dalam $\\text{m/s}$: $\\dfrac{100}{20} = 5 \\text{ m/s}$. <span class="tr">Speed in $\\text{m/s}$: $\\dfrac{100}{20} = 5 \\text{ m/s}$.</span></p>
+          <p>Ubah ke $\\text{m/menit}$: $5 \\times 60 = 300 \\text{ m/menit}$. <span class="tr">Convert to $\\text{m/min}$: $5 \\times 60 = 300 \\text{ m/min}$.</span></p>`
+        }
+      ]
+    },
+    l: {
+      title: 'Task 5', titleEn: 'Task 5', time: 'Printable',
+      pages: [
+        { type:'task', pageTitle:'T1: Definisi Laju', pageTitleEn:'Rate Definition', taskType:'radio',
+          question:'Manakah definisi yang paling tepat untuk "Laju" (Rate)?', questionEn:'Which is the most accurate definition for "Rate"?',
+          options:[{text:'Perbandingan dua besaran dengan satuan berbeda <span class="tr">Comparison of two quantities with different units</span>', correct:true},{text:'Perbandingan dua besaran dengan satuan sama <span class="tr">Comparison of two quantities with same units</span>', correct:false},{text:'Hasil kali dua bilangan <span class="tr">Product of two numbers</span>', correct:false},{text:'Selisih dua bilangan <span class="tr">Difference of two numbers</span>', correct:false}],
+          explanation:`<p>Laju selalu melibatkan satuan yang berbeda, seperti km/jam. <span class="tr">Rate always involves different units, like km/h.</span></p>`
+        },
+        { type:'task', pageTitle:'T2: Rumus Laju Satuan', pageTitleEn:'Unit Rate Formula', taskType:'fill',
+          question:'Sebuah laju $\\dfrac{75}{3}$. Tulis bentuk laju satuannya: $\\dfrac{x}{1}$. Maka $x = \\dots$', questionEn:'A rate $\\dfrac{75}{3}$. Write its unit rate form: $\\dfrac{x}{1}$. Then $x = \\dots$',
+          correctAnswer:'25', acceptableAnswers:['25'],
+          explanation:`<p>$\\dfrac{75}{3} = \\dfrac{75 \\div 3}{3 \\div 3} = \\dfrac{25}{1}$. Jadi $x = 25$. <span class="tr">$\\dfrac{75}{3} = \\dfrac{75 \\div 3}{3 \\div 3} = \\dfrac{25}{1}$. So $x = 25$.</span></p>`
+        },
+        { type:'task', pageTitle:'T3: Identifikasi Rasio', pageTitleEn:'Identify Ratio', taskType:'truefalse',
+          question:'Benar atau Salah: $5 \\text{ liter}$ air untuk $5 \\text{ liter}$ minyak adalah contoh laju. ', questionEn:'True or False: $5 \\text{ liters}$ water to $5 \\text{ liters}$ oil is an example of a rate.',
+          correctAnswer:'false',
+          explanation:`<p>Karena satuannya sama (liter dan liter), ini adalah contoh rasio. <span class="tr">Because the units are the same (liters and liters), this is an example of a ratio.</span></p>`
+        },
+        { type:'task', pageTitle:'T4: Pasangkan Besaran dan Rumus', pageTitleEn:'Match Quantities and Formulas', taskType:'pairing',
+          question:'Pasangkan besaran dengan rumus matematikanya.', questionEn:'Match quantities with their mathematical formulas.',
+          pairs:[{left:'Jarak ($s$) <span class="tr">Distance ($s$)</span>', right:'$s = v \\times t$'},{left:'Waktu ($t$) <span class="tr">Time ($t$)</span>', right:'$t = \\dfrac{s}{v}$'},{left:'Laju Satuan <span class="tr">Unit Rate</span>', right:'$\\dfrac{a}{b} = \\dfrac{x}{1}$'},{left:'Gradien Laju <span class="tr">Rate Gradient</span>', right:'$m = \\dfrac{\\Delta y}{\\Delta x}$'}],
+          explanation:`<p>Setiap besaran memiliki rumus spesifik. <span class="tr">Each quantity has a specific formula.</span></p>`
+        },
+        { type:'task', pageTitle:'T5: Hitung Padat Penduduk', pageTitleEn:'Calculate Population Density', taskType:'checkbox',
+          question:'Pilih semua perhitungan kepadatan yang BENAR!', questionEn:'Select all CORRECT density calculations!',
+          options:[{text:'$\\dfrac{500 \\text{ jiwa}}{1 \\text{ km}^2} = 500 \\text{ jiwa/km}^2$ <span class="tr">$\\dfrac{500 \\text{ people}}{1 \\text{ km}^2} = 500 \\text{ people/km}^2$</span>', correct:true},{text:'$\\dfrac{1200 \\text{ jiwa}}{3 \\text{ km}^2} = 400 \\text{ jiwa/km}^2$ <span class="tr">$\\dfrac{1200 \\text{ people}}{3 \\text{ km}^2} = 400 \\text{ people/km}^2$</span>', correct:true},{text:'$\\dfrac{100 \\text{ jiwa}}{5 \\text{ km}^2} = 20 \\text{ jiwa/km}^2$ <span class="tr">$\\dfrac{100 \\text{ people}}{5 \\text{ km}^2} = 20 \\text{ people/km}^2$</span>', correct:true},{text:'$\\dfrac{300 \\text{ jiwa}}{2 \\text{ km}^2} = 200 \\text{ jiwa/km}^2$ <span class="tr">$\\dfrac{300 \\text{ people}}{2 \\text{ km}^2} = 200 \\text{ people/km}^2$</span>', correct:false}],
+          explanation:`<p>$500/1=500$, $1200/3=400$, $100/5=20$. (Benar) <span class="tr">$500/1=500$, $1200/3=400$, $100/5=20$. (Correct)</span></p>
+          <p>$300/2 = 150$, bukan $200$. (Salah) <span class="tr">$300/2 = 150$, not $200$. (Wrong)</span></p>`
+        },
+        { type:'task', pageTitle:'T6: Aplikasi Perbandingan Silang', pageTitleEn:'Cross Multiplication Application', taskType:'fill',
+          question:'Jika $\\dfrac{x}{4} = \\dfrac{15}{3}$, maka $x = \\dots$', questionEn:'If $\\dfrac{x}{4} = \\dfrac{15}{3}$, then $x = \\dots$',
+          correctAnswer:'20', acceptableAnswers:['20'],
+          explanation:`<p>$3x = 4 \\times 15 \\Rightarrow 3x = 60 \\Rightarrow x = 20$. <span class="tr">$3x = 4 \\times 15 \\Rightarrow 3x = 60 \\Rightarrow x = 20$.</span></p>`
+        },
+        { type:'task', pageTitle:'T7: Urutkan Mencari Laju Satuan dari Word Problem', pageTitleEn:'Order Finding Unit Rate from Word Problem', taskType:'sorting',
+          question:'Urutkan langkah menyelesaikan: "Harga $3 \\text{ buku}$ adalah $\\text{Rp}21.000$. Berapa harga $1 \\text{ buku}$?"', questionEn:'Order steps to solve: "Price of $3 \\text{ books}$ is $\\text{Rp}21,000$. What is the price of $1 \\text{ book}$?"',
+          items:['Identifikasi laju asli: $\\dfrac{21000}{3}$ <span class="tr">Identify original rate: $\\dfrac{21000}{3}$</span>','Tulis laju satuan yang dicari: $\\dfrac{x}{1}$ <span class="tr">Write unit rate sought: $\\dfrac{x}{1}$</span>','Samakan persamaan: $\\dfrac{21000}{3} = \\dfrac{x}{1}$ <span class="tr">Equalize equation: $\\dfrac{21000}{3} = \\dfrac{x}{1}$</span>','Selesaikan: $x = 7000$ <span class="tr">Solve: $x = 7000$</span>'], correctOrder:[0,1,2,3],
+          explanation:`<p>Strategi penyelesaian laju satuan dengan perbandingan senilai. <span class="tr">Unit rate solving strategy with equivalent ratio.</span></p>`
+        },
+        { type:'task', pageTitle:'T8: Hitung Laju Konsumsi', pageTitleEn:'Calculate Consumption Rate', taskType:'radio',
+          question:'Keluarga menghabiskan $12 \\text{ kg}$ beras dalam $6 \\text{ hari}$. Berapa laju konsumsi beras keluarga tersebut?', questionEn:'A family consumes $12 \\text{ kg}$ of rice in $6 \\text{ days}$. What is their rice consumption rate?',
+          options:[{text:'$2 \\text{ kg/hari}$ <span class="tr">$2 \\text{ kg/day}$</span>', correct:true},{text:'$3 \\text{ kg/hari}$ <span class="tr">$3 \\text{ kg/day}$</span>', correct:false},{text:'$6 \\text{ kg/hari}$ <span class="tr">$6 \\text{ kg/day}$</span>', correct:false},{text:'$72 \\text{ kg/hari}$ <span class="tr">$72 \\text{ kg/day}$</span>', correct:false}],
+          explanation:`<p>Laju konsumsi = $\\dfrac{12 \\text{ kg}}{6 \\text{ hari}} = 2 \\text{ kg/hari}$. <span class="tr">Consumption rate = $\\dfrac{12 \\text{ kg}}{6 \\text{ days}} = 2 \\text{ kg/day}$.</span></p>`
+        },
+        { type:'task', pageTitle:'T9: Logika Pecahan Senilai', pageTitleEn:'Equivalent Fraction Logic', taskType:'truefalse',
+          question:'Benar atau Salah: Pecahan $\\dfrac{50}{100}$ senilai dengan $\\dfrac{1}{2}$. ', questionEn:'True or False: The fraction $\\dfrac{50}{100}$ is equivalent to $\\dfrac{1}{2}$.',
+          correctAnswer:'true',
+          explanation:`<p>Bagi pembilang dan penyebut dengan FPB ($50$): $\\dfrac{50 \\div 50}{100 \\div 50} = \\dfrac{1}{2}$. <span class="tr">Divide numerator and denominator by GCF ($50$): $\\dfrac{50 \\div 50}{100 \\div 50} = \\dfrac{1}{2}$.</span></p>`
+        },
+        { type:'task', pageTitle:'T10: Konsep Laju Konstan', pageTitleEn:'Constant Rate Concept', taskType:'fill',
+          question:'Jika $1 \\text{ printer}$ mencetak $10 \\text{ halaman}$ dalam $1 \\text{ menit}$, maka $4 \\text{ printer}$ (dengan laju yang sama) akan mencetak $\\dots \\text{ halaman}$ dalam $1 \\text{ menit}$', questionEn:'If $1 \\text{ printer}$ prints $10 \\text{ pages}$ in $1 \\text{ minute}$, then $4 \\text{ printers}$ (with the same rate) will print $\\dots \\text{ pages}$ in $1 \\text{ minute}$',
+          correctAnswer:'40', acceptableAnswers:['40'],
+          explanation:`<p>Laju total = $4 \\times 10 = 40 \\text{ halaman/menit}$. <span class="tr">Total rate = $4 \\times 10 = 40 \\text{ pages/min}$.</span></p>`
+        }
+      ]
+    }
+  };
+
+  let currentSection = 'a';
+  let currentPage = 0;
+  let userAnswers = {};
+
+  function shuffle(arr){
+    const a = arr.slice();
+    for(let i = a.length - 1; i > 0; i--){
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  }
+  function renderMath(el){
+    if(window.renderMathInElement){
+      renderMathInElement(el, {
+        delimiters: [
+          {left:'$$', right:'$$', display:true},
+          {left:'$', right:'$', display:false}
+        ],
+        throwOnError: false
+      });
+    }
+  }
+
+  function renderSidebar(){
+    const sidebar = document.getElementById('sidebar');
+    const sectionKeys = ['a','b','c','d','e','f','g','h','i','j','k','l'];
+    const meta = {
+      a:{t:'Spiral Review', e:'Spiral Review', time:'00:00-00:10'},
+      b:{t:'Intro & Real-World', e:'Intro & Real-World', time:'00:10-00:15'},
+      c:{t:'Prior Knowledge', e:'Prior Knowledge', time:'00:15-00:20'},
+      d:{t:'Problem Intro', e:'Problem Intro', time:'00:20-00:30'},
+      e:{t:'Guided Practice', e:'Guided Practice', time:'00:30-00:45'},
+      f:{t:'Independent Prac', e:'Independent Prac', time:'00:45-00:55'},
+      g:{t:'Consolidation', e:'Consolidation', time:'00:55-01:00'},
+      h:{t:'Task 1', e:'Task 1', time:'Printable'},
+      i:{t:'Task 2', e:'Task 2', time:'Printable'},
+      j:{t:'Task 3', e:'Task 3', time:'Printable'},
+      k:{t:'Task 4', e:'Task 4', time:'Printable'},
+      l:{t:'Task 5', e:'Task 5', time:'Printable'}
+    };
+    let html = '<h3>Bagian <span class="tr">Sections</span></h3>';
+    sectionKeys.forEach(key => {
+      const section = sectionsData[key];
+      const isActive = currentSection === key;
+      if(section){
+        html += `<div class="nav-link ${isActive?'active':''}" data-section="${key}">
+          <span class="nl-title">${key.toUpperCase()}. ${meta[key].t}</span>
+          <span class="tr">${meta[key].e}</span>
+          <span class="time">${meta[key].time}</span>
+        </div>`;
+      } else {
+        html += `<div class="nav-link disabled">${key.toUpperCase()}. ${meta[key].t}<br><span class="tr">${meta[key].e}</span><br><span class="time">${meta[key].time} (segera)</span></div>`;
+      }
+    });
+    sidebar.innerHTML = html;
+    sidebar.querySelectorAll('.nav-link[data-section]').forEach(el => {
+      el.addEventListener('click', () => {
+        currentSection = el.dataset.section;
+        currentPage = 0;
+        renderSidebar();
+        renderPage();
+      });
+    });
+  }
+
+  function renderPage(){
+    const section = sectionsData[currentSection];
+    if(!section) return;
+    const page = section.pages[currentPage];
+    const contentEl = document.getElementById('pageContent');
+
+    let printBtnHtml = '';
+    if(['h','i','j','k','l'].includes(currentSection)){
+      printBtnHtml = '<button id="printBtnTop" style="background:var(--success);color:#fff;border:none;padding:7px 14px;border-radius:6px;cursor:pointer;font-size:.8em;font-weight:600;white-space:nowrap">🖨 Cetak ke PDF <span class="tr">Print to PDF</span></button>';
+    }
+
+    let html = '<div class="page-header"><h2>' + section.title + ' <span class="tr">' + section.titleEn + '</span></h2><div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">' + printBtnHtml + '<span class="badge">' + page.pageTitle.split(':')[0] + '</span></div></div>';
+
+    if(page.type === 'explanation'){
+      html += '<div class="card explain"><h3>' + page.pageTitle + ' <span class="tr">' + page.pageTitleEn + '</span></h3>' + page.body + '</div>';
+    } else if(page.type === 'task'){
+      html += renderTask(page);
+    }
+    contentEl.innerHTML = html;
+    renderMath(contentEl);
+
+    const total = section.pages.length;
+    const pageNumsEl = document.getElementById('pageNums');
+    let pageNumHtml = '';
+    section.pages.forEach(function(p, i){
+      var raw = p.pageTitle.split(':')[0].trim();
+      var type = raw.charAt(0);
+      var num = parseInt(raw.substring(1));
+      var label = type + '-' + String(num).padStart(2, '0');
+      var typeClass = (type === 'E') ? 'page-num-e' : 'page-num-t';
+      var isActive = (i === currentPage);
+      pageNumHtml += '<button class="page-num ' + typeClass + ' ' + (isActive ? 'active' : '') + '" data-page="' + i + '"' + (isActive ? ' disabled' : '') + '>' + label + '</button>';
+    });
+    pageNumsEl.innerHTML = pageNumHtml;
+
+    pageNumsEl.querySelectorAll('.page-num').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        currentPage = parseInt(btn.dataset.page);
+        renderPage();
+      });
+    });
+
+    document.getElementById('prevBtn').disabled = (currentPage === 0);
+    document.getElementById('nextBtn').disabled = (currentPage === total - 1);
+
+    var printBtnTop = document.getElementById('printBtnTop');
+    if(printBtnTop){
+      printBtnTop.addEventListener('click', function(){ printTask(currentSection); });
+    }
+
+    if(page.type === 'task'){
+      attachTaskHandlers(page);
+    }
+  }
+
+  function renderTask(page){
+    let html = `<div class="card task"><h3>${page.pageTitle} <span class="tr">${page.pageTitleEn}</span></h3>`;
+    html += `<div class="q-text">${page.question} <span class="tr">${page.questionEn || ''}</span></div>`;
+
+    if(page.taskType === 'radio' || page.taskType === 'checkbox'){
+      const options = shuffle(page.options);
+      page._shuffledOptions = options;
+      html += '<div class="options">';
+      options.forEach((opt, i) => {
+        const cls = page.taskType === 'checkbox' ? 'option checkbox' : 'option radio';
+        html += `<div class="${cls}" data-idx="${i}">
+          <div class="marker"></div>
+          <div class="opt-text">${opt.text}</div>
+        </div>`;
+      });
+      html += '</div>';
+    } else if(page.taskType === 'fill'){
+      html += `<input type="text" class="fill-input" id="fillInput" placeholder="..." style="font-family:inherit">`;
+    } else if(page.taskType === 'truefalse'){
+      const opts = shuffle([
+        {text:'Benar <span class="tr">True</span>', val:'true'},
+        {text:'Salah <span class="tr">False</span>', val:'false'}
+      ]);
+      page._shuffledTF = opts;
+      html += '<div class="options">';
+      opts.forEach((o, i) => {
+        html += `<div class="option radio" data-val="${o.val}" data-idx="${i}"><div class="marker"></div><div class="opt-text">${o.text}</div></div>`;
+      });
+      html += '</div>';
+    } else if(page.taskType === 'sorting'){
+      const shuffled = shuffle(page.items.map((item, idx) => ({text:item, originalIdx:idx})));
+      page._shuffledItems = shuffled;
+      html += '<div class="sort-list">';
+      shuffled.forEach((it, i) => {
+        html += `<div class="sort-item" data-pos="${i}" data-orig="${it.originalIdx}">
+          <span class="pos">${i+1}</span>
+          <span class="sort-text">${it.text}</span>
+        </div>`;
+      });
+      html += '</div>';
+      html += '<p style="font-size:.82em;color:var(--muted);margin-top:6px">Klik dua item untuk menukar posisi. <span class="tr">Click two items to swap positions.</span></p>';
+    } else if(page.taskType === 'pairing'){
+      const lefts = shuffle(page.pairs.map((p, idx) => ({text:p.left, originalIdx:idx})));
+      const rights = shuffle(page.pairs.map((p, idx) => ({text:p.right, originalIdx:idx})));
+      page._shuffledPairs = {lefts, rights};
+      html += '<div class="pair-grid">';
+      html += '<div class="pair-col"><h4>Kiri <span class="tr">Left</span></h4>';
+      lefts.forEach((l, i) => {
+        html += `<div class="pair-item" data-side="left" data-idx="${i}">${l.text}</div>`;
+      });
+      html += '</div>';
+      html += '<div class="pair-col"><h4>Kanan <span class="tr">Right</span></h4>';
+      rights.forEach((r, i) => {
+        html += `<div class="pair-item" data-side="right" data-idx="${i}">${r.text}</div>`;
+      });
+      html += '</div></div>';
+      html += '<div class="pairs-list" id="pairsList"></div>';
+      html += '<p style="font-size:.82em;color:var(--muted);margin-top:6px">Klik kiri lalu kanan untuk memasangkan. <span class="tr">Click left then right to pair.</span></p>';
+    }
+    html += `<button class="btn-submit" id="submitBtn">Periksa Jawaban <span class="tr">Check Answer</span></button>`;
+    html += `<div class="feedback" id="feedback"></div></div>`;
+    return html;
+  }
+
+  function attachTaskHandlers(page){
+    const taskType = page.taskType;
+
+    if(taskType === 'radio' || taskType === 'truefalse'){
+      document.querySelectorAll('.option').forEach(opt => {
+        opt.addEventListener('click', () => {
+          document.querySelectorAll('.option').forEach(o => o.classList.remove('selected'));
+          opt.classList.add('selected');
+        });
+      });
+    } else if(taskType === 'checkbox'){
+      document.querySelectorAll('.option').forEach(opt => {
+        opt.addEventListener('click', () => opt.classList.toggle('selected'));
+      });
+    } else if(taskType === 'sorting'){
+      let firstClick = null;
+      document.querySelectorAll('.sort-item').forEach(item => {
+        item.addEventListener('click', () => {
+          if(firstClick === null){
+            firstClick = item;
+            item.classList.add('selected');
+          } else if(firstClick === item){
+            item.classList.remove('selected');
+            firstClick = null;
+          } else {
+            const fText = firstClick.querySelector('.sort-text').innerHTML;
+            const sText = item.querySelector('.sort-text').innerHTML;
+            firstClick.querySelector('.sort-text').innerHTML = sText;
+            item.querySelector('.sort-text').innerHTML = fText;
+            const fOrig = firstClick.dataset.orig;
+            firstClick.dataset.orig = item.dataset.orig;
+            item.dataset.orig = fOrig;
+            firstClick.classList.remove('selected');
+            firstClick = null;
+          }
+        });
+      });
+    } else if(taskType === 'pairing'){
+      let selectedLeft = null;
+      document.querySelectorAll('.pair-item[data-side="left"]').forEach(item => {
+        item.addEventListener('click', () => {
+          if(item.classList.contains('paired')) return;
+          document.querySelectorAll('.pair-item[data-side="left"]').forEach(i => i.classList.remove('selected'));
+          item.classList.add('selected');
+          selectedLeft = item;
+        });
+      });
+      document.querySelectorAll('.pair-item[data-side="right"]').forEach(item => {
+        item.addEventListener('click', () => {
+          if(item.classList.contains('paired') || !selectedLeft) return;
+          const leftIdx = selectedLeft.dataset.idx;
+          const rightIdx = item.dataset.idx;
+          const pairList = document.getElementById('pairsList');
+          const pairRow = document.createElement('div');
+          pairRow.className = 'pair-row';
+          pairRow.dataset.leftIdx = leftIdx;
+          pairRow.dataset.rightIdx = rightIdx;
+          pairRow.innerHTML = `<span>${selectedLeft.innerHTML}</span> <span>↔</span> <span>${item.innerHTML}</span> <span class="remove" title="Hapus">×</span>`;
+          pairRow.querySelector('.remove').addEventListener('click', function() {
+            const lIdx = pairRow.dataset.leftIdx;
+            const rIdx = pairRow.dataset.rightIdx;
+            const lItem = document.querySelector(`.pair-item[data-side="left"][data-idx="${lIdx}"]`);
+            const rItem = document.querySelector(`.pair-item[data-side="right"][data-idx="${rIdx}"]`);
+            if(lItem) lItem.classList.remove('paired');
+            if(rItem) rItem.classList.remove('paired');
+            pairRow.remove();
+          });
+          pairList.appendChild(pairRow);
+          selectedLeft.classList.remove('selected');
+          selectedLeft.classList.add('paired');
+          item.classList.add('paired');
+          selectedLeft = null;
+        });
+      });
+    }
+
+    document.getElementById('submitBtn').addEventListener('click', () => checkAnswer(page));
+  }
+
+  function checkAnswer(page){
+    const taskType = page.taskType;
+    let isCorrect = false;
+    let userAnswerStr = '';
+
+    if(taskType === 'radio'){
+      let selected = null, selectedIdx = -1;
+      document.querySelectorAll('.option').forEach((opt, i) => {
+        if(opt.classList.contains('selected')){
+          selected = page._shuffledOptions[i];
+          selectedIdx = i;
+        }
+      });
+      if(!selected){
+        showFeedback(false, 'Silakan pilih jawaban. <span class="tr">Please select an answer.</span>', false);
+        return;
+      }
+      isCorrect = selected.correct;
+      userAnswerStr = selected.text;
+      document.querySelectorAll('.option').forEach((opt, i) => {
+        opt.classList.remove('selected');
+        if(page._shuffledOptions[i].correct) opt.classList.add('correct');
+        else if(i === selectedIdx && !selected.correct) opt.classList.add('incorrect');
+      });
+    } else if(taskType === 'checkbox'){
+      const selectedIdxs = [];
+      document.querySelectorAll('.option').forEach((opt, i) => {
+        if(opt.classList.contains('selected')) selectedIdxs.push(i);
+      });
+      if(selectedIdxs.length === 0){
+        showFeedback(false, 'Silakan pilih jawaban. <span class="tr">Please select an answer.</span>', false);
+        return;
+      }
+      const correctSet = new Set();
+      page._shuffledOptions.forEach((opt, i) => { if(opt.correct) correctSet.add(i); });
+      const selectedSet = new Set(selectedIdxs);
+      isCorrect = correctSet.size === selectedSet.size && [...correctSet].every(i => selectedSet.has(i));
+      userAnswerStr = selectedIdxs.map(i => page._shuffledOptions[i].text).join(', ');
+      document.querySelectorAll('.option').forEach((opt, i) => {
+        opt.classList.remove('selected');
+        if(page._shuffledOptions[i].correct) opt.classList.add('correct');
+        else if(selectedSet.has(i)) opt.classList.add('incorrect');
+      });
+    } else if(taskType === 'fill'){
+      const val = document.getElementById('fillInput').value.trim();
+      const acceptable = page.acceptableAnswers || [page.correctAnswer];
+      const norm = s => s.toLowerCase().replace(/\s+/g, '').replace(/\./g, '').replace(/,/g, '.').trim();
+      isCorrect = acceptable.some(a => norm(a) === norm(val));
+      userAnswerStr = val;
+    } else if(taskType === 'truefalse'){
+      let selectedVal = null, selectedIdx = -1;
+      document.querySelectorAll('.option').forEach((opt, i) => {
+        if(opt.classList.contains('selected')){
+          selectedVal = opt.dataset.val;
+          selectedIdx = i;
+        }
+      });
+      if(!selectedVal){
+        showFeedback(false, 'Silakan pilih jawaban. <span class="tr">Please select an answer.</span>', false);
+        return;
+      }
+      isCorrect = selectedVal === page.correctAnswer;
+      userAnswerStr = selectedVal === 'true' ? 'Benar' : 'Salah';
+      document.querySelectorAll('.option').forEach((opt, i) => {
+        opt.classList.remove('selected');
+        if(opt.dataset.val === page.correctAnswer) opt.classList.add('correct');
+        else if(i === selectedIdx) opt.classList.add('incorrect');
+      });
+    } else if(taskType === 'sorting'){
+      const currentOrder = [];
+      document.querySelectorAll('.sort-item').forEach(item => {
+        currentOrder.push(parseInt(item.dataset.orig));
+      });
+      isCorrect = currentOrder.every((idx, i) => idx === page.correctOrder[i]);
+      userAnswerStr = currentOrder.map((idx, i) => `${i+1}. ${page.items[idx] || '?'}`).join('  |  ');
+      document.querySelectorAll('.sort-item').forEach((item, i) => {
+        if(currentOrder[i] === page.correctOrder[i]) item.style.borderColor = 'var(--success)';
+        else item.style.borderColor = 'var(--danger)';
+      });
+    } else if(taskType === 'pairing'){
+      const pairRows = document.querySelectorAll('.pair-row');
+      if(pairRows.length === 0){
+        showFeedback(false, 'Silakan buat pasangan. <span class="tr">Please make pairs.</span>', false);
+        return;
+      }
+      const userPairs = [];
+      pairRows.forEach(row => {
+        const lIdx = parseInt(row.dataset.leftIdx);
+        const rIdx = parseInt(row.dataset.rightIdx);
+        userPairs.push({
+          leftText: page._shuffledPairs.lefts[lIdx].text,
+          rightText: page._shuffledPairs.rights[rIdx].text
+        });
+      });
+      const correctPairs = page.pairs.map(p => ({left:p.left, right:p.right}));
+      const correctCount = userPairs.filter(up =>
+        correctPairs.some(cp => cp.left === up.leftText && cp.right === up.rightText)
+      ).length;
+      isCorrect = correctCount === correctPairs.length && userPairs.length === correctPairs.length;
+      userAnswerStr = userPairs.map(p => `${p.leftText}↔${p.rightText}`).join('  |  ');
+      pairRows.forEach(row => {
+        const lIdx = parseInt(row.dataset.leftIdx);
+        const rIdx = parseInt(row.dataset.rightIdx);
+        const lText = page._shuffledPairs.lefts[lIdx].text;
+        const rText = page._shuffledPairs.rights[rIdx].text;
+        const ok = correctPairs.some(cp => cp.left === lText && cp.right === rText);
+        row.style.background = ok ? '#d1fae5' : '#fee2e2';
+      });
+    }
+
+    const pageKey = `${currentSection}-${currentPage}`;
+    userAnswers[pageKey] = {userAnswer:userAnswerStr, correct:isCorrect, pageTitle:page.pageTitle};
+    showFeedback(isCorrect, page.explanation, true);
+  }
+
+  function showFeedback(isCorrect, explanation, showAnswer){
+    const feedback = document.getElementById('feedback');
+    feedback.className = `feedback show ${isCorrect?'correct':'incorrect'}`;
+    if(showAnswer){
+      feedback.innerHTML = `<h4>${isCorrect?'✓ Benar!':'✗ Salah'} <span class="tr">${isCorrect?'Correct!':'Incorrect'}</span></h4>${explanation}`;
+    } else {
+      feedback.innerHTML = `<h4>${isCorrect?'✓ Benar!':'✗ Salah'}</h4>`;
+    }
+    renderMath(feedback);
+  }
+
+  document.getElementById('prevBtn').addEventListener('click', () => {
+    if(currentPage > 0){ currentPage--; renderPage(); }
+  });
+  document.getElementById('nextBtn').addEventListener('click', () => {
+    const total = sectionsData[currentSection].pages.length;
+    if(currentPage < total - 1){ currentPage++; renderPage(); }
+  });
+
+  const modal = document.getElementById('classRulesModal');
+  document.getElementById('classRulesBtn').addEventListener('click', () => modal.classList.add('active'));
+  document.querySelector('.modal-close').addEventListener('click', () => modal.classList.remove('active'));
+  modal.addEventListener('click', (e) => { if(e.target === modal) modal.classList.remove('active'); });
+
+  function getCorrectAnswer(task){
+    if(task.taskType === 'radio'){
+      const c = task.options.find(o => o.correct);
+      return c ? c.text : '';
+    }
+    if(task.taskType === 'checkbox'){
+      return task.options.filter(o => o.correct).map(o => o.text).join(', ');
+    }
+    if(task.taskType === 'fill'){
+      return task.correctAnswer || '';
+    }
+    if(task.taskType === 'truefalse'){
+      return task.correctAnswer === 'true' ? 'Benar' : 'Salah';
+    }
+    if(task.taskType === 'sorting'){
+      return task.correctOrder.map(i => task.items[i]).join(' → ');
+    }
+    if(task.taskType === 'pairing'){
+      return task.pairs.map(p => p.left + ' ↔ ' + p.right).join('; ');
+    }
+    return '';
+  }
+
+  function printTask(sectionKey){
+    const section = sectionsData[sectionKey];
+    if(!section) return;
+    const tasks = section.pages;
+    let correctCount = 0;
+
+    const rows = tasks.map((task, idx) => {
+      const pageKey = sectionKey + '-' + idx;
+      const ua = userAnswers[pageKey];
+      const isCorrect = ua ? ua.correct : false;
+      const userAns = ua ? ua.userAnswer : '(tidak dijawab)';
+      const correctAns = getCorrectAnswer(task);
+      if(ua && ua.correct) correctCount++;
+      return '<tr><td>' + (idx+1) + '</td><td>' + task.question + '<br><span class="tr">' + (task.questionEn || '') + '</span></td><td>' + userAns + '</td><td>' + correctAns + '</td><td style="text-align:center;font-size:1.1em">' + (isCorrect ? '✓' : '✗') + '</td></tr>';
+    }).join('');
+
+    const score = correctCount + ' / ' + tasks.length;
+    const today = new Date().toLocaleDateString('id-ID', {day:'numeric',month:'long',year:'numeric'});
+
+    const html = '<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Cetak - ' + section.title + '</title>' +
+      '<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">' +
+      '<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"><\/script>' +
+      '<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"><\/script>' +
+      '<style>' +
+      'body{font-family:Segoe UI,sans-serif;padding:30px;color:#1e293b;line-height:1.5}' +
+      'h1{font-size:1.2em;margin-bottom:5px}' +
+      '.info{margin-bottom:15px;font-size:.88em}' +
+      '.info div{margin:3px 0}' +
+      'table{width:100%;border-collapse:collapse;margin:15px 0;font-size:.82em}' +
+      'th,td{border:1px solid #cbd5e1;padding:6px 8px;text-align:left;vertical-align:top}' +
+      'th{background:#f1f5f9;font-weight:600}' +
+      '.checked-by{margin-top:30px;text-align:right;font-style:italic}' +
+      '.tr{font-style:italic;font-size:.85em;color:#64748b}' +
+      '@media print{body{padding:15px}}' +
+      '</style></head><body>' +
+      '<h1>Math Tutoring by Deni <span class="tr">Bimbingan Matematika oleh Deni</span></h1>' +
+      '<div class="info">' +
+      '<div>Nama: ____________________________ <span class="tr">Name</span></div>' +
+      '<div>Tanggal: ' + today + ' <span class="tr">Date</span></div>' +
+      '<div>Topik: Rasio: Laju Perubahan Satuan <span class="tr">Topic: Ratio: Rate of Change</span></div>' +
+      '<div>Grup Task: ' + section.title + ' <span class="tr">Task Group</span></div>' +
+      '<div>Skor: <strong>' + score + '</strong> <span class="tr">Score</span></div>' +
+      '</div>' +
+      '<table><thead><tr>' +
+      '<th style="width:30px">No. <span class="tr">No.</span></th>' +
+      '<th>Pertanyaan <span class="tr">Question</span></th>' +
+      '<th>Jawaban Siswa <span class="tr">Student Answer</span></th>' +
+      '<th>Jawaban Benar <span class="tr">Correct Answer</span></th>' +
+      '<th style="width:50px">Ket. <span class="tr">Note</span></th>' +
+      '</tr></thead><tbody>' + rows + '</tbody></table>' +
+      '<div class="checked-by">Diperiksa oleh, <span class="tr">Checked by,</span><br>Deni</div>' +
+      '<script>document.addEventListener("DOMContentLoaded",function(){' +
+      'if(window.renderMathInElement){renderMathInElement(document.body,{delimiters:[{left:"$$",right:"$$",display:true},{left:"$",right:"$",display:false}],throwOnError:false});}' +
+      'setTimeout(function(){window.print();},500);});<\/script>' +
+      '</body></html>';
+
+    const w = window.open('', '_blank');
+    if(w){
+      w.document.write(html);
+      w.document.close();
+    } else {
+      alert('Mohon izinkan pop-up untuk mencetak. <span class="tr">Please allow pop-ups to print.</span>');
+    }
+  }
+
+  renderSidebar();
+  renderPage();
+});
+</script>
+</body>
+</html>
