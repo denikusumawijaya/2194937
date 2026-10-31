@@ -1,0 +1,2255 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pengurangan Bilangan Bulat — Math Tutoring by Deni</title>
+<meta name="description" content="Materi interaktif pengurangan bilangan bulat (mengurangkan sebagai tambah lawannya) untuk kelas 7 SMP, Kurikulum Merdeka, ramah siswa ABK autis.">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16/dist/katex.min.css">
+<style>
+:root{
+  --bg:#f5f7fb; --surface:#ffffff; --ink:#263449; --muted:#5d6b80; --line:#dbe4f0;
+  --primary:#41639c; --primary-dark:#34507d; --primary-soft:#e9eff9; --primary-soft2:#f3f6fc;
+  --teal:#2f8a7b; --teal-soft:#e6f4f1;
+  --green:#3f9d6d; --green-soft:#e8f6ee;
+  --orange:#c97f45; --orange-soft:#fcf1e7;
+  --header-h:104px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:'Segoe UI','Noto Sans','Helvetica Neue',Arial,sans-serif;background:var(--bg);color:var(--ink);font-size:18px;line-height:1.75}
+h1,h2,h3,h4,h5{line-height:1.35;margin:0}
+p{margin:.5em 0}
+a{color:var(--primary)}
+img,svg{vertical-align:middle}
+.ic-slot{display:inline-flex;align-items:center;justify-content:center}
+:focus-visible{outline:3px solid #86a7d8;outline-offset:2px}
+body:not(.en-on) .eng{display:none!important}
+.eng{display:block;color:var(--muted);font-size:.95em}
+.btn .eng,.type-chip .eng,.score-chip .eng,.kchip .eng{display:inline;margin-left:6px}
+.btn .eng{color:inherit;opacity:.72}
+.katex{font-size:1.1em}
+.katex-display{margin:.5em 0}
+.skip{position:absolute;left:-999px;top:0;background:#fff;padding:8px 14px;z-index:200;border:2px solid var(--primary);border-radius:0 0 10px 0}
+.skip:focus{left:0}
+
+/* ===== Header ===== */
+header.top{position:sticky;top:0;z-index:50;background:linear-gradient(135deg,#ffffff,#eaf1fb);border-bottom:2px solid var(--line);box-shadow:0 2px 10px rgba(40,60,100,.07)}
+.top-inner{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:10px 18px;flex-wrap:wrap;max-width:1440px;margin:0 auto}
+.brand{display:flex;align-items:center;gap:12px}
+.logo{width:48px;height:48px;border-radius:14px;background:var(--primary);color:#fff;display:flex;align-items:center;justify-content:center;flex:none;box-shadow:0 3px 8px rgba(65,99,156,.35)}
+.brand-name{font-weight:800;font-size:1.12rem;color:var(--primary-dark)}
+.topic{margin-top:2px;font-weight:600;font-size:.95rem}
+.top-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.toggle{display:inline-flex;align-items:center;gap:10px;font:inherit;font-weight:700;border:2px solid var(--primary);border-radius:999px;background:#fff;color:var(--primary);padding:7px 14px;cursor:pointer}
+.toggle .state{border-radius:999px;padding:2px 12px;font-size:.85rem;font-weight:800}
+.toggle .state.on{background:var(--green);color:#fff}
+.toggle .state.off{background:#cbd5e3;color:#5a6a80}
+.btn{font:inherit;font-weight:700;border:2px solid var(--primary);background:var(--primary);color:#fff;padding:9px 16px;border-radius:12px;cursor:pointer;display:inline-flex;align-items:center;gap:8px;transition:background .15s}
+.btn:hover{background:var(--primary-dark)}
+.btn-rules{background:#fff;color:var(--primary)}
+.btn-rules:hover{background:var(--primary-soft)}
+.btn-rules small{display:block;font-weight:600;font-size:.72rem;color:var(--muted)}
+.btn.ghost{background:#fff;color:var(--primary)}
+.btn.ghost:hover{background:var(--primary-soft)}
+.btn.small{padding:6px 12px;font-size:.9rem}
+
+/* ===== Modal ===== */
+.modal-ov{position:fixed;inset:0;background:rgba(30,45,70,.45);display:none;align-items:center;justify-content:center;z-index:100;padding:16px}
+.modal-ov.open{display:flex}
+.modal{background:#fff;border-radius:18px;max-width:580px;width:100%;padding:22px;border:2px solid var(--line);box-shadow:0 18px 60px rgba(20,35,60,.25);max-height:90vh;overflow:auto}
+.modal h3{display:flex;gap:10px;align-items:center;color:var(--primary);margin-bottom:8px}
+.rule{display:flex;gap:12px;padding:12px;border:2px solid var(--line);border-radius:12px;margin:10px 0;background:var(--primary-soft2)}
+.rule .ric{width:44px;height:44px;border-radius:12px;background:var(--primary-soft);color:var(--primary);display:flex;align-items:center;justify-content:center;flex:none}
+.rule strong{display:block}
+.close-row{display:flex;justify-content:flex-end;margin-top:10px}
+
+/* ===== Layout 1:3 ===== */
+.layout{display:grid;grid-template-columns:minmax(270px,1fr) 3fr;gap:22px;max-width:1440px;margin:0 auto;padding:20px 18px 60px;align-items:start}
+nav.sidenav{position:sticky;top:calc(var(--header-h) + 8px);background:var(--surface);border:2px solid var(--line);border-radius:16px;padding:14px;max-height:calc(100vh - var(--header-h) - 24px);overflow:auto}
+.sidenav h4{display:flex;gap:8px;align-items:center;color:var(--primary);margin:2px 4px 10px;font-size:1rem}
+.nav-item{display:flex;gap:10px;align-items:flex-start;padding:9px 10px;border-radius:12px;text-decoration:none;color:var(--ink);border-left:4px solid transparent;margin:2px 0}
+.nav-item:hover{background:var(--primary-soft2)}
+.nav-item.active{background:var(--primary-soft);border-left-color:var(--primary)}
+.nav-num{flex:none;width:27px;height:27px;border-radius:9px;background:#e3ebf7;color:var(--primary);font-weight:700;font-size:.85rem;display:flex;align-items:center;justify-content:center;margin-top:3px}
+.nav-item.active .nav-num{background:var(--primary);color:#fff}
+.nav-txt{flex:1;font-size:.93rem;line-height:1.45}
+.nav-time{flex:none;font-size:.72rem;color:var(--muted);background:#eef2f8;padding:2px 8px;border-radius:999px;margin-top:5px;white-space:nowrap;font-weight:600}
+
+main{min-width:0}
+.card{background:var(--surface);border:2px solid var(--line);border-radius:18px;padding:22px;margin-bottom:22px;scroll-margin-top:120px}
+.sec-head{display:flex;gap:14px;align-items:flex-start;border-bottom:2px dashed var(--line);padding-bottom:14px;margin-bottom:16px}
+.sec-icon{width:50px;height:50px;border-radius:14px;background:var(--primary-soft);color:var(--primary);display:flex;align-items:center;justify-content:center;flex:none}
+.sec-head h2{font-size:1.32rem;color:var(--primary-dark)}
+.sec-meta{display:flex;gap:8px;flex-wrap:wrap;margin-top:7px;align-items:center}
+.time-chip{display:inline-flex;align-items:center;gap:6px;background:#eef2f8;color:var(--muted);font-size:.8rem;padding:3px 10px;border-radius:999px;font-weight:700}
+.score-chip{display:inline-flex;align-items:center;gap:6px;background:var(--green-soft);color:#2c6b4c;font-size:.8rem;padding:3px 10px;border-radius:999px;font-weight:700}
+
+.goal-box{background:linear-gradient(135deg,var(--primary-soft),var(--teal-soft));border:2px solid #b9cde9;border-radius:16px;padding:16px 20px;margin-bottom:20px;scroll-margin-top:120px}
+.goal-box h3{display:flex;gap:8px;align-items:center;color:var(--primary);margin-bottom:6px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.kchip{background:#fff;border:2px solid var(--line);border-radius:999px;padding:4px 12px;font-size:.85rem;font-weight:600;color:var(--muted);display:inline-flex;gap:7px;align-items:center}
+.howto{background:var(--primary-soft2);border:2px dashed #c4d4ec;border-radius:14px;padding:12px 18px;margin:0 0 22px;font-size:.95rem}
+
+/* ===== Explanation ===== */
+.teach h3{display:flex;gap:9px;align-items:center;color:var(--primary);font-size:1.12rem;margin:20px 0 8px}
+.exmpl{background:#fff;border:2px solid #dbe6f4;border-left:6px solid var(--primary);border-radius:12px;padding:14px 18px;margin:14px 0}
+.exmpl .tag{display:inline-block;background:var(--primary-soft);color:var(--primary);font-weight:800;padding:2px 12px;border-radius:999px;font-size:.85em;margin-bottom:6px}
+.step{display:flex;gap:10px;margin:9px 0;align-items:flex-start}
+.step-n{flex:none;width:27px;height:27px;border-radius:50%;color:#fff;font-weight:800;font-size:.85rem;display:flex;align-items:center;justify-content:center;margin-top:4px}
+.step.s1 .step-n{background:var(--primary)}
+.step.s2 .step-n{background:var(--teal)}
+.step.s3 .step-n{background:var(--green)}
+.step.s4 .step-n{background:#8a6fb1}
+.ingat{background:var(--teal-soft);border-left:6px solid var(--teal);border-radius:10px;padding:10px 16px;margin:14px 0}
+.warn{background:var(--orange-soft);border-left:6px solid var(--orange);border-radius:10px;padding:10px 16px;margin:14px 0}
+.rule-banner{background:linear-gradient(135deg,var(--primary-soft),var(--teal-soft));border:2px solid var(--primary);border-radius:16px;padding:16px 20px;text-align:center;margin:16px 0}
+.rb-title{display:inline-flex;gap:8px;align-items:center;font-weight:800;color:var(--primary)}
+.rule-banner .katex{font-size:1.5em}
+.rule-banner .katex-display{margin:.25em 0}
+.chips-row{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:8px 0}
+.mchip{width:36px;height:36px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-weight:800;font-size:.78rem;border:2.5px solid;flex:none}
+.mchip.pos{background:#e3edf8;border-color:var(--primary);color:var(--primary)}
+.mchip.neg{background:#fdeae6;border-color:#d98873;color:#b05540}
+.mchip.off{opacity:.32;text-decoration:line-through}
+.illus{display:block;margin:12px auto;max-width:100%;height:auto;background:#fff;border:2px solid var(--line);border-radius:12px;padding:8px}
+.nl{margin:10px 0}
+.nlsvg{width:100%;max-width:640px;height:auto;display:block;margin:0 auto;background:#fbfcff;border:2px solid var(--line);border-radius:12px}
+table.tb{width:100%;border-collapse:collapse;margin:10px 0;font-size:.95rem}
+table.tb th{background:var(--primary-soft);color:var(--primary-dark)}
+table.tb th,table.tb td{border:1.5px solid var(--line);padding:8px 12px;text-align:left;vertical-align:top}
+.divider{display:flex;gap:9px;align-items:center;color:var(--primary);font-size:1.12rem;margin:22px 0 4px}
+.sub-head{display:flex;gap:10px;align-items:center;margin:24px 0 10px;padding:10px 16px;background:var(--primary-soft);border-radius:12px;color:var(--primary-dark);font-weight:800;font-size:1.05rem}
+ul.pts{list-style:none;padding:0;margin:8px 0}
+ul.pts li{display:flex;gap:10px;align-items:flex-start;padding:8px 10px;border:2px solid var(--line);border-radius:12px;margin:8px 0;background:#fbfcff}
+ul.pts li .ic-slot{color:var(--green);margin-top:4px;flex:none}
+.reflect{border:2px solid var(--line);border-radius:14px;padding:14px 16px;margin:12px 0;background:var(--primary-soft2)}
+.reflect textarea{width:100%;min-height:76px;border:2px solid #c6d5ea;border-radius:10px;padding:10px 12px;font:inherit;margin:8px 0;resize:vertical;background:#fff}
+.starter{font-size:.88rem;color:var(--muted);font-style:italic}
+
+/* ===== Exercises ===== */
+.ex-card{border:2px solid var(--line);border-radius:16px;padding:18px 20px;margin:16px 0;background:var(--surface)}
+.ex-card.locked{border-color:#a9d5ba;background:#fcfffd}
+.ex-card.locked .btn-check{display:none}
+.ex-head{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:8px}
+.ex-num{font-weight:800;color:var(--primary)}
+.type-chip{background:#eef2f8;border-radius:999px;padding:2px 12px;font-size:.75rem;color:var(--muted);font-weight:800}
+.qtext{font-size:1.05rem;margin:6px 0}
+.hint{font-size:.85rem;color:var(--muted);background:var(--primary-soft2);border-radius:10px;padding:6px 12px;display:inline-block;margin:4px 0 10px}
+.ex-area{margin:8px 0}
+.opt{display:flex;align-items:flex-start;gap:12px;padding:12px 16px;border:2px solid #d5e0f0;border-radius:12px;margin:9px 0;cursor:pointer;background:#fbfcff;transition:border-color .15s,background .15s;position:relative}
+.opt:hover{border-color:#9db7dd}
+.opt input{position:absolute;opacity:0;width:1px;height:1px}
+.dot{width:21px;height:21px;border-radius:50%;border:2px solid #9db7dd;margin-top:4px;flex:none;background:#fff;transition:.15s}
+input:checked + .dot{border-color:var(--primary);background:var(--primary);box-shadow:inset 0 0 0 4px #fff}
+.box{width:21px;height:21px;border-radius:6px;border:2px solid #9db7dd;margin-top:4px;flex:none;background:#fff;display:flex;align-items:center;justify-content:center;transition:.15s}
+.box .ic{stroke:#fff;opacity:0;transition:.15s}
+input:checked + .box{background:var(--primary);border-color:var(--primary)}
+input:checked + .box .ic{opacity:1}
+.opt input:focus-visible ~ .dot,.opt input:focus-visible ~ .box{outline:3px solid #86a7d8;outline-offset:2px}
+.opt.sel-correct{border-color:var(--green);background:var(--green-soft)}
+.opt.sel-wrong{border-color:var(--orange);background:var(--orange-soft)}
+.opt.miss-correct{border-style:dashed;border-color:var(--green)}
+.fill-wrap{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:10px 0}
+.fill-in{font:inherit;font-size:1.25rem;font-weight:700;width:130px;text-align:center;border:2.5px solid #b9c9e0;border-radius:12px;padding:9px 10px;background:#fbfcff;color:var(--ink)}
+.fill-in:focus{border-color:var(--primary);outline:none;background:#fff}
+.fill-unit{font-weight:700;color:var(--muted)}
+.sort-list{list-style:none;margin:10px 0;padding:0}
+.sort-item{display:flex;align-items:center;gap:10px;border:2px solid #d5e0f0;background:#fbfcff;border-radius:12px;padding:9px 14px;margin:9px 0;cursor:grab}
+.sort-item.dragging{opacity:.45;border-style:dashed}
+.grip{color:#9db7dd;display:inline-flex;flex:none}
+.sort-txt{flex:1}
+.srt-btns{display:flex;gap:6px;flex:none}
+.mini{width:34px;height:34px;border-radius:9px;border:2px solid #c6d5ea;background:#fff;color:var(--primary);display:inline-flex;align-items:center;justify-content:center;cursor:pointer}
+.mini:hover{background:var(--primary-soft)}
+.mini:disabled{opacity:.4;cursor:default}
+.pair-wrap{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:10px 0}
+.pair-col h5{margin:0 0 8px;color:var(--muted);font-size:.82rem;text-transform:uppercase;letter-spacing:.05em}
+.pair-item{font:inherit;border:2px solid #d5e0f0;border-radius:12px;padding:10px 14px;background:#fbfcff;cursor:pointer;margin:8px 0;display:flex;gap:10px;align-items:center;width:100%;text-align:left;color:var(--ink)}
+.pair-item:hover{border-color:#9db7dd}
+.pair-item.sel{border-color:var(--primary);background:var(--primary-soft)}
+.pair-item.linked{background:#fff}
+.pair-badge{min-width:24px;height:24px;border-radius:50%;color:#fff;font-weight:800;font-size:.8rem;display:inline-flex;align-items:center;justify-content:center;flex:none;margin-left:auto}
+.pit{flex:1}
+.dnd-eq{display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:1.2rem;margin:12px 0}
+.dnd-bank{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
+.chip{font:inherit;font-weight:700;border:2px solid var(--primary);background:#fff;color:var(--primary);border-radius:12px;padding:9px 16px;margin:2px;cursor:grab;display:inline-flex;align-items:center}
+.chip.used{opacity:.22;pointer-events:none}
+.chip.sel{background:var(--primary);color:#fff}
+.slot{min-width:96px;min-height:54px;border:2.5px dashed #9db7dd;border-radius:12px;display:inline-flex;align-items:center;justify-content:center;background:#f6f9ff;cursor:pointer;font-weight:700}
+.slot.filled{border-style:solid;border-color:var(--primary);background:var(--primary-soft)}
+.slot-ph{color:#9db7dd;font-weight:800;font-size:1.3rem}
+.btn-check{margin-top:12px}
+.feedback{display:none;gap:10px;align-items:flex-start;margin-top:12px;padding:12px 16px;border-radius:12px;border:2px solid}
+.feedback.show{display:flex}
+.feedback.ok{background:var(--green-soft);border-color:#7dbb96;color:#2c6b4c}
+.feedback.no{background:var(--orange-soft);border-color:#dba568;color:#7d5220}
+.ans-line{margin-top:12px;background:var(--green-soft);border:2px solid #a9d8bd;border-radius:10px;padding:9px 14px;font-weight:700;display:flex;gap:8px;align-items:flex-start}
+.ans-line .ic-slot{color:var(--green);margin-top:4px}
+.sol-body{padding:12px 6px 4px}
+ol.steps-list{margin:6px 0 6px 24px;padding:0}
+ol.steps-list li{margin:7px 0}
+.note{font-size:.9rem;color:var(--muted)}
+details.sol,details.teach{margin-top:12px;border:2px solid var(--line);border-radius:14px;padding:12px 16px;background:var(--primary-soft2)}
+details.sol{background:#fff}
+details.sol>summary,details.teach>summary{cursor:pointer;list-style:none;display:flex;align-items:center;gap:9px;font-weight:800;color:var(--primary);user-select:none}
+details.sol>summary::-webkit-details-marker,details.teach>summary::-webkit-details-marker{display:none}
+details.sol>summary .chev,details.teach>summary .chev{margin-left:auto;transition:transform .2s ease}
+details.sol[open]>summary .chev,details.teach[open]>summary .chev{transform:rotate(180deg)}
+.ex-card.locked .pair-item,.ex-card.locked .chip{pointer-events:none}
+
+footer.foot{border-top:2px solid var(--line);background:#fff;padding:18px;text-align:center;color:var(--muted);font-size:.9rem}
+
+@media (max-width:1020px){
+  .layout{grid-template-columns:1fr}
+  nav.sidenav{position:sticky;top:100px;display:flex;gap:8px;overflow-x:auto;max-height:none;padding:10px}
+  .sidenav h4{display:none}
+  .nav-item{flex:none;border-left:none;border:2px solid var(--line);background:#fff;width:auto}
+  .nav-item.active{border-color:var(--primary);background:var(--primary-soft)}
+  .nav-time{display:none}
+}
+@media (max-width:640px){
+  body{font-size:17px}
+  .pair-wrap{grid-template-columns:1fr}
+  .sec-head h2{font-size:1.12rem}
+  :root{--header-h:150px}
+}
+@media (prefers-reduced-motion:reduce){
+  *{transition:none!important;animation:none!important}
+  html{scroll-behavior:auto}
+}
+</style>
+</head>
+<body class="en-on">
+<a class="skip" href="#main"><span class="idn">Langsung ke materi</span><span class="eng">Skip to content</span></a>
+
+<!-- ================= HEADER ================= -->
+<header class="top">
+  <div class="top-inner">
+    <div class="brand">
+      <div class="logo ic-slot" data-icon="calc" data-size="26" aria-hidden="true"></div>
+      <div>
+        <div class="brand-name">Math Tutoring by Deni</div>
+        <div class="topic">
+          <span class="idn">Topik: Bilangan Bulat — Pengurangan Bilangan Bulat</span>
+          <span class="eng">Topic: Integers — Subtraction of Integers</span>
+        </div>
+      </div>
+    </div>
+    <div class="top-actions">
+      <button id="langToggle" class="toggle" type="button" aria-pressed="true">
+        <span class="ic-slot" data-icon="globe" data-size="20"></span>
+        <span><span class="idn">Terjemahan EN</span><span class="eng">English translation</span></span>
+        <span class="state on" id="langState">ON</span>
+      </button>
+      <button id="rulesBtn" class="btn btn-rules" type="button" aria-haspopup="dialog">
+        <span class="ic-slot" data-icon="list" data-size="20"></span>
+        <span><strong>Class Rules</strong><small>Aturan Kelas</small></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- ================= MODAL CLASS RULES ================= -->
+<div class="modal-ov" id="rulesModal" role="dialog" aria-modal="true" aria-labelledby="rulesTitle">
+  <div class="modal">
+    <h3 id="rulesTitle"><span class="ic-slot" data-icon="list" data-size="24"></span>
+      <span><span class="idn">Aturan Kelas</span><span class="eng">Class Rules</span></span>
+    </h3>
+    <div class="rule">
+      <div class="ric ic-slot" data-icon="msg" data-size="22"></div>
+      <div>
+        <strong><span class="idn">1. Berbicara secara bergantian.</span></strong>
+        <span class="eng">1. Take turns speaking.</span>
+      </div>
+    </div>
+    <div class="rule">
+      <div class="ric ic-slot" data-icon="hand" data-size="22"></div>
+      <div>
+        <strong><span class="idn">2. Meminta izin jika ingin meninggalkan kelas.</span></strong>
+        <span class="eng">2. Ask for permission if you want to leave the class.</span>
+      </div>
+    </div>
+    <div class="rule">
+      <div class="ric ic-slot" data-icon="video" data-size="22"></div>
+      <div>
+        <strong><span class="idn">3. Menyalakan microphone dan camera jika diperlukan.</span></strong>
+        <span class="eng">3. Turn on the microphone and camera when needed.</span>
+      </div>
+    </div>
+    <div class="close-row">
+      <button id="rulesClose" class="btn" type="button"><span class="idn">Tutup</span><span class="eng">Close</span></button>
+    </div>
+  </div>
+</div>
+
+<!-- ================= LAYOUT 1 : 3 ================= -->
+<div class="layout">
+
+  <nav class="sidenav" aria-label="Menu materi">
+    <h4><span class="ic-slot" data-icon="list" data-size="20"></span>
+      <span><span class="idn">Daftar Materi</span><span class="eng">Lesson Menu</span></span>
+    </h4>
+    <a class="nav-item" href="#sec-warmup"><span class="nav-num">1</span><span class="nav-txt"><span class="idn">Pemanasan — Review Spiral</span><span class="eng">Spiral Review Warm-up</span></span><span class="nav-time">00:00–00:10</span></a>
+    <a class="nav-item" href="#sec-intro"><span class="nav-num">2</span><span class="nav-txt"><span class="idn">Pengenalan &amp; Koneksi Dunia Nyata</span><span class="eng">Introduction &amp; Real-World Connection</span></span><span class="nav-time">00:10–00:15</span></a>
+    <a class="nav-item" href="#sec-review"><span class="nav-num">3</span><span class="nav-txt"><span class="idn">Review Pengetahuan Awal</span><span class="eng">Review of Prior Knowledge</span></span><span class="nav-time">00:15–00:20</span></a>
+    <a class="nav-item" href="#sec-problem"><span class="nav-num">4</span><span class="nav-txt"><span class="idn">Pengenalan Masalah</span><span class="eng">Problem Introduction</span></span><span class="nav-time">00:20–00:25</span></a>
+    <a class="nav-item" href="#sec-guided"><span class="nav-num">5</span><span class="nav-txt"><span class="idn">Latihan Terbimbing</span><span class="eng">Guided Practice</span></span><span class="nav-time">00:25–00:40</span></a>
+    <a class="nav-item" href="#sec-indep"><span class="nav-num">6</span><span class="nav-txt"><span class="idn">Latihan Mandiri</span><span class="eng">Independent Practice</span></span><span class="nav-time">00:40–00:55</span></a>
+    <a class="nav-item" href="#sec-consol"><span class="nav-num">7</span><span class="nav-txt"><span class="idn">Konsolidasi &amp; Refleksi</span><span class="eng">Consolidation &amp; Reflection</span></span><span class="nav-time">00:55–01:00</span></a>
+    <a class="nav-item" href="#sec-t1"><span class="nav-num">T1</span><span class="nav-txt"><span class="idn">Tugas 1: Dasar — Tambah Lawannya</span><span class="eng">Task 1: Basics — Add the Opposite</span></span></a>
+    <a class="nav-item" href="#sec-t2"><span class="nav-num">T2</span><span class="nav-txt"><span class="idn">Tugas 2: Melintasi Nol</span><span class="eng">Task 2: Crossing Zero</span></span></a>
+    <a class="nav-item" href="#sec-t3"><span class="nav-num">T3</span><span class="nav-txt"><span class="idn">Tugas 3: Negatif − Positif &amp; Negatif − Negatif</span><span class="eng">Task 3: Negative − Positive &amp; Negative − Negative</span></span></a>
+    <a class="nav-item" href="#sec-t4"><span class="nav-num">T4</span><span class="nav-txt"><span class="idn">Tugas 4: Soal Cerita</span><span class="eng">Task 4: Word Problems</span></span></a>
+    <a class="nav-item" href="#sec-t5"><span class="nav-num">T5</span><span class="nav-txt"><span class="idn">Tugas 5: Tantangan Campuran</span><span class="eng">Task 5: Mixed Challenge</span></span></a>
+  </nav>
+
+  <main id="main">
+
+    <div class="goal-box">
+      <h3><span class="ic-slot" data-icon="target" data-size="24"></span>
+        <span><span class="idn">Tujuan Pembelajaran</span><span class="eng">Learning Goal</span></span>
+      </h3>
+      <p><span class="idn">Siswa dapat <strong>mengurangkan bilangan bulat</strong> dengan cara mengurangkan sebagai <em>“tambah lawannya”</em>: \(a-b=a+(-b)\).</span>
+      <span class="eng">Students can <strong>subtract integers</strong> by subtracting as <em>“adding the opposite”</em>: \(a-b=a+(-b)\).</span></p>
+      <div class="chips">
+        <span class="kchip"><span class="ic-slot" data-icon="target" data-size="15"></span><span class="idn">garis bilangan</span><span class="eng">number line</span></span>
+        <span class="kchip"><span class="ic-slot" data-icon="swap" data-size="15"></span><span class="idn">lawan bilangan</span><span class="eng">opposite numbers</span></span>
+        <span class="kchip"><span class="ic-slot" data-icon="check" data-size="15"></span><span class="idn">3 langkah mudah</span><span class="eng">3 easy steps</span></span>
+        <span class="kchip"><span class="ic-slot" data-icon="game" data-size="15"></span><span class="idn">soal cerita</span><span class="eng">word problems</span></span>
+      </div>
+    </div>
+
+    <div class="howto">
+      <span class="idn"><strong>Cara menggunakan materi ini:</strong> ① Baca penjelasan dengan teliti. ② Kerjakan latihan satu per satu, lalu tekan tombol <em>Periksa Jawaban</em>. ③ Buka <em>Pembahasan</em> untuk melihat langkah-langkah lengkapnya. ④ Gunakan tombol <em>Terjemahan EN</em> di kanan atas untuk menampilkan bahasa Inggris.</span>
+      <span class="eng"><strong>How to use this lesson:</strong> ① Read the explanation carefully. ② Do the exercises one by one, then press <em>Check Answer</em>. ③ Open the <em>Solution</em> to see the complete steps. ④ Use the <em>English translation</em> button at the top right to show English.</span>
+    </div>
+
+    <!-- ============ SECTION 1: SPIRAL REVIEW WARM-UP ============ -->
+    <section id="sec-warmup" class="card">
+      <header class="sec-head">
+        <div class="sec-icon ic-slot" data-icon="star" data-size="26"></div>
+        <div>
+          <h2><span class="idn">1. Pemanasan — Review Spiral</span><span class="eng">1. Spiral Review Warm-up</span></h2>
+          <div class="sec-meta">
+            <span class="time-chip"><span class="ic-slot" data-icon="clock" data-size="14"></span>00:00–00:10</span>
+            <span class="score-chip" id="score-warmup"><span class="idn">Skor: 0/0</span><span class="eng">Score: 0/0</span></span>
+          </div>
+        </div>
+      </header>
+
+      <div class="teach">
+        <h3><span class="ic-slot" data-icon="book" data-size="22"></span><span><span class="idn">Ayo Ingat Kembali</span><span class="eng">Let's Remember</span></span></h3>
+        <p><span class="idn">Sebelum belajar pengurangan bilangan bulat, mari kita ingat dua hal penting: <strong>bilangan bulat</strong> dan <strong>penjumlahan bilangan bulat</strong>.</span>
+        <span class="eng">Before learning subtraction of integers, let's remember two important things: <strong>integers</strong> and <strong>adding integers</strong>.</span></p>
+        <p><span class="idn"><strong>Bilangan bulat</strong> adalah seluruh bilangan utuh: bilangan positif (\(1, 2, 3, \dots\)), nol, dan bilangan negatif (\(-1, -2, -3, \dots\)). Kita dapat melihatnya pada <strong>garis bilangan</strong>:</span>
+        <span class="eng"><strong>Integers</strong> are all whole numbers: positive numbers (\(1, 2, 3, \dots\)), zero, and negative numbers (\(-1, -2, -3, \dots\)). We can see them on a <strong>number line</strong>:</span></p>
+        <div class="nl" data-nl='{"min":-5,"max":5}'></div>
+        <p><span class="idn">Makin ke <strong>kanan</strong> makin <strong>besar</strong>; makin ke <strong>kiri</strong> makin <strong>kecil</strong>.</span>
+        <span class="eng">Further to the <strong>right</strong> means <strong>bigger</strong>; further to the <strong>left</strong> means <strong>smaller</strong>.</span></p>
+
+        <h3><span class="ic-slot" data-icon="bulb" data-size="22"></span><span><span class="idn">Aturan Penjumlahan Bilangan Bulat</span><span class="eng">Rules for Adding Integers</span></span></h3>
+        <div class="step s1"><span class="step-n">1</span><div><span class="idn"><strong>Tanda sama:</strong> jumlahkan angkanya, lalu pertahankan tandanya. Contoh: \((-3)+(-2)=-5\).</span>
+        <span class="eng"><strong>Same signs:</strong> add the numbers, then keep the sign. Example: \((-3)+(-2)=-5\).</span></div></div>
+        <div class="step s2"><span class="step-n">2</span><div><span class="idn"><strong>Tanda berbeda:</strong> kurangi angkanya (besar − kecil), lalu ikuti tanda bilangan yang lebih besar nilainya. Contoh: \(5+(-8)=-3\).</span>
+        <span class="eng"><strong>Different signs:</strong> subtract the numbers (bigger − smaller), then take the sign of the number with the larger value. Example: \(5+(-8)=-3\).</span></div></div>
+
+        <h3><span class="ic-slot" data-icon="pencil" data-size="22"></span><span><span class="idn">Contoh Soal &amp; Cara Menghitung</span><span class="eng">Worked Examples &amp; How to Calculate</span></span></h3>
+        <div class="exmpl">
+          <span class="tag"><span class="idn">Contoh 1</span><span class="eng">Example 1</span></span>
+          <p><span class="idn">Hitunglah \(5+(-8)\).</span><span class="eng">Calculate \(5+(-8)\).</span></p>
+          <div class="step s1"><span class="step-n">1</span><div><span class="idn">Mulai dari \(5\) pada garis bilangan.</span><span class="eng">Start at \(5\) on the number line.</span></div></div>
+          <div class="step s2"><span class="step-n">2</span><div><span class="idn">Tambah \(-8\) artinya <strong>geser \(8\) langkah ke kiri</strong>.</span><span class="eng">Adding \(-8\) means <strong>move \(8\) steps to the left</strong>.</span></div></div>
+          <div class="step s3"><span class="step-n">3</span><div><span class="idn">Kita tiba di \(-3\). Jadi \(5+(-8)=-3\).</span><span class="eng">We arrive at \(-3\). So \(5+(-8)=-3\).</span></div></div>
+          <div class="nl" data-nl='{"min":-5,"max":9,"start":5,"move":-8}'></div>
+        </div>
+        <div class="exmpl">
+          <span class="tag"><span class="idn">Contoh 2</span><span class="eng">Example 2</span></span>
+          <p><span class="idn">Hitunglah \(-4+9\). Mulai dari \(-4\), geser \(9\) langkah ke <strong>kanan</strong>, tiba di \(5\). Jadi \(-4+9=5\).</span>
+          <span class="eng">Calculate \(-4+9\). Start at \(-4\), move \(9\) steps to the <strong>right</strong>, arrive at \(5\). So \(-4+9=5\).</span></p>
+          <div class="nl" data-nl='{"min":-6,"max":7,"start":-4,"move":9}'></div>
+        </div>
+        <div class="ingat"><span class="idn"><strong>Ingat!</strong> Dua bilangan berlawanan jika dijumlahkan hasilnya \(0\): \(a+(-a)=0\). Contoh: \(7+(-7)=0\). Ini akan sangat berguna hari ini!</span>
+        <span class="eng"><strong>Remember!</strong> Two opposite numbers add up to \(0\): \(a+(-a)=0\). Example: \(7+(-7)=0\). This will be very useful today!</span></div>
+        <p><span class="idn">Di <strong>Latihan 1–5</strong> berikut, kamu akan memakai garis bilangan dan aturan di atas. Persis seperti contoh-contoh ini!</span>
+        <span class="eng">In <strong>Exercises 1–5</strong> below, you will use the number line and the rules above. Exactly like these examples!</span></p>
+      </div>
+
+      <h3 class="divider"><span class="ic-slot" data-icon="pencil" data-size="22"></span><span><span class="idn">Latihan</span><span class="eng">Exercises</span></span></h3>
+      <div id="ex-warmup"></div>
+    </section>
+
+    <!-- ============ SECTION 2: INTRODUCTION & REAL-WORLD CONNECTION ============ -->
+    <section id="sec-intro" class="card">
+      <header class="sec-head">
+        <div class="sec-icon ic-slot" data-icon="globe" data-size="26"></div>
+        <div>
+          <h2><span class="idn">2. Pengenalan &amp; Koneksi Dunia Nyata</span><span class="eng">2. Introduction &amp; Real-World Connection</span></h2>
+          <div class="sec-meta">
+            <span class="time-chip"><span class="ic-slot" data-icon="clock" data-size="14"></span>00:10–00:15</span>
+            <span class="score-chip" id="score-intro"><span class="idn">Skor: 0/0</span><span class="eng">Score: 0/0</span></span>
+          </div>
+        </div>
+      </header>
+
+      <div class="teach">
+        <h3><span class="ic-slot" data-icon="globe" data-size="22"></span><span><span class="idn">Pengurangan Ada di Sekitar Kita</span><span class="eng">Subtraction Is All Around Us</span></span></h3>
+        <p><span class="idn">Pengurangan bilangan bulat sering muncul dalam kehidupan sehari-hari. Lihat tiga contoh ini:</span>
+        <span class="eng">Subtracting integers appears often in daily life. Look at these three examples:</span></p>
+        <div class="exmpl">
+          <span class="tag"><span class="ic-slot" data-icon="thermo" data-size="16"></span> <span class="idn">Suhu</span><span class="eng">Temperature</span></span>
+          <p><span class="idn">Suhu \(6^\circ\mathrm{C}\) <strong>turun</strong> \(9^\circ\mathrm{C}\). Kata “turun” adalah tanda <strong>pengurangan</strong>: \(6-9\).</span>
+          <span class="eng">The temperature \(6^\circ\mathrm{C}\) <strong>drops</strong> by \(9^\circ\mathrm{C}\). The word “drops” signals <strong>subtraction</strong>: \(6-9\).</span></p>
+          <svg class="illus" viewBox="0 0 300 210" role="img" aria-label="termometer turun">
+            <rect x="48" y="28" width="22" height="122" rx="11" fill="#fff" stroke="#94a8c4" stroke-width="2.5"/>
+            <circle cx="59" cy="165" r="20" fill="#fff" stroke="#94a8c4" stroke-width="2.5"/>
+            <rect x="54" y="52" width="10" height="100" rx="5" fill="#e8837a"/>
+            <circle cx="59" cy="165" r="13" fill="#e8837a"/>
+            <line x1="74" y1="52" x2="84" y2="52" stroke="#94a8c4" stroke-width="2"/><text x="88" y="57" font-size="13" fill="#5d6b80" font-family="Segoe UI, Arial">5</text>
+            <line x1="74" y1="102" x2="84" y2="102" stroke="#94a8c4" stroke-width="2"/><text x="88" y="107" font-size="13" fill="#5d6b80" font-family="Segoe UI, Arial">0</text>
+            <line x1="74" y1="152" x2="84" y2="152" stroke="#94a8c4" stroke-width="2"/><text x="88" y="157" font-size="13" fill="#5d6b80" font-family="Segoe UI, Arial">-5</text>
+            <path d="M135 85 Q 175 115 205 130" fill="none" stroke="#c97b4a" stroke-width="3" stroke-dasharray="7 5"/>
+            <polygon points="212,134 196,132 204,120" fill="#c97b4a"/>
+            <text x="150" y="70" font-size="15" font-weight="bold" fill="#c97b4a" font-family="Segoe UI, Arial">turun 9°C</text>
+            <text x="150" y="92" font-size="13" fill="#8a6a52" font-family="Segoe UI, Arial">down 9°C</text>
+            <rect x="228" y="28" width="22" height="122" rx="11" fill="#fff" stroke="#94a8c4" stroke-width="2.5"/>
+            <circle cx="239" cy="165" r="20" fill="#fff" stroke="#94a8c4" stroke-width="2.5"/>
+            <rect x="234" y="142" width="10" height="10" rx="5" fill="#e8837a"/>
+            <circle cx="239" cy="165" r="13" fill="#e8837a"/>
+            <line x1="254" y1="52" x2="264" y2="52" stroke="#94a8c4" stroke-width="2"/><text x="268" y="57" font-size="13" fill="#5d6b80" font-family="Segoe UI, Arial">5</text>
+            <line x1="254" y1="102" x2="264" y2="102" stroke="#94a8c4" stroke-width="2"/><text x="268" y="107" font-size="13" fill="#5d6b80" font-family="Segoe UI, Arial">0</text>
+            <line x1="254" y1="132" x2="264" y2="132" stroke="#94a8c4" stroke-width="2"/><text x="268" y="137" font-size="13" fill="#5d6b80" font-family="Segoe UI, Arial">-3</text>
+            <text x="50" y="200" font-size="14" font-weight="bold" fill="#41639c" font-family="Segoe UI, Arial">6°C → -3°C</text>
+          </svg>
+        </div>
+        <div class="exmpl">
+          <span class="tag"><span class="ic-slot" data-icon="building" data-size="16"></span> <span class="idn">Lift</span><span class="eng">Elevator</span></span>
+          <p><span class="idn">Lift ada di lantai \(2\), lalu <strong>turun</strong> \(5\) lantai. Lantai di bawah tanah ditulis dengan bilangan negatif: lantai \(-1, -2, -3\).</span>
+          <span class="eng">An elevator is at floor \(2\), then goes <strong>down</strong> \(5\) floors. Floors below the ground are written with negative numbers: floor \(-1, -2, -3\).</span></p>
+          <svg class="illus" viewBox="0 0 260 260" role="img" aria-label="lift turun ke basement">
+            <rect x="105" y="18" width="70" height="222" fill="#f4f8fe" stroke="#94a8c4" stroke-width="2.5"/>
+            <line x1="105" y1="58" x2="175" y2="58" stroke="#94a8c4" stroke-width="2"/><text x="96" y="63" font-size="14" text-anchor="end" fill="#5d6b80" font-family="Segoe UI, Arial">4</text>
+            <line x1="105" y1="98" x2="175" y2="98" stroke="#94a8c4" stroke-width="2"/><text x="96" y="103" font-size="14" text-anchor="end" fill="#5d6b80" font-family="Segoe UI, Arial">3</text>
+            <line x1="105" y1="138" x2="175" y2="138" stroke="#94a8c4" stroke-width="2"/><text x="96" y="143" font-size="14" text-anchor="end" fill="#5d6b80" font-family="Segoe UI, Arial">2</text>
+            <line x1="105" y1="178" x2="175" y2="178" stroke="#94a8c4" stroke-width="2"/><text x="96" y="183" font-size="14" text-anchor="end" fill="#5d6b80" font-family="Segoe UI, Arial">1</text>
+            <line x1="98" y1="198" x2="182" y2="198" stroke="#41639c" stroke-width="3.5"/>
+            <text x="96" y="203" font-size="14" text-anchor="end" fill="#5d6b80" font-family="Segoe UI, Arial">0</text>
+            <line x1="105" y1="218" x2="175" y2="218" stroke="#94a8c4" stroke-width="2"/><text x="96" y="223" font-size="14" text-anchor="end" fill="#5d6b80" font-family="Segoe UI, Arial">-1</text>
+            <line x1="105" y1="238" x2="175" y2="238" stroke="#94a8c4" stroke-width="2"/><text x="96" y="243" font-size="14" text-anchor="end" fill="#5d6b80" font-family="Segoe UI, Arial">-2</text>
+            <rect x="112" y="104" width="56" height="34" rx="5" fill="#cfe0f5" stroke="#41639c" stroke-width="2.5"/>
+            <line x1="140" y1="104" x2="140" y2="138" stroke="#41639c" stroke-width="2"/>
+            <line x1="196" y1="112" x2="196" y2="188" stroke="#c97b4a" stroke-width="3"/>
+            <polygon points="196,196 189,182 203,182" fill="#c97b4a"/>
+            <text x="206" y="150" font-size="14" font-weight="bold" fill="#c97b4a" font-family="Segoe UI, Arial">turun</text>
+            <text x="206" y="168" font-size="13" fill="#8a6a52" font-family="Segoe UI, Arial">down</text>
+            <text x="30" y="258" font-size="14" font-weight="bold" fill="#41639c" font-family="Segoe UI, Arial">2 → -3</text>
+          </svg>
+        </div>
+        <div class="exmpl">
+          <span class="tag"><span class="ic-slot" data-icon="coin" data-size="16"></span> <span class="idn">Uang</span><span class="eng">Money</span></span>
+          <p><span class="idn">Kamu punya uang Rp5.000, lalu <strong>memakai</strong> Rp9.000. Uangmu <strong>berkurang</strong>: \(5-9\). Hasilnya negatif, artinya kamu <strong>berutang</strong>.</span>
+          <span class="eng">You have Rp5,000, then <strong>spend</strong> Rp9,000. Your money <strong>decreases</strong>: \(5-9\). The result is negative, which means you are <strong>in debt</strong>.</span></p>
+        </div>
+        <div class="ingat"><span class="idn"><strong>Kata kunci pengurangan:</strong> turun, berkurang, dipakai, sisa, selisih, kurang.</span>
+        <span class="eng"><strong>Key words for subtraction:</strong> drops/goes down, decreases, spent, left/remainder, difference, less.</span></div>
+
+        <h3><span class="ic-slot" data-icon="bulb" data-size="22"></span><span><span class="idn">Contoh Soal &amp; Cara Menghitung</span><span class="eng">Worked Example &amp; How to Calculate</span></span></h3>
+        <div class="exmpl">
+          <span class="tag"><span class="idn">Contoh</span><span class="eng">Example</span></span>
+          <p><span class="idn">Suhu di puncak gunung \(5^\circ\mathrm{C}\). Malam hari, suhu turun \(8^\circ\mathrm{C}\). Berapa suhunya sekarang?</span>
+          <span class="eng">The temperature on a mountain top is \(5^\circ\mathrm{C}\). At night, the temperature drops by \(8^\circ\mathrm{C}\). What is the temperature now?</span></p>
+          <div class="step s1"><span class="step-n">1</span><div><span class="idn">Tulis kalimat matematika: \(5-8\).</span><span class="eng">Write the number sentence: \(5-8\).</span></div></div>
+          <div class="step s2"><span class="step-n">2</span><div><span class="idn">Kalau hanya memakai bilangan \(1, 2, 3, \dots\), kita tidak bisa menghitungnya, karena \(8\) lebih besar dari \(5\). Di sinilah <strong>bilangan negatif</strong> diperlukan!</span>
+          <span class="eng">If we only use the numbers \(1, 2, 3, \dots\), we cannot calculate it, because \(8\) is bigger than \(5\). This is where <strong>negative numbers</strong> are needed!</span></div></div>
+          <div class="step s3"><span class="step-n">3</span><div><span class="idn">Hasilnya: \(5-8=5+(-8)=-3\). Suhu menjadi \(-3^\circ\mathrm{C}\). Cara lengkapnya kita pelajari di <strong>Bagian 4</strong>.</span>
+          <span class="eng">The result: \(5-8=5+(-8)=-3\). The temperature becomes \(-3^\circ\mathrm{C}\). We will learn the complete method in <strong>Section 4</strong>.</span></div></div>
+        </div>
+        <p><span class="idn">Di <strong>Latihan 1–5</strong>, kamu akan menghubungkan cerita nyata dengan kalimat matematika — persis seperti contoh di atas.</span>
+        <span class="eng">In <strong>Exercises 1–5</strong>, you will connect real stories with number sentences — exactly like the example above.</span></p>
+      </div>
+
+      <h3 class="divider"><span class="ic-slot" data-icon="pencil" data-size="22"></span><span><span class="idn">Latihan</span><span class="eng">Exercises</span></span></h3>
+      <div id="ex-intro"></div>
+    </section>
+
+    <!-- ============ SECTION 3: REVIEW OF PRIOR KNOWLEDGE ============ -->
+    <section id="sec-review" class="card">
+      <header class="sec-head">
+        <div class="sec-icon ic-slot" data-icon="book" data-size="26"></div>
+        <div>
+          <h2><span class="idn">3. Review Pengetahuan Awal</span><span class="eng">3. Review of Prior Knowledge</span></h2>
+          <div class="sec-meta">
+            <span class="time-chip"><span class="ic-slot" data-icon="clock" data-size="14"></span>00:15–00:20</span>
+            <span class="score-chip" id="score-review"><span class="idn">Skor: 0/0</span><span class="eng">Score: 0/0</span></span>
+          </div>
+        </div>
+      </header>
+
+      <div class="teach">
+        <h3><span class="ic-slot" data-icon="book" data-size="22"></span><span><span class="idn">Dua Kemampuan Kunci</span><span class="eng">Two Key Skills</span></span></h3>
+        <p><span class="idn">Untuk menguasai pengurangan bilangan bulat, kita perlu mengingat dua kemampuan: <strong>lawan bilangan</strong> dan <strong>penjumlahan dengan bilangan negatif</strong>.</span>
+        <span class="eng">To master subtraction of integers, we need to remember two skills: <strong>opposite numbers</strong> and <strong>adding negative numbers</strong>.</span></p>
+
+        <h3><span class="ic-slot" data-icon="swap" data-size="22"></span><span><span class="idn">Lawan Bilangan (Opposite)</span><span class="eng">Opposite Numbers</span></span></h3>
+        <p><span class="idn"><strong>Lawan bilangan</strong> adalah dua bilangan yang berjarak sama dari \(0\) tetapi arahnya berlawanan.</span>
+        <span class="eng"><strong>Opposite numbers</strong> are two numbers that are the same distance from \(0\) but in opposite directions.</span></p>
+        <div class="nl" data-nl='{"min":-6,"max":6,"pts":[{"v":-4},{"v":4},{"v":-2,"c":"#2f8a7b"},{"v":2,"c":"#2f8a7b"}]}'></div>
+        <ul class="pts">
+          <li><span class="ic-slot" data-icon="check" data-size="16"></span><div><span class="idn">Lawan dari \(4\) adalah \(-4\), dan lawan dari \(-4\) adalah \(4\).</span><span class="eng">The opposite of \(4\) is \(-4\), and the opposite of \(-4\) is \(4\).</span></div></li>
+          <li><span class="ic-slot" data-icon="check" data-size="16"></span><div><span class="idn">Lawan dari \(0\) adalah \(0\) (nol adalah lawan dirinya sendiri).</span><span class="eng">The opposite of \(0\) is \(0\) (zero is its own opposite).</span></div></li>
+          <li><span class="ic-slot" data-icon="check" data-size="16"></span><div><span class="idn">Selalu: bilangan \(+\) lawannya \(= 0\). Contoh: \(-6+6=0\).</span><span class="eng">Always: a number \(+\) its opposite \(= 0\). Example: \(-6+6=0\).</span></div></li>
+        </ul>
+        <table class="tb">
+          <tr><th><span class="idn">Bilangan</span><span class="eng">Number</span></th><th>\(3\)</th><th>\(-6\)</th><th>\(0\)</th><th>\(12\)</th></tr>
+          <tr><td><strong><span class="idn">Lawannya</span><span class="eng">Its opposite</span></strong></td><td>\(-3\)</td><td>\(6\)</td><td>\(0\)</td><td>\(-12\)</td></tr>
+        </table>
+
+        <h3><span class="ic-slot" data-icon="plus" data-size="22"></span><span><span class="idn">Menambah Bilangan Negatif = Geser ke Kiri</span><span class="eng">Adding a Negative = Move Left</span></span></h3>
+        <p><span class="idn">Menambah bilangan negatif artinya <strong>geser ke kiri</strong> pada garis bilangan.</span>
+        <span class="eng">Adding a negative number means <strong>moving left</strong> on the number line.</span></p>
+        <div class="exmpl">
+          <span class="tag"><span class="idn">Contoh 1</span><span class="eng">Example 1</span></span>
+          <p><span class="idn">\(4+(-3)\): mulai dari \(4\), geser \(3\) ke kiri, tiba di \(1\). Jadi \(4+(-3)=1\).</span>
+          <span class="eng">\(4+(-3)\): start at \(4\), move \(3\) to the left, arrive at \(1\). So \(4+(-3)=1\).</span></p>
+          <div class="nl" data-nl='{"min":-2,"max":6,"start":4,"move":-3}'></div>
+        </div>
+        <div class="exmpl">
+          <span class="tag"><span class="idn">Contoh 2</span><span class="eng">Example 2</span></span>
+          <p><span class="idn">\(2+(-6)\): mulai dari \(2\), geser \(6\) ke kiri, tiba di \(-4\). Jadi \(2+(-6)=-4\).</span>
+          <span class="eng">\(2+(-6)\): start at \(2\), move \(6\) to the left, arrive at \(-4\). So \(2+(-6)=-4\).</span></p>
+          <div class="nl" data-nl='{"min":-6,"max":4,"start":2,"move":-6}'></div>
+        </div>
+        <div class="ingat"><span class="idn"><strong>Ingat!</strong> Kemampuan inilah kunci hari ini: pengurangan akan kita <strong>ubah menjadi penjumlahan</strong> seperti ini.</span>
+        <span class="eng"><strong>Remember!</strong> This skill is today's key: we will <strong>turn subtraction into addition</strong> just like this.</span></div>
+        <p><span class="idn">Di <strong>Latihan 1–5</strong>, kamu akan mencari lawan bilangan dan menjumlahkan bilangan negatif — keterampilan yang sama dengan dua contoh di atas.</span>
+        <span class="eng">In <strong>Exercises 1–5</strong>, you will find opposite numbers and add negatives — the same skills as the two examples above.</span></p>
+      </div>
+
+      <h3 class="divider"><span class="ic-slot" data-icon="pencil" data-size="22"></span><span><span class="idn">Latihan</span><span class="eng">Exercises</span></span></h3>
+      <div id="ex-review"></div>
+    </section>
+
+    <!-- ============ SECTION 4: PROBLEM INTRODUCTION ============ -->
+    <section id="sec-problem" class="card">
+      <header class="sec-head">
+        <div class="sec-icon ic-slot" data-icon="bulb" data-size="26"></div>
+        <div>
+          <h2><span class="idn">4. Pengenalan Masalah</span><span class="eng">4. Problem Introduction</span></h2>
+          <div class="sec-meta">
+            <span class="time-chip"><span class="ic-slot" data-icon="clock" data-size="14"></span>00:20–00:25</span>
+            <span class="score-chip" id="score-problem"><span class="idn">Skor: 0/0</span><span class="eng">Score: 0/0</span></span>
+          </div>
+        </div>
+      </header>
+
+      <div class="teach">
+        <div class="rule-banner">
+          <div class="rb-title"><span class="ic-slot" data-icon="key" data-size="20"></span>
+            <span><span class="idn">Rumus Kunci Hari Ini</span><span class="eng">Today's Key Formula</span></span>
+          </div>
+          \[ a - b = a + (-b) \]
+          <p style="margin:4px 0 0"><span class="idn"><strong>Mengurangkan = menambahkan lawannya.</strong></span>
+          <span class="eng"><strong>Subtracting = adding the opposite.</strong></span></p>
+        </div>
+
+        <h3><span class="ic-slot" data-icon="check" data-size="22"></span><span><span class="idn">Tiga Langkah Ajaib</span><span class="eng">The Three Magic Steps</span></span></h3>
+        <div class="step s1"><span class="step-n">1</span><div><span class="idn"><strong>UBAH tanda operasi:</strong> tanda \(-\) (kurang) menjadi \(+\) (tambah).</span>
+        <span class="eng"><strong>CHANGE the operation sign:</strong> the \(-\) (minus) sign becomes \(+\) (plus).</span></div></div>
+        <div class="step s2"><span class="step-n">2</span><div><span class="idn"><strong>UBAH bilangan kedua:</strong> ganti dengan <strong>lawannya</strong>.</span>
+        <span class="eng"><strong>CHANGE the second number:</strong> replace it with its <strong>opposite</strong>.</span></div></div>
+        <div class="step s3"><span class="step-n">3</span><div><span class="idn"><strong>JUMLAHKAN</strong> seperti biasa.</span>
+        <span class="eng"><strong>ADD</strong> as usual.</span></div></div>
+        <div class="warn"><span class="idn"><strong>Hati-hati!</strong> Bilangan <strong>pertama tetap</strong>, tidak berubah. Hanya dua hal yang berubah: tanda operasi dan bilangan kedua.</span>
+        <span class="eng"><strong>Be careful!</strong> The <strong>first number stays</strong> the same. Only two things change: the operation sign and the second number.</span></div>
+
+        <h3><span class="ic-slot" data-icon="pencil" data-size="22"></span><span><span class="idn">Contoh Soal &amp; Cara Menghitung</span><span class="eng">Worked Examples &amp; How to Calculate</span></span></h3>
+
+        <div class="exmpl">
+          <span class="tag"><span class="idn">Contoh 1</span><span class="eng">Example 1</span></span>
+          <p><span class="idn">Hitunglah \(7-3\).</span><span class="eng">Calculate \(7-3\).</span></p>
+          <div class="step s1"><span class="step-n">1</span><div><span class="idn">Ubah \(-\) menjadi \(+\): \(7+?\)</span><span class="eng">Change \(-\) to \(+\): \(7+?\)</span></div></div>
+          <div class="step s2"><span class="step-n">2</span><div><span class="idn">Ubah \(3\) menjadi lawannya, yaitu \(-3\): \(7+(-3)\)</span><span class="eng">Change \(3\) to its opposite, \(-3\): \(7+(-3)\)</span></div></div>
+          <div class="step s3"><span class="step-n">3</span><div><span class="idn">Jumlahkan: mulai dari \(7\), geser \(3\) ke kiri, tiba di \(4\). Jadi \(7-3=7+(-3)=4\).</span>
+          <span class="eng">Add: start at \(7\), move \(3\) to the left, arrive at \(4\). So \(7-3=7+(-3)=4\).</span></div></div>
+          <div class="nl" data-nl='{"min":-2,"max":9,"start":7,"move":-3}'></div>
+          <p><span class="idn"><strong>Cara chip:</strong> mulai dengan \(7\) chip biru, ambil \(3\) chip biru, tersisa \(4\). Cara baru: mengurangi \(3\) = menambah \(3\) chip merah \((-3)\). Netanya tetap \(4\).</span>
+          <span class="eng"><strong>Chip way:</strong> start with \(7\) blue chips, take away \(3\) blue chips, \(4\) remain. New way: subtracting \(3\) = adding \(3\) red chips \((-3)\). The net is still \(4\).</span></p>
+          <div class="chips-row">
+            <span class="mchip pos">+1</span><span class="mchip pos">+1</span><span class="mchip pos">+1</span><span class="mchip pos">+1</span><span class="mchip pos">+1</span><span class="mchip pos">+1</span><span class="mchip pos">+1</span>
+            <span class="ic-slot" data-icon="arrowr" data-size="20"></span>
+            <span class="mchip pos off">+1</span><span class="mchip pos off">+1</span><span class="mchip pos off">+1</span>
+            <span class="ic-slot" data-icon="arrowr" data-size="20"></span>
+            <span class="mchip pos">+1</span><span class="mchip pos">+1</span><span class="mchip pos">+1</span><span class="mchip pos">+1</span>
+            <strong> = 4</strong>
+          </div>
+          <div class="chips-row">
+            <span class="mchip pos">+1</span><span class="mchip pos">+1</span><span class="mchip pos">+1</span><span class="mchip pos">+1</span><span class="mchip pos">+1</span><span class="mchip pos">+1</span><span class="mchip pos">+1</span>
+            <span class="ic-slot" data-icon="plus" data-size="16"></span>
+            <span class="mchip neg">-1</span><span class="mchip neg">-1</span><span class="mchip neg">-1</span>
+            <span class="ic-slot" data-icon="arrowr" data-size="20"></span>
+            <span class="mchip pos">+1</span><span class="mchip pos">+1</span><span class="mchip pos">+1</span><span class="mchip pos">+1</span>
+            <strong> = 4</strong>
+          </div>
+        </div>
+
+        <div class="exmpl">
+          <span class="tag"><span class="idn">Contoh 2</span><span class="eng">Example 2</span></span>
+          <p><span class="idn">Hitunglah \(2-6\). Langkah 1: \(2+?\). Langkah 2: lawan dari \(6\) adalah \(-6\), jadi \(2+(-6)\). Langkah 3: mulai dari \(2\), geser \(6\) ke kiri, tiba di \(-4\). Jadi \(2-6=2+(-6)=-4\).</span>
+          <span class="eng">Calculate \(2-6\). Step 1: \(2+?\). Step 2: the opposite of \(6\) is \(-6\), so \(2+(-6)\). Step 3: start at \(2\), move \(6\) to the left, arrive at \(-4\). So \(2-6=2+(-6)=-4\).</span></p>
+          <div class="nl" data-nl='{"min":-6,"max":4,"start":2,"move":-6}'></div>
+        </div>
+
+        <div class="exmpl">
+          <span class="tag"><span class="idn">Contoh 3</span><span class="eng">Example 3</span></span>
+          <p><span class="idn">Hitunglah \(-3-4\). Bilangan pertama (\(-3\)) <strong>tetap</strong>. Ubah \(-\) menjadi \(+\) dan ubah \(4\) menjadi \(-4\): \(-3+(-4)\). Keduanya negatif: \(3+4=7\), pertahankan tanda \(-\). Jadi \(-3-4=-3+(-4)=-7\).</span>
+          <span class="eng">Calculate \(-3-4\). The first number (\(-3\)) <strong>stays</strong>. Change \(-\) to \(+\) and change \(4\) to \(-4\): \(-3+(-4)\). Both are negative: \(3+4=7\), keep the \(-\) sign. So \(-3-4=-3+(-4)=-7\).</span></p>
+        </div>
+
+        <div class="exmpl">
+          <span class="tag"><span class="idn">Contoh 4 (Istimewa!)</span><span class="eng">Example 4 (Special!)</span></span>
+          <p><span class="idn">Hitunglah \(-2-(-5)\). Ubah \(-\) menjadi \(+\), lalu ubah \(-5\) menjadi lawannya, yaitu \(5\): \(-2+5\). Mulai dari \(-2\), geser \(5\) ke kanan, tiba di \(3\). Jadi \(-2-(-5)=-2+5=3\).</span>
+          <span class="eng">Calculate \(-2-(-5)\). Change \(-\) to \(+\), then change \(-5\) to its opposite, \(5\): \(-2+5\). Start at \(-2\), move \(5\) to the right, arrive at \(3\). So \(-2-(-5)=-2+5=3\).</span></p>
+          <div class="nl" data-nl='{"min":-5,"max":5,"start":-2,"move":5}'></div>
+          <div class="ingat"><span class="idn"><strong>Penting!</strong> Mengurangi bilangan negatif = <strong>menambah bilangan positif</strong>. Dua tanda minus bertemu menjadi plus: \( -(-5)=+5 \).</span>
+          <span class="eng"><strong>Important!</strong> Subtracting a negative number = <strong>adding a positive number</strong>. Two minus signs meet and become plus: \( -(-5)=+5 \).</span></div>
+        </div>
+
+        <h3><span class="ic-slot" data-icon="list" data-size="22"></span><span><span class="idn">Empat Kasus Sekaligus</span><span class="eng">All Four Cases at Once</span></span></h3>
+        <table class="tb">
+          <tr><th><span class="idn">Jenis</span><span class="eng">Type</span></th><th><span class="idn">Contoh</span><span class="eng">Example</span></th><th><span class="idn">Diubah menjadi</span><span class="eng">Becomes</span></th><th><span class="idn">Hasil</span><span class="eng">Result</span></th></tr>
+          <tr><td><span class="idn">Positif − Positif</span><span class="eng">Positive − Positive</span></td><td>\(7-3\)</td><td>\(7+(-3)\)</td><td>\(4\)</td></tr>
+          <tr><td><span class="idn">Positif − Negatif</span><span class="eng">Positive − Negative</span></td><td>\(6-(-2)\)</td><td>\(6+2\)</td><td>\(8\)</td></tr>
+          <tr><td><span class="idn">Negatif − Positif</span><span class="eng">Negative − Positive</span></td><td>\(-3-4\)</td><td>\(-3+(-4)\)</td><td>\(-7\)</td></tr>
+          <tr><td><span class="idn">Negatif − Negatif</span><span class="eng">Negative − Negative</span></td><td>\(-2-(-5)\)</td><td>\(-2+5\)</td><td>\(3\)</td></tr>
+        </table>
+        <p><span class="idn">Di <strong>Latihan 1–5</strong>, kamu akan memakai <strong>Tiga Langkah Ajaib</strong> yang sama persis dengan contoh di atas.</span>
+        <span class="eng">In <strong>Exercises 1–5</strong>, you will use the exact same <strong>Three Magic Steps</strong> as the examples above.</span></p>
+      </div>
+
+      <h3 class="divider"><span class="ic-slot" data-icon="pencil" data-size="22"></span><span><span class="idn">Latihan</span><span class="eng">Exercises</span></span></h3>
+      <div id="ex-problem"></div>
+    </section>
+
+    <!-- ============ SECTION 5: GUIDED PRACTICE ============ -->
+    <section id="sec-guided" class="card">
+      <header class="sec-head">
+        <div class="sec-icon ic-slot" data-icon="pencil" data-size="26"></div>
+        <div>
+          <h2><span class="idn">5. Latihan Terbimbing</span><span class="eng">5. Guided Practice</span></h2>
+          <div class="sec-meta">
+            <span class="time-chip"><span class="ic-slot" data-icon="clock" data-size="14"></span>00:25–00:40</span>
+            <span class="score-chip" id="score-guided"><span class="idn">Skor: 0/0</span><span class="eng">Score: 0/0</span></span>
+          </div>
+        </div>
+      </header>
+
+      <div class="teach">
+        <h3><span class="ic-slot" data-icon="check" data-size="22"></span><span><span class="idn">Poster Langkah (selalu sama)</span><span class="eng">Steps Poster (always the same)</span></span></h3>
+        <div class="step s1"><span class="step-n">1</span><div><span class="idn"><strong>UBAH</strong> tanda \(-\) menjadi \(+\).</span><span class="eng"><strong>CHANGE</strong> the \(-\) sign to \(+\).</span></div></div>
+        <div class="step s2"><span class="step-n">2</span><div><span class="idn"><strong>UBAH</strong> bilangan kedua menjadi lawannya.</span><span class="eng"><strong>CHANGE</strong> the second number to its opposite.</span></div></div>
+        <div class="step s3"><span class="step-n">3</span><div><span class="idn"><strong>JUMLAHKAN</strong>, boleh bantu garis bilangan.</span><span class="eng"><strong>ADD</strong>, you may use the number line to help.</span></div></div>
+
+        <h3><span class="ic-slot" data-icon="pencil" data-size="22"></span><span><span class="idn">Contoh Soal &amp; Cara Menghitung (lengkap)</span><span class="eng">Worked Example &amp; How to Calculate (complete)</span></span></h3>
+        <div class="exmpl">
+          <span class="tag"><span class="idn">Contoh 1</span><span class="eng">Example 1</span></span>
+          <p><span class="idn">Hitunglah \(4-11\).</span><span class="eng">Calculate \(4-11\).</span></p>
+          <div class="step s1"><span class="step-n">1</span><div><span class="idn">Ubah tanda operasi: \(4-11 = 4+(\dots)\)</span><span class="eng">Change the operation sign: \(4-11 = 4+(\dots)\)</span></div></div>
+          <div class="step s2"><span class="step-n">2</span><div><span class="idn">Ubah bilangan kedua (\(11\)) menjadi lawannya (\(-11\)): \(4+(-11)\)</span><span class="eng">Change the second number (\(11\)) to its opposite (\(-11\)): \(4+(-11)\)</span></div></div>
+          <div class="step s3"><span class="step-n">3</span><div><span class="idn">Jumlahkan: mulai dari \(4\), geser \(11\) ke kiri, tiba di \(-7\). Jadi \(4-11=4+(-11)=-7\).</span>
+          <span class="eng">Add: start at \(4\), move \(11\) to the left, arrive at \(-7\). So \(4-11=4+(-11)=-7\).</span></div></div>
+          <div class="step s4"><span class="step-n">✓</span><div><span class="idn"><strong>Periksa dengan kebalikan:</strong> karena \(4-11=-7\), maka \(-7+11\) harus \(=4\). Benar!</span>
+          <span class="eng"><strong>Check with the inverse:</strong> since \(4-11=-7\), then \(-7+11\) must \(=4\). Correct!</span></div></div>
+          <div class="nl" data-nl='{"min":-9,"max":6,"start":4,"move":-11}'></div>
+        </div>
+        <div class="exmpl">
+          <span class="tag"><span class="idn">Contoh 2 — soal cerita</span><span class="eng">Example 2 — word problem</span></span>
+          <p><span class="idn">Skormu \(6\), lalu berkurang \(9\). Berapa skormu sekarang?</span>
+          <span class="eng">Your score is \(6\), then it decreases by \(9\). What is your score now?</span></p>
+          <div class="step s1"><span class="step-n">1</span><div><span class="idn">Tulis kalimat matematika: \(6-9\).</span><span class="eng">Write the number sentence: \(6-9\).</span></div></div>
+          <div class="step s2"><span class="step-n">2</span><div><span class="idn">Ubah: \(6-9=6+(-9)\).</span><span class="eng">Rewrite: \(6-9=6+(-9)\).</span></div></div>
+          <div class="step s3"><span class="step-n">3</span><div><span class="idn">Hitung: mulai dari \(6\), geser \(9\) ke kiri → \(-3\). Jadi skormu \(-3\) (3 di bawah nol).</span>
+          <span class="eng">Calculate: start at \(6\), move \(9\) to the left → \(-3\). So your score is \(-3\) (3 below zero).</span></div></div>
+        </div>
+        <div class="ingat"><span class="idn"><strong>Tips memeriksa:</strong> pengurangan dan penjumlahan adalah kebalikan. Kalau \(a-b=c\), maka \(c+b=a\). Contoh: \(9-4=5\) karena \(5+4=9\).</span>
+        <span class="eng"><strong>Checking tip:</strong> subtraction and addition are inverses. If \(a-b=c\), then \(c+b=a\). Example: \(9-4=5\) because \(5+4=9\).</span></div>
+        <p><span class="idn">Di <strong>Latihan 1–5</strong>, kerjakan dengan Tiga Langkah, lalu periksa seperti Contoh 1.</span>
+        <span class="eng">In <strong>Exercises 1–5</strong>, work with the Three Steps, then check like Example 1.</span></p>
+      </div>
+
+      <h3 class="divider"><span class="ic-slot" data-icon="pencil" data-size="22"></span><span><span class="idn">Latihan</span><span class="eng">Exercises</span></span></h3>
+      <div id="ex-guided"></div>
+    </section>
+
+    <!-- ============ SECTION 6: INDEPENDENT PRACTICE ============ -->
+    <section id="sec-indep" class="card">
+      <header class="sec-head">
+        <div class="sec-icon ic-slot" data-icon="trophy" data-size="26"></div>
+        <div>
+          <h2><span class="idn">6. Latihan Mandiri</span><span class="eng">6. Independent Practice</span></h2>
+          <div class="sec-meta">
+            <span class="time-chip"><span class="ic-slot" data-icon="clock" data-size="14"></span>00:40–00:55</span>
+            <span class="score-chip" id="score-indep"><span class="idn">Skor: 0/0</span><span class="eng">Score: 0/0</span></span>
+          </div>
+        </div>
+      </header>
+
+      <div class="teach">
+        <h3><span class="ic-slot" data-icon="check" data-size="22"></span><span><span class="idn">Poster Langkah (selalu sama)</span><span class="eng">Steps Poster (always the same)</span></span></h3>
+        <div class="step s1"><span class="step-n">1</span><div><span class="idn"><strong>UBAH</strong> tanda \(-\) menjadi \(+\).</span><span class="eng"><strong>CHANGE</strong> the \(-\) sign to \(+\).</span></div></div>
+        <div class="step s2"><span class="step-n">2</span><div><span class="idn"><strong>UBAH</strong> bilangan kedua menjadi lawannya.</span><span class="eng"><strong>CHANGE</strong> the second number to its opposite.</span></div></div>
+        <div class="step s3"><span class="step-n">3</span><div><span class="idn"><strong>JUMLAHKAN</strong>, boleh bantu garis bilangan.</span><span class="eng"><strong>ADD</strong>, you may use the number line to help.</span></div></div>
+
+        <h3><span class="ic-slot" data-icon="bulb" data-size="22"></span><span><span class="idn">Strategi Soal Cerita (4 langkah)</span><span class="eng">Word Problem Strategy (4 steps)</span></span></h3>
+        <div class="step s1"><span class="step-n">1</span><div><span class="idn"><strong>Temukan</strong> dua bilangan dan kata arah (turun, berkurang, dipakai).</span>
+        <span class="eng"><strong>Find</strong> the two numbers and the direction word (drops, decreases, spent).</span></div></div>
+        <div class="step s2"><span class="step-n">2</span><div><span class="idn"><strong>Tulis</strong> kalimat matematika \(a-b\).</span><span class="eng"><strong>Write</strong> the number sentence \(a-b\).</span></div></div>
+        <div class="step s3"><span class="step-n">3</span><div><span class="idn"><strong>Ubah &amp; hitung</strong>: \(a-b=a+(-b)\).</span><span class="eng"><strong>Rewrite &amp; calculate</strong>: \(a-b=a+(-b)\).</span></div></div>
+        <div class="step s4"><span class="step-n">4</span><div><span class="idn"><strong>Jelaskan artinya</strong> (suhu, lantai, uang, skor).</span><span class="eng"><strong>Explain the meaning</strong> (temperature, floor, money, score).</span></div></div>
+
+        <div class="exmpl">
+          <span class="tag"><span class="idn">Contoh Soal</span><span class="eng">Worked Example</span></span>
+          <p><span class="idn">Skormu \(15\), lalu berkurang \(23\). Berapa skormu sekarang?</span>
+          <span class="eng">Your score is \(15\), then it decreases by \(23\). What is your score now?</span></p>
+          <div class="step s1"><span class="step-n">1</span><div><span class="idn">Bilangan: \(15\) dan \(23\); kata arah: <em>berkurang</em> → \(15-23\).</span>
+          <span class="eng">Numbers: \(15\) and \(23\); direction word: <em>decreases by</em> → \(15-23\).</span></div></div>
+          <div class="step s2"><span class="step-n">2</span><div><span class="idn">Ubah: \(15-23=15+(-23)\).</span><span class="eng">Rewrite: \(15-23=15+(-23)\).</span></div></div>
+          <div class="step s3"><span class="step-n">3</span><div><span class="idn">Hitung: \(23-15=8\), ikuti tanda \(-\) → \(-8\).</span><span class="eng">Calculate: \(23-15=8\), take the \(-\) sign → \(-8\).</span></div></div>
+          <div class="step s4"><span class="step-n">4</span><div><span class="idn">Artinya: skormu \(-8\), yaitu \(8\) di bawah nol.</span><span class="eng">Meaning: your score is \(-8\), which is \(8\) below zero.</span></div></div>
+        </div>
+        <p><span class="idn">Sekarang giliranmu! Di <strong>Latihan 1–5</strong>, kerjakan sendiri dengan langkah yang sama seperti contoh. Jika bingung, buka <em>Pembahasan</em>.</span>
+        <span class="eng">Now it's your turn! In <strong>Exercises 1–5</strong>, work on your own using the same steps as the example. If you are stuck, open the <em>Solution</em>.</span></p>
+      </div>
+
+      <h3 class="divider"><span class="ic-slot" data-icon="pencil" data-size="22"></span><span><span class="idn">Latihan</span><span class="eng">Exercises</span></span></h3>
+      <div id="ex-indep"></div>
+    </section>
+
+    <!-- ============ SECTION 7: CONSOLIDATION & REFLECTION ============ -->
+    <section id="sec-consol" class="card">
+      <header class="sec-head">
+        <div class="sec-icon ic-slot" data-icon="check" data-size="26"></div>
+        <div>
+          <h2><span class="idn">7. Konsolidasi &amp; Refleksi</span><span class="eng">7. Consolidation &amp; Reflection</span></h2>
+          <div class="sec-meta">
+            <span class="time-chip"><span class="ic-slot" data-icon="clock" data-size="14"></span>00:55–01:00</span>
+            <span class="score-chip" id="score-consol"><span class="idn">Skor: 0/0</span><span class="eng">Score: 0/0</span></span>
+          </div>
+        </div>
+      </header>
+
+      <h3 class="sub-head"><span class="ic-slot" data-icon="star" data-size="20"></span>
+        <span><span class="idn">Poin Penting</span><span class="eng">Key Points</span></span>
+      </h3>
+      <ul class="pts">
+        <li><span class="ic-slot" data-icon="check" data-size="18"></span><div><span class="idn">\(a-b=a+(-b)\) — mengurangkan bilangan = <strong>menambahkan lawannya</strong>.</span>
+        <span class="eng">\(a-b=a+(-b)\) — subtracting a number = <strong>adding its opposite</strong>.</span></div></li>
+        <li><span class="ic-slot" data-icon="check" data-size="18"></span><div><span class="idn">Hanya <strong>dua hal</strong> yang berubah: tanda operasi (\(-\) menjadi \(+\)) dan bilangan kedua (menjadi lawannya). Bilangan pertama tetap.</span>
+        <span class="eng">Only <strong>two things</strong> change: the operation sign (\(-\) to \(+\)) and the second number (to its opposite). The first number stays the same.</span></div></li>
+        <li><span class="ic-slot" data-icon="check" data-size="18"></span><div><span class="idn">\(a-(-b)=a+b\) — mengurangi bilangan negatif = <strong>menambah bilangan positif</strong>.</span>
+        <span class="eng">\(a-(-b)=a+b\) — subtracting a negative number = <strong>adding a positive number</strong>.</span></div></li>
+        <li><span class="ic-slot" data-icon="check" data-size="18"></span><div><span class="idn">\(a-a=0\) — bilangan apa pun dikurangi dirinya sendiri hasilnya nol. Contoh: \(-14-(-14)=0\).</span>
+        <span class="eng">\(a-a=0\) — any number minus itself equals zero. Example: \(-14-(-14)=0\).</span></div></li>
+        <li><span class="ic-slot" data-icon="check" data-size="18"></span><div><span class="idn">Gunakan <strong>garis bilangan</strong> atau <strong>penjumlahan kebalikan</strong> (\(9-4=5\) karena \(5+4=9\)) untuk memeriksa jawaban.</span>
+        <span class="eng">Use the <strong>number line</strong> or the <strong>inverse addition</strong> (\(9-4=5\) because \(5+4=9\)) to check answers.</span></div></li>
+      </ul>
+
+      <h3 class="sub-head"><span class="ic-slot" data-icon="msg" data-size="20"></span>
+        <span><span class="idn">Pertanyaan Refleksi</span><span class="eng">Reflection Questions</span></span>
+      </h3>
+      <p class="note"><span class="idn">Tulis jawabanmu dengan kata-katamu sendiri, lalu tekan <em>Simpan</em>.</span>
+      <span class="eng">Write your answers in your own words, then press <em>Save</em>.</span></p>
+      <div class="reflect">
+        <strong><span class="idn">1. Bagian mana yang menurutmu paling mudah? Mengapa?</span></strong>
+        <span class="eng">1. Which part did you find the easiest? Why?</span>
+        <p class="starter"><span class="idn">Pemula kalimat: “Bagian yang paling mudah adalah …”</span><span class="eng">Sentence starter: “The easiest part was …”</span></p>
+        <textarea id="ref1" aria-label="reflection 1"></textarea>
+        <button class="btn small reflect-save" type="button" data-for="ref1"><span class="ic-slot" data-icon="save" data-size="16"></span><span class="idn">Simpan</span><span class="eng">Save</span></button>
+      </div>
+      <div class="reflect">
+        <strong><span class="idn">2. Bagian mana yang masih sulit? Kamu butuh bantuan tentang apa?</span></strong>
+        <span class="eng">2. Which part is still hard? What help do you need?</span>
+        <p class="starter"><span class="idn">Pemula kalimat: “Bagian yang masih sulit adalah …”</span><span class="eng">Sentence starter: “The part that is still hard is …”</span></p>
+        <textarea id="ref2" aria-label="reflection 2"></textarea>
+        <button class="btn small reflect-save" type="button" data-for="ref2"><span class="ic-slot" data-icon="save" data-size="16"></span><span class="idn">Simpan</span><span class="eng">Save</span></button>
+      </div>
+      <div class="reflect">
+        <strong><span class="idn">3. Jelaskan dengan kata-katamu sendiri: mengapa \(a-b=a+(-b)\)?</span></strong>
+        <span class="eng">3. Explain in your own words: why does \(a-b=a+(-b)\)?</span>
+        <p class="starter"><span class="idn">Pemula kalimat: “Karena mengurangi \(b\) sama saja dengan …”</span><span class="eng">Sentence starter: “Because subtracting \(b\) is the same as …”</span></p>
+        <textarea id="ref3" aria-label="reflection 3"></textarea>
+        <button class="btn small reflect-save" type="button" data-for="ref3"><span class="ic-slot" data-icon="save" data-size="16"></span><span class="idn">Simpan</span><span class="eng">Save</span></button>
+      </div>
+
+      <h3 class="sub-head"><span class="ic-slot" data-icon="flag" data-size="20"></span>
+        <span><span class="idn">Exit Ticket</span><span class="eng">Exit Ticket</span></span>
+      </h3>
+      <p class="note"><span class="idn">Kerjakan tiga soal ini <strong>secara mandiri</strong> sebelum pulang. Tekan <em>Periksa Jawaban</em>, lalu buka <em>Pembahasan</em>.</span>
+      <span class="eng">Do these three questions <strong>on your own</strong> before leaving. Press <em>Check Answer</em>, then open the <em>Solution</em>.</span></p>
+      <div id="ex-exit"></div>
+
+      <h3 class="sub-head"><span class="ic-slot" data-icon="pencil" data-size="20"></span>
+        <span><span class="idn">Follow Up Practice</span><span class="eng">Latihan Lanjutan</span></span>
+      </h3>
+      <p class="note"><span class="idn">Latihan tambahan untuk dikerjakan di rumah. Kerjakan hari ini; buka pembahasan jika ragu.</span>
+      <span class="eng">Extra practice to do at home. Do it today; open the solution if you are unsure.</span></p>
+      <div id="ex-follow"></div>
+    </section>
+
+    <!-- ============ TASK 1 ============ -->
+    <section id="sec-t1" class="card">
+      <header class="sec-head">
+        <div class="sec-icon ic-slot" data-icon="target" data-size="26"></div>
+        <div>
+          <h2><span class="idn">Tugas 1: Dasar — Tambah Lawannya</span><span class="eng">Task 1: Basics — Add the Opposite</span></h2>
+          <div class="sec-meta">
+            <span class="time-chip"><span class="ic-slot" data-icon="list" data-size="14"></span><span class="idn">10 soal</span><span class="eng">10 questions</span></span>
+            <span class="score-chip" id="score-t1"><span class="idn">Skor: 0/0</span><span class="eng">Score: 0/0</span></span>
+          </div>
+        </div>
+      </header>
+      <details class="teach">
+        <summary><span class="ic-slot" data-icon="book" data-size="20"></span><span><span class="idn">Penjelasan &amp; Strategi</span><span class="eng">Explanation &amp; Strategy</span></span><span class="ic-slot" data-icon="chev" data-size="18" class="chev"></span></summary>
+        <div>
+          <p><span class="idn">Tugas 1 menguji dasar-dasar: mengubah pengurangan menjadi <strong>penjumlahan lawannya</strong>. Ingat tiga langkah: (1) ubah tanda \(-\) menjadi \(+\), (2) ubah bilangan kedua menjadi lawannya, (3) jumlahkan.</span>
+          <span class="eng">Task 1 tests the basics: rewriting subtraction as <strong>adding the opposite</strong>. Remember the three steps: (1) change \(-\) to \(+\), (2) change the second number to its opposite, (3) add.</span></p>
+          <p><span class="idn"><strong>Contoh:</strong> \(8-3=8+(-3)=5\). Bilangan pertama (\(8\)) tetap; hanya tanda operasi dan bilangan kedua yang berubah.</span>
+          <span class="eng"><strong>Example:</strong> \(8-3=8+(-3)=5\). The first number (\(8\)) stays; only the operation sign and the second number change.</span></p>
+          <p><span class="idn">Kerjakan 10 soal berikut. Jika ragu, buka <em>Pembahasan</em>.</span>
+          <span class="eng">Do the 10 questions below. If you are unsure, open the <em>Solution</em>.</span></p>
+        </div>
+      </details>
+      <h3 class="divider"><span class="ic-slot" data-icon="pencil" data-size="22"></span><span><span class="idn">Soal</span><span class="eng">Questions</span></span></h3>
+      <div id="ex-t1"></div>
+    </section>
+
+    <!-- ============ TASK 2 ============ -->
+    <section id="sec-t2" class="card">
+      <header class="sec-head">
+        <div class="sec-icon ic-slot" data-icon="target" data-size="26"></div>
+        <div>
+          <h2><span class="idn">Tugas 2: Melintasi Nol</span><span class="eng">Task 2: Crossing Zero</span></h2>
+          <div class="sec-meta">
+            <span class="time-chip"><span class="ic-slot" data-icon="list" data-size="14"></span><span class="idn">10 soal</span><span class="eng">10 questions</span></span>
+            <span class="score-chip" id="score-t2"><span class="idn">Skor: 0/0</span><span class="eng">Score: 0/0</span></span>
+          </div>
+        </div>
+      </header>
+      <details class="teach">
+        <summary><span class="ic-slot" data-icon="book" data-size="20"></span><span><span class="idn">Penjelasan &amp; Strategi</span><span class="eng">Explanation &amp; Strategy</span></span><span class="ic-slot" data-icon="chev" data-size="18" class="chev"></span></summary>
+        <div>
+          <p><span class="idn">Tugas 2 melatih pengurangan yang hasilnya <strong>melintasi nol</strong>: jika bilangan kedua <strong>lebih besar</strong> dari bilangan pertama, hasilnya <strong>negatif</strong>.</span>
+          <span class="eng">Task 2 practices subtraction whose results <strong>cross zero</strong>: if the second number is <strong>bigger</strong> than the first, the result is <strong>negative</strong>.</span></p>
+          <p><span class="idn"><strong>Contoh:</strong> \(16-21=16+(-21)=-5\). Mulai dari \(16\), geser \(21\) ke kiri — kita melewati \(0\) dan berhenti di \(-5\). Hasil negatif artinya letaknya di <strong>kiri 0</strong> pada garis bilangan.</span>
+          <span class="eng"><strong>Example:</strong> \(16-21=16+(-21)=-5\). Start at \(16\), move \(21\) to the left — we pass \(0\) and stop at \(-5\). A negative result means the position is to the <strong>left of 0</strong> on the number line.</span></p>
+          <p><span class="idn"><strong>Soal cerita:</strong> jika uang yang dipakai lebih banyak dari uang yang dimiliki, hasilnya negatif = berutang.</span>
+          <span class="eng"><strong>Word problems:</strong> if the money spent is more than the money owned, the result is negative = in debt.</span></p>
+        </div>
+      </details>
+      <h3 class="divider"><span class="ic-slot" data-icon="pencil" data-size="22"></span><span><span class="idn">Soal</span><span class="eng">Questions</span></span></h3>
+      <div id="ex-t2"></div>
+    </section>
+
+    <!-- ============ TASK 3 ============ -->
+    <section id="sec-t3" class="card">
+      <header class="sec-head">
+        <div class="sec-icon ic-slot" data-icon="target" data-size="26"></div>
+        <div>
+          <h2><span class="idn">Tugas 3: Negatif − Positif &amp; Negatif − Negatif</span><span class="eng">Task 3: Negative − Positive &amp; Negative − Negative</span></h2>
+          <div class="sec-meta">
+            <span class="time-chip"><span class="ic-slot" data-icon="list" data-size="14"></span><span class="idn">10 soal</span><span class="eng">10 questions</span></span>
+            <span class="score-chip" id="score-t3"><span class="idn">Skor: 0/0</span><span class="eng">Score: 0/0</span></span>
+          </div>
+        </div>
+      </header>
+      <details class="teach">
+        <summary><span class="ic-slot" data-icon="book" data-size="20"></span><span><span class="idn">Penjelasan &amp; Strategi</span><span class="eng">Explanation &amp; Strategy</span></span><span class="ic-slot" data-icon="chev" data-size="18" class="chev"></span></summary>
+        <div>
+          <p><span class="idn"><strong>Negatif − positif:</strong> hasilnya makin jauh ke kiri (makin kecil). <strong>Contoh:</strong> \(-4-6=-4+(-6)=-10\). Keduanya negatif, jumlahkan nilainya dan pertahankan tanda \(-\).</span>
+          <span class="eng"><strong>Negative − positive:</strong> the result moves further left (smaller). <strong>Example:</strong> \(-4-6=-4+(-6)=-10\). Both are negative, add their values and keep the \(-\) sign.</span></p>
+          <p><span class="idn"><strong>Negatif − negatif:</strong> mengurangi bilangan negatif = <strong>menambah bilangan positif</strong>. <strong>Contoh:</strong> \(-3-(-7)=-3+7=4\). Mulai dari \(-3\), geser \(7\) ke kanan.</span>
+          <span class="eng"><strong>Negative − negative:</strong> subtracting a negative number = <strong>adding a positive number</strong>. <strong>Example:</strong> \(-3-(-7)=-3+7=4\). Start at \(-3\), move \(7\) to the right.</span></p>
+          <p><span class="idn"><strong>Kasus istimewa:</strong> \(-10-(-10)=-10+10=0\). Bilangan dikurangi dirinya sendiri selalu \(0\).</span>
+          <span class="eng"><strong>Special case:</strong> \(-10-(-10)=-10+10=0\). A number minus itself is always \(0\).</span></p>
+        </div>
+      </details>
+      <h3 class="divider"><span class="ic-slot" data-icon="pencil" data-size="22"></span><span><span class="idn">Soal</span><span class="eng">Questions</span></span></h3>
+      <div id="ex-t3"></div>
+    </section>
+
+    <!-- ============ TASK 4 ============ -->
+    <section id="sec-t4" class="card">
+      <header class="sec-head">
+        <div class="sec-icon ic-slot" data-icon="target" data-size="26"></div>
+        <div>
+          <h2><span class="idn">Tugas 4: Soal Cerita</span><span class="eng">Task 4: Word Problems</span></h2>
+          <div class="sec-meta">
+            <span class="time-chip"><span class="ic-slot" data-icon="list" data-size="14"></span><span class="idn">10 soal</span><span class="eng">10 questions</span></span>
+            <span class="score-chip" id="score-t4"><span class="idn">Skor: 0/0</span><span class="eng">Score: 0/0</span></span>
+          </div>
+        </div>
+      </header>
+      <details class="teach">
+        <summary><span class="ic-slot" data-icon="book" data-size="20"></span><span><span class="idn">Penjelasan &amp; Strategi</span><span class="eng">Explanation &amp; Strategy</span></span><span class="ic-slot" data-icon="chev" data-size="18" class="chev"></span></summary>
+        <div>
+          <p><span class="idn">Tugas 4 berisi soal cerita: suhu, lift, uang, dan skor. Gunakan <strong>empat langkah</strong>:</span>
+          <span class="eng">Task 4 contains word problems: temperature, elevator, money, and scores. Use the <strong>four steps</strong>:</span></p>
+          <div class="step s1"><span class="step-n">1</span><div><span class="idn"><strong>Temukan</strong> dua bilangan dan kata arah (turun, berkurang, dipakai).</span>
+          <span class="eng"><strong>Find</strong> the two numbers and the direction word (drops, decreases, spent).</span></div></div>
+          <div class="step s2"><span class="step-n">2</span><div><span class="idn"><strong>Tulis</strong> kalimat matematika \(a-b\).</span><span class="eng"><strong>Write</strong> the number sentence \(a-b\).</span></div></div>
+          <div class="step s3"><span class="step-n">3</span><div><span class="idn"><strong>Ubah &amp; hitung</strong>: \(a-b=a+(-b)\).</span><span class="eng"><strong>Rewrite &amp; calculate</strong>: \(a-b=a+(-b)\).</span></div></div>
+          <div class="step s4"><span class="step-n">4</span><div><span class="idn"><strong>Jelaskan artinya</strong> (suhu, lantai, uang, skor).</span><span class="eng"><strong>Explain the meaning</strong> (temperature, floor, money, score).</span></div></div>
+          <p><span class="idn"><strong>Contoh:</strong> suhu \(6^\circ\mathrm{C}\) turun \(9^\circ\mathrm{C}\): \(6-9=6+(-9)=-3\), jadi suhunya \(-3^\circ\mathrm{C}\).</span>
+          <span class="eng"><strong>Example:</strong> the temperature \(6^\circ\mathrm{C}\) drops by \(9^\circ\mathrm{C}\): \(6-9=6+(-9)=-3\), so the temperature is \(-3^\circ\mathrm{C}\).</span></p>
+        </div>
+      </details>
+      <h3 class="divider"><span class="ic-slot" data-icon="pencil" data-size="22"></span><span><span class="idn">Soal</span><span class="eng">Questions</span></span></h3>
+      <div id="ex-t4"></div>
+    </section>
+
+    <!-- ============ TASK 5 ============ -->
+    <section id="sec-t5" class="card">
+      <header class="sec-head">
+        <div class="sec-icon ic-slot" data-icon="trophy" data-size="26"></div>
+        <div>
+          <h2><span class="idn">Tugas 5: Tantangan Campuran</span><span class="eng">Task 5: Mixed Challenge</span></h2>
+          <div class="sec-meta">
+            <span class="time-chip"><span class="ic-slot" data-icon="list" data-size="14"></span><span class="idn">10 soal</span><span class="eng">10 questions</span></span>
+            <span class="score-chip" id="score-t5"><span class="idn">Skor: 0/0</span><span class="eng">Score: 0/0</span></span>
+          </div>
+        </div>
+      </header>
+      <details class="teach">
+        <summary><span class="ic-slot" data-icon="book" data-size="20"></span><span><span class="idn">Penjelasan &amp; Strategi</span><span class="eng">Explanation &amp; Strategy</span></span><span class="ic-slot" data-icon="chev" data-size="18" class="chev"></span></summary>
+        <div>
+          <p><span class="idn">Tugas 5 adalah tantangan campuran dari semua materi hari ini. Rumus yang dipakai:</span>
+          <span class="eng">Task 5 is a mixed challenge of everything today. The formulas used:</span></p>
+          <ul class="pts">
+            <li><span class="ic-slot" data-icon="check" data-size="18"></span><div><span class="idn">\(a-b=a+(-b)\) — aturan umum pengurangan.</span><span class="eng">\(a-b=a+(-b)\) — the general subtraction rule.</span></div></li>
+            <li><span class="ic-slot" data-icon="check" data-size="18"></span><div><span class="idn">\(a-(-b)=a+b\) — mengurangi negatif = menambah positif.</span><span class="eng">\(a-(-b)=a+b\) — subtracting a negative = adding a positive.</span></div></li>
+            <li><span class="ic-slot" data-icon="check" data-size="18"></span><div><span class="idn">Pengurangan berantai: kerjakan <strong>dari kiri ke kanan</strong>. Contoh: \(10-3-4=(10-3)-4=7-4=3\).</span>
+            <span class="eng">Chained subtraction: work <strong>from left to right</strong>. Example: \(10-3-4=(10-3)-4=7-4=3\).</span></div></li>
+          </ul>
+          <p><span class="idn">Baca setiap soal dengan teliti. Kamu pasti bisa!</span>
+          <span class="eng">Read every question carefully. You can do it!</span></p>
+        </div>
+      </details>
+      <h3 class="divider"><span class="ic-slot" data-icon="pencil" data-size="22"></span><span><span class="idn">Soal</span><span class="eng">Questions</span></span></h3>
+      <div id="ex-t5"></div>
+    </section>
+  </main>
+</div>
+
+<footer class="foot">
+  <span class="idn">Math Tutoring by Deni — Bilangan Bulat: Pengurangan Bilangan Bulat — Kurikulum Merdeka, Kelas 7 SMP</span>
+  <span class="eng">Math Tutoring by Deni — Integers: Subtraction of Integers — Merdeka Curriculum, Grade 7 Junior High School</span>
+</footer>
+
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16/dist/contrib/auto-render.min.js"></script>
+<script>
+(function(){
+'use strict';
+var uidc=0, nluid=0;
+function $(s,r){return (r||document).querySelector(s);}
+function $$(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s));}
+var R=String.raw;
+function el(t,c,h){var n=document.createElement(t); if(c)n.className=c; if(h!==undefined)n.innerHTML=h; return n;}
+function bi(i,e){return '<span class="idn">'+i+'</span><span class="eng">'+e+'</span>';}
+function shuffle(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}return a;}
+function shuffleNot(a,same){var x=shuffle(a),t=0;while(same(x)&&t<40){x=shuffle(x);t++;}return x;}
+function norm(v){v=String(v==null?'':v).trim().replace(/\u2212/g,'-').replace(/\s+/g,'').replace(/^\++/,'');var m=v.match(/^\((.*)\)$/);if(m)v=m[1];return v;}
+function numEq(a,b){var x=norm(a),y=norm(b);if(x===''||y==='')return false;
+  if(/^-?\d+(\.\d+)?$/.test(x)&&/^-?\d+(\.\d+)?$/.test(y)){return Number(x)===Number(y);}return x===y;}
+
+/* ---------- icons ---------- */
+var ICONS={
+globe:'<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.6 2.6 4 5.6 4 9s-1.4 6.4-4 9c-2.6-2.6-4-5.6-4-9s1.4-6.4 4-9z"/>',
+list:'<line x1="9" y1="6" x2="20" y2="6"/><line x1="9" y1="12" x2="20" y2="12"/><line x1="9" y1="18" x2="20" y2="18"/><circle cx="4.5" cy="6" r="1"/><circle cx="4.5" cy="12" r="1"/><circle cx="4.5" cy="18" r="1"/>',
+clock:'<circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15.5 14"/>',
+target:'<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5"/>',
+star:'<polygon points="12 3 14.7 8.6 20.8 9.4 16.4 13.6 17.5 19.7 12 16.8 6.5 19.7 7.6 13.6 3.2 9.4 9.3 8.6 12 3"/>',
+check:'<circle cx="12" cy="12" r="9"/><polyline points="8 12.5 11 15.5 16 9.5"/>',
+checkSm:'<polyline points="5 12.5 10 17.5 19 7"/>',
+refresh:'<polyline points="23 4 23 10 17 10"/><path d="M20.5 15a9 9 0 1 1-2-9.4L23 10"/>',
+chev:'<polyline points="6 9 12 15 18 9"/>',
+up:'<line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/>',
+down:'<line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/>',
+grip:'<circle cx="9" cy="6" r="1.4"/><circle cx="15" cy="6" r="1.4"/><circle cx="9" cy="12" r="1.4"/><circle cx="15" cy="12" r="1.4"/><circle cx="9" cy="18" r="1.4"/><circle cx="15" cy="18" r="1.4"/>',
+book:'<path d="M2 4.5h6.5A3.5 3.5 0 0 1 12 8v12a3 3 0 0 0-3-3H2z"/><path d="M22 4.5h-6.5A3.5 3.5 0 0 0 12 8v12a3 3 0 0 1 3-3h7z"/>',
+bulb:'<path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 1 3.6 10.8c-.7.5-1.1 1.3-1.1 2.2H9.5c0-.9-.4-1.7-1.1-2.2A6 6 0 0 1 12 3z"/>',
+key:'<circle cx="7.5" cy="15.5" r="4"/><line x1="10.5" y1="12.5" x2="20" y2="3"/><line x1="16" y1="7" x2="19" y2="10"/><line x1="13" y1="10" x2="15.5" y2="12.5"/>',
+pencil:'<path d="M17 3l4 4L8 20l-5 1 1-5z"/><line x1="14.5" y1="5.5" x2="18.5" y2="9.5"/>',
+calc:'<rect x="5" y="3" width="14" height="18" rx="2"/><line x1="8.5" y1="7" x2="15.5" y2="7"/><line x1="8.5" y1="12" x2="8.5" y2="12.01"/><line x1="12" y1="12" x2="12" y2="12.01"/><line x1="15.5" y1="12" x2="15.5" y2="12.01"/><line x1="8.5" y1="16" x2="8.5" y2="16.01"/><line x1="12" y1="16" x2="12" y2="16.01"/><line x1="15.5" y1="16" x2="15.5" y2="16.01"/>',
+thermo:'<path d="M14 14.8V5a2 2 0 0 0-4 0v9.8a4.5 4.5 0 1 0 4 0z"/><line x1="12" y1="10" x2="12" y2="15"/>',
+building:'<rect x="6" y="3" width="12" height="18" rx="1"/><line x1="6" y1="9" x2="18" y2="9"/><line x1="6" y1="15" x2="18" y2="15"/><rect x="10" y="11" width="4" height="3"/>',
+coin:'<circle cx="12" cy="12" r="9"/><path d="M12 7v10M14.8 9c-.6-.8-1.6-1.3-2.8-1.3-1.6 0-2.8.8-2.8 2s1.1 1.7 2.8 2 2.8.9 2.8 2-1.2 2-2.8 2c-1.2 0-2.2-.5-2.8-1.3"/>',
+game:'<rect x="2.5" y="7.5" width="19" height="10" rx="5"/><line x1="7" y1="10.5" x2="7" y2="14.5"/><line x1="5" y1="12.5" x2="9" y2="12.5"/><circle cx="15.5" cy="11" r="0.7"/><circle cx="18" cy="13.5" r="0.7"/>',
+msg:'<path d="M21 14a2 2 0 0 1-2 2H8l-4 4V5a2 2 0 0 1 2-2h13a2 2 0 0 1 2 2z"/>',
+hand:'<path d="M8 12V6a1.5 1.5 0 0 1 3 0v5"/><path d="M11 11V4.5a1.5 1.5 0 0 1 3 0V11"/><path d="M14 11V6a1.5 1.5 0 0 1 3 0v7"/><path d="M17 10.5c.8-.7 2-.5 2.5.5.3.6.2 1.3-.2 1.9L16 19a5 5 0 0 1-4.2 2H10a5 5 0 0 1-5-5v-4a1.5 1.5 0 0 1 3 0"/>',
+video:'<rect x="2.5" y="6" width="13" height="12" rx="2.5"/><path d="M15.5 10.5 21 7v10l-5.5-3.5"/>',
+trophy:'<path d="M8 4h8v5a4 4 0 0 1-8 0z"/><path d="M8 5H4.5a3.5 3.5 0 0 0 3.6 3.5M16 5h3.5a3.5 3.5 0 0 1-3.6 3.5"/><path d="M12 13v3M8.5 20h7M10.2 16h3.6l.7 4h-5z"/>',
+flag:'<path d="M5 21V4"/><path d="M5 4h11l-2 3.5L16 11H5"/>',
+arrowr:'<line x1="4" y1="12" x2="20" y2="12"/><polyline points="13 5 20 12 13 19"/>',
+swap:'<line x1="4" y1="7" x2="20" y2="7"/><polyline points="16 3 20 7 16 11"/><line x1="20" y1="17" x2="4" y2="17"/><polyline points="8 13 4 17 8 21"/>',
+plus:'<line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>',
+save:'<path d="M5 3h11l3 3v15H5z"/><path d="M8 3v5h7V3"/><rect x="8" y="13" width="8" height="7"/>'
+};
+function icon(n,s,c){s=s||20;return '<svg class="ic '+(c||'')+'" width="'+s+'" height="'+s+'" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+(ICONS[n]||'')+'</svg>';}
+
+/* ---------- number line SVG ---------- */
+function fm(v){return v<0?'\u2212'+Math.abs(v):String(v);}
+function nlSVG(cfg){
+  var min=(cfg.min!==undefined)?cfg.min:-10, max=(cfg.max!==undefined)?cfg.max:10;
+  var w=cfg.w||600, h=cfg.h||98, pad=28, y=46;
+  var x=function(v){return pad+(v-min)*(w-2*pad)/(max-min);};
+  var uid='m'+(nluid++);
+  var s='<svg class="nlsvg" viewBox="0 0 '+w+' '+h+'" role="img" aria-label="garis bilangan">';
+  s+='<defs><marker id="'+uid+'p" markerWidth="9" markerHeight="9" refX="6.5" refY="3" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L7,3 L0,6 Z" fill="#2f8a7b"/></marker>';
+  s+='<marker id="'+uid+'n" markerWidth="9" markerHeight="9" refX="6.5" refY="3" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L7,3 L0,6 Z" fill="#c97b4a"/></marker></defs>';
+  s+='<line x1="'+(pad-14)+'" y1="'+y+'" x2="'+(w-pad+14)+'" y2="'+y+'" stroke="#8fa3bd" stroke-width="2"/>';
+  s+='<polyline points="'+(pad-2)+','+(y-4)+' '+(pad-14)+','+y+' '+(pad-2)+','+(y+4)+'" fill="none" stroke="#8fa3bd" stroke-width="2"/>';
+  s+='<polyline points="'+(w-pad+2)+','+(y-4)+' '+(w-pad+14)+','+y+' '+(w-pad+2)+','+(y+4)+'" fill="none" stroke="#8fa3bd" stroke-width="2"/>';
+  var stepLbl=((max-min)>16)?2:1;
+  for(var v=min;v<=max;v++){
+    var X=x(v);
+    s+='<line x1="'+X+'" y1="'+(y-5)+'" x2="'+X+'" y2="'+(y+5)+'" stroke="'+(v===0?'#5d6b80':'#8fa3bd')+'" stroke-width="'+(v===0?2.5:1.5)+'"/>';
+    if(v%stepLbl===0){s+='<text x="'+X+'" y="'+(y+22)+'" font-size="12" text-anchor="middle" fill="#5d6b80" font-family="Segoe UI, Arial">'+fm(v)+'</text>';}
+  }
+  function dot(X,c){return '<circle cx="'+X+'" cy="'+y+'" r="5.5" fill="'+c+'" stroke="#fff" stroke-width="2"/>';}
+  if(cfg.start!==undefined){
+    var a=cfg.start, mv=cfg.move||0, b=a+mv;
+    s+=dot(x(a),'#41639c');
+    if(mv!==0){
+      var x1=x(a), x2=x(b), mx=(x1+x2)/2;
+      var col=(mv>=0)?'#2f8a7b':'#c97b4a', mk=(mv>=0)?uid+'p':uid+'n';
+      s+='<path d="M '+x1+' '+(y-9)+' Q '+mx+' '+(y-46)+' '+x2+' '+(y-9)+'" fill="none" stroke="'+col+'" stroke-width="2.6" marker-end="url(#'+mk+')"/>';
+      s+='<text x="'+mx+'" y="'+(y-38)+'" font-size="15" font-weight="bold" text-anchor="middle" fill="'+col+'" font-family="Segoe UI, Arial">'+((mv>0?'+':'')+fm(mv))+'</text>';
+      s+=dot(x2,col);
+    }
+  }
+  (cfg.pts||[]).forEach(function(p){s+=dot(x(p.v),p.c||'#41639c');});
+  s+='</svg>';
+  return s;
+}
+
+/* ---------- KaTeX ---------- */
+function typeset(root){
+  if(!root)return;
+  if(window.renderMathInElement){
+    try{
+      window.renderMathInElement(root,{delimiters:[{left:'\\[',right:'\\]',display:true},{left:'\\(',right:'\\)',display:false}],throwOnError:false});
+      return;
+    }catch(e){}
+  }
+  stripDelims(root);
+}
+function stripDelims(root){
+  try{
+    var w=document.createTreeWalker(root,NodeFilter.SHOW_TEXT,null),n;
+    while((n=w.nextNode())){
+      if(n.nodeValue.indexOf('\\(')>-1||n.nodeValue.indexOf('\\[')>-1){
+        n.nodeValue=n.nodeValue.replace(/\\[\[\(]/g,'').replace(/\\[\]\)]/g,'');
+      }
+    }
+  }catch(e){}
+}
+
+/* ---------- type labels ---------- */
+var TYPE_HINT={
+radio:{chip:bi('Pilihan Ganda','Multiple Choice'),hint:bi('Pilih satu jawaban.','Choose one answer.')},
+check:{chip:bi('Centang Jawaban','Checkbox'),hint:bi('Pilih semua jawaban yang benar. Bisa lebih dari satu.','Select all correct answers. There may be more than one.')},
+fill:{chip:bi('Isian','Fill In'),hint:bi('Ketik jawabanmu. Gunakan tanda minus ( - ) untuk bilangan negatif.','Type your answer. Use the minus sign ( - ) for negative numbers.')},
+tf:{chip:bi('Benar / Salah','True / False'),hint:bi('Pilih Benar atau Salah.','Choose True or False.')},
+sort:{chip:bi('Mengurutkan','Ordering'),hint:bi('Urutkan dari yang terkecil ke yang terbesar. Seret kartu atau gunakan tombol panah.','Order from smallest to largest. Drag the cards or use the arrow buttons.')},
+pair:{chip:bi('Memasangkan','Matching'),hint:bi('Klik satu kartu, lalu klik pasangannya. Klik kartu yang sudah terhubung untuk melepasnya.','Click one card, then click its partner. Click a linked card again to unlink it.')},
+dnd:{chip:bi('Seret & Letakkan','Drag & Drop'),hint:bi('Seret kartu ke kotak kosong, atau klik kartu lalu klik kotaknya.','Drag the card into the empty box, or click the card and then the box.')}
+};
+var MSG_OK=bi('<strong>Benar! Kerja bagus!</strong>','<strong>Correct! Great job!</strong>');
+var MSG_NO=bi('Belum tepat. Periksa lagi, dan buka <strong>Pembahasan</strong> jika perlu bantuan.','Not yet. Check again, and open the <strong>Solution</strong> if you need help.');
+
+/* ---------- option html ---------- */
+function optHTML(o){
+  if(o&&o.m!==undefined){return '\\('+o.m+'\\)';}
+  return bi(o.id,o.en);
+}
+
+/* ---------- builders ---------- */
+function bRadio(area,q){
+  var name='q'+(++uidc);
+  var arr=q.options.map(function(o,i){return {o:o,correct:i===q.correct};});
+  shuffle(arr).forEach(function(it){
+    var lab=el('label','opt');
+    var inp=document.createElement('input');inp.type='radio';inp.name=name;
+    if(it.correct)inp.dataset.correct='1';
+    lab.appendChild(inp);
+    lab.appendChild(el('span','dot'));
+    lab.appendChild(el('span','opt-txt',optHTML(it.o)));
+    area.appendChild(lab);
+  });
+  area._validate=function(){var c=$('input:checked',area);return !!c&&c.dataset.correct==='1';};
+}
+function bCheck(area,q){
+  var arr=q.options.map(function(o,i){return {o:o,correct:q.correct.indexOf(i)>-1};});
+  shuffle(arr).forEach(function(it){
+    var lab=el('label','opt');
+    var inp=document.createElement('input');inp.type='checkbox';
+    if(it.correct)inp.dataset.correct='1';
+    lab.appendChild(inp);
+    lab.appendChild(el('span','box',icon('checkSm',13)));
+    lab.appendChild(el('span','opt-txt',optHTML(it.o)));
+    area.appendChild(lab);
+  });
+  area._validate=function(){
+    var ins=$$('input',area);
+    return ins.every(function(i){return (i.dataset.correct==='1')===(!!i.checked);});
+  };
+}
+function bTF(area,q){
+  var name='q'+(++uidc);
+  var exp=(q.answer===true||q.answer==='T')?'T':'F';
+  shuffle([{v:'T',l:bi('Benar','True')},{v:'F',l:bi('Salah','False')}]).forEach(function(o){
+    var lab=el('label','opt');
+    var inp=document.createElement('input');inp.type='radio';inp.name=name;inp.dataset.val=o.v;
+    lab.appendChild(inp);
+    lab.appendChild(el('span','dot'));
+    lab.appendChild(el('span','opt-txt',o.l));
+    area.appendChild(lab);
+  });
+  area._validate=function(){var c=$('input:checked',area);return !!c&&c.dataset.val===exp;};
+}
+function bFill(area,q){
+  var wrap=el('div','fill-wrap');
+  var inp=document.createElement('input');
+  inp.type='text';inp.className='fill-in';inp.autocomplete='off';inp.placeholder='\u2026';
+  inp.setAttribute('aria-label','jawaban');
+  wrap.appendChild(inp);
+  if(q.unit)wrap.appendChild(el('span','fill-unit',q.unit));
+  area.appendChild(wrap);
+  inp.addEventListener('keydown',function(e){
+    if(e.key==='Enter'){var b=$('.btn-check',inp.closest('.ex-card'));if(b)b.click();}
+  });
+  area._validate=function(){return numEq(inp.value,q.answer);};
+}
+function bSort(area,q){
+  var list=el('ol','sort-list');
+  var ids=q.items.map(function(_,i){return i;});
+  var order=shuffleNot(ids,function(a){return a.join(',')===q.order.join(',');});
+  order.forEach(function(idx){
+    var li=el('li','sort-item');
+    li.dataset.idx=String(idx);
+    li.setAttribute('draggable','true');
+    li.innerHTML='<span class="grip">'+icon('grip',16)+'</span><span class="sort-txt">'+optHTML(q.items[idx])+'</span>'+
+      '<span class="srt-btns"><button type="button" class="mini up" aria-label="naik">'+icon('up',15)+'</button>'+
+      '<button type="button" class="mini down" aria-label="turun">'+icon('down',15)+'</button></span>';
+    list.appendChild(li);
+  });
+  area.appendChild(list);
+  list.addEventListener('click',function(e){
+    var b=e.target.closest('button');if(!b)return;
+    var li=b.closest('li');if(!li)return;
+    if(b.classList.contains('up')&&li.previousElementSibling)li.parentNode.insertBefore(li,li.previousElementSibling);
+    if(b.classList.contains('down')&&li.nextElementSibling)li.parentNode.insertBefore(li.nextElementSibling,li);
+  });
+  var drag=null;
+  list.addEventListener('dragstart',function(e){
+    drag=e.target.closest('li');
+    if(drag){drag.classList.add('dragging');try{e.dataTransfer.setData('text/plain','s');e.dataTransfer.effectAllowed='move';}catch(err){}}
+  });
+  list.addEventListener('dragover',function(e){
+    e.preventDefault();
+    if(!drag)return;
+    var tgt=e.target.closest('li');
+    if(!tgt||tgt===drag)return;
+    var r=tgt.getBoundingClientRect();
+    if(e.clientY<r.top+r.height/2)tgt.parentNode.insertBefore(drag,tgt);
+    else tgt.parentNode.insertBefore(drag,tgt.nextSibling);
+  });
+  list.addEventListener('dragend',function(){if(drag){drag.classList.remove('dragging');drag=null;}});
+  area._validate=function(){
+    var cur=$$('li',area).map(function(li){return li.dataset.idx;}).join(',');
+    return cur===q.order.join(',');
+  };
+}
+var PBADGE=['#7a9cc6','#c9a27a','#93b48b','#b58bb0','#8faecf'];
+function bPair(area,q){
+  var wrap=el('div','pair-wrap');
+  var cl=el('div','pair-col');cl.appendChild(el('h5',null,bi('Kelompok A','Group A')));
+  var cr=el('div','pair-col');cr.appendChild(el('h5',null,bi('Kelompok B','Group B')));
+  var st={sel:null,links:{}};
+  var lOrder=shuffle(q.left.map(function(_,i){return i;}));
+  var rIdx=q.right.map(function(_,i){return i;});
+  var rOrder=shuffle(rIdx),t=0;
+  while(t<40&&rOrder.every(function(v,i){return v===q.pairs[lOrder[i]];})){rOrder=shuffle(rIdx);t++;}
+  function badgeFor(n){return '<span class="pair-badge" style="background:'+PBADGE[n%PBADGE.length]+'">'+(n+1)+'</span>';}
+  function refresh(){
+    $$('.pair-item',wrap).forEach(function(btn){
+      btn.classList.remove('linked','sel');
+      var bb=$('.pair-badge',btn);if(bb)bb.remove();
+    });
+    var ks=Object.keys(st.links);
+    ks.forEach(function(li,i){
+      var L=+li,r=st.links[li];
+      var bl=$('.pair-item[data-side="L"][data-pos="'+L+'"]',wrap);
+      var br=$('.pair-item[data-side="R"][data-pos="'+r+'"]',wrap);
+      if(bl){bl.classList.add('linked');bl.insertAdjacentHTML('beforeend',badgeFor(i));}
+      if(br){br.classList.add('linked');br.insertAdjacentHTML('beforeend',badgeFor(i));}
+    });
+    if(st.sel){
+      var sEl=$('.pair-item[data-side="'+st.sel.side+'"][data-pos="'+st.sel.pos+'"]',wrap);
+      if(sEl)sEl.classList.add('sel');
+    }
+  }
+  function clickItem(btn){
+    var side=btn.dataset.side,pos=+btn.dataset.pos;
+    if(side==='L'&&st.links[pos]!==undefined){delete st.links[pos];refresh();return;}
+    if(side==='R'){
+      var found=null;
+      Object.keys(st.links).forEach(function(k){if(st.links[k]===pos)found=k;});
+      if(found!==null){delete st.links[found];refresh();return;}
+    }
+    if(st.sel===null){st.sel={side:side,pos:pos};refresh();return;}
+    if(st.sel.side===side){
+      if(st.sel.pos===pos){st.sel=null;}else{st.sel={side:side,pos:pos};}
+      refresh();return;
+    }
+    if(side==='L')st.links[pos]=st.sel.pos;else st.links[st.sel.pos]=pos;
+    st.sel=null;refresh();
+  }
+  lOrder.forEach(function(idx){
+    var b=el('button','pair-item');b.type='button';b.dataset.side='L';b.dataset.pos=String(idx);
+    b.innerHTML='<span class="pit">'+optHTML(q.left[idx])+'</span>';
+    b.addEventListener('click',function(){clickItem(b);});
+    cl.appendChild(b);
+  });
+  rOrder.forEach(function(idx){
+    var b=el('button','pair-item');b.type='button';b.dataset.side='R';b.dataset.pos=String(idx);
+    b.innerHTML='<span class="pit">'+optHTML(q.right[idx])+'</span>';
+    b.addEventListener('click',function(){clickItem(b);});
+    cr.appendChild(b);
+  });
+  wrap.appendChild(cl);wrap.appendChild(cr);
+  area.appendChild(wrap);
+  var rst=el('button','btn ghost small');
+  rst.type='button';
+  rst.innerHTML=icon('refresh',15)+bi('Lepas Semua Pasangan','Unlink All');
+  rst.addEventListener('click',function(){st.links={};st.sel=null;refresh();});
+  area.appendChild(rst);
+  area._validate=function(){
+    for(var i=0;i<q.left.length;i++){
+      if(st.links[i]===undefined)return false;
+      if(st.links[i]!==q.pairs[i])return false;
+    }
+    return true;
+  };
+}
+function bDnd(area,q){
+  var eq=el('div','dnd-eq');
+  eq.appendChild(el('span','dnd-frag',q.prefix));
+  var slot=el('div','slot');
+  slot.setAttribute('role','button');slot.setAttribute('tabindex','0');
+  slot.dataset.val='';
+  slot.innerHTML='<span class="slot-ph">?</span>';
+  eq.appendChild(slot);
+  if(q.suffix)eq.appendChild(el('span','dnd-frag',q.suffix));
+  area.appendChild(eq);
+  var bank=el('div','dnd-bank');
+  shuffle(q.bank.map(function(_,i){return i;})).forEach(function(idx){
+    var c=el('button','chip');c.type='button';c.dataset.idx=String(idx);
+    c.setAttribute('draggable','true');
+    c.innerHTML=optHTML(q.bank[idx]);
+    bank.appendChild(c);
+  });
+  area.appendChild(bank);
+  var sel=null;
+  function place(idx){
+    slot.dataset.val=String(idx);
+    slot.classList.add('filled');
+    slot.innerHTML=optHTML(q.bank[idx]);
+    var ch=$('.chip[data-idx="'+idx+'"]',bank);
+    if(ch){ch.classList.add('used');ch.setAttribute('draggable','false');ch.classList.remove('sel');}
+    sel=null;
+  }
+  function unplace(){
+    var v=slot.dataset.val;
+    if(v!==''){
+      slot.dataset.val='';
+      slot.classList.remove('filled');
+      slot.innerHTML='<span class="slot-ph">?</span>';
+      var ch=$('.chip[data-idx="'+v+'"]',bank);
+      if(ch){ch.classList.remove('used');ch.setAttribute('draggable','true');}
+    }
+  }
+  slot.addEventListener('click',function(){
+    if(slot.dataset.val!==''){unplace();}
+    else if(sel!==null){place(sel);}
+  });
+  slot.addEventListener('keydown',function(e){
+    if(e.key==='Enter'||e.key===' '){e.preventDefault();slot.click();}
+  });
+  bank.addEventListener('click',function(e){
+    var c=e.target.closest('.chip');
+    if(!c||c.classList.contains('used'))return;
+    var idx=+c.dataset.idx;
+    if(sel===idx){sel=null;c.classList.remove('sel');}
+    else{sel=idx;$$('.chip',bank).forEach(function(x){x.classList.remove('sel');});c.classList.add('sel');}
+  });
+  bank.addEventListener('dragstart',function(e){
+    var c=e.target.closest('.chip');
+    if(!c||c.classList.contains('used')){e.preventDefault();return;}
+    try{e.dataTransfer.setData('text/plain',c.dataset.idx);e.dataTransfer.effectAllowed='move';}catch(err){}
+  });
+  slot.addEventListener('dragover',function(e){e.preventDefault();});
+  slot.addEventListener('drop',function(e){
+    e.preventDefault();
+    var idx=e.dataTransfer.getData('text/plain');
+    if(idx!=='')place(+idx);
+  });
+  area._validate=function(){
+    var v=slot.dataset.val;
+    return v!==''&&String(q.bank[+v].id)===String(q.expect);
+  };
+}
+var BUILD={radio:bRadio,check:bCheck,tf:bTF,fill:bFill,sort:bSort,pair:bPair,dnd:bDnd};
+
+/* ---------- feedback & score ---------- */
+var SCORES={};
+function lockCard(card){
+  $$('.ex-area input',card).forEach(function(n){n.disabled=true;});
+  $$('.ex-area button',card).forEach(function(n){n.disabled=true;});
+  $$('.ex-area [draggable]',card).forEach(function(n){n.setAttribute('draggable','false');});
+}
+function markOptions(area,q,ok){
+  if(q.type!=='radio'&&q.type!=='check'&&q.type!=='tf')return;
+  $$('label.opt',area).forEach(function(lab){
+    var inp=$('input',lab);
+    lab.classList.remove('sel-correct','sel-wrong','miss-correct');
+    if(inp.checked&&inp.dataset.correct==='1')lab.classList.add('sel-correct');
+    else if(inp.checked)lab.classList.add('sel-wrong');
+    else if(!ok&&inp.dataset.correct==='1')lab.classList.add('miss-correct');
+  });
+}
+function feedback(card,area,q,ok,secId){
+  var f=$('.feedback',card);
+  f.className='feedback show '+(ok?'ok':'no');
+  f.innerHTML=icon(ok?'check':'refresh',22)+'<div>'+(ok?MSG_OK:MSG_NO)+'</div>';
+  var st=SCORES[secId]||(SCORES[secId]={a:0,c:0});
+  if(!card.dataset.attempted){st.a++;card.dataset.attempted='1';}
+  if(ok){st.c++;card.classList.add('locked');lockCard(card);}
+  var chip=document.getElementById('score-'+secId);
+  if(chip)chip.innerHTML=icon('star',14)+'<span class="idn">Skor: '+st.c+'/'+st.a+'</span><span class="eng">Score: '+st.c+'/'+st.a+'</span>';
+  markOptions(area,q,ok);
+  typeset(f);
+}
+
+/* ---------- question renderer ---------- */
+function renderQuestion(container,q,i,secId,kind){
+  var card=el('div','ex-card');
+  var numL=(kind==='task')?bi('Soal','Question'):bi('Latihan','Exercise');
+  var head=el('div','ex-head');
+  head.appendChild(el('span','ex-num',numL+' '+(i+1)));
+  head.appendChild(el('span','type-chip',TYPE_HINT[q.type]?TYPE_HINT[q.type].chip:''));
+  card.appendChild(head);
+  card.appendChild(el('p','qtext',bi(q.id,q.en)));
+  card.appendChild(el('p','hint',(q.hint||TYPE_HINT[q.type].hint)));
+  var area=el('div','ex-area');
+  card.appendChild(area);
+  card.appendChild(el('div','feedback'));
+  var btn=el('button','btn btn-check');
+  btn.type='button';
+  btn.innerHTML=icon('check',18)+bi('Periksa Jawaban','Check Answer');
+  card.appendChild(btn);
+  var det=el('details','sol');
+  det.appendChild(el('summary',null,icon('book',18)+'<span>'+bi('Pembahasan (langkah demi langkah)','Solution (step by step)')+'</span>'+icon('chev',18,'chev')));
+  var sb=el('div','sol-body');
+  if(q.sol){
+    var ol=el('ol','steps-list');
+    (q.sol.steps||[]).forEach(function(st){ol.appendChild(el('li',null,bi(st.id,st.en)));});
+    sb.appendChild(ol);
+    if(q.sol.nl)sb.appendChild(el('div','nl',nlSVG(q.sol.nl)));
+    if(q.sol.ans){
+      var a=q.sol.ans;
+      var v=a.m!==undefined?'\\('+a.m+'\\)':'';
+      sb.appendChild(el('div','ans-line',icon('check',16)+'<span><span class="idn">Jawaban: '+(a.m!==undefined?v:a.id)+'</span><span class="eng">Answer: '+(a.m!==undefined?v:a.en)+'</span></span>'));
+    }
+    if(q.sol.note)sb.appendChild(el('p','note',bi(q.sol.note.id,q.sol.note.en)));
+  }
+  det.appendChild(sb);
+  card.appendChild(det);
+  container.appendChild(card);
+  BUILD[q.type](area,q);
+  btn.addEventListener('click',function(){
+    var ok;
+    try{ok=area._validate();}catch(e){ok=false;}
+    feedback(card,area,q,!!ok,secId);
+  });
+}
+
+/* ---------- DATA SOAL ---------- */
+var DATA={};
+
+/* ===== Sesi 1: Pemanasan ===== */
+DATA.warmup=[
+{type:'radio',
+ id:R`Hasil dari \(6+(-8)\) adalah ....`,
+ en:R`The result of \(6+(-8)\) is ....`,
+ options:[{m:'-2'},{m:'2'},{m:'-14'},{m:'14'}],correct:0,
+ sol:{steps:[
+  {id:R`Tanda berbeda: \(6\) positif dan \(-8\) negatif.`,en:R`Different signs: \(6\) is positive and \(-8\) is negative.`},
+  {id:R`Kurangi nilainya: \(8-6=2\).`,en:R`Subtract the values: \(8-6=2\).`},
+  {id:R`Ikuti tanda bilangan yang lebih besar nilainya, yaitu \(-8\), jadi hasilnya negatif.`,en:R`Follow the sign of the number with the larger value, \(-8\), so the result is negative.`}],
+  nl:{min:-4,max:8,start:6,move:-8},
+  ans:{m:'-2'},
+  note:{id:'Sama seperti Contoh 1 di penjelasan: mulai dari 6, geser 8 ke kiri.',en:'Just like Example 1 in the explanation: start at 6, move 8 to the left.'}}},
+{type:'fill',
+ id:R`Isilah: \(-7+7=\) ....`,
+ en:R`Fill in: \(-7+7=\) ....`,
+ answer:'0',
+ sol:{steps:[
+  {id:R`\(-7\) dan \(7\) adalah <strong>bilangan berlawanan</strong> (jarak sama dari \(0\), arah berlawanan).`,en:R`\(-7\) and \(7\) are <strong>opposite numbers</strong> (same distance from \(0\), opposite directions).`},
+  {id:R`Aturan: \(a+(-a)=0\). Bilangan berlawanan jika dijumlahkan selalu \(0\).`,en:R`Rule: \(a+(-a)=0\). Opposite numbers always add up to \(0\).`}],
+  ans:{m:'0'}}},
+{type:'tf',
+ id:R`Benar atau salah: \(-2+(-9)=-11\)`,
+ en:R`True or false: \(-2+(-9)=-11\)`,
+ answer:true,
+ sol:{steps:[
+  {id:R`Kedua bilangan bertanda sama (sama-sama negatif).`,en:R`Both numbers have the same sign (both negative).`},
+  {id:R`Jumlahkan nilainya: \(2+9=11\).`,en:R`Add the values: \(2+9=11\).`},
+  {id:R`Pertahankan tanda negatif: \(-2+(-9)=-11\). Kalimat tersebut benar.`,en:R`Keep the negative sign: \(-2+(-9)=-11\). The statement is true.`}],
+  ans:{id:'Benar (True)',en:'True'}}},
+{type:'radio',
+ id:R`Manakah bilangan yang <strong>lebih kecil</strong>: \(-6\) atau \(-2\)?`,
+ en:R`Which number is <strong>smaller</strong>: \(-6\) or \(-2\)?`,
+ options:[{m:'-6'},{m:'-2'}],correct:0,
+ sol:{steps:[
+  {id:R`Pada garis bilangan, makin ke <strong>kiri</strong> makin <strong>kecil</strong>.`,en:R`On the number line, the further <strong>left</strong>, the <strong>smaller</strong>.`},
+  {id:R`\(-6\) berada di kiri \(-2\), jadi \(-6\) lebih kecil.`,en:R`\(-6\) is to the left of \(-2\), so \(-6\) is smaller.`}],
+  ans:{m:'-6'}}},
+{type:'sort',
+ id:R`Urutkan bilangan berikut dari yang <strong>terkecil</strong> ke yang <strong>terbesar</strong>.`,
+ en:R`Order these numbers from <strong>smallest</strong> to <strong>largest</strong>.`,
+ items:[{m:'4'},{m:'-3'},{m:'0'},{m:'-5'},{m:'2'}],
+ order:[3,1,2,4,0],
+ sol:{steps:[
+  {id:R`Bilangan negatif lebih kecil dari \(0\), dan \(0\) lebih kecil dari bilangan positif.`,en:R`Negative numbers are smaller than \(0\), and \(0\) is smaller than positive numbers.`},
+  {id:R`Negatif: \(-5\) lebih kecil dari \(-3\) (lebih ke kiri).`,en:R`Negatives: \(-5\) is smaller than \(-3\) (further left).`},
+  {id:R`Lalu \(0\), kemudian positif dari kecil ke besar: \(2\), lalu \(4\).`,en:R`Then \(0\), then positives from small to big: \(2\), then \(4\).`}],
+  ans:{id:R`Urutan: \(-5,\ -3,\ 0,\ 2,\ 4\)`,en:R`Order: \(-5,\ -3,\ 0,\ 2,\ 4\)`}}}
+];
+
+/* ===== Sesi 2: Pengenalan & Dunia Nyata ===== */
+DATA.intro=[
+{type:'radio',
+ id:R`Suhu siang hari \(3^\circ\mathrm{C}\). Malam hari suhu <strong>turun</strong> \(7^\circ\mathrm{C}\). Kalimat matematikanya \(3-7\). Berapa suhu malam hari?`,
+ en:R`The daytime temperature is \(3^\circ\mathrm{C}\). At night it <strong>drops</strong> by \(7^\circ\mathrm{C}\). The number sentence is \(3-7\). What is the night temperature?`,
+ options:[{m:'-4^\\circ\\mathrm{C}'},{m:'4^\\circ\\mathrm{C}'},{m:'-10^\\circ\\mathrm{C}'},{m:'10^\\circ\\mathrm{C}'}],correct:0,
+ sol:{steps:[
+  {id:R`Tulis kalimat matematika: \(3-7\).`,en:R`Write the number sentence: \(3-7\).`},
+  {id:R`Ubah menjadi tambah lawannya: \(3-7=3+(-7)\).`,en:R`Rewrite as adding the opposite: \(3-7=3+(-7)\).`},
+  {id:R`Mulai dari \(3\), geser \(7\) ke kiri, tiba di \(-4\).`,en:R`Start at \(3\), move \(7\) to the left, arrive at \(-4\).`}],
+  nl:{min:-6,max:5,start:3,move:-7},
+  ans:{m:'-4^\\circ\\mathrm{C}'},
+  note:{id:'Suhu malam hari −4°C (4 derajat di bawah nol).',en:'The night temperature is −4°C (4 degrees below zero).'}}},
+{type:'radio',
+ id:R`Lift ada di lantai \(2\), lalu <strong>turun</strong> \(5\) lantai. Di lantai berapa lift sekarang? (Kalimat matematikanya \(2-5\).)`,
+ en:R`An elevator is at floor \(2\), then it goes <strong>down</strong> \(5\) floors. Which floor is it on now? (The number sentence is \(2-5\).)`,
+ options:[{m:'-3'},{m:'3'},{m:'-7'},{m:'7'}],correct:0,
+ sol:{steps:[
+  {id:R`Tulis: \(2-5\).`,en:R`Write: \(2-5\).`},
+  {id:R`Ubah: \(2-5=2+(-5)\).`,en:R`Rewrite: \(2-5=2+(-5)\).`},
+  {id:R`Mulai dari \(2\), geser \(5\) ke kiri, tiba di \(-3\). Lantai \(-3\) artinya \(3\) lantai di bawah permukaan tanah (basement).`,en:R`Start at \(2\), move \(5\) to the left, arrive at \(-3\). Floor \(-3\) means \(3\) floors below the ground (basement).`}],
+  ans:{m:'-3'}}},
+{type:'fill',
+ id:R`Kamu punya uang Rp5.000, lalu <strong>memakai</strong> Rp9.000 sampai berutang. Isilah: \(5-9=\) ....`,
+ en:R`You have Rp5,000, then you <strong>spend</strong> Rp9,000 and go into debt. Fill in: \(5-9=\) ....`,
+ answer:'-4',
+ sol:{steps:[
+  {id:R`Tulis: \(5-9\).`,en:R`Write: \(5-9\).`},
+  {id:R`Ubah: \(5-9=5+(-9)\).`,en:R`Rewrite: \(5-9=5+(-9)\).`},
+  {id:R`\(9-5=4\), ikuti tanda \(-\), jadi hasilnya \(-4\). Artinya kamu berutang Rp4.000.`,en:R`\(9-5=4\), take the \(-\) sign, so the result is \(-4\). It means you owe Rp4,000.`}],
+  ans:{m:'-4'}}},
+{type:'tf',
+ id:R`Benar atau salah: skormu \(10\), lalu <strong>berkurang</strong> \(12\). Skormu sekarang \(10-12=2\).`,
+ en:R`True or false: your score is \(10\), then it <strong>decreases</strong> by \(12\). Your score is now \(10-12=2\).`,
+ answer:false,
+ sol:{steps:[
+  {id:R`Tulis: \(10-12=10+(-12)\).`,en:R`Write: \(10-12=10+(-12)\).`},
+  {id:R`\(12-10=2\), ikuti tanda \(-\) → hasilnya \(-2\), <strong>bukan</strong> \(2\).`,en:R`\(12-10=2\), take the \(-\) sign → the result is \(-2\), <strong>not</strong> \(2\).`},
+  {id:R`Jadi kalimat tersebut salah. Skormu sekarang \(-2\).`,en:R`So the statement is false. Your score is now \(-2\).`}],
+  ans:{id:'Salah (False); yang benar −2',en:'False; the correct answer is −2'}}},
+{type:'pair',
+ id:R`Pasangkan setiap situasi dengan kalimat matematikanya yang tepat.`,
+ en:R`Match each situation with the correct number sentence.`,
+ left:[
+  {id:R`Suhu \(2^\circ\mathrm{C}\) turun \(6^\circ\mathrm{C}\)`,en:R`The temperature \(2^\circ\mathrm{C}\) drops by \(6^\circ\mathrm{C}\)`},
+  {id:R`Lift di lantai \(1\) turun \(4\) lantai`,en:R`An elevator at floor \(1\) goes down \(4\) floors`},
+  {id:R`Uang Rp5.000 dipakai Rp8.000`,en:R`Rp5,000 owned, Rp8,000 spent`},
+  {id:R`Skor \(7\) berkurang \(3\)`,en:R`A score of \(7\) decreases by \(3\)`}],
+ right:[{m:'2-6'},{m:'1-4'},{m:'5-8'},{m:'7-3'}],
+ pairs:[0,1,2,3],
+ sol:{steps:[
+  {id:R`Kata <em>turun / berkurang / dipakai</em> selalu berarti pengurangan (\(-\)): bilangan awal dikurangi bilangan yang berubah.`,en:R`The words <em>drops / decreases / spent</em> always mean subtraction (\(-\)): the starting number minus the amount of change.`},
+  {id:R`\((2^\circ\mathrm{C}\) turun \(6^\circ\mathrm{C}) \to 2-6\).`,en:R`\((2^\circ\mathrm{C}\) drops by \(6^\circ\mathrm{C}) \to 2-6\).`},
+  {id:R`(Lift lantai \(1\) turun \(4) \to 1-4\); uang \(5\) dipakai \(8 \to 5-8\); skor \(7\) berkurang \(3 \to 7-3\).`,en:R`(Elevator floor \(1\) down \(4) \to 1-4\); money \(5\) spent \(8 \to 5-8\); score \(7\) less \(3 \to 7-3\).`}],
+  ans:{id:'Suhu: 2−6, Lift: 1−4, Uang: 5−8, Skor: 7−3',en:'Temperature: 2−6, Elevator: 1−4, Money: 5−8, Score: 7−3'}}}
+];
+
+/* ===== Sesi 3: Review Pengetahuan Awal ===== */
+DATA.review=[
+{type:'radio',
+ id:R`Lawan dari \(6\) adalah ....`,
+ en:R`The opposite of \(6\) is ....`,
+ options:[{m:'-6'},{m:'0'},{m:'-7'},{m:'6'}],correct:0,
+ sol:{steps:[
+  {id:R`Lawan bilangan berjarak sama dari \(0\) tetapi arahnya berlawanan.`,en:R`An opposite number is the same distance from \(0\) but in the opposite direction.`},
+  {id:R`Lawan dari \(6\) adalah \(-6\). Periksa: \(6+(-6)=0\). \(\checkmark\)`,en:R`The opposite of \(6\) is \(-6\). Check: \(6+(-6)=0\). \(\checkmark\)`}],
+  ans:{m:'-6'}}},
+{type:'radio',
+ id:R`Lawan dari \(-9\) adalah ....`,
+ en:R`The opposite of \(-9\) is ....`,
+ options:[{m:'9'},{m:'-9'},{m:'0'},{m:'18'}],correct:0,
+ sol:{steps:[
+  {id:R`Lawan dari bilangan negatif adalah bilangan positif yang sama jauh dari \(0\).`,en:R`The opposite of a negative number is the positive number equally far from \(0\).`},
+  {id:R`Lawan dari \(-9\) adalah \(9\). Periksa: \(-9+9=0\). \(\checkmark\)`,en:R`The opposite of \(-9\) is \(9\). Check: \(-9+9=0\). \(\checkmark\)`}],
+  ans:{m:'9'}}},
+{type:'fill',
+ id:R`Isilah: \(-4+(-5)=\) ....`,
+ en:R`Fill in: \(-4+(-5)=\) ....`,
+ answer:'-9',
+ sol:{steps:[
+  {id:R`Kedua bilangan sama-sama negatif (tanda sama).`,en:R`Both numbers are negative (same sign).`},
+  {id:R`Jumlahkan nilainya: \(4+5=9\).`,en:R`Add the values: \(4+5=9\).`},
+  {id:R`Pertahankan tanda negatif: \(-4+(-5)=-9\).`,en:R`Keep the negative sign: \(-4+(-5)=-9\).`}],
+  ans:{m:'-9'}}},
+{type:'radio',
+ id:R`Hasil dari \(8+(-6)\) adalah ....`,
+ en:R`The result of \(8+(-6)\) is ....`,
+ options:[{m:'2'},{m:'-2'},{m:'14'},{m:'-14'}],correct:0,
+ sol:{steps:[
+  {id:R`Tanda berbeda: \(8\) positif dan \(-6\) negatif.`,en:R`Different signs: \(8\) is positive and \(-6\) is negative.`},
+  {id:R`Kurangi nilainya: \(8-6=2\).`,en:R`Subtract the values: \(8-6=2\).`},
+  {id:R`Ikuti tanda bilangan yang lebih besar (\(8\), positif), jadi hasilnya \(2\).`,en:R`Take the sign of the larger number (\(8\), positive), so the result is \(2\).`}],
+  ans:{m:'2'}}},
+{type:'check',
+ id:R`Pilih <strong>semua</strong> pasangan lawan yang benar.`,
+ en:R`Select <strong>all</strong> the correct opposite pairs.`,
+ options:[
+  {id:R`\(3\) dan \(-3\)`,en:R`\(3\) and \(-3\)`},
+  {id:R`\(-8\) dan \(-8\)`,en:R`\(-8\) and \(-8\)`},
+  {id:R`\(10\) dan \(-10\)`,en:R`\(10\) and \(-10\)`},
+  {id:R`\(0\) dan \(1\)`,en:R`\(0\) and \(1\)`}],
+ correct:[0,2],
+ sol:{steps:[
+  {id:R`Uji setiap pasangan: jika dijumlahkan hasilnya \(0\), berarti benar lawan.`,en:R`Test each pair: if the sum is \(0\), they are true opposites.`},
+  {id:R`\(3+(-3)=0\) \(\checkmark\) benar.`,en:R`\(3+(-3)=0\) \(\checkmark\) correct.`},
+  {id:R`\(-8+(-8)=-16\neq 0\) \(\times\) salah.`,en:R`\(-8+(-8)=-16\neq 0\) \(\times\) wrong.`},
+  {id:R`\(10+(-10)=0\) \(\checkmark\) benar.`,en:R`\(10+(-10)=0\) \(\checkmark\) correct.`},
+  {id:R`\(0+1=1\neq 0\) \(\times\) salah.`,en:R`\(0+1=1\neq 0\) \(\times\) wrong.`}],
+  ans:{id:'Pasangan benar: (3, −3) dan (10, −10)',en:'Correct pairs: (3, −3) and (10, −10)'}}}
+];
+
+/* ===== Sesi 4: Pengenalan Masalah ===== */
+DATA.problem=[
+{type:'radio',
+ id:R`Hitunglah: \(9-4=9+(-4)=\dots\)`,
+ en:R`Calculate: \(9-4=9+(-4)=\dots\)`,
+ options:[{m:'5'},{m:'-5'},{m:'13'},{m:'-13'}],correct:0,
+ sol:{steps:[
+  {id:R`Langkah 1: ubah \(-\) menjadi \(+\): \(9+(\dots)\)`,en:R`Step 1: change \(-\) to \(+\): \(9+(\dots)\)`},
+  {id:R`Langkah 2: ubah \(4\) menjadi lawannya, \(-4\): \(9+(-4)\)`,en:R`Step 2: change \(4\) to its opposite, \(-4\): \(9+(-4)\)`},
+  {id:R`Langkah 3: jumlahkan: \(9-4=5\) (tanda berbeda: \(9-4=5\), ikuti tanda \(+\)).`,en:R`Step 3: add: different signs, \(9-4=5\), take the \(+\) sign.`}],
+  ans:{m:'5'},
+  note:{id:'Sama seperti Contoh 1 (7−3) di penjelasan Bagian 4.',en:'Same as Example 1 (7−3) in the Section 4 explanation.'}}},
+{type:'fill',
+ id:R`Lengkapi langkah kedua: \(3-7=3+(\,\rule\,)=-4\). Isi kotak dengan lawan dari \(7\).`,
+ en:R`Complete the second step: \(3-7=3+(\,\rule\,)=-4\). Fill the box with the opposite of \(7\).`,
+ answer:'-7',
+ sol:{steps:[
+  {id:R`Langkah 1: ubah \(-\) menjadi \(+\): \(3+(\dots)\)`,en:R`Step 1: change \(-\) to \(+\): \(3+(\dots)\)`},
+  {id:R`Langkah 2: bilangan kedua \(7\) diubah menjadi <strong>lawannya</strong>, yaitu \(-7\).`,en:R`Step 2: the second number \(7\) is changed to its <strong>opposite</strong>, \(-7\).`},
+  {id:R`Langkah 3: \(3+(-7)=-4\). \(\checkmark\)`,en:R`Step 3: \(3+(-7)=-4\). \(\checkmark\)`}],
+  ans:{m:'-7'}}},
+{type:'radio',
+ id:R`Hitunglah: \(-5-2=\dots\)`,
+ en:R`Calculate: \(-5-2=\dots\)`,
+ options:[{m:'-7'},{m:'7'},{m:'-3'},{m:'3'}],correct:0,
+ sol:{steps:[
+  {id:R`Bilangan pertama \(-5\) <strong>tetap</strong>. Ubah \(-\) menjadi \(+\) dan ubah \(2\) menjadi \(-2\): \(-5+(-2)\).`,en:R`The first number \(-5\) <strong>stays</strong>. Change \(-\) to \(+\) and change \(2\) to \(-2\): \(-5+(-2)\).`},
+  {id:R`Tanda sama (negatif): \(5+2=7\), pertahankan tanda \(-\).`,en:R`Same sign (negative): \(5+2=7\), keep the \(-\) sign.`},
+  {id:R`Jadi \(-5-2=-5+(-2)=-7\).`,en:R`So \(-5-2=-5+(-2)=-7\).`}],
+  ans:{m:'-7'},
+  note:{id:'Seperti Contoh 3 di penjelasan (−3−4).',en:'Like Example 3 in the explanation (−3−4).'}}},
+{type:'tf',
+ id:R`Benar atau salah: \(-1-(-4)=-1+4=3\)`,
+ en:R`True or false: \(-1-(-4)=-1+4=3\)`,
+ answer:true,
+ sol:{steps:[
+  {id:R`Ubah \(-\) menjadi \(+\) dan ubah \(-4\) menjadi lawannya, \(5\)... tunggu, lawan dari \(-4\) adalah \(4\). Jadi \(-1+4\).`,en:R`Change \(-\) to \(+\) and change \(-4\) to its opposite... the opposite of \(-4\) is \(4\). So \(-1+4\).`},
+  {id:R`Mulai dari \(-1\), geser \(4\) ke kanan, tiba di \(3\).`,en:R`Start at \(-1\), move \(4\) to the right, arrive at \(3\).`},
+  {id:R`Jadi \(-1-(-4)=3\). Kalimat tersebut benar.`,en:R`So \(-1-(-4)=3\). The statement is true.`}],
+  nl:{min:-3,max:5,start:-1,move:4},
+  ans:{id:'Benar (True)',en:'True'}}},
+{type:'radio',
+ id:R`Hitunglah: \(6-(-2)=\dots\)`,
+ en:R`Calculate: \(6-(-2)=\dots\)`,
+ options:[{m:'8'},{m:'4'},{m:'-8'},{m:'-4'}],correct:0,
+ sol:{steps:[
+  {id:R`Ubah \(-\) menjadi \(+\) dan ubah \(-2\) menjadi lawannya, \(2\): \(6+2\).`,en:R`Change \(-\) to \(+\) and change \(-2\) to its opposite, \(2\): \(6+2\).`},
+  {id:R`Jumlahkan: \(6+2=8\). Mengurangi negatif = menambah positif!`,en:R`Add: \(6+2=8\). Subtracting a negative = adding a positive!`}],
+  ans:{m:'8'}}}
+];
+
+/* ===== Sesi 5: Latihan Terbimbing ===== */
+DATA.guided=[
+{type:'radio',
+ id:R`Hitunglah: \(12-9=\dots\)`,
+ en:R`Calculate: \(12-9=\dots\)`,
+ options:[{m:'3'},{m:'-3'},{m:'21'},{m:'-21'}],correct:0,
+ sol:{steps:[
+  {id:R`Langkah 1 & 2: \(12-9=12+(-9)\).`,en:R`Steps 1 & 2: \(12-9=12+(-9)\).`},
+  {id:R`Langkah 3: mulai dari \(12\), geser \(9\) ke kiri, tiba di \(3\).`,en:R`Step 3: start at \(12\), move \(9\) to the left, arrive at \(3\).`},
+  {id:R`Periksa: \(3+9=12\). \(\checkmark\)`,en:R`Check: \(3+9=12\). \(\checkmark\)`}],
+  ans:{m:'3'}}},
+{type:'radio',
+ id:R`Hitunglah: \(4-11=\dots\)`,
+ en:R`Calculate: \(4-11=\dots\)`,
+ options:[{m:'-7'},{m:'7'},{m:'-15'},{m:'15'}],correct:0,
+ sol:{steps:[
+  {id:R`Langkah 1 & 2: \(4-11=4+(-11)\).`,en:R`Steps 1 & 2: \(4-11=4+(-11)\).`},
+  {id:R`Langkah 3: mulai dari \(4\), geser \(11\) ke kiri (melewati \(0\)), tiba di \(-7\).`,en:R`Step 3: start at \(4\), move \(11\) to the left (passing \(0\)), arrive at \(-7\).`}],
+  nl:{min:-9,max:6,start:4,move:-11},
+  ans:{m:'-7'},
+  note:{id:'Sama persis dengan Contoh 1 di penjelasan Latihan Terbimbing.',en:'Exactly like Example 1 in the Guided Practice explanation.'}}},
+{type:'fill',
+ id:R`Isilah: \(-6-3=-6+(-3)=\) ....`,
+ en:R`Fill in: \(-6-3=-6+(-3)=\) ....`,
+ answer:'-9',
+ sol:{steps:[
+  {id:R`\(-6-3\) sudah diubah menjadi \(-6+(-3)\): tanda operasi \(+\), bilangan kedua \(-3\).`,en:R`\(-6-3\) has already been rewritten as \(-6+(-3)\): plus sign, second number \(-3\).`},
+  {id:R`Tanda sama (negatif): \(6+3=9\), pertahankan tanda \(-\).`,en:R`Same sign (negative): \(6+3=9\), keep the \(-\) sign.`},
+  {id:R`Jadi \(-6+(-3)=-9\).`,en:R`So \(-6+(-3)=-9\).`}],
+  nl:{min:-11,max:-1,start:-6,move:-3},
+  ans:{m:'-9'}}},
+{type:'radio',
+ id:R`Hitunglah: \(-7-(-10)=\dots\)`,
+ en:R`Calculate: \(-7-(-10)=\dots\)`,
+ options:[{m:'3'},{m:'-3'},{m:'17'},{m:'-17'}],correct:0,
+ sol:{steps:[
+  {id:R`Ubah \(-\) menjadi \(+\) dan ubah \(-10\) menjadi lawannya, \(10\): \(-7+10\).`,en:R`Change \(-\) to \(+\) and change \(-10\) to its opposite, \(10\): \(-7+10\).`},
+  {id:R`Mulai dari \(-7\), geser \(10\) ke kanan, tiba di \(3\).`,en:R`Start at \(-7\), move \(10\) to the right, arrive at \(3\).`}],
+  ans:{m:'3'}}},
+{type:'radio',
+ id:R`Untuk menghitung \(5-9\), langkah pertama yang <strong>benar</strong> adalah ....`,
+ en:R`To calculate \(5-9\), the correct <strong>first step</strong> is ....`,
+ options:[{m:'5+(-9)'},{m:'5+9'},{m:'-5+9'},{m:'-5+(-9)'}],correct:0,
+ sol:{steps:[
+  {id:R`Bilangan <strong>pertama tetap</strong> \(5\), tidak berubah tanda.`,en:R`The <strong>first number stays</strong> \(5\); its sign does not change.`},
+  {id:R`Hanya dua hal yang berubah: tanda operasi (\(-\) → \(+\)) dan bilangan kedua (\(9\) → \(-9\)).`,en:R`Only two things change: the operation sign (\(-\) → \(+\)) and the second number (\(9\) → \(-9\)).`},
+  {id:R`Jadi \(5-9=5+(-9)=-4\).`,en:R`So \(5-9=5+(-9)=-4\).`}],
+  ans:{m:'5+(-9)'}}}
+];
+
+/* ===== Sesi 6: Latihan Mandiri ===== */
+DATA.indep=[
+{type:'radio',
+ id:R`Hitunglah: \(15-23=\dots\)`,
+ en:R`Calculate: \(15-23=\dots\)`,
+ options:[{m:'-8'},{m:'8'},{m:'-38'},{m:'38'}],correct:0,
+ sol:{steps:[
+  {id:R`Langkah 1 & 2: \(15-23=15+(-23)\).`,en:R`Steps 1 & 2: \(15-23=15+(-23)\).`},
+  {id:R`Langkah 3: \(23-15=8\), ikuti tanda \(-\), jadi \(-8\).`,en:R`Step 3: \(23-15=8\), take the \(-\) sign, so \(-8\).`}],
+  nl:{min:-10,max:17,start:15,move:-23},
+  ans:{m:'-8'}}},
+{type:'fill',
+ id:R`Isilah: \(-14-(-14)=\) ....`,
+ en:R`Fill in: \(-14-(-14)=\) ....`,
+ answer:'0',
+ sol:{steps:[
+  {id:R`Ubah: \(-14-(-14)=-14+14\).`,en:R`Rewrite: \(-14-(-14)=-14+14\).`},
+  {id:R`\(-14\) dan \(14\) berlawanan; jumlahnya \(0\). Aturan: \(a-a=0\).`,en:R`\(-14\) and \(14\) are opposites; their sum is \(0\). Rule: \(a-a=0\).`}],
+  ans:{m:'0'}}},
+{type:'radio',
+ id:R`Suhu pagi \(-2^\circ\mathrm{C}\). Siang hari suhu <strong>turun</strong> \(5^\circ\mathrm{C}\). Berapa suhu siang hari?`,
+ en:R`The morning temperature is \(-2^\circ\mathrm{C}\). In the daytime it <strong>drops</strong> by \(5^\circ\mathrm{C}\). What is the daytime temperature?`,
+ options:[{m:'-7^\\circ\\mathrm{C}'},{m:'7^\\circ\\mathrm{C}'},{m:'-3^\\circ\\mathrm{C}'},{m:'3^\\circ\\mathrm{C}'}],correct:0,
+ sol:{steps:[
+  {id:R`Langkah 1: tulis kalimat matematika: \(-2-5\).`,en:R`Step 1: write the number sentence: \(-2-5\).`},
+  {id:R`Langkah 2: ubah: \(-2-5=-2+(-5)\).`,en:R`Step 2: rewrite: \(-2-5=-2+(-5)\).`},
+  {id:R`Langkah 3: tanda sama: \(2+5=7\), pertahankan \(-\) → \(-7^\circ\mathrm{C}\).`,en:R`Step 3: same sign: \(2+5=7\), keep \(-\) → \(-7^\circ\mathrm{C}\).`}],
+  nl:{min:-9,max:2,start:-2,move:-5},
+  ans:{m:'-7^\\circ\\mathrm{C}'}}},
+{type:'tf',
+ id:R`Benar atau salah: \(8-(-3)=5\)`,
+ en:R`True or false: \(8-(-3)=5\)`,
+ answer:false,
+ sol:{steps:[
+  {id:R`Ubah: \(8-(-3)=8+3\) (mengurangi negatif = menambah positif).`,en:R`Rewrite: \(8-(-3)=8+3\) (subtracting a negative = adding a positive).`},
+  {id:R`\(8+3=11\), <strong>bukan</strong> \(5\).`,en:R`\(8+3=11\), <strong>not</strong> \(5\).`},
+  {id:R`Jadi kalimat tersebut salah. Jawaban yang benar \(8-(-3)=11\).`,en:R`So the statement is false. The correct answer is \(8-(-3)=11\).`}],
+  ans:{id:'Salah (False); yang benar 11',en:'False; the correct value is 11'}}},
+{type:'sort',hint:bi('Urutkan kartu langkah dari yang <strong>pertama</strong> dikerjakan.','Order the step cards from <strong>first</strong> to <strong>last</strong>.'),
+ id:R`Urutkan langkah menghitung \(10-13\) dari yang pertama.`,
+ en:R`Order the steps for calculating \(10-13\) from first to last.`,
+ items:[
+  {id:R`Ubah: \(10-13=10+(-13)\)`,en:R`Rewrite: \(10-13=10+(-13)\)`},
+  {id:R`Jumlahkan: mulai dari \(10\), geser \(13\) ke kiri`,en:R`Add: start at \(10\), move \(13\) to the left`},
+  {id:R`Hasil: \(-3\)`,en:R`Result: \(-3\)`}],
+ order:[0,1,2],
+ sol:{steps:[
+  {id:R`Langkah pertama: ubah pengurangan menjadi tambah lawannya: \(10+(-13)\).`,en:R`First step: rewrite the subtraction as adding the opposite: \(10+(-13)\).`},
+  {id:R`Langkah kedua: jumlahkan dengan garis bilangan: dari \(10\) geser \(13\) ke kiri.`,en:R`Second step: add on the number line: from \(10\), move \(13\) to the left.`},
+  {id:R`Langkah ketiga: hasilnya \(-3\).`,en:R`Third step: the result is \(-3\).`}],
+  ans:{id:'Ubah → Jumlahkan → Hasil (−3)',en:'Rewrite → Add → Result (−3)'}}}
+];
+
+/* ===== Exit Ticket ===== */
+DATA.exit=[
+{type:'radio',
+ id:R`Hitunglah: \(4-9=\dots\)`,
+ en:R`Calculate: \(4-9=\dots\)`,
+ options:[{m:'-5'},{m:'5'},{m:'-13'},{m:'13'}],correct:0,
+ sol:{steps:[
+  {id:R`Ubah: \(4-9=4+(-9)\).`,en:R`Rewrite: \(4-9=4+(-9)\).`},
+  {id:R`\(9-4=5\), ikuti tanda \(-\), jadi \(-5\).`,en:R`\(9-4=5\), take the \(-\) sign, so \(-5\).`}],
+  ans:{m:'-5'}}},
+{type:'fill',
+ id:R`Isilah: \(-3-(-6)=\) ....`,
+ en:R`Fill in: \(-3-(-6)=\) ....`,
+ answer:'3',
+ sol:{steps:[
+  {id:R`Ubah: \(-3-(-6)=-3+6\) (mengurangi negatif = menambah positif).`,en:R`Rewrite: \(-3-(-6)=-3+6\) (subtracting a negative = adding a positive).`},
+  {id:R`Mulai dari \(-3\), geser \(6\) ke kanan, tiba di \(3\).`,en:R`Start at \(-3\), move \(6\) to the right, arrive at \(3\).`}],
+  ans:{m:'3'}}},
+{type:'tf',
+ id:R`Benar atau salah: untuk menghitung \(2-5\), langkah pertamanya adalah menulis \(2+(-5)\).`,
+ en:R`True or false: to calculate \(2-5\), the first step is to write \(2+(-5)\).`,
+ answer:true,
+ sol:{steps:[
+  {id:R`Aturan: \(a-b=a+(-b)\). Ubah \(-\) menjadi \(+\) dan ubah \(5\) menjadi \(-5\).`,en:R`Rule: \(a-b=a+(-b)\). Change \(-\) to \(+\) and change \(5\) to \(-5\).`},
+  {id:R`Jadi \(2-5=2+(-5)=-3\). Kalimat tersebut benar.`,en:R`So \(2-5=2+(-5)=-3\). The statement is true.`}],
+  ans:{id:'Benar (True)',en:'True'}}}
+];
+
+/* ===== Follow Up Practice ===== */
+DATA.follow=[
+{type:'radio',
+ id:R`Hitunglah: \(7-12=\dots\)`,
+ en:R`Calculate: \(7-12=\dots\)`,
+ options:[{m:'-5'},{m:'5'},{m:'-19'},{m:'19'}],correct:0,
+ sol:{steps:[
+  {id:R`Ubah: \(7-12=7+(-12)\).`,en:R`Rewrite: \(7-12=7+(-12)\).`},
+  {id:R`\(12-7=5\), ikuti tanda \(-\), jadi \(-5\).`,en:R`\(12-7=5\), take the \(-\) sign, so \(-5\).`}],
+  ans:{m:'-5'}}},
+{type:'fill',
+ id:R`Isilah: \(20-27=\) ....`,
+ en:R`Fill in: \(20-27=\) ....`,
+ answer:'-7',
+ sol:{steps:[
+  {id:R`Ubah: \(20-27=20+(-27)\).`,en:R`Rewrite: \(20-27=20+(-27)\).`},
+  {id:R`\(27-20=7\), ikuti tanda \(-\), jadi \(-7\).`,en:R`\(27-20=7\), take the \(-\) sign, so \(-7\).`}],
+  ans:{m:'-7'}}},
+{type:'tf',
+ id:R`Benar atau salah: \(-6-4=-10\)`,
+ en:R`True or false: \(-6-4=-10\)`,
+ answer:true,
+ sol:{steps:[
+  {id:R`Ubah: \(-6-4=-6+(-4)\).`,en:R`Rewrite: \(-6-4=-6+(-4)\).`},
+  {id:R`Tanda sama: \(6+4=10\), pertahankan \(-\) → \(-10\). Kalimat tersebut benar.`,en:R`Same sign: \(6+4=10\), keep \(-\) → \(-10\). The statement is true.`}],
+  ans:{id:'Benar (True)',en:'True'}}},
+{type:'radio',
+ id:R`Lift ada di lantai \(-1\) (basement), lalu turun \(3\) lantai lagi. Di lantai berapa lift sekarang?`,
+ en:R`An elevator is at floor \(-1\) (basement), then goes down \(3\) more floors. Which floor is it on now?`,
+ options:[{m:'-4'},{m:'4'},{m:'-2'},{m:'2'}],correct:0,
+ sol:{steps:[
+  {id:R`Tulis: \(-1-3\).`,en:R`Write: \(-1-3\).`},
+  {id:R`Ubah: \(-1-3=-1+(-3)\).`,en:R`Rewrite: \(-1-3=-1+(-3)\).`},
+  {id:R`Tanda sama: \(1+3=4\), pertahankan \(-\) → \(-4\). Lift ada di lantai \(-4\).`,en:R`Same sign: \(1+3=4\), keep \(-\) → \(-4\). The elevator is at floor \(-4\).`}],
+  ans:{m:'-4'}}}
+];
+
+/* ===== Tugas 1: Dasar ===== */
+DATA.t1=[
+{type:'radio',id:R`Hitunglah: \(8-3=\dots\)`,en:R`Calculate: \(8-3=\dots\)`,
+ options:[{m:'5'},{m:'-5'},{m:'11'},{m:'-11'}],correct:0,
+ sol:{steps:[
+  {id:R`Langkah 1 & 2: \(8-3=8+(-3)\).`,en:R`Steps 1 & 2: \(8-3=8+(-3)\).`},
+  {id:R`Langkah 3: \(8-3=5\).`,en:R`Step 3: \(8-3=5\).`}],
+  ans:{m:'5'}}},
+{type:'radio',id:R`Isilah langkah yang tepat: \(8-3=8+(\dots)\)`,en:R`Fill in the correct step: \(8-3=8+(\dots)\)`,
+ options:[{m:'-3'},{m:'3'},{m:'8'},{m:'-8'}],correct:0,
+ sol:{steps:[
+  {id:R`Ubah \(-\) menjadi \(+\) dan ubah bilangan kedua \(3\) menjadi <strong>lawannya</strong>, yaitu \(-3\).`,en:R`Change \(-\) to \(+\) and change the second number \(3\) to its <strong>opposite</strong>, \(-3\).`},
+  {id:R`Jadi \(8-3=8+(-3)=5\).`,en:R`So \(8-3=8+(-3)=5\).`}],
+  ans:{m:'-3'}}},
+{type:'fill',id:R`Isilah: \(5-9=\) ....`,en:R`Fill in: \(5-9=\) ....`,
+ answer:'-4',
+ sol:{steps:[
+  {id:R`Ubah: \(5-9=5+(-9)\).`,en:R`Rewrite: \(5-9=5+(-9)\).`},
+  {id:R`\(9-5=4\), ikuti tanda \(-\), jadi \(-4\).`,en:R`\(9-5=4\), take the \(-\) sign, so \(-4\).`}],
+  ans:{m:'-4'}}},
+{type:'tf',id:R`Benar atau salah: \(6-10=-4\)`,en:R`True or false: \(6-10=-4\)`,
+ answer:true,
+ sol:{steps:[
+  {id:R`Ubah: \(6-10=6+(-10)\).`,en:R`Rewrite: \(6-10=6+(-10)\).`},
+  {id:R`\(10-6=4\), ikuti tanda \(-\), jadi \(-4\). Kalimat tersebut benar.`,en:R`\(10-6=4\), take the \(-\) sign, so \(-4\). The statement is true.`}],
+  ans:{id:'Benar (True)',en:'True'}}},
+{type:'radio',id:R`Hitunglah: \(-2-5=\dots\)`,en:R`Calculate: \(-2-5=\dots\)`,
+ options:[{m:'-7'},{m:'7'},{m:'-3'},{m:'3'}],correct:0,
+ sol:{steps:[
+  {id:R`Ubah: \(-2-5=-2+(-5)\).`,en:R`Rewrite: \(-2-5=-2+(-5)\).`},
+  {id:R`Tanda sama: \(2+5=7\), pertahankan \(-\), jadi \(-7\).`,en:R`Same sign: \(2+5=7\), keep \(-\), so \(-7\).`}],
+  ans:{m:'-7'}}},
+{type:'check',id:R`Pilih <strong>semua</strong> perhitungan yang hasilnya \(-3\).`,en:R`Select <strong>all</strong> the calculations whose result is \(-3\).`,
+ options:[
+  {id:R`\(1-4\)`,en:R`\(1-4\)`},
+  {id:R`\(5-2\)`,en:R`\(5-2\)`},
+  {id:R`\(-1-2\)`,en:R`\(-1-2\)`},
+  {id:R`\(2-(-1)\)`,en:R`\(2-(-1)\)`}],
+ correct:[0,2],
+ sol:{steps:[
+  {id:R`\(1-4=1+(-4)=-3\) \(\checkmark\)`,en:R`\(1-4=1+(-4)=-3\) \(\checkmark\)`},
+  {id:R`\(5-2=3\) \(\times\) (positif, bukan \(-3\))`,en:R`\(5-2=3\) \(\times\) (positive, not \(-3\))`},
+  {id:R`\(-1-2=-1+(-2)=-3\) \(\checkmark\)`,en:R`\(-1-2=-1+(-2)=-3\) \(\checkmark\)`},
+  {id:R`\(2-(-1)=2+1=3\) \(\times\) (positif)`,en:R`\(2-(-1)=2+1=3\) \(\times\) (positive)`}],
+  ans:{id:'Yang hasilnya −3: 1−4 dan −1−2',en:'Those equal to −3: 1−4 and −1−2'}}},
+{type:'pair',id:R`Pasangkan setiap pengurangan dengan hasilnya.`,en:R`Match each subtraction with its result.`,
+ left:[{m:'4-7'},{m:'9-5'},{m:'1-6'},{m:'8-8'}],
+ right:[{m:'-3'},{m:'4'},{m:'-5'},{m:'0'}],
+ pairs:[0,1,2,3],
+ sol:{steps:[
+  {id:R`\(4-7=4+(-7)=-3\)`,en:R`\(4-7=4+(-7)=-3\)`},
+  {id:R`\(9-5=4\)`,en:R`\(9-5=4\)`},
+  {id:R`\(1-6=1+(-6)=-5\)`,en:R`\(1-6=1+(-6)=-5\)`},
+  {id:R`\(8-8=0\) (bilangan dikurangi dirinya sendiri)`,en:R`\(8-8=0\) (a number minus itself)`}],
+  ans:{id:'4−7 = −3, 9−5 = 4, 1−6 = −5, 8−8 = 0',en:'4−7 = −3, 9−5 = 4, 1−6 = −5, 8−8 = 0'}}},
+{type:'fill',id:R`Isilah: \(-7-3=\) ....`,en:R`Fill in: \(-7-3=\) ....`,
+ answer:'-10',
+ sol:{steps:[
+  {id:R`Ubah: \(-7-3=-7+(-3)\).`,en:R`Rewrite: \(-7-3=-7+(-3)\).`},
+  {id:R`Tanda sama: \(7+3=10\), pertahankan \(-\), jadi \(-10\).`,en:R`Same sign: \(7+3=10\), keep \(-\), so \(-10\).`}],
+  ans:{m:'-10'}}},
+{type:'tf',id:R`Benar atau salah: lawan dari \(5\) adalah \(-5\).`,en:R`True or false: the opposite of \(5\) is \(-5\).`,
+ answer:true,
+ sol:{steps:[
+  {id:R`\(5\) dan \(-5\) berjarak sama dari \(0\) tetapi arahnya berlawanan.`,en:R`\(5\) and \(-5\) are the same distance from \(0\) but in opposite directions.`},
+  {id:R`Periksa: \(5+(-5)=0\). \(\checkmark\) Kalimat tersebut benar.`,en:R`Check: \(5+(-5)=0\). \(\checkmark\) The statement is true.`}],
+  ans:{id:'Benar (True)',en:'True'}}},
+{type:'sort',id:R`Urutkan dari yang <strong>terkecil</strong> ke yang <strong>terbesar</strong>.`,en:R`Order from <strong>smallest</strong> to <strong>largest</strong>.`,
+ items:[{m:'-4'},{m:'3'},{m:'-1'},{m:'5'},{m:'0'}],
+ order:[0,2,4,1,3],
+ sol:{steps:[
+  {id:R`Negatif dulu, dari yang paling ke kiri: \(-4\), lalu \(-1\).`,en:R`Negatives first, from furthest left: \(-4\), then \(-1\).`},
+  {id:R`Lalu \(0\), kemudian \(3\), dan terakhir \(5\).`,en:R`Then \(0\), then \(3\), and finally \(5\).`}],
+  ans:{id:R`Urutan: \(-4,\ -1,\ 0,\ 3,\ 5\)`,en:R`Order: \(-4,\ -1,\ 0,\ 3,\ 5\)`}}}
+];
+
+/* ===== Tugas 2: Melintasi Nol ===== */
+DATA.t2=[
+{type:'radio',id:R`Hitunglah: \(10-14=\dots\)`,en:R`Calculate: \(10-14=\dots\)`,
+ options:[{m:'-4'},{m:'4'},{m:'-24'},{m:'24'}],correct:0,
+ sol:{steps:[
+  {id:R`Ubah: \(10-14=10+(-14)\).`,en:R`Rewrite: \(10-14=10+(-14)\).`},
+  {id:R`\(14-10=4\), ikuti tanda \(-\), jadi \(-4\). Hasil melintasi nol ke kiri.`,en:R`\(14-10=4\), take the \(-\) sign, so \(-4\). The result crosses zero to the left.`}],
+  ans:{m:'-4'}}},
+{type:'fill',id:R`Isilah: \(6-11=\) ....`,en:R`Fill in: \(6-11=\) ....`,
+ answer:'-5',
+ sol:{steps:[
+  {id:R`Ubah: \(6-11=6+(-11)\).`,en:R`Rewrite: \(6-11=6+(-11)\).`},
+  {id:R`\(11-6=5\), ikuti tanda \(-\), jadi \(-5\).`,en:R`\(11-6=5\), take the \(-\) sign, so \(-5\).`}],
+  ans:{m:'-5'}}},
+{type:'radio',id:R`Isilah langkah yang tepat: \(7-12=7+(\dots)=-5\)`,en:R`Fill in the correct step: \(7-12=7+(\dots)=-5\)`,
+ options:[{m:'-12'},{m:'12'},{m:'-7'},{m:'7'}],correct:0,
+ sol:{steps:[
+  {id:R`Ubah \(-\) menjadi \(+\) dan ubah bilangan kedua \(12\) menjadi lawannya, \(-12\).`,en:R`Change \(-\) to \(+\) and change the second number \(12\) to its opposite, \(-12\).`},
+  {id:R`Jadi \(7-12=7+(-12)=-5\).`,en:R`So \(7-12=7+(-12)=-5\).`}],
+  ans:{m:'-12'}}},
+{type:'tf',id:R`Benar atau salah: \(3-8=5\)`,en:R`True or false: \(3-8=5\)`,
+ answer:false,
+ sol:{steps:[
+  {id:R`Ubah: \(3-8=3+(-8)\).`,en:R`Rewrite: \(3-8=3+(-8)\).`},
+  {id:R`\(8-3=5\), ikuti tanda \(-\), jadi \(-5\), <strong>bukan</strong> \(5\).`,en:R`\(8-3=5\), take the \(-\) sign, so \(-5\), <strong>not</strong> \(5\).`}],
+  ans:{id:'Salah (False); yang benar −5',en:'False; the correct value is −5'}}},
+{type:'radio',id:R`Hitunglah: \(20-25=\dots\)`,en:R`Calculate: \(20-25=\dots\)`,
+ options:[{m:'-5'},{m:'5'},{m:'-45'},{m:'45'}],correct:0,
+ sol:{steps:[
+  {id:R`Ubah: \(20-25=20+(-25)\).`,en:R`Rewrite: \(20-25=20+(-25)\).`},
+  {id:R`\(25-20=5\), ikuti tanda \(-\), jadi \(-5\).`,en:R`\(25-20=5\), take the \(-\) sign, so \(-5\).`}],
+  ans:{m:'-5'}}},
+{type:'fill',id:R`Isilah: \(9-13=\) ....`,en:R`Fill in: \(9-13=\) ....`,
+ answer:'-4',
+ sol:{steps:[
+  {id:R`Ubah: \(9-13=9+(-13)\).`,en:R`Rewrite: \(9-13=9+(-13)\).`},
+  {id:R`\(13-9=4\), ikuti tanda \(-\), jadi \(-4\).`,en:R`\(13-9=4\), take the \(-\) sign, so \(-4\).`}],
+  ans:{m:'-4'}}},
+{type:'check',id:R`Pilih <strong>semua</strong> perhitungan yang <strong>benar</strong>.`,en:R`Select <strong>all</strong> the calculations that are <strong>correct</strong>.`,
+ options:[
+  {id:R`\(4-9=-5\)`,en:R`\(4-9=-5\)`},
+  {id:R`\(12-7=5\)`,en:R`\(12-7=5\)`},
+  {id:R`\(6-10=4\)`,en:R`\(6-10=4\)`},
+  {id:R`\(15-18=-3\)`,en:R`\(15-18=-3\)`}],
+ correct:[0,1,3],
+ sol:{steps:[
+  {id:R`\(4-9=4+(-9)=-5\) \(\checkmark\) benar.`,en:R`\(4-9=4+(-9)=-5\) \(\checkmark\) correct.`},
+  {id:R`\(12-7=5\) \(\checkmark\) benar.`,en:R`\(12-7=5\) \(\checkmark\) correct.`},
+  {id:R`\(6-10=6+(-10)=-4\) \(\times\) salah (bukan \(4\)).`,en:R`\(6-10=6+(-10)=-4\) \(\times\) wrong (not \(4\)).`},
+  {id:R`\(15-18=15+(-18)=-3\) \(\checkmark\) benar.`,en:R`\(15-18=15+(-18)=-3\) \(\checkmark\) correct.`}],
+  ans:{id:'Yang benar: 4−9=−5, 12−7=5, 15−18=−3',en:'Correct: 4−9=−5, 12−7=5, 15−18=−3'}}},
+{type:'sort',hint:bi('Urutkan kartu langkah dari yang <strong>pertama</strong> dikerjakan.','Order the step cards from <strong>first</strong> to <strong>last</strong>.'),
+ id:R`Urutkan langkah menghitung \(16-21\) dari yang pertama.`,
+ en:R`Order the steps for calculating \(16-21\) from first to last.`,
+ items:[
+  {id:R`Ubah: \(16-21=16+(-21)\)`,en:R`Rewrite: \(16-21=16+(-21)\)`},
+  {id:R`Jumlahkan: mulai dari \(16\), geser \(21\) ke kiri`,en:R`Add: start at \(16\), move \(21\) to the left`},
+  {id:R`Hasil: \(-5\)`,en:R`Result: \(-5\)`}],
+ order:[0,1,2],
+ sol:{steps:[
+  {id:R`Pertama: ubah menjadi tambah lawannya: \(16+(-21)\).`,en:R`First: rewrite as adding the opposite: \(16+(-21)\).`},
+  {id:R`Kedua: jumlahkan — dari \(16\) geser \(21\) ke kiri (melewati \(0\)).`,en:R`Second: add — from \(16\), move \(21\) to the left (crossing \(0\)).`},
+  {id:R`Ketiga: hasilnya \(-5\).`,en:R`Third: the result is \(-5\).`}],
+  ans:{id:'Ubah → Jumlahkan → Hasil (−5)',en:'Rewrite → Add → Result (−5)'}}},
+{type:'radio',id:R`Dodi punya uang Rp8.000, lalu memakai Rp13.000 sampai berutang. Isilah: \(8-13=\dots\)`,
+ en:R`Dodi has Rp8,000, then spends Rp13,000 and goes into debt. Fill in: \(8-13=\dots\)`,
+ options:[{m:'-5'},{m:'5'},{m:'-21'},{m:'21'}],correct:0,
+ sol:{steps:[
+  {id:R`Ubah: \(8-13=8+(-13)\).`,en:R`Rewrite: \(8-13=8+(-13)\).`},
+  {id:R`\(13-8=5\), ikuti tanda \(-\), jadi \(-5\). Artinya Dodi berutang Rp5.000.`,en:R`\(13-8=5\), take the \(-\) sign, so \(-5\). It means Dodi owes Rp5,000.`}],
+  ans:{m:'-5'}}},
+{type:'tf',id:R`Benar atau salah: \(30-30=0\)`,en:R`True or false: \(30-30=0\)`,
+ answer:true,
+ sol:{steps:[
+  {id:R`Aturan: \(a-a=0\). Bilangan dikurangi dirinya sendiri selalu \(0\).`,en:R`Rule: \(a-a=0\). A number minus itself is always \(0\).`},
+  {id:R`Juga: \(30-30=30+(-30)=0\). Kalimat tersebut benar.`,en:R`Also: \(30-30=30+(-30)=0\). The statement is true.`}],
+  ans:{id:'Benar (True)',en:'True'}}}
+];
+
+/* ===== Tugas 3: Negatif − Positif & Negatif − Negatif ===== */
+DATA.t3=[
+{type:'radio',id:R`Hitunglah: \(-4-6=\dots\)`,en:R`Calculate: \(-4-6=\dots\)`,
+ options:[{m:'-10'},{m:'10'},{m:'-2'},{m:'2'}],correct:0,
+ sol:{steps:[
+  {id:R`Ubah: \(-4-6=-4+(-6)\).`,en:R`Rewrite: \(-4-6=-4+(-6)\).`},
+  {id:R`Tanda sama: \(4+6=10\), pertahankan \(-\), jadi \(-10\).`,en:R`Same sign: \(4+6=10\), keep \(-\), so \(-10\).`}],
+  ans:{m:'-10'}}},
+{type:'fill',id:R`Isilah: \(-8-5=\) ....`,en:R`Fill in: \(-8-5=\) ....`,
+ answer:'-13',
+ sol:{steps:[
+  {id:R`Ubah: \(-8-5=-8+(-5)\).`,en:R`Rewrite: \(-8-5=-8+(-5)\).`},
+  {id:R`Tanda sama: \(8+5=13\), pertahankan \(-\), jadi \(-13\).`,en:R`Same sign: \(8+5=13\), keep \(-\), so \(-13\).`}],
+  ans:{m:'-13'}}},
+{type:'radio',id:R`Isilah langkah yang tepat: \(-4-6=-4+(\dots)=-10\)`,en:R`Fill in the correct step: \(-4-6=-4+(\dots)=-10\)`,
+ options:[{m:'-6'},{m:'6'},{m:'-4'},{m:'4'}],correct:0,
+ sol:{steps:[
+  {id:R`Ubah \(-\) menjadi \(+\) dan ubah bilangan kedua \(6\) menjadi lawannya, \(-6\).`,en:R`Change \(-\) to \(+\) and change the second number \(6\) to its opposite, \(-6\).`},
+  {id:R`Jadi \(-4-6=-4+(-6)=-10\).`,en:R`So \(-4-6=-4+(-6)=-10\).`}],
+  ans:{m:'-6'}}},
+{type:'radio',id:R`Hitunglah: \(-3-(-7)=\dots\)`,en:R`Calculate: \(-3-(-7)=\dots\)`,
+ options:[{m:'4'},{m:'-4'},{m:'10'},{m:'-10'}],correct:0,
+ sol:{steps:[
+  {id:R`Ubah \(-\) menjadi \(+\) dan ubah \(-7\) menjadi lawannya, \(7\): \(-3+7\).`,en:R`Change \(-\) to \(+\) and change \(-7\) to its opposite, \(7\): \(-3+7\).`},
+  {id:R`Mulai dari \(-3\), geser \(7\) ke kanan, tiba di \(4\).`,en:R`Start at \(-3\), move \(7\) to the right, arrive at \(4\).`}],
+  nl:{min:-9,max:5,start:-3,move:7},
+  ans:{m:'4'}}},
+{type:'fill',id:R`Isilah: \(-5-(-9)=\) ....`,en:R`Fill in: \(-5-(-9)=\) ....`,
+ answer:'4',
+ sol:{steps:[
+  {id:R`Ubah: \(-5-(-9)=-5+9\).`,en:R`Rewrite: \(-5-(-9)=-5+9\).`},
+  {id:R`Mulai dari \(-5\), geser \(9\) ke kanan, tiba di \(4\).`,en:R`Start at \(-5\), move \(9\) to the right, arrive at \(4\).`}],
+  ans:{m:'4'}}},
+{type:'tf',id:R`Benar atau salah: \(-6-(-2)=-8\)`,en:R`True or false: \(-6-(-2)=-8\)`,
+ answer:false,
+ sol:{steps:[
+  {id:R`Ubah: \(-6-(-2)=-6+2\) (mengurangi negatif = menambah positif).`,en:R`Rewrite: \(-6-(-2)=-6+2\) (subtracting a negative = adding a positive).`},
+  {id:R`Mulai dari \(-6\), geser \(2\) ke kanan → \(-4\), <strong>bukan</strong> \(-8\).`,en:R`Start at \(-6\), move \(2\) to the right → \(-4\), <strong>not</strong> \(-8\).`}],
+  ans:{id:'Salah (False); yang benar −4',en:'False; the correct value is −4'}}},
+{type:'radio',id:R`Hitunglah: \(-10-(-10)=\dots\)`,en:R`Calculate: \(-10-(-10)=\dots\)`,
+ options:[{m:'0'},{m:'-20'},{m:'20'},{m:'-10'}],correct:0,
+ sol:{steps:[
+  {id:R`Ubah: \(-10-(-10)=-10+10\).`,en:R`Rewrite: \(-10-(-10)=-10+10\).`},
+  {id:R`\(-10\) dan \(10\) berlawanan; jumlahnya \(0\).`,en:R`\(-10\) and \(10\) are opposites; their sum is \(0\).`}],
+  ans:{m:'0'}}},
+{type:'check',id:R`Pilih <strong>semua</strong> perhitungan yang hasilnya \(5\).`,en:R`Select <strong>all</strong> the calculations whose result is \(5\).`,
+ options:[
+  {id:R`\(-2-(-7)\)`,en:R`\(-2-(-7)\)`},
+  {id:R`\(-3-2\)`,en:R`\(-3-2\)`},
+  {id:R`\(2-(-3)\)`,en:R`\(2-(-3)\)`},
+  {id:R`\(-1-(-4)\)`,en:R`\(-1-(-4)\)`}],
+ correct:[0,2],
+ sol:{steps:[
+  {id:R`\(-2-(-7)=-2+7=5\) \(\checkmark\)`,en:R`\(-2-(-7)=-2+7=5\) \(\checkmark\)`},
+  {id:R`\(-3-2=-3+(-2)=-5\) \(\times\)`,en:R`\(-3-2=-3+(-2)=-5\) \(\times\)`},
+  {id:R`\(2-(-3)=2+3=5\) \(\checkmark\)`,en:R`\(2-(-3)=2+3=5\) \(\checkmark\)`},
+  {id:R`\(-1-(-4)=-1+4=3\) \(\times\)`,en:R`\(-1-(-4)=-1+4=3\) \(\times\)`}],
+  ans:{id:'Yang hasilnya 5: −2−(−7) dan 2−(−3)',en:'Those equal to 5: −2−(−7) and 2−(−3)'}}},
+{type:'pair',id:R`Pasangkan setiap pengurangan dengan hasilnya.`,en:R`Match each subtraction with its result.`,
+ left:[{m:'-1-4'},{m:'-2-(-6)'},{m:'-9-1'},{m:'-4-(-4)'}],
+ right:[{m:'-5'},{m:'4'},{m:'-10'},{m:'0'}],
+ pairs:[0,1,2,3],
+ sol:{steps:[
+  {id:R`\(-1-4=-1+(-4)=-5\)`,en:R`\(-1-4=-1+(-4)=-5\)`},
+  {id:R`\(-2-(-6)=-2+6=4\)`,en:R`\(-2-(-6)=-2+6=4\)`},
+  {id:R`\(-9-1=-9+(-1)=-10\)`,en:R`\(-9-1=-9+(-1)=-10\)`},
+  {id:R`\(-4-(-4)=-4+4=0\)`,en:R`\(-4-(-4)=-4+4=0\)`}],
+  ans:{id:'−1−4 = −5, −2−(−6) = 4, −9−1 = −10, −4−(−4) = 0',en:'−1−4 = −5, −2−(−6) = 4, −9−1 = −10, −4−(−4) = 0'}}},
+{type:'sort',hint:bi('Urutkan kartu berdasarkan <strong>hasilnya</strong>, dari yang terkecil.','Order the cards by their <strong>value</strong>, smallest first.'),
+ id:R`Urutkan hasil pengurangan berikut dari yang <strong>terkecil</strong>.`,
+ en:R`Order these subtraction results from <strong>smallest</strong>.`,
+ items:[{m:'-3-2'},{m:'4-1'},{m:'-5-(-1)'},{m:'6-8'},{m:'0-1'}],
+ order:[0,2,3,4,1],
+ sol:{steps:[
+  {id:R`Hitung dulu semuanya: \(-3-2=-5\); \(4-1=3\); \(-5-(-1)=-5+1=-4\); \(6-8=-2\); \(0-1=-1\).`,en:R`Calculate them all first: \(-3-2=-5\); \(4-1=3\); \(-5-(-1)=-5+1=-4\); \(6-8=-2\); \(0-1=-1\).`},
+  {id:R`Urutkan nilainya: \(-5\) (terkecil), lalu \(-4\), \(-2\), \(-1\), dan \(3\) (terbesar).`,en:R`Order the values: \(-5\) (smallest), then \(-4\), \(-2\), \(-1\), and \(3\) (largest).`}],
+  ans:{id:R`Urutan: \(-3-2,\ -5-(-1),\ 6-8,\ 0-1,\ 4-1\)`,en:R`Order: \(-3-2,\ -5-(-1),\ 6-8,\ 0-1,\ 4-1\)`}}}
+];
+
+/* ===== Tugas 4: Soal Cerita ===== */
+DATA.t4=[
+{type:'radio',id:R`Suhu \(6^\circ\mathrm{C}\) turun \(9^\circ\mathrm{C}\). Suhu sekarang: \(6-9=\dots\)`,en:R`The temperature \(6^\circ\mathrm{C}\) drops by \(9^\circ\mathrm{C}\). The temperature now: \(6-9=\dots\)`,
+ options:[{m:'-3'},{m:'3'},{m:'-15'},{m:'15'}],correct:0,
+ sol:{steps:[
+  {id:R`Ubah: \(6-9=6+(-9)\).`,en:R`Rewrite: \(6-9=6+(-9)\).`},
+  {id:R`\(9-6=3\), ikuti tanda \(-\), jadi \(-3^\circ\mathrm{C}\).`,en:R`\(9-6=3\), take the \(-\) sign, so \(-3^\circ\mathrm{C}\).`}],
+  ans:{m:'-3^\\circ\\mathrm{C}'}}},
+{type:'radio',id:R`Suhu \(-1^\circ\mathrm{C}\) turun \(4^\circ\mathrm{C}\). Suhu sekarang: \(-1-4=\dots\)`,en:R`The temperature \(-1^\circ\mathrm{C}\) drops by \(4^\circ\mathrm{C}\). The temperature now: \(-1-4=\dots\)`,
+ options:[{m:'-5'},{m:'5'},{m:'-3'},{m:'3'}],correct:0,
+ sol:{steps:[
+  {id:R`Ubah: \(-1-4=-1+(-4)\).`,en:R`Rewrite: \(-1-4=-1+(-4)\).`},
+  {id:R`Tanda sama: \(1+4=5\), pertahankan \(-\), jadi \(-5^\circ\mathrm{C}\).`,en:R`Same sign: \(1+4=5\), keep \(-\), so \(-5^\circ\mathrm{C}\).`}],
+  ans:{m:'-5^\\circ\\mathrm{C}'}}},
+{type:'fill',id:R`Suhu \(2^\circ\mathrm{C}\) turun \(10^\circ\mathrm{C}\). Isilah: \(2-10=\) ....`,en:R`The temperature \(2^\circ\mathrm{C}\) drops by \(10^\circ\mathrm{C}\). Fill in: \(2-10=\) ....`,
+ answer:'-8',unit:'°C',
+ sol:{steps:[
+  {id:R`Ubah: \(2-10=2+(-10)\).`,en:R`Rewrite: \(2-10=2+(-10)\).`},
+  {id:R`\(10-2=8\), ikuti tanda \(-\), jadi \(-8^\circ\mathrm{C}\).`,en:R`\(10-2=8\), take the \(-\) sign, so \(-8^\circ\mathrm{C}\).`}],
+  ans:{m:'-8^\\circ\\mathrm{C}'}}},
+{type:'radio',id:R`Lift ada di lantai \(4\), lalu turun \(9\) lantai. Di lantai berapa lift sekarang? \(4-9=\dots\)`,
+ en:R`An elevator is at floor \(4\), then goes down \(9\) floors. Which floor is it on now? \(4-9=\dots\)`,
+ options:[{m:'-5'},{m:'5'},{m:'-13'},{m:'13'}],correct:0,
+ sol:{steps:[
+  {id:R`Ubah: \(4-9=4+(-9)\).`,en:R`Rewrite: \(4-9=4+(-9)\).`},
+  {id:R`\(9-4=5\), ikuti tanda \(-\), jadi \(-5\). Lift ada di lantai \(-5\) (5 lantai di bawah tanah).`,en:R`\(9-4=5\), take the \(-\) sign, so \(-5\). The elevator is at floor \(-5\) (5 floors below ground).`}],
+  ans:{m:'-5'}}},
+{type:'radio',id:R`Lift ada di lantai \(-2\), lalu turun \(3\) lantai. Di lantai berapa lift sekarang? \(-2-3=\dots\)`,
+ en:R`An elevator is at floor \(-2\), then goes down \(3\) floors. Which floor is it on now? \(-2-3=\dots\)`,
+ options:[{m:'-5'},{m:'5'},{m:'-1'},{m:'1'}],correct:0,
+ sol:{steps:[
+  {id:R`Ubah: \(-2-3=-2+(-3)\).`,en:R`Rewrite: \(-2-3=-2+(-3)\).`},
+  {id:R`Tanda sama: \(2+3=5\), pertahankan \(-\), jadi \(-5\).`,en:R`Same sign: \(2+3=5\), keep \(-\), so \(-5\).`}],
+  ans:{m:'-5'}}},
+{type:'fill',id:R`Skormu \(15\), lalu berkurang \(22\). Isilah: \(15-22=\) ....`,en:R`Your score is \(15\), then it decreases by \(22\). Fill in: \(15-22=\) ....`,
+ answer:'-7',
+ sol:{steps:[
+  {id:R`Ubah: \(15-22=15+(-22)\).`,en:R`Rewrite: \(15-22=15+(-22)\).`},
+  {id:R`\(22-15=7\), ikuti tanda \(-\), jadi \(-7\). Skormu \(-7\).`,en:R`\(22-15=7\), take the \(-\) sign, so \(-7\). Your score is \(-7\).`}],
+  ans:{m:'-7'}}},
+{type:'tf',id:R`Benar atau salah: uang Rp10.000 dipakai Rp7.000, sisanya \(-3.000\).`,en:R`True or false: from Rp10,000 you spend Rp7,000, and the remainder is \(-3,000\).`,
+ answer:false,
+ sol:{steps:[
+  {id:R`Tulis: \(10-7=10+(-7)=3\).`,en:R`Write: \(10-7=10+(-7)=3\).`},
+  {id:R`\(7\) lebih kecil dari \(10\), jadi hasilnya positif: sisa Rp3.000, <strong>bukan</strong> \(-3.000\).`,en:R`\(7\) is smaller than \(10\), so the result is positive: the remainder is Rp3,000, <strong>not</strong> \(-3,000\).`}],
+  ans:{id:'Salah (False); sisanya +3.000',en:'False; the remainder is +3,000'}}},
+{type:'radio',id:R`Kamu punya uang Rp4.000, lalu memakai Rp10.000 sampai berutang. Isilah: \(4-10=\dots\)`,
+ en:R`You have Rp4,000, then spend Rp10,000 and go into debt. Fill in: \(4-10=\dots\)`,
+ options:[{m:'-6'},{m:'6'},{m:'-14'},{m:'14'}],correct:0,
+ sol:{steps:[
+  {id:R`Ubah: \(4-10=4+(-10)\).`,en:R`Rewrite: \(4-10=4+(-10)\).`},
+  {id:R`\(10-4=6\), ikuti tanda \(-\), jadi \(-6\). Artinya kamu berutang Rp6.000.`,en:R`\(10-4=6\), take the \(-\) sign, so \(-6\). It means you owe Rp6,000.`}],
+  ans:{m:'-6'}}},
+{type:'pair',id:R`Pasangkan setiap cerita dengan kalimat matematikanya.`,en:R`Match each story with its number sentence.`,
+ left:[
+  {id:R`Suhu \(5^\circ\mathrm{C}\) turun \(8^\circ\mathrm{C}\)`,en:R`The temperature \(5^\circ\mathrm{C}\) drops by \(8^\circ\mathrm{C}\)`},
+  {id:R`Lift lantai \(-1\) turun \(2\) lantai`,en:R`An elevator at floor \(-1\) goes down \(2\) floors`},
+  {id:R`Skor \(9\) berkurang \(4\)`,en:R`A score of \(9\) decreases by \(4\)`},
+  {id:R`Skor \(-5\) berkurang \(3\)`,en:R`A score of \(-5\) decreases by \(3\)`}],
+ right:[{m:'5-8'},{m:'-1-2'},{m:'9-4'},{m:'-5-3'}],
+ pairs:[0,1,2,3],
+ sol:{steps:[
+  {id:R`Kata <em>turun / berkurang</em> berarti dikurangi: bilangan awal dikurangi bilangan perubahan.`,en:R`The words <em>drops / decreases</em> mean minus: the starting number minus the change.`},
+  {id:R`Suhu: \(5-8\); Lift: \(-1-2\); Skor: \(9-4\); Skor: \(-5-3\).`,en:R`Temperature: \(5-8\); Elevator: \(-1-2\); Score: \(9-4\); Score: \(-5-3\).`}],
+  ans:{id:'5−8, −1−2, 9−4, −5−3',en:'5−8, −1−2, 9−4, −5−3'}}},
+{type:'sort',hint:bi('Urutkan kartu berdasarkan <strong>hasil suhunya</strong>, dari yang paling dingin.','Order the cards by their <strong>resulting temperature</strong>, coldest first.'),
+ id:R`Urutkan hasil suhu berikut dari yang <strong>terkecil</strong> (paling dingin).`,
+ en:R`Order these temperature results from <strong>smallest</strong> (coldest).`,
+ items:[{m:'3-9'},{m:'-1-1'},{m:'2-2'},{m:'-2-5'},{m:'5-4'}],
+ order:[3,0,1,2,4],
+ sol:{steps:[
+  {id:R`Hitung semuanya: \(3-9=-6\); \(-1-1=-2\); \(2-2=0\); \(-2-5=-7\); \(5-4=1\).`,en:R`Calculate them all: \(3-9=-6\); \(-1-1=-2\); \(2-2=0\); \(-2-5=-7\); \(5-4=1\).`},
+  {id:R`Urutkan: \(-7\) paling dingin, lalu \(-6\), \(-2\), \(0\), dan \(1\).`,en:R`Order: \(-7\) coldest, then \(-6\), \(-2\), \(0\), and \(1\).`}],
+  ans:{id:R`Urutan: \(-2-5,\ 3-9,\ -1-1,\ 2-2,\ 5-4\)`,en:R`Order: \(-2-5,\ 3-9,\ -1-1,\ 2-2,\ 5-4\)`}}}
+];
+
+/* ===== Tugas 5: Tantangan Campuran ===== */
+DATA.t5=[
+{type:'radio',id:R`Aturan umum pengurangan bilangan bulat adalah \(a-b=\dots\)`,en:R`The general rule for subtracting integers is \(a-b=\dots\)`,
+ options:[{m:'a+(-b)'},{m:'a+b'},{m:'-a+b'},{m:'-a+(-b)'}],correct:0,
+ sol:{steps:[
+  {id:R`Mengurangkan = menambahkan <strong>lawannya</strong>: \(a-b=a+(-b)\).`,en:R`Subtracting = adding the <strong>opposite</strong>: \(a-b=a+(-b)\).`},
+  {id:R`Bilangan pertama tetap \(a\); tanda operasi dan bilangan kedua yang berubah.`,en:R`The first number stays \(a\); the operation sign and the second number change.`}],
+  ans:{m:'a+(-b)'}}},
+{type:'fill',id:R`Isilah: \(25-31=\) ....`,en:R`Fill in: \(25-31=\) ....`,
+ answer:'-6',
+ sol:{steps:[
+  {id:R`Ubah: \(25-31=25+(-31)\).`,en:R`Rewrite: \(25-31=25+(-31)\).`},
+  {id:R`\(31-25=6\), ikuti tanda \(-\), jadi \(-6\).`,en:R`\(31-25=6\), take the \(-\) sign, so \(-6\).`}],
+  ans:{m:'-6'}}},
+{type:'radio',id:R`Hitunglah: \(12-(-8)=\dots\)`,en:R`Calculate: \(12-(-8)=\dots\)`,
+ options:[{m:'20'},{m:'4'},{m:'-20'},{m:'-4'}],correct:0,
+ sol:{steps:[
+  {id:R`Ubah: \(12-(-8)=12+8\) (mengurangi negatif = menambah positif).`,en:R`Rewrite: \(12-(-8)=12+8\) (subtracting a negative = adding a positive).`},
+  {id:R`\(12+8=20\).`,en:R`\(12+8=20\).`}],
+  ans:{m:'20'}}},
+{type:'fill',id:R`Isilah: \(-15-(-9)=\) ....`,en:R`Fill in: \(-15-(-9)=\) ....`,
+ answer:'-6',
+ sol:{steps:[
+  {id:R`Ubah: \(-15-(-9)=-15+9\).`,en:R`Rewrite: \(-15-(-9)=-15+9\).`},
+  {id:R`Mulai dari \(-15\), geser \(9\) ke kanan, tiba di \(-6\).`,en:R`Start at \(-15\), move \(9\) to the right, arrive at \(-6\).`}],
+  ans:{m:'-6'}}},
+{type:'tf',id:R`Benar atau salah: \(-7-(-3)=-4\)`,en:R`True or false: \(-7-(-3)=-4\)`,
+ answer:true,
+ sol:{steps:[
+  {id:R`Ubah: \(-7-(-3)=-7+3\).`,en:R`Rewrite: \(-7-(-3)=-7+3\).`},
+  {id:R`Mulai dari \(-7\), geser \(3\) ke kanan → \(-4\). Kalimat tersebut benar.`,en:R`Start at \(-7\), move \(3\) to the right → \(-4\). The statement is true.`}],
+  ans:{id:'Benar (True)',en:'True'}}},
+{type:'check',id:R`Pilih <strong>semua</strong> perhitungan yang hasilnya bilangan <strong>negatif</strong>.`,en:R`Select <strong>all</strong> the calculations whose result is a <strong>negative</strong> number.`,
+ options:[
+  {id:R`\(3-10\)`,en:R`\(3-10\)`},
+  {id:R`\(4-4\)`,en:R`\(4-4\)`},
+  {id:R`\(-2-8\)`,en:R`\(-2-8\)`},
+  {id:R`\(-1-(-5)\)`,en:R`\(-1-(-5)\)`},
+  {id:R`\(9-2\)`,en:R`\(9-2\)`},
+  {id:R`\(-6-(-2)\)`,en:R`\(-6-(-2)\)`}],
+ correct:[0,2,5],
+ sol:{steps:[
+  {id:R`\(3-10=3+(-10)=-7\) → negatif \(\checkmark\)`,en:R`\(3-10=3+(-10)=-7\) → negative \(\checkmark\)`},
+  {id:R`\(4-4=0\) → bukan negatif \(\times\)`,en:R`\(4-4=0\) → not negative \(\times\)`},
+  {id:R`\(-2-8=-2+(-8)=-10\) → negatif \(\checkmark\)`,en:R`\(-2-8=-2+(-8)=-10\) → negative \(\checkmark\)`},
+  {id:R`\(-1-(-5)=-1+5=4\) → positif \(\times\)`,en:R`\(-1-(-5)=-1+5=4\) → positive \(\times\)`},
+  {id:R`\(9-2=7\) → positif \(\times\)`,en:R`\(9-2=7\) → positive \(\times\)`},
+  {id:R`\(-6-(-2)=-6+2=-4\) → negatif \(\checkmark\)`,en:R`\(-6-(-2)=-6+2=-4\) → negative \(\checkmark\)`}],
+  ans:{id:'Negatif: 3−10 (−7), −2−8 (−10), −6−(−2) (−4)',en:'Negative: 3−10 (−7), −2−8 (−10), −6−(−2) (−4)'}}},
+{type:'radio',id:R`Manakah nilai yang <strong>lebih besar</strong>: \(5-9\) atau \(5-(-9)\)?`,en:R`Which value is <strong>bigger</strong>: \(5-9\) or \(5-(-9)\)?`,
+ options:[{id:R`\(5-(-9)\)`,en:R`\(5-(-9)\)`},{id:R`\(5-9\)`,en:R`\(5-9\)`},{id:R`sama besar`,en:R`equal`}],correct:0,
+ sol:{steps:[
+  {id:R`\(5-9=5+(-9)=-4\).`,en:R`\(5-9=5+(-9)=-4\).`},
+  {id:R`\(5-(-9)=5+9=14\).`,en:R`\(5-(-9)=5+9=14\).`},
+  {id:R`\(14\) lebih besar dari \(-4\), jadi \(5-(-9)\) lebih besar. Mengurangi negatif membuat hasil lebih besar!`,en:R`\(14\) is bigger than \(-4\), so \(5-(-9)\) is bigger. Subtracting a negative makes the result bigger!`}],
+  ans:{id:R`\(5-(-9)=14\) lebih besar`,en:R`\(5-(-9)=14\) is bigger`}}},
+{type:'dnd',
+ id:R`Seret kartu yang tepat ke kotak kosong agar kalimatnya benar.`,
+ en:R`Drag the correct card into the empty box to complete the number sentence.`,
+ prefix:R`\(-2-6=-2+\)`,
+ suffix:R`\(-8\)`,
+ bank:[{id:'a',m:'-6'},{id:'b',m:'6'},{id:'c',m:'-2'},{id:'d',m:'2'}],
+ expect:'a',
+ sol:{steps:[
+  {id:R`Ubah \(-\) menjadi \(+\) dan ubah \(6\) menjadi lawannya, \(-6\).`,en:R`Change \(-\) to \(+\) and change \(6\) to its opposite, \(-6\).`},
+  {id:R`Jadi \(-2-6=-2+(-6)=-8\). Kartu yang tepat: \(-6\).`,en:R`So \(-2-6=-2+(-6)=-8\). The correct card: \(-6\).`}],
+  ans:{m:'-6'}}},
+{type:'radio',id:R`Hitunglah bertahap dari kiri: \(10-3-4=\dots\)`,en:R`Calculate step by step from the left: \(10-3-4=\dots\)`,
+ options:[{m:'3'},{m:'-3'},{m:'11'},{m:'-11'}],correct:0,
+ sol:{steps:[
+  {id:R`Kerjakan dari kiri: \(10-3=10+(-3)=7\).`,en:R`Work from the left: \(10-3=10+(-3)=7\).`},
+  {id:R`Lanjutkan: \(7-4=7+(-4)=3\).`,en:R`Continue: \(7-4=7+(-4)=3\).`},
+  {id:R`Jadi \(10-3-4=3\).`,en:R`So \(10-3-4=3\).`}],
+  ans:{m:'3'}}},
+{type:'sort',hint:bi('Urutkan kartu berdasarkan <strong>hasilnya</strong>, dari yang terkecil.','Order the cards by their <strong>value</strong>, smallest first.'),
+ id:R`Urutkan hasil berikut dari yang <strong>terkecil</strong>.`,
+ en:R`Order these results from <strong>smallest</strong>.`,
+ items:[{m:'2-5'},{m:'-4-(-6)'},{m:'-8-1'},{m:'7-7'},{m:'1-(-4)'}],
+ order:[2,0,3,1,4],
+ sol:{steps:[
+  {id:R`Hitung semuanya: \(2-5=-3\); \(-4-(-6)=-4+6=2\); \(-8-1=-9\); \(7-7=0\); \(1-(-4)=1+4=5\).`,en:R`Calculate them all: \(2-5=-3\); \(-4-(-6)=-4+6=2\); \(-8-1=-9\); \(7-7=0\); \(1-(-4)=1+4=5\).`},
+  {id:R`Urutkan: \(-9\) terkecil, lalu \(-3\), \(0\), \(2\), dan \(5\).`,en:R`Order: \(-9\) smallest, then \(-3\), \(0\), \(2\), and \(5\).`}],
+  ans:{id:R`Urutan: \(-8-1,\ 2-5,\ 7-7,\ -4-(-6),\ 1-(-4)\)`,en:R`Order: \(-8-1,\ 2-5,\ 7-7,\ -4-(-6),\ 1-(-4)\)`}}}
+];
+
+
+/* ---------- boot ---------- */
+function buildAll(){
+  Object.keys(DATA).forEach(function(key){
+    var cont=document.getElementById('ex-'+key);
+    if(!cont)return;
+    var kind=(key.length===2&&key.charAt(0)==='t')?'task':'ex';
+    DATA[key].forEach(function(q,i){renderQuestion(cont,q,i,key,kind);});
+  });
+}
+function hydrateNL(){
+  $$('[data-nl]').forEach(function(d){
+    try{d.innerHTML=nlSVG(JSON.parse(d.getAttribute('data-nl')));}catch(e){}
+  });
+}
+function hydrateIcons(){
+  $$('[data-icon]').forEach(function(s){
+    s.innerHTML=icon(s.getAttribute('data-icon'),+(s.getAttribute('data-size')||20));
+  });
+}
+function initLang(){
+  var btn=document.getElementById('langToggle'),st=document.getElementById('langState');
+  var on=true;
+  try{var s=localStorage.getItem('deni-en');if(s!==null)on=(s==='1');}catch(e){}
+  function apply(){
+    document.body.classList.toggle('en-on',on);
+    btn.setAttribute('aria-pressed',on?'true':'false');
+    st.textContent=on?'ON':'OFF';
+    st.className='state '+(on?'on':'off');
+  }
+  btn.addEventListener('click',function(){
+    on=!on;
+    try{localStorage.setItem('deni-en',on?'1':'0');}catch(e){}
+    apply();
+  });
+  apply();
+}
+function initModal(){
+  var ov=document.getElementById('rulesModal'),op=document.getElementById('rulesBtn'),cl=document.getElementById('rulesClose');
+  function show(){ov.classList.add('open');cl.focus();}
+  function hide(){ov.classList.remove('open');op.focus();}
+  op.addEventListener('click',show);
+  cl.addEventListener('click',hide);
+  ov.addEventListener('click',function(e){if(e.target===ov)hide();});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&ov.classList.contains('open'))hide();});
+}
+function initNav(){
+  var links=$$('.nav-item');
+  if(!('IntersectionObserver' in window))return;
+  var io=new IntersectionObserver(function(es){
+    es.forEach(function(en){
+      if(en.isIntersecting){
+        links.forEach(function(l){l.classList.toggle('active',l.getAttribute('href')==='#'+en.target.id);});
+      }
+    });
+  },{rootMargin:'-15% 0px -70% 0px'});
+  links.forEach(function(l){
+    var s=document.getElementById(l.getAttribute('href').slice(1));
+    if(s)io.observe(s);
+  });
+}
+function initReflect(){
+  $$('.reflect-save').forEach(function(b){
+    var id=b.dataset.for,ta=document.getElementById(id);
+    try{
+      var v=localStorage.getItem('deni-ref-'+id);
+      if(v&&ta)ta.value=v;
+    }catch(e){}
+    b.addEventListener('click',function(){
+      try{localStorage.setItem('deni-ref-'+id,ta.value);}catch(e){}
+      b.innerHTML=icon('check',16)+bi('Tersimpan','Saved');
+      b.disabled=true;
+    });
+  });
+}
+function boot(){
+  hydrateIcons();
+  buildAll();
+  hydrateNL();
+  initLang();
+  initModal();
+  initNav();
+  initReflect();
+  typeset(document.body);
+}
+if(document.readyState==='complete'){boot();}
+else{window.addEventListener('load',boot);}
+})();
+</script>
+</body>
+</html>
